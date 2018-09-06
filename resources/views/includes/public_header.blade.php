@@ -4,7 +4,7 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <img class="head-logo" src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/paytm-logo.png') }}" style="width: 160px;">
+                <img class="head-logo" src="{{ asset('resources/frontend_assets/img/paytm-logo.png') }}" style="width: 160px;">
             </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -47,7 +47,7 @@
                 <div class="modal-body mx-3">
 
                     <div style="text-align: -webkit-center;">
-                        <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/paytm-logo.png') }}" class="img-responsive" style="width: 150px;margin-bottom: 20px;">
+                        <img src="{{ asset('resources/frontend_assets/img/paytm-logo.png') }}" class="img-responsive" style="width: 150px;margin-bottom: 20px;">
                     </div>
 
                     <div class="md-form mb-5{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -96,7 +96,7 @@
     <a style="margin-top:-125px" href="javascript:;" class="big-cta text-white">
         <div class="iblock">Enquire Now</div>
         <div class="iblock pl-4">
-            <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/right-arrow.png') }}">
+            <img src="{{ asset('resources/frontend_assets/img/right-arrow.png') }}">
         </div>
     </a>  
     </section>

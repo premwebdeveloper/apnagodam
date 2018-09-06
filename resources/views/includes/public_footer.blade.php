@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-3 px-4 mb-4">
-                   <p><img class="max-100" src="d289689kksgoaf.cloudfront.net/img/paytm-logo.png"></p>
+                   <p><img class="max-100" src="img/paytm-logo.png"></p>
                 </div>
                 <div class="col-sm-3 px-4 mb-4">
                 <p> 2018 Copyright. All rights reserved<br/>
@@ -24,10 +24,10 @@
 </footer>
 
 <!-- Bootstrap core JavaScript -->
-<script src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/js/jquery.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/js/bootstrap.bundle.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/js/jquery.easing.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/js/scrollreveal.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/js/carousel.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/js/jquery-waypoints.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/js/main.min.js') }}"> </script>
+<script src="{{ asset('resources/frontend_assets/js/jquery.min.js') }}"> </script>
+<script src="{{ asset('resources/frontend_assets/js/bootstrap.bundle.min.js') }}"> </script>
+<script src="{{ asset('resources/frontend_assets/js/jquery.easing.min.js') }}"> </script>
+<script src="{{ asset('resources/frontend_assets/js/scrollreveal.min.js') }}"> </script>
+<script src="{{ asset('resources/frontend_assets/js/carousel.min.js') }}"> </script>
+<script src="{{ asset('resources/frontend_assets/js/jquery-waypoints.js') }}"> </script>
+<script src="{{ asset('resources/frontend_assets/js/main.min.js') }}"> </script>

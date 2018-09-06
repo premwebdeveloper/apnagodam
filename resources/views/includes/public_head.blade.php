@@ -22,7 +22,7 @@
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/css/homepage.bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ asset('resources/frontend_assets/css/homepage.bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 
     <!-- font-awesome-icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -33,9 +33,9 @@
     <link href="https://fonts.googleapis.com/css?family=Heebo:100,300,400,500,700,800,900" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/css/main.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ asset('resources/frontend_assets/css/main.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 
-    <link href="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/css/carousel.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link href="{{ asset('resources/frontend_assets/css/carousel.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 
     <meta name="keywords" content="warehouse, warehousing, logistics, storage, network, gst, distribution, delivery, pan-india, best-in class logistics, best-in class warehousing, kitting, packing, inward, outward, wms, warehouse management system">
     <meta name="description" content="ApnaGodam has a Pan-India network of Warehouses providing Best-in Class Warehousing and Logistics Solution. With industry Best Technology and Process, we make sure our Client's Operations are handled Effeicienty and Cost Effectively. ">

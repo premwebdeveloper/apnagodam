@@ -13,7 +13,7 @@
                 <p class="mb-4">With our In-House WMS and Process Management, we provide our Clients Real-Time Data of their Inventory across all locations and Daily MIS Reports of each and every Operational Activity.</p>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <img class="max-100" src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/section-1.png') }}">
+                    <img class="max-100" src="{{ asset('resources/frontend_assets/img/section-1.png') }}">
                 </div>
             </div>
         </div>
@@ -77,31 +77,31 @@
                 worked with
             </div>
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/nilgai.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/nilgai.png') }}">
                 </div>                
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/educomp.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/educomp.png') }}">
                 </div>                
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/wood.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/wood.png') }}">
                 </div>                
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/cms.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/cms.png') }}">
                 </div>                
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/nisa.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/nisa.png') }}">
                 </div>                
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/lemon.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/lemon.png') }}">
                 </div>                
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/treebo.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/treebo.png') }}">
                 </div>                
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/quikr.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/quikr.png') }}">
                 </div>                
                 <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/grab.png') }}">
+                    <img src="{{ asset('resources/frontend_assets/img/grab.png') }}">
                 </div>                
 
             </div>
@@ -123,7 +123,7 @@
             </div>
           
             <div class="col-lg-8 text-center text-lg-right">
-                <img class="max-100" src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/map.png') }}">
+                <img class="max-100" src="{{ asset('resources/frontend_assets/img/map.png') }}">
             </div>
         </div>
       </div>
@@ -142,7 +142,7 @@
         <div class="container-fluid bg-light mt-4">
         <div class="row pb-2">
             <div class="col-lg-6l px-0">
-                <img class="full-100 p-4 p-lg-0" src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/strenght.png') }}" style="width: 91%;height: 500px;">
+                <img class="full-100 p-4 p-lg-0" src="{{ asset('resources/frontend_assets/img/strenght.png') }}" style="width: 91%;height: 500px;">
             </div>          
 
             <div class="col-lg-6s my-auto text-lg-center px-0">
@@ -161,7 +161,7 @@
         </div>
         <div class="row pt-2">
             <div class="col-lg-6l col-lg-push-6l px-0">
-                <img class="full-100 p-4 p-lg-0" src="{{ asset('resources/frontend_assets/d289689kksgoaf.cloudfront.net/img/benifits.png') }}">
+                <img class="full-100 p-4 p-lg-0" src="{{ asset('resources/frontend_assets/img/benifits.png') }}">
             </div>    
             <div class="col-lg-6s col-lg-pull-6s my-auto text-lg-center px-0">
                 <div class="iblock px-5">
@@ -196,31 +196,31 @@
 <div id="featured-caro" class="owl-carousel">
   <div class="item">
     <p class="pb-2">Box My Space, is allocating space crunch substitutes to those who need it the most</p>
-    <img class="iblock bline" src="d289689kksgoaf.cloudfront.net/img/dna.png"> <span class="iblock bline">&nbsp; DNA India</span>
+    <img class="iblock bline" src="img/dna.png"> <span class="iblock bline">&nbsp; DNA India</span>
     </div>
   <div class="item">
     <p class="pb-2">ApnaGodam raises 1.92cr in a seed-round of funding from a group of angel investors.</p>
-    <img class="iblock bline" src="d289689kksgoaf.cloudfront.net/img/economic-times.jpg"> <span class="iblock bline">&nbsp; Economic Times</span>
+    <img class="iblock bline" src="img/economic-times.jpg"> <span class="iblock bline">&nbsp; Economic Times</span>
   
   </div>
   <div class="item">
     <p class="pb-2">India's ApnaGodam Wants To Be The DropBox For Physical Storage</p>
-    <img class="iblock bline" src="d289689kksgoaf.cloudfront.net/img/inc-42.jpg"> <span class="iblock bline">&nbsp; INC42.</span>
+    <img class="iblock bline" src="img/inc-42.jpg"> <span class="iblock bline">&nbsp; INC42.</span>
   
   </div>
   <div class="item">
     <p class="pb-2">Out of the box thinking - startup ApnaGodam stores your belongings till you want them back</p>
-    <img class="iblock bline" src="d289689kksgoaf.cloudfront.net/img/your-story.jpg"> <span class="iblock bline">&nbsp; Your Story</span>
+    <img class="iblock bline" src="img/your-story.jpg"> <span class="iblock bline">&nbsp; Your Story</span>
   
   </div>
   <div class="item">
     <p class="pb-2">What an idea - Box My Space works on the same lines except that they also do the transferring for you.</p>
-    <img class="iblock bline" src="d289689kksgoaf.cloudfront.net/img/asian-age.jpg"> <span class="iblock bline">&nbsp; Asian Age</span>
+    <img class="iblock bline" src="img/asian-age.jpg"> <span class="iblock bline">&nbsp; Asian Age</span>
   
   </div>
   <div class="item">
   <p class="pb-2">Storing everything away in a box has created so much space at home and my stuff stays accessible too.</p>
-    <img class="iblock bline" src="d289689kksgoaf.cloudfront.net/img/ht.jpg"> <span class="iblock bline">&nbsp; Hindustan Times</span>
+    <img class="iblock bline" src="img/ht.jpg"> <span class="iblock bline">&nbsp; Hindustan Times</span>
   </div>
 </div>
 <div class="customNavigation">
