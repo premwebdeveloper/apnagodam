@@ -18,16 +18,32 @@
                         <a class="nav-link js-scroll-trigger" href="javaScript:;">About Us</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link js-scroll-trigger" href="javaScript:;">Services</a>
+                        <a class="nav-link js-scroll-trigger" href="javaScript:;">Services</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link js-scroll-trigger" href="javaScript:;">CONTACT US</a>
+                        <a class="nav-link js-scroll-trigger" href="javaScript:;">CONTACT US</a>
                     </li>
+                    @guest
                     <li class="nav-item">
-                      <a class="btn btn-primary" href="#Login" data-toggle="modal">Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="#Login" data-toggle="modal">Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </li>
+                    @else
+                        @if(Auth::user()->id != 1)
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href=""><span class="fa fa-user"></span> My Account</a></li>
+                        @else
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href=""><i class="fa fa-tachometer"></i> Go to dashboard</a></li>
+                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <span class="glyphicon glyphicon-log-out"></span> Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    @endif
                     <li class="nav-item">
-                      <a class="tel-icon nav-link js-scroll-trigger" href="tel:+91-9314142089">+91-9314142089</a>
+                        <a class="tel-icon nav-link js-scroll-trigger" href="tel:+91-9314142089">+91-9314142089</a>
                     </li>
                 </ul>
             </div>
