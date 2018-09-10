@@ -31,7 +31,7 @@
                         @if(Auth::user()->id != 1)
                             <li class="nav-item"><a class="nav-link js-scroll-trigger" href=""><span class="fa fa-user"></span> My Account</a></li>
                         @else
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href=""><i class="fa fa-tachometer"></i> Go to dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('dashboard') }}"><i class="fa fa-tachometer"></i> Go to dashboard</a></li>
                         @endif
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">

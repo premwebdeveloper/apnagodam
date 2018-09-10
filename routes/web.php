@@ -24,5 +24,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 // User profile view route
 Route::get('/profile', 'UsersController@profile')->name('profile');
 
+
+
+/* ********************** Admin routes start here *************************** */
+/* ************************************************************************** */
+
 // Admin dashboard view route
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
+
+Route::get('/users', 'AdminController@users')->name('users');
+
+Route::any('/add_user', 'AdminController@add_user')->name('add_user');
+
+

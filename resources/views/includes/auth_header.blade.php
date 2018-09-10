@@ -10,13 +10,13 @@
 
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope"></i>  <span class="label label-warning"></span>
+                        <i class="fa fa-bell"></i>  <span class="label label-warning"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
                         <li>
                             <div class="dropdown-messages-box">
                                 <a href="javascript:;" class="pull-left">
-                                    <img alt="image" class="img-circle" src="resources/assets/images/sad.png">
+                                    <img alt="image" class="img-circle" src="resources/assets/images/user.png">
                                 </a>
                                 <div class="media-body ">
                                     <small class="pull-right">23h ago</small>
@@ -30,31 +30,6 @@
                             <div class="text-center link-block">
                                 <a href="javascript:;">
                                     <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell"></i>  <span class="label label-primary"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                         <li>
-                            <a href="javascript:;">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <div class="text-center link-block">
-                                <a href="javascript:;">
-                                    <strong>See All Alerts</strong>
-                                    <i class="fa fa-angle-right"></i>
                                 </a>
                             </div>
                         </li>

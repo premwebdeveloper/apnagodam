@@ -5,6 +5,7 @@
         // data table script for dataTables-example class
         var oTable = $('.dataTables-example').DataTable({
             pageLength: 10,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             responsive: true,
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [
@@ -26,21 +27,10 @@
             ]
         });
 
-        //var allPages = oTable.fnGetNodes();
-        // var allPages = oTable.cells( ).nodes( );
-
-        // // Check all areas on single click
-        // $(document).on('change', '#all_areas', function(){
-        //     if($(this).prop("checked") == true){
-        //         $(allPages).find('.areas').prop('checked', true);
-        //     }else{
-        //         $(allPages).find('.areas').prop('checked', false);
-        //     }
-        // });
-
         // data table script for dataTables class
         $('.dataTables').DataTable({
             pageLength: 10,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             responsive: true,
             dom: '<"html5buttons"B>lTfgitp',
             buttons: [

@@ -17,7 +17,6 @@ class DashboardController extends Controller
     // Admin dashboard view
     public function dashboard(){
 
-    	echo 'dashboard';
-    	exit;	
+    	return view('dashboard.admin_dashboard');
     }
 }

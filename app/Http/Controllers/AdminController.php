@@ -3,8 +3,46 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use DB;
 
 class AdminController extends Controller
 {
-    //
+    // Construct function 
+	public function __construct(){
+
+		// Only authenticarte and admin user can enter here
+		$this->middleware('auth');
+		$this->middleware('adminOnly');
+	}
+
+    // Admin dashboard view
+    public function users(){
+
+    	return view('admin.index');
+    }
+
+    // Add user page view
+    public function add_user(Request $request){
+
+    	if($request->fname){
+
+    		# Set validation for
+	        $this->validate($request, [
+	            'fname' => 'required',
+	            'lname' => 'required',
+	            'email' => 'required|email|unique:users',
+	            'password' => 'required|min:6|confirmed',
+	            'password_confirmation' => 'required|min:6',
+	            'phone' => 'required|max:10|min:10',
+	        ]);
+
+
+			
+
+    		$fname = $request->fname;
+    		
+    	}
+    	return view('admin.add_user');
+    }
 }
