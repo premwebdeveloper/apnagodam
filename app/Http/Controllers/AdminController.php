@@ -23,9 +23,14 @@ class AdminController extends Controller
     }
 
     // Add user page view
+    public function add_user_view(){
+
+    	return view('admin.add_user');
+    }
+
+    // Add User
     public function add_user(Request $request){
 
-    	if($request->fname){
 
     		# Set validation for
 	        $this->validate($request, [
@@ -40,9 +45,8 @@ class AdminController extends Controller
 
 			
 
-    		$fname = $request->fname;
+    		echo $fname = $request->fname;
     		
-    	}
-    	return view('admin.add_user');
+    		exit;
     }
 }

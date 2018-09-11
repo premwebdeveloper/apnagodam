@@ -33,7 +33,147 @@
                         
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
+
+                {!! Form::open(array('url' => 'add_user', 'files' => true)) !!}
                     
+                    <div class="form-group">
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        
+                        <div class="col-md-3">
+                            {!! Form::label('fname', 'First Name') !!}
+                            {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+
+                            @if($errors->has('fname'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('fname') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+
+                    </div>
+                {!! Form::close() !!}
+                
                     <!-- Add user form -->
                     <form method="post" class="form-horizontal" action="{{ route('add_user') }}">
 
@@ -48,7 +188,7 @@
                                         <strong>{{ $errors->first('fname') }}</strong>
                                     </span>
                                 @endif
-                            </div>                       
+                            </div>                      
                             <div class="col-md-3">
                                 <label class="control-label">Last Name</label>
                                 <input type="text" name="lname" id="lname" class="form-control" placeholder="Last Name">

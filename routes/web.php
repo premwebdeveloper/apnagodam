@@ -34,6 +34,8 @@ Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
 Route::get('/users', 'AdminController@users')->name('users');
 
+Route::any('/add_user_view', 'AdminController@add_user_view')->name('add_user_view');
+
 Route::any('/add_user', 'AdminController@add_user')->name('add_user');
 
 
