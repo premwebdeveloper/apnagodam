@@ -64,3 +64,5 @@ ALTER TABLE `user_details`
 
 -- ------------------- ALTER TABLE `user_details` at 10-09-2018 -------------------
 ALTER TABLE `user_details` ADD `father_name` VARCHAR(191) NULL AFTER `phone`, ADD `khasra_no` VARCHAR(191) NULL AFTER `father_name`, ADD `village` VARCHAR(191) NULL AFTER `khasra_no`, ADD `tehsil` VARCHAR(191) NULL AFTER `village`, ADD `district` VARCHAR(191) NULL AFTER `tehsil`, ADD `commodity` VARCHAR(191) NULL AFTER `district`;
+
+ALTER TABLE `user_details` ADD `user_id` INT NOT NULL AFTER `id`;

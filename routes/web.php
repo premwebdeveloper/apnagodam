@@ -32,10 +32,14 @@ Route::get('/profile', 'UsersController@profile')->name('profile');
 // Admin dashboard view route
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
+// User routes
 Route::get('/users', 'AdminController@users')->name('users');
+Route::get('/add_user_view', 'AdminController@add_user_view')->name('add_user_view');
+Route::post('/add_user', 'AdminController@add_user')->name('add_user');
 
-Route::any('/add_user_view', 'AdminController@add_user_view')->name('add_user_view');
-
-Route::any('/add_user', 'AdminController@add_user')->name('add_user');
+// Finance routes
+Route::get('/finance', 'AdminController@finance')->name('finance');
+Route::get('/create_finance_view', 'AdminController@create_finance_view')->name('create_finance_view');
+Route::post('/create_finance', 'AdminController@create_finance')->name('create_finance');
 
 

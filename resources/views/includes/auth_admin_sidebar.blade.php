@@ -35,10 +35,25 @@
                 </div>
             </li>
             <li class="active">
-                <a href="{{ route('dashboard') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                <a href="{{ route('dashboard') }}">
+                    <i class="fa fa-th-large"></i> 
+                    <span class="nav-label">Dashboard</span>
+                </a>
             </li>
 
-            <li><a href="{{ route('users') }}"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a></li>
+            <li>
+                <a href="{{ route('users') }}">
+                    <i class="fa fa-users"></i> 
+                    <span class="nav-label">Users</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('finance') }}">
+                    <i class="fa fa-users"></i> 
+                    <span class="nav-label">Finance</span>
+                </a>
+            </li>
 
 		</ul>
 	</div>

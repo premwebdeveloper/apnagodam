@@ -16,6 +16,24 @@ class AdminController extends Controller
 		$this->middleware('adminOnly');
 	}
 
+	// Finance Department
+	public function finance(){
+
+		return view('admin.finance');
+	}
+
+	// Create finance view page
+	public function create_finance_view(){
+
+		return view('admin.create_finance');
+	}
+
+	// Create finance
+	public function create_finance(Request $request){
+
+		
+	}
+
     // Admin dashboard view
     public function users(){
 
