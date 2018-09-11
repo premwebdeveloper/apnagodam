@@ -14,7 +14,7 @@
                         <img alt="image" class="img-circle" src="resources/assets/images/user.png" style="background: #fff;width: 100px;"/>
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Enquire Us</strong>
+                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Apna Godam</strong>
                         <b class="caret"></b> </span>  </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
