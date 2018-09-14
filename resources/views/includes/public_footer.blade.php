@@ -2,6 +2,7 @@
     <section id="footer">
         <div class="container">
             <div class="row">
+                
                 <div class="col-sm-3 px-4 mb-4">
                    <p><img class="max-100" src="img/paytm-logo.png"></p>
                 </div>

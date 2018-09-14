@@ -29,18 +29,22 @@
                     </li>
                     @else
                         @if(Auth::user()->id != 1)
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href=""><span class="fa fa-user"></span> My Account</a></li>
+                            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href=""><span class="fa fa-user"></span> {{ $user->fname }}</a>
+                                <div class="dropdown-content">
+                                    <a href="#">Dashboard</a>
+                                    <a href="#">Profile</a>
+                                    <a href="{{ route('inventory') }}">Inventory</a>
+                                    <a href="#">Change Password</a>
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </div>
+                            </li>
                         @else
                             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('dashboard') }}"><i class="fa fa-tachometer"></i> Go to dashboard</a></li>
                         @endif
-                        <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                <span class="glyphicon glyphicon-log-out"></span> Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </li>
+
                     @endif
                     <li class="nav-item">
                         <a class="tel-icon nav-link js-scroll-trigger" href="tel:+91-9314142089">+91-9314142089</a>
@@ -96,23 +100,4 @@
         </div>
     </div>
 </div>
-<main id="main"> <!-- main body conatiner starts-->
-    <header class="masthead text-white d-flex">
-        <div class="container my-auto">
-            <div class="row">
-                <div class="col-lg-11 mx-auto">
-                    <h1 class="text-uppercase">
-                        <strong>Technology enabled<br/>Warehousing & Logistics</strong>
-                    </h1>
-                </div>
-            </div>
-        </div>
-    </header>
-    <section id="cta">
-    <a style="margin-top:-125px" href="javascript:;" class="big-cta text-white">
-        <div class="iblock">Enquire Now</div>
-        <div class="iblock pl-4">
-            <img src="{{ asset('resources/frontend_assets/img/right-arrow.png') }}">
-        </div>
-    </a>  
-    </section>
+

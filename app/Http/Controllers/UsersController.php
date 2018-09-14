@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Storage;
+use Session;
 
 class UsersController extends Controller
 {
@@ -17,7 +24,20 @@ class UsersController extends Controller
     // User profile view
     public function profile(){
 
-    	echo 'profile';
-    	exit;
+        $currentuserid = Auth::user()->id;
+
+        $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
+
+        return view("user.profile", array('user' => $user));
+    }
+
+    // User profile view
+    public function inventory(){
+
+        $currentuserid = Auth::user()->id;
+
+        $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
+
+    	return view("user.inventory", array('user' => $user));
     }
 }

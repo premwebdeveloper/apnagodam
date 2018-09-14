@@ -1,6 +1,27 @@
 @extends('layouts.public_app')
 
 @section('content')
+<main id="main"> <!-- main body conatiner starts-->
+    <header class="masthead text-white d-flex">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-11 mx-auto">
+                    <h1 class="text-uppercase">
+                        <strong>Technology enabled<br/>Warehousing & Logistics</strong>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="cta">
+    <a style="margin-top:-125px" href="javascript:;" class="big-cta text-white">
+        <div class="iblock">Enquire Now</div>
+        <div class="iblock pl-4">
+            <img src="{{ asset('resources/frontend_assets/img/right-arrow.png') }}">
+        </div>
+    </a>  
+    </section>
 
     <section id="about">
         <div class="container">
@@ -35,7 +56,7 @@
                     <div class="service-box mt-5 mx-auto">
                         <i class="fa fa-warehouse"></i>
                         <h4 class="mb-2">Warehousing Services</h4>
-                        <p class="mb-4"><a href="javaScript:;">Read More</a></p>
+                        <p class="mb-4"><a href="{{ route('register') }}">Read More</a></p>
                     </div>
                 </div>
              
@@ -55,61 +76,6 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    
-    
-    <section id="clients">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-lg-push-4 text-right deskonly my-auto">
-        <h2 class="section-heading">Some Of Our<br> Reputed Clients</h2>
-            
-            <hr class="margin-right deskonly">
-            <p class="mb-4">We are currently servicing clients across the sectors of FMCG, Consumer Goods, Retail, B2B and Technology </p>  
-          </div>
-          
-          <div class="col-lg-8 col-lg-pull-8">
-            <div class="client-box">
-            <div class="c-container" id="first-cbox">
-                <strong>100+</strong><br>
-                Clients we have<br>
-                worked with
-            </div>
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/nilgai.png') }}">
-                </div>                
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/educomp.png') }}">
-                </div>                
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/wood.png') }}">
-                </div>                
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/cms.png') }}">
-                </div>                
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/nisa.png') }}">
-                </div>                
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/lemon.png') }}">
-                </div>                
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/treebo.png') }}">
-                </div>                
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/quikr.png') }}">
-                </div>                
-                <div class="client-container">
-                    <img src="{{ asset('resources/frontend_assets/img/grab.png') }}">
-                </div>                
-
-            </div>
-          </div>
-          
-         
-        </div>
-      </div>
     </section>
 
     <section id="clients">

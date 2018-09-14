@@ -51,7 +51,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'fname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'phone' => 'required|numeric|digits:10',
+            /*'password' => 'required|string|min:6|confirmed',*/
         ]);
     }
 
@@ -63,10 +64,50 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $date = date('Y-m-d H:i:s');
+
+        $user = User::create([
             'fname' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'phone' => $data['phone'],
+            'password' => Hash::make(123456),
+            'status' => 0
         ]);
+
+        $user_id = $user->id;
+
+        // Create User role
+        $user_role = DB::table('user_roles')->insert(
+            array(
+                'role_id' => 2,
+                'user_id' => $user_id,
+                'created_at' => $date,
+                'updated_at' => $date
+            )
+        );
+
+        // Create User Details
+        $user_details = DB::table('user_details')->insert(
+            array(
+                'user_id' => $user_id,
+                'fname' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'father_name' => $data['father_name'],
+                'khasra_no' => $data['khasra'],
+                'village' => $data['village'],
+                'tehsil' => $data['tehsil'],
+                'district' => $data['district'],
+                'commodity' => $data['district'],
+                'created_at' => $date,
+                'updated_at' => $date,
+                'status' => 0
+            )
+        );
+
+        if($user_details)
+        {
+            $status = 'Verified email. Please update your profile now';
+        }
     }
 }

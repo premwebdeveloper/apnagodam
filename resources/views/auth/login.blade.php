@@ -1,11 +1,25 @@
 @extends('layouts.public_app')
 
 @section('content')
+<main id="main"> <!-- main body conatiner starts-->
+    <header class="masthead text-white d-flex" style="margin-bottom: 40px;">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-11 mx-auto">
+                    <h1 class="text-uppercase">
+                        <strong>Technology enabled<br/>Warehousing & Logistics</strong>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <h2 class="section-heading text-center">{{ __('Login') }}</h2>
+            <hr>
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
