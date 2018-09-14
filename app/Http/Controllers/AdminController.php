@@ -58,6 +58,43 @@ class AdminController extends Controller
         $commodity = $request->commodity;
         $date = date('Y-m-d H:i:s');
 
+        $filename = 'user.png';
+
+        # If user profile image uploaded then
+        if($request->hasFile('image')) {
+
+            $file = $request->image;
+
+            $filename = $file->getClientOriginalName();
+
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            $filename = substr(md5(microtime()),rand(0,26),6);
+
+            $filename .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('add_user_view')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 1052030){
+                $status = 'File size is too large. Please upload file less than 1MB !';
+                return redirect('add_user_view')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
+            $file->move($destinationPath,$filename);
+            $filepath = $destinationPath.$filename;            
+        }
+
         // Create user in users table
         $user = User::create([
             'fname' => $fname,
@@ -71,7 +108,7 @@ class AdminController extends Controller
         $user_id = $user->id;
 
         // Create user role in users role table
-        $user_details = DB::table('user_roles')->insert([            
+        $user_role = DB::table('user_roles')->insert([            
             'user_id' => $user_id,
             'role_id' => 2,
             'created_at' => $date,
@@ -91,6 +128,7 @@ class AdminController extends Controller
             'tehsil' => $tehsil,
             'district' => $district,
             'commodity' => $commodity,
+            'image' => $filename,
             'created_at' => $date,
             'updated_at' => $date,
             'status' => 1   
@@ -157,6 +195,45 @@ class AdminController extends Controller
         $commodity = $request->commodity;
         $date = date('Y-m-d H:i:s');
 
+        // First get users data from user details table
+        $user = DB::table('user_details')->where('user_id', $user_id)->first();
+        $filename = $user->image;
+
+        # If user profile image uploaded then
+        if($request->hasFile('image')) {
+
+            $file = $request->image;
+
+            $filename = $file->getClientOriginalName();
+
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            $filename = substr(md5(microtime()),rand(0,26),6);
+
+            $filename .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('user_edit_view/'.$user_id)->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 1052030){
+                $status = 'File size is too large. Please upload file less than 1MB !';
+                return redirect('user_edit_view/'.$user_id)->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
+            $file->move($destinationPath,$filename);
+            $filepath = $destinationPath.$filename;            
+        }
+
         // User update in users table
         $user_edit = DB::table('users')->where('id', $user_id)->update([
 
@@ -164,7 +241,6 @@ class AdminController extends Controller
             'lname' => $lname,
             'phone' => $phone,
             'updated_at' => $date
-
         ]);
 
         // User details update in user details table
@@ -179,6 +255,7 @@ class AdminController extends Controller
             'tehsil' => $tehsil,
             'district' => $district,
             'commodity' => $commodity,
+            'image' => $filename,
             'updated_at' => $date
         ]);
 

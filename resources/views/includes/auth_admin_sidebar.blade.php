@@ -11,7 +11,7 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <span>
-                        <img alt="image" class="img-circle" src="resources/assets/images/user.png" style="background: #fff;width: 100px;"/>
+                        <img alt="image" class="img-circle" src="{{ asset('resources/assets/upload/profile_image/admin.png') }}" style="background: #fff;width: 100px;"/>
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Apna Godam</strong>
@@ -19,7 +19,7 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="{{ route('/') }}"> <i class="fa fa-globe" aria-hidden="true"></i> Go to website </a></li>
-                        <li><a href="javascript:;"> <i class="fa fa-user" aria-hidden="true"></i> Profile </a></li>
+                        <!-- <li><a href="javascript:;"> <i class="fa fa-user" aria-hidden="true"></i> Profile </a></li> -->
                         <li><a href="javascript:;"> <i class="fa fa-key" aria-hidden="true"></i> Change Password </a></li>
                         <li>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();

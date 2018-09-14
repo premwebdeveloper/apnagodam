@@ -31,6 +31,9 @@ Route::get('/inventory', 'UsersController@inventory')->name('inventory');
 /* ********************** Admin routes start here *************************** */
 /* ************************************************************************** */
 
+// Change password view
+
+
 // Admin dashboard view route
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
@@ -44,10 +47,12 @@ Route::get('/warehouse_view/{id}', 'AdminController@warehouse_view')->name('ware
 Route::get('/warehouse_delete/{id}', 'AdminController@warehouse_delete')->name('warehouse_delete');
 
 
+
 // Enquiries Routes
 Route::get('/enquiries', 'AdminController@enquiries')->name('enquiries');
 Route::get('/approve/{user_id}', 'AdminController@approve')->name('approve');
 Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove');
+
 
 
 // User routes
@@ -58,6 +63,7 @@ Route::get('/user_view/{user_id}', 'AdminController@user_view')->name('user_view
 Route::get('/user_edit_view/{user_id}', 'AdminController@user_edit_view')->name('user_edit_view');
 Route::post('/user_edit', 'AdminController@user_edit')->name('user_edit');
 Route::get('/user_delete/{user_id}', 'AdminController@user_delete')->name('user_delete');
+
 
 
 // Finance routes

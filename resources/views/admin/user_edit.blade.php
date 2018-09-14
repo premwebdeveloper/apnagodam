@@ -32,6 +32,14 @@
             </div>                        
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
+
+                    @if(session('status'))
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    
                     <div class="row">                        
                         {!! Form::open(array('url' => 'user_edit', 'files' => true)) !!}
                             
@@ -75,32 +83,6 @@
                                     @endif
                                 </div>
                             </div>
-                            
-                            <!-- <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('password', 'Password') !!}
-                                    {!! Form::password('password', ['class' => 'form-control', 'id' => 'password', 'placeholder' => '******']) !!}
-                            
-                                    @if($errors->has('password'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('password_confirmation', 'Confirm Password') !!}
-                                    {!! Form::password('password_confirmation', ['class' => 'form-control', 'id' => 'password_confirmation', 'placeholder' => '******']) !!}
-                            
-                                    @if($errors->has('password_confirmation'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div> -->
                             
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -191,7 +173,14 @@
                                         </span>
                                     @endif
                                 </div>
-                            </div>   
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('image', 'Image') !!}
+                                    {!! Form::file('image', ['class' => 'form-control', 'id' => 'image']) !!}
+                                </div>
+                            </div>  
 
                             <div class="col-md-12">
                                 <div class="form-group">

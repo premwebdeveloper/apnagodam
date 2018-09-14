@@ -85,3 +85,6 @@ ALTER TABLE `warehouses`
 
 ALTER TABLE `warehouses`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- ------------------- ALTER TABLE `user_details` at 14-09-2018 -------------------
+ALTER TABLE `user_details` ADD `image` VARCHAR(191) NULL AFTER `commodity`;

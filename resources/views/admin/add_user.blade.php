@@ -32,6 +32,14 @@
             </div>                        
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
+
+                    @if(session('status'))
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    
                     <div class="row">                        
                         {!! Form::open(array('url' => 'add_user', 'files' => true)) !!}
                             
@@ -188,6 +196,13 @@
                                             <strong>{{ $errors->first('commodity') }}</strong>
                                         </span>
                                     @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('image', 'Image') !!}
+                                    {!! Form::file('image', ['class' => 'form-control', 'id' => 'image']) !!}
                                 </div>
                             </div>   
 

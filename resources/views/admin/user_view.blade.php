@@ -29,7 +29,7 @@
 
                 <div>
                     <div class="ibox-content no-padding border-left-right" style="border: 1px solid #e7eaec;">
-                        <!-- <img alt="image" class="img-responsive" src="resources/assets/images/sad.png"> -->
+                        <img alt="image" class="img-responsive" src="{{ asset('resources/assets/upload/profile_image/'.$user->image) }}">
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                             <tbody>
                                 <tr>
                                     <td>First Name</td>
-                                    <td>{{ $user->lname }}</td>
+                                    <td>{{ $user->fname }}</td>
                                     <td>Last Name</td>
                                     <td>{{ $user->lname }}</td>
                                     
