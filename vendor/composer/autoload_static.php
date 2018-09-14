@@ -356,6 +356,7 @@ class ComposerStaticInit9ea17fc3cac10e8c030606638a949ff3
         'App\\roles' => __DIR__ . '/../..' . '/app/roles.php',
         'App\\user_details' => __DIR__ . '/../..' . '/app/user_details.php',
         'App\\user_roles' => __DIR__ . '/../..' . '/app/user_roles.php',
+        'App\\warehouses' => __DIR__ . '/../..' . '/app/warehouses.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',

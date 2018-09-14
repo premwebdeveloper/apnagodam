@@ -3,20 +3,18 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>All Users</h2>
+        <h2>Enquiries</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>Users</strong>
+                <strong>Enquiries</strong>
             </li>
         </ol>
     </div>
 	<div class="col-lg-2 text-right">
-        <h2>
-            <a href="{{ route('add_user_view') }}" class="btn btn-info">Add User</a>
-        </h2>
+        &nbsp;
     </div>
 </div>
 
@@ -26,7 +24,7 @@
 	        <div class="ibox float-e-margins">
 
 	            <div class="ibox-title">
-	                <h5>Users</h5>
+	                <h5>Enquiries</h5>
 	                <div class="ibox-tools">
 	                    <a class="collapse-link">
 	                        <i class="fa fa-chevron-up"></i>
@@ -42,8 +40,6 @@
                         </div>
                     @endif
 
-                    <?php //echo '<pre>'; print_r($users);?>
-
 	                <div class="table-responsive">
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
@@ -51,24 +47,33 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
+                                    <th>Father Name</th>
+                                    <th>Khasra Number</th>
+                                    <th>Village</th>
+                                    <th>Tehsil</th>
+                                    <th>District</th>
+                                    <th>Commodity</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                @foreach($users as $key => $user)
+                                @foreach($enquiries as $key => $enquiry)
 	                                <tr class="gradeX">
-                                        <td>{!! $user->fname . $user->lname !!}</td>
-                                        <td>{!! $user->email !!}</td>
-                                        <td>{!! $user->phone !!}</td>
+                                        <td>{!! $enquiry->fname .' '. $enquiry->lname !!}</td>
+                                        <td>{!! $enquiry->email !!}</td>
+                                        <td>{!! $enquiry->phone !!}</td>
+                                        <td>{!! $enquiry->father_name !!}</td>
+                                        <td>{!! $enquiry->khasra_no !!}</td>
+                                        <td>{!! $enquiry->village !!}</td>
+                                        <td>{!! $enquiry->tehsil !!}</td>
+                                        <td>{!! $enquiry->district !!}</td>
+                                        <td>{!! $enquiry->commodity !!}</td>
                                         <td>
-                                            <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="View">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            <a href="{!! route('approve', ['user_id' => $enquiry->user_id]) !!}" class="btn btn-info btn-sm" title="Approve Enquiry">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{!! route('user_edit_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="Edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{!! route('user_delete', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="Delete">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <a href="{!! route('unapprove', ['user_id' => $enquiry->user_id]) !!}" class="btn btn-info btn-sm" title="Unapprove Enquiry">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
                                             </a>
                                         </td>
 	                                </tr>

@@ -49,9 +49,23 @@
             </li>
 
             <li>
+                <a href="{{ route('warehouses') }}">
+                    <i class="fa fa-users"></i> 
+                    <span class="nav-label">Warehouses</span>
+                </a>
+            </li>
+
+            <li>
                 <a href="{{ route('finance') }}">
                     <i class="fa fa-users"></i> 
                     <span class="nav-label">Finance</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('enquiries') }}">
+                    <i class="fa fa-users"></i> 
+                    <span class="nav-label">Enquiries</span>
                 </a>
             </li>
 

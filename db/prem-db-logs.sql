@@ -66,3 +66,22 @@ ALTER TABLE `user_details`
 ALTER TABLE `user_details` ADD `father_name` VARCHAR(191) NULL AFTER `phone`, ADD `khasra_no` VARCHAR(191) NULL AFTER `father_name`, ADD `village` VARCHAR(191) NULL AFTER `khasra_no`, ADD `tehsil` VARCHAR(191) NULL AFTER `village`, ADD `district` VARCHAR(191) NULL AFTER `tehsil`, ADD `commodity` VARCHAR(191) NULL AFTER `district`;
 
 ALTER TABLE `user_details` ADD `user_id` INT NOT NULL AFTER `id`;
+
+-- ------------------- CREATE TABLE `warehouses` at 13-09-2018 -------------------
+CREATE TABLE `warehouses` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `village` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `capacity` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `items` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `facilities` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `warehouses`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `warehouses`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
