@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\user_details;
 use DB;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
@@ -25,34 +27,23 @@ class AdminController extends Controller
     }
 
     // Change password
-    public function change_password(){
+    public function change_password(Request $request){
 
-
-        if (!(Hash::check($request->get('new-password'), Auth::user()->password))) {
+        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
             // The passwords matches
 
-            Session::flash('message', 'Your current password does not matches with the password you provided. Please try again.');
-            Session::flash('alert-class', 'alert-danger');
-
-            return redirect(route('change_password_view'));
-
-            $status = 'Something went wrong !';
-            return redirect('change_password_view')->with('status', $status);
-
+            return Redirect::back()->withErrors(['Your current password does not matches with the password you provided. Please try again !']);
         }
 
         if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
             //Current password and new password are same
 
-            Session::flash('message', 'New Password can not be same as your current password. Please choose a different password.');
-            Session::flash('alert-class', 'alert-danger');
-
-            return redirect(route('security'));
+            return Redirect::back()->withErrors(['New Password can not be same as your current password. Please choose a different password !']);
         }
 
         $this->validate($request, [
             'current-password' => 'required',
-            'new-password' => 'required|string|min:6|confirmed',
+            'new-password' => 'required|min:6|confirmed',
         ]);
 
         //Change Password
@@ -60,30 +51,7 @@ class AdminController extends Controller
         $user->password = bcrypt($request->get('new-password'));
         $user->save();
 
-        Session::flash('message', 'Password changed successfully !');
-        Session::flash('alert-class', 'alert-success');
-
-        return redirect(route('security'));
-
-
-
-
-
-
-
-
-
-
-        if($change)
-        {
-            $status = 'Change password successfully.';
-        }
-        else
-        {
-            $status = 'Something went wrong !';
-        }
-
-        return redirect('change_password_view')->with('status', $status);
+        return Redirect::back()->withErrors(['Password changed successfully.']);
     }
 
     // Show all users

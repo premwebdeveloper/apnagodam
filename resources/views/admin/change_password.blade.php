@@ -29,13 +29,29 @@
             </div>                        
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
+
+                    @if(session('status'))
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{$errors->first()}}
+                        </div>
+                    @endif
+
+
                     <div class="row">                        
                         {!! Form::open(array('url' => 'change_password')) !!}
                             
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('current-password', 'Current Password') !!}
-                                    {!! Form::password('current-password', '', ['class' => 'form-control', 'id' => 'current-password', 'placeholder' => '******']) !!}
+                                    {!! Form::password('current-password', ['class' => 'form-control', 'id' => 'current-password', 'placeholder' => '******']) !!}
 
                                     @if($errors->has('current-password'))
                                         <span class="help-block red">
@@ -48,7 +64,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('new-password', 'New Password') !!}
-                                    {!! Form::text('new-password', '', ['class' => 'form-control', 'id' => 'new-password', 'placeholder' => '******']) !!}
+                                    {!! Form::password('new-password', ['class' => 'form-control', 'id' => 'new-password', 'placeholder' => '******']) !!}
 
                                     @if($errors->has('new-password'))
                                         <span class="help-block red">
@@ -60,12 +76,12 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('password_confirmation', 'Confirm Password') !!}
-                                    {!! Form::text('password_confirmation', '', ['class' => 'form-control', 'id' => 'password_confirmation', 'placeholder' => '******']) !!} 
+                                    {!! Form::label('new-password_confirmation', 'Confirm Password') !!}
+                                    {!! Form::password('new-password_confirmation', ['class' => 'form-control', 'id' => 'new-password_confirmation', 'placeholder' => '******']) !!} 
 
-                                    @if($errors->has('password_confirmation'))
+                                    @if($errors->has('new-password_confirmation'))
                                         <span class="help-block red">
-                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                            <strong>{{ $errors->first('new-password_confirmation') }}</strong>
                                         </span>
                                     @endif
                                 </div>
