@@ -18,9 +18,23 @@
                         <b class="caret"></b> </span>  </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="{{ route('/') }}"> <i class="fa fa-globe" aria-hidden="true"></i> Go to website </a></li>
-                        <!-- <li><a href="javascript:;"> <i class="fa fa-user" aria-hidden="true"></i> Profile </a></li> -->
-                        <li><a href="javascript:;"> <i class="fa fa-key" aria-hidden="true"></i> Change Password </a></li>
+                        <li>
+                            <a href="{{ route('/') }}"> 
+                                <i class="fa fa-globe" aria-hidden="true"></i> Go to website 
+                            </a>
+                        </li>
+                        <!-- 
+                        <li>
+                            <a href="javascript:;"> 
+                                <i class="fa fa-user" aria-hidden="true"></i> Profile 
+                            </a>
+                        </li> 
+                        -->
+                        <li>
+                            <a href="{{ route('change_password_view') }}"> 
+                                <i class="fa fa-key" aria-hidden="true"></i> Change Password 
+                            </a>
+                        </li>
                         <li>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">

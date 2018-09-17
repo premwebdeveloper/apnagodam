@@ -18,6 +18,74 @@ class AdminController extends Controller
 		$this->middleware('adminOnly');
 	}
 
+    // Admin Change password view
+    public function change_password_view(){
+
+        return view('admin.change_password');
+    }
+
+    // Change password
+    public function change_password(){
+
+
+        if (!(Hash::check($request->get('new-password'), Auth::user()->password))) {
+            // The passwords matches
+
+            Session::flash('message', 'Your current password does not matches with the password you provided. Please try again.');
+            Session::flash('alert-class', 'alert-danger');
+
+            return redirect(route('change_password_view'));
+
+            $status = 'Something went wrong !';
+            return redirect('change_password_view')->with('status', $status);
+
+        }
+
+        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+            //Current password and new password are same
+
+            Session::flash('message', 'New Password can not be same as your current password. Please choose a different password.');
+            Session::flash('alert-class', 'alert-danger');
+
+            return redirect(route('security'));
+        }
+
+        $this->validate($request, [
+            'current-password' => 'required',
+            'new-password' => 'required|string|min:6|confirmed',
+        ]);
+
+        //Change Password
+        $user = Auth::user();
+        $user->password = bcrypt($request->get('new-password'));
+        $user->save();
+
+        Session::flash('message', 'Password changed successfully !');
+        Session::flash('alert-class', 'alert-success');
+
+        return redirect(route('security'));
+
+
+
+
+
+
+
+
+
+
+        if($change)
+        {
+            $status = 'Change password successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('change_password_view')->with('status', $status);
+    }
+
     // Show all users
     public function users(){
 

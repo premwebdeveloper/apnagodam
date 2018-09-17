@@ -32,6 +32,7 @@ Route::get('/inventory', 'UsersController@inventory')->name('inventory');
 /* ************************************************************************** */
 
 // Change password view
+Route::get('/change_password_view', 'AdminController@change_password_view')->name('change_password_view');
 
 
 // Admin dashboard view route
