@@ -63,6 +63,13 @@
             </li>
 
             <li>
+                <a href="{{ route('inventory') }}">
+                    <i class="fa fa-users"></i> 
+                    <span class="nav-label">Inventory</span>
+                </a>
+            </li>
+
+            <li>
                 <a href="{{ route('warehouses') }}">
                     <i class="fa fa-users"></i> 
                     <span class="nav-label">Warehouses</span>

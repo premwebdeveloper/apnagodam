@@ -136,3 +136,33 @@ ALTER TABLE `finances`
 
 ALTER TABLE `finances`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- ------------------- CREATE TABLE `facilities` at 17-09-2018 -------------------
+CREATE TABLE `facilities` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `facility` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `facilities`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `facilities`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- ------------------- CREATE TABLE `items` at 17-09-2018 -------------------
+CREATE TABLE `items` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `item` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `items`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;

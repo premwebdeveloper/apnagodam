@@ -38,24 +38,6 @@ Route::get('/change_password_view', 'AdminController@change_password_view')->nam
 // Admin dashboard view route
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
-// Warehouses Routes
-Route::get('/warehouses', 'AdminController@warehouses')->name('warehouses');
-Route::get('/add_warehouse_view', 'AdminController@add_warehouse_view')->name('add_warehouse_view');
-Route::post('/add_warehouse', 'AdminController@add_warehouse')->name('add_warehouse');
-Route::get('/warehouse_edit_view/{id}', 'AdminController@warehouse_edit_view')->name('warehouse_edit_view');
-Route::post('/warehouse_edit', 'AdminController@warehouse_edit')->name('warehouse_edit');
-Route::get('/warehouse_view/{id}', 'AdminController@warehouse_view')->name('warehouse_view');
-Route::get('/warehouse_delete/{id}', 'AdminController@warehouse_delete')->name('warehouse_delete');
-
-
-
-// Enquiries Routes
-Route::get('/enquiries', 'AdminController@enquiries')->name('enquiries');
-Route::get('/approve/{user_id}', 'AdminController@approve')->name('approve');
-Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove');
-
-
-
 // User routes
 Route::get('/users', 'AdminController@users')->name('users');
 Route::get('/add_user_view', 'AdminController@add_user_view')->name('add_user_view');
@@ -65,11 +47,30 @@ Route::get('/user_edit_view/{user_id}', 'AdminController@user_edit_view')->name(
 Route::post('/user_edit', 'AdminController@user_edit')->name('user_edit');
 Route::get('/user_delete/{user_id}', 'AdminController@user_delete')->name('user_delete');
 
+// Enquiries Routes
+Route::get('/enquiries', 'AdminController@enquiries')->name('enquiries');
+Route::get('/approve/{user_id}', 'AdminController@approve')->name('approve');
+Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove');
+
+
+// Warehouses Routes
+Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');
+Route::get('/add_warehouse_view', 'WarehouseController@add_warehouse_view')->name('add_warehouse_view');
+Route::post('/add_warehouse', 'WarehouseController@add_warehouse')->name('add_warehouse');
+Route::get('/warehouse_edit_view/{id}', 'WarehouseController@warehouse_edit_view')->name('warehouse_edit_view');
+Route::post('/warehouse_edit', 'WarehouseController@warehouse_edit')->name('warehouse_edit');
+Route::get('/warehouse_view/{id}', 'WarehouseController@warehouse_view')->name('warehouse_view');
+Route::get('/warehouse_delete/{id}', 'WarehouseController@warehouse_delete')->name('warehouse_delete');
 
 
 // Finance routes
-Route::get('/finance', 'AdminController@finance')->name('finance');
-Route::get('/create_finance_view', 'AdminController@create_finance_view')->name('create_finance_view');
-Route::post('/create_finance', 'AdminController@create_finance')->name('create_finance');
+Route::get('/finance', 'FinanceController@index')->name('finance');
+Route::get('/create_finance_view', 'FinanceController@create_finance_view')->name('create_finance_view');
+Route::post('/create_finance', 'FinanceController@create_finance')->name('create_finance');
+
+
+
+// Inventory routes
+Route::get('/inventory', 'InventoryController@index')->name('inventory');
 
 
