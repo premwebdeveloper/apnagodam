@@ -88,3 +88,51 @@ ALTER TABLE `warehouses`
 
 -- ------------------- ALTER TABLE `user_details` at 14-09-2018 -------------------
 ALTER TABLE `user_details` ADD `image` VARCHAR(191) NULL AFTER `commodity`;
+
+-- ------------------- ALTER TABLE `user_details` at 17-09-2018 -------------------
+ALTER TABLE `user_details` DROP `commodity`;
+ALTER TABLE `user_details` ADD `category` INT NULL AFTER `father_name`, ADD `gst_number` VARCHAR(191) NULL AFTER `category`;
+ALTER TABLE `user_details` ADD `power` VARCHAR(191) NULL AFTER `image`;
+
+-- ------------------- CREATE TABLE `inventories` at 17-09-2018 -------------------
+CREATE TABLE `inventories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `commodity` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` int(11) NOT NULL,
+  `quantity` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `inventories`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `inventories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- ------------------- CREATE TABLE `finances` at 17-09-2018 -------------------
+CREATE TABLE `finances` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `bank_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `branch_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `acc_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ifsc` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pan` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `aadhar` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `balance_sheet` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank_statement` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `commodity_id` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `finances`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `finances`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
