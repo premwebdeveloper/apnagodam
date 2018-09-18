@@ -73,5 +73,15 @@ Route::post('/create_finance', 'FinanceController@create_finance')->name('create
 
 // Inventory routes
 Route::get('/inventory', 'InventoryController@index')->name('inventory');
+Route::get('/create_inventory', 'InventoryController@create')->name('create_inventory');
+Route::post('/add_inventory', 'InventoryController@add_inventory')->name('add_inventory');
+Route::get('/inventory_view/{user_id}/{id}', 'InventoryController@view')->name('inventory_view');
+
+Route::get('/inventory_edit_view/{user_id}/{id}', 'InventoryController@inventory_edit_view')->name('inventory_edit_view');
+
+Route::post('/inventory_edit', 'InventoryController@edit')->name('inventory_edit');
+
+Route::get('/inventory_delete/{id}', 'InventoryController@delete')->name('inventory_delete');
+
 
 

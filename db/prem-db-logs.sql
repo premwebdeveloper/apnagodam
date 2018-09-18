@@ -166,3 +166,7 @@ ALTER TABLE `items`
 
 ALTER TABLE `items`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- ------------------- ALTER TABLE `inventories` at 18-09-2018 -------------------
+ALTER TABLE `inventories` CHANGE `type` `type` INT(11) NULL;
+ALTER TABLE `inventories` ADD `image` VARCHAR(191) NULL AFTER `price`;

@@ -3,19 +3,19 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>All Users</h2>
+        <h2>Inventory</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>Users</strong>
+                <strong>Inventory</strong>
             </li>
         </ol>
     </div>
 	<div class="col-lg-2 text-right">
         <h2>
-            <a href="{{ route('add_user_view') }}" class="btn btn-info">Add User</a>
+            <a href="{{ route('create_inventory') }}" class="btn btn-info">Add Inventory</a>
         </h2>
     </div>
 </div>
@@ -26,7 +26,7 @@
 	        <div class="ibox float-e-margins">
 
 	            <div class="ibox-title">
-	                <h5>Users</h5>
+	                <h5>Inventory</h5>
 	                <div class="ibox-tools">
 	                    <a class="collapse-link">
 	                        <i class="fa fa-chevron-up"></i>
@@ -42,32 +42,32 @@
                         </div>
                     @endif
 
-                    <?php //echo '<pre>'; print_r($users);?>
-
 	                <div class="table-responsive">
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
 	                            <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
+                                    <th>User</th>
+                                    <th>Commodity</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                @foreach($users as $key => $user)
+                                @foreach($inventories as $key => $inventory)
 	                                <tr class="gradeX">
-                                        <td>{!! $user->fname . $user->lname !!}</td>
-                                        <td>{!! $user->email !!}</td>
-                                        <td>{!! $user->phone !!}</td>
+                                        <td>{!! $inventory->fname !!}</td>
+                                        <td>{!! $inventory->commodity !!}</td>
+                                        <td>{!! $inventory->quantity !!}</td>
+                                        <td>{!! $inventory->price !!}</td>
                                         <td>
-                                            <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="View">
+                                            <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{!! route('user_edit_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="Edit">
+                                            <a href="{!! route('inventory_edit_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{!! route('user_delete', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="Delete">
+                                            <a href="{!! route('inventory_delete', ['id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="Delete">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
                                         </td>
