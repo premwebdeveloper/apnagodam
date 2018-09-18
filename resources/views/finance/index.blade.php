@@ -3,20 +3,18 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>All Users</h2>
+        <h2>Finance</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>Users</strong>
+                <strong>Finance</strong>
             </li>
         </ol>
     </div>
 	<div class="col-lg-2 text-right">
-        <h2>
-            <a href="{{ route('add_user_view') }}" class="btn btn-info">Add User</a>
-        </h2>
+        &nbsp;
     </div>
 </div>
 
@@ -26,7 +24,7 @@
 	        <div class="ibox float-e-margins">
 
 	            <div class="ibox-title">
-	                <h5>Users</h5>
+	                <h5>Finance</h5>
 	                <div class="ibox-tools">
 	                    <a class="collapse-link">
 	                        <i class="fa fa-chevron-up"></i>
@@ -42,8 +40,6 @@
                         </div>
                     @endif
 
-                    <?php //echo '<pre>'; print_r($users);?>
-
 	                <div class="table-responsive">
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
@@ -55,24 +51,7 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                @foreach($users as $key => $user)
-	                                <tr class="gradeX">
-                                        <td>{!! $user->fname . $user->lname !!}</td>
-                                        <td>{!! $user->email !!}</td>
-                                        <td>{!! $user->phone !!}</td>
-                                        <td>
-                                            <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="View">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{!! route('user_edit_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="Edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{!! route('user_delete', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="Delete">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-	                                </tr>
-                                @endforeach
+                                <!--  -->
 	                        </tbody>
 	                    </table>
 	                </div>
