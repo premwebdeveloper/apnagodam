@@ -29,12 +29,12 @@
                     </li>
                     @else
                         @if(Auth::user()->id != 1)
-                            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href=""><span class="fa fa-user"></span> {{ $user->fname }}</a>
+                            <li class="nav-item dropdown"><a class="nav-link js-scroll-trigger" href=""><span class="fa fa-user"></span> </a>
                                 <div class="dropdown-content">
-                                    <a href="#">Dashboard</a>
-                                    <a href="#">Profile</a>
+                                    <a href="{{ route('user_dashboard') }}">Dashboard</a>
+                                    <a href="{{ route('profile') }}">Profile</a>
                                     <a href="{{ route('inventory') }}">Inventory</a>
-                                    <a href="#">Change Password</a>
+                                    <a href="{{ route('change_password') }}">Change Password</a>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}

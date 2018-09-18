@@ -28,7 +28,6 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
 
 
     // Custom login response function
@@ -53,13 +52,13 @@ class LoginController extends Controller
         }
         else
         {
-            return redirect(route('profile'));
+            return redirect(route('user_dashboard'));
         }
 
         /*return $this->authenticated($request, $this->guard()->user())
                 ?: redirect()->intended($this->redirectPath());*/
     }
-
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -69,5 +68,15 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+    
+    // Custom function to redirect after login failed
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        return redirect('/login')
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors([
+                $this->username() => [trans('auth.failed')]
+            ]);
     }
 }

@@ -1,6 +1,7 @@
 @extends('layouts.public_app')
 
 @section('content')
+
 <main id="main"> <!-- main body conatiner starts-->
     <header class="masthead text-white d-flex" style="margin-bottom: 40px;">
         <div class="container my-auto">
@@ -80,14 +81,46 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="category" name="category" class="form-control{{ $errors->has('category') ? ' is-invalid' : '' }}" required="">
+                                    <option value="">Select Category</option>
+                                    <option value="1">Farmer</option>
+                                    <option value="2">Trader</option>
+                                    <option value="3">Miller</option>
+                                </select>
+                                @if ($errors->has('category'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('category') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row" id="khasra_show">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Khasra No.') }}</label>
 
                             <div class="col-md-6">
-                                <input id="khasra" type="text" class="form-control{{ $errors->has('khasra') ? ' is-invalid' : '' }}" name="khasra" value="{{ old('khasra') }}" required autofocus>
+                                <input id="khasra" type="text" class="form-control{{ $errors->has('khasra') ? ' is-invalid' : '' }}" name="khasra" value="{{ old('khasra') }}">
 
                                 @if ($errors->has('khasra'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('khasra') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row" id="gst_show">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('GST No.') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="gst" type="text" class="form-control{{ $errors->has('gst') ? ' is-invalid' : '' }}" name="gst" value="{{ old('gst') }}" >
+
+                                @if ($errors->has('gst'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('gst') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -130,20 +163,6 @@
                                 @if ($errors->has('district'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('district') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Commodity Name/Weight/No. of Bag') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="commodity" type="text" class="form-control{{ $errors->has('commodity') ? ' is-invalid' : '' }}" name="commodity" value="{{ old('commodity') }}" required autofocus>
-
-                                @if ($errors->has('commodity'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('commodity') }}</strong>
                                     </span>
                                 @endif
                             </div>

@@ -86,10 +86,10 @@ trait AuthenticatesUsers
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    protected function credentials(Request $request)
+/*    protected function credentials(Request $request)
     {
         return $request->only($this->username(), 'password');
-    }
+    }*/
 
     /**
      * Send the response after the user was authenticated.
@@ -156,7 +156,7 @@ trait AuthenticatesUsers
 
         $request->session()->invalidate();
 
-        return $this->loggedOut($request) ?: redirect('/');
+        return redirect('/');
     }
 
     /**
@@ -165,18 +165,14 @@ trait AuthenticatesUsers
      * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
-    protected function loggedOut(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
     protected function guard()
     {
         return Auth::guard();
+    }
+    
+    protected function credentials(Request $request)
+    {
+        return ['email'=>$request->{$this->username()},'password'=>$request->password,'status'=>'1'];
     }
 }

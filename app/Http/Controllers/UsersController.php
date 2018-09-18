@@ -20,6 +20,16 @@ class UsersController extends Controller
 		$this->middleware('auth');
 		$this->middleware('userOnly');
 	}
+    
+    // User user_dashboard
+    public function user_dashboard(){
+
+        $currentuserid = Auth::user()->id;
+
+        $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
+
+        return view("user.dashboard", array('user' => $user));
+    }
 
     // User profile view
     public function profile(){
@@ -31,6 +41,7 @@ class UsersController extends Controller
         return view("user.profile", array('user' => $user));
     }
 
+
     // User profile view
     public function inventory(){
 
@@ -38,6 +49,16 @@ class UsersController extends Controller
 
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
 
-    	return view("user.inventory", array('user' => $user));
+        return view("user.inventory", array('user' => $user));
+    }
+
+    // User profile view
+    public function change_password(){
+
+        $currentuserid = Auth::user()->id;
+
+        $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
+
+    	return view("user.change_password", array('user' => $user));
     }
 }

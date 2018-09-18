@@ -26,6 +26,10 @@ Route::get('/profile', 'UsersController@profile')->name('profile');
 
 Route::get('/inventory', 'UsersController@inventory')->name('inventory');
 
+Route::get('/user_dashboard', 'UsersController@user_dashboard')->name('user_dashboard');
+
+Route::get('/change_password', 'UsersController@change_password')->name('change_password');
+
 
 
 /* ********************** Admin routes start here *************************** */

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -67,7 +68,7 @@ class RegisterController extends Controller
         $date = date('Y-m-d H:i:s');
 
         $user = User::create([
-            'fname' => $data['name'],
+            'fname' => $data['fname'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make(123456),
@@ -90,24 +91,25 @@ class RegisterController extends Controller
         $user_details = DB::table('user_details')->insert(
             array(
                 'user_id' => $user_id,
-                'fname' => $data['name'],
+                'fname' => $data['fname'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
                 'father_name' => $data['father_name'],
+                'category' => $data['category'],
+                'gst_number' => $data['gst'],
                 'khasra_no' => $data['khasra'],
                 'village' => $data['village'],
                 'tehsil' => $data['tehsil'],
                 'district' => $data['district'],
-                'commodity' => $data['district'],
+                'image' => "user.png",
+                'power' => 1,
                 'created_at' => $date,
                 'updated_at' => $date,
                 'status' => 0
             )
         );
 
-        if($user_details)
-        {
-            $status = 'Verified email. Please update your profile now';
-        }
+        return $user;
+        exit;
     }
 }

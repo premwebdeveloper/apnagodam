@@ -32,10 +32,13 @@ trait RegistersUsers
 
         event(new Registered($user = $this->create($request->all())));
 
-        $this->guard()->login($user);
+        //$this->guard()->login($user);
 
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+        //return $this->registered($request, $user) ?: redirect($this->redirectPath());
+
+        $status = 'Enquiry Successfully Submited. Wait for administrator response !';
+
+        return redirect('login')->with('status', $status);
     }
 
     /**

@@ -25,6 +25,7 @@
     <script src="{{ asset('resources/assets/js/plugins/chartJs/Chart.min.js') }}"></script>
     <script src="{{ asset('resources/assets/js/plugins/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('resources/assets/js/plugins/summernote/summernote.min.js') }}"></script>
+    <script src="{{ asset('resources/assets/js/bootstrap-confirmation.js') }}"></script>
   
     @include('includes.auth_scripts')
     <script>
@@ -35,6 +36,26 @@
             });
         });
     </script>
+    <script>
+        $('[data-toggle=confirmation]').confirmation({
+            rootSelector: '[data-toggle=confirmation]',
+            container: 'body'
+        });
+
+        $('[data-toggle=custom-confirmation-events]')
+        .confirmation({
+            rootSelector: '[data-toggle=custom-confirmation-events]',
+            container: 'body'
+        })
+        .on('mouseenter', function() {
+            $(this).confirmation('show');
+        })
+        .on('myevent', function() {
+            alert('"myevent" triggered');
+        });
+
+    </script>
+
 </body>
 
 </html>

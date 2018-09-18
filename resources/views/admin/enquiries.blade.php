@@ -48,31 +48,42 @@
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Father Name</th>
+                                    <th>Category</th>
                                     <th>Khasra Number</th>
+                                    <th>GST Number</th>
                                     <th>Village</th>
                                     <th>Tehsil</th>
                                     <th>District</th>
-                                    <th>Commodity</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
                                 @foreach($enquiries as $key => $enquiry)
 	                                <tr class="gradeX">
-                                        <td>{!! $enquiry->fname .' '. $enquiry->lname !!}</td>
+                                        <td>{!! $enquiry->fname !!}</td>
                                         <td>{!! $enquiry->email !!}</td>
                                         <td>{!! $enquiry->phone !!}</td>
                                         <td>{!! $enquiry->father_name !!}</td>
+                                        @if($enquiry->category==1)
+                                        <td>Farmer</td>
+                                        @elseif($enquiry->category==2)
+                                        <td>Trader</td>
+                                        @elseif($enquiry->category==3)
+                                        <td>Miller</td>
+                                        @endif
+                                        
                                         <td>{!! $enquiry->khasra_no !!}</td>
+                                        
+                                        <td>{!! $enquiry->gst_number !!}</td>
+                                        
                                         <td>{!! $enquiry->village !!}</td>
                                         <td>{!! $enquiry->tehsil !!}</td>
                                         <td>{!! $enquiry->district !!}</td>
-                                        <td>{!! $enquiry->commodity !!}</td>
                                         <td>
-                                            <a href="{!! route('approve', ['user_id' => $enquiry->user_id]) !!}" class="btn btn-info btn-sm" title="Approve Enquiry">
+                                            <a href="{!! route('approve', ['user_id' => $enquiry->user_id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="top" title="Approve Enquiry">
                                                 <i class="fa fa-check" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{!! route('unapprove', ['user_id' => $enquiry->user_id]) !!}" class="btn btn-info btn-sm" title="Unapprove Enquiry">
+                                            <a href="{!! route('unapprove', ['user_id' => $enquiry->user_id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Unapprove Enquiry">
                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                             </a>
                                         </td>
@@ -87,4 +98,5 @@
     	</div>
     </div>
 </div>
+
 @endsection

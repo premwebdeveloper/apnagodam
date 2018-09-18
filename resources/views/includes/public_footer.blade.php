@@ -32,3 +32,31 @@
 <script src="{{ asset('resources/frontend_assets/js/carousel.min.js') }}"> </script>
 <script src="{{ asset('resources/frontend_assets/js/jquery-waypoints.js') }}"> </script>
 <script src="{{ asset('resources/frontend_assets/js/main.min.js') }}"> </script>
+<script>
+    $(document).ready(function(){
+        $(document).on('change', '#category', function(){
+            var category = $('#category').val();
+
+            if(category==1){
+                $("#khasra_show").show();
+                $("#khasra").addAttr('required', "required");
+                $("#gst").removeAttr('required', "required");
+                $("#gst_show").hide();
+            }
+            else if(category==2 || category==3){
+                $("#khasra_show").hide();
+                $("#gst_show").show();
+                $("#gst").addAttr('required', "required");
+                $("#khasra").removeAttr('required', "required");
+            }
+            else{
+                $("#khasra_show").hide();
+                $("#gst_show").hide();
+                $("#khasra").removeAttr('required', "required");
+                $("#gst").removeAttr('required', "required");
+            }
+        });  
+        $("#khasra_show").hide();
+        $("#gst_show").hide();
+     });
+</script>

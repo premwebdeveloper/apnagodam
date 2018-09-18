@@ -111,6 +111,24 @@
                             </div>
                             
                             <div class="col-md-3">
+                                <label for="name">{{ __('Category') }}</label>
+
+                                <div class="form-group">
+                                    <select id="category" name="category" class="form-control {{ $errors->has('category') ? ' is-invalid' : '' }}" required="">
+                                        <option value="">Select Category</option>
+                                        <option value="1">Farmer</option>
+                                        <option value="2">Trader</option>
+                                        <option value="3">Miller</option>
+                                    </select>
+                                    @if ($errors->has('category'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('category') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('khasra', 'Khasra Number') !!}
                                     {!! Form::text('khasra', $user->khasra_no, ['class' => 'form-control', 'id' => 'khasra', 'placeholder' => 'Khasra Number']) !!}
@@ -157,19 +175,6 @@
                                     @if($errors->has('district'))
                                         <span class="help-block red">
                                             <strong>{{ $errors->first('district') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('commodity', 'Commodity') !!}
-                                    {!! Form::text('commodity', $user->commodity, ['class' => 'form-control', 'id' => 'commodity', 'placeholder' => 'Commodity']) !!}
-
-                                    @if($errors->has('commodity'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('commodity') }}</strong>
                                         </span>
                                     @endif
                                 </div>

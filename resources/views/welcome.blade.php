@@ -13,7 +13,7 @@
             </div>
         </div>
     </header>
-
+<!-- 
     <section id="cta">
     <a style="margin-top:-125px" href="javascript:;" class="big-cta text-white">
         <div class="iblock">Enquire Now</div>
@@ -21,7 +21,7 @@
             <img src="{{ asset('resources/frontend_assets/img/right-arrow.png') }}">
         </div>
     </a>  
-    </section>
+    </section> -->
 
     <section id="about">
         <div class="container">

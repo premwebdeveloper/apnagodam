@@ -47,35 +47,43 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td>First Name</td>
+                                    <td><b>First Name</b></td>
                                     <td>{{ $user->fname }}</td>
-                                    <td>Last Name</td>
-                                    <td>{{ $user->lname }}</td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td>Email</td>
+                                    <td><b>Email</b></td>
                                     <td>{{ $user->email }}</td>
-                                    <td>Phone</td>
-                                    <td>{{ $user->phone }}</td>                            
                                 </tr>
                                 <tr>
-                                    <td>Father NAme</td>
+                                    <td><b>Phone</b></td>
+                                    <td>{{ $user->phone }}</td>                            
+                                    <td><b>Father Name</b></td>
                                     <td>{{ $user->father_name }}</td>
-                                    <td>Khasra Number</td>
-                                    <td>{{ $user->khasra_no }}</td>
                                 </tr>
-                                <tr>                                    
-                                    <td>Village</td>
-                                    <td>{{ $user->village }}</td>
-                                    <td>Tehsil</td>
+                                <tr>
+                                    <td><b>Category</b></td>
+                                    @if($user->category==1)
+                                    <td>Farmer</td>
+                                    @elseif($user->category==2)
+                                    <td>Trader</td>
+                                    @elseif($user->category==3)
+                                    <td>Miller</td>
+                                    @endif   
+                                    @if(!empty($user->khasra_no))                                
+                                    <td><b>Khasra Number</b></td>
+                                    <td>{{ $user->khasra_no }}</td>
+                                    @else
+                                    <td><b>GST Number</b></td>
+                                    <td>{{ $user->gst_number }}</td>
+                                    @endif
+                                </tr>
+                                <tr> 
+                                    <td><b>Village</b></td>
+                                    <td>{{ $user->village }}</td>                                   
+                                    <td><b>Tehsil</b></td>
                                     <td>{{ $user->tehsil }}</td>
                                 </tr>
                                 <tr>
-                                    <td>District</td>
+                                    <td><b>District</b></td>
                                     <td>{{ $user->district }}</td>
-                                    <td>Commodity</td>
-                                    <td>{{ $user->commodity }}</td>   
                                 </tr>
                             </tbody>
                         </table>

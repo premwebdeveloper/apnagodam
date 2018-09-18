@@ -15,6 +15,13 @@
     </header>
 
 <div class="container">
+    @if(session('status'))
+        <div class="col-md-12">
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h2 class="section-heading text-center">{{ __('Login') }}</h2>

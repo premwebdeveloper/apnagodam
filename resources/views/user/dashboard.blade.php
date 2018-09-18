@@ -17,7 +17,7 @@
 
             <div class="col-lg-12">
 
-                <h2 class="section-heading text-center">Profile</h2>
+                <h2 class="section-heading text-center">Dashboard</h2>
             
                 <hr>
             </div>
