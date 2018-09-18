@@ -43,7 +43,7 @@ class UsersController extends Controller
 
 
     // User profile view
-    public function inventory(){
+    public function inventories(){
 
         $currentuserid = Auth::user()->id;
 

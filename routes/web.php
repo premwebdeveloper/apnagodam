@@ -24,7 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // User profile view route
 Route::get('/profile', 'UsersController@profile')->name('profile');
 
-Route::get('/inventory', 'UsersController@inventory')->name('inventory');
+Route::get('/inventories', 'UsersController@inventories')->name('inventories');
 
 Route::get('/user_dashboard', 'UsersController@user_dashboard')->name('user_dashboard');
 
