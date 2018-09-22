@@ -46,7 +46,10 @@
         .service-box{
             background: #00baf2;
             padding-top: 30px;
-        }        
+        }
+        .red{
+            color: red;
+        }
         .service-box a, h4{
             color: #000;
         }                 

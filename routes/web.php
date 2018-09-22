@@ -30,6 +30,12 @@ Route::get('/user_dashboard', 'UsersController@user_dashboard')->name('user_dash
 
 Route::get('/change_password', 'UsersController@change_password')->name('change_password');
 
+Route::get('/user_finance_view', 'UsersController@user_finance_view')->name('user_finance_view');
+
+Route::get('/request_for_loan/{id}', 'UsersController@request_for_loan')->name('request_for_loan');
+Route::get('/requested_for_loan/{finance_id}/{id}', 'UsersController@requested_for_loan')->name('requested_for_loan');
+Route::post('/loan_request', 'UsersController@loan_request')->name('loan_request');
+
 
 
 /* ********************** Admin routes start here *************************** */
@@ -70,8 +76,8 @@ Route::get('/warehouse_delete/{id}', 'WarehouseController@warehouse_delete')->na
 
 // Finance routes
 Route::get('/finance', 'FinanceController@index')->name('finance');
-Route::get('/create_finance_view', 'FinanceController@create_finance_view')->name('create_finance_view');
-Route::post('/create_finance', 'FinanceController@create_finance')->name('create_finance');
+Route::get('/request_view', 'FinanceController@request_view')->name('request_view');
+Route::get('/request_response', 'FinanceController@request_response')->name('request_response');
 
 
 

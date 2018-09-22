@@ -20,19 +20,28 @@ class FinanceController extends Controller
     // Finance Department
     public function index(){
 
-        return view('finance.index');
+        // Get all users request for loan on their commodity
+        $requests =  DB::table('finances')
+                        ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
+                        ->join('user_details as user','user.user_id', '=', 'finances.user_id')
+                        //->where(['finances.status' => $finance_id])
+                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'user.fname')
+                        ->get();
+
+
+        return view('finance.index', array('requests' => $requests));
     }
 
-    // Create finance view page
-    public function create_finance_view(){
+    // View page for this finance request
+    public function request_view(){
 
-        return view('finance.create_finance');
+        return view('finance.view');
     }
 
-    // Create finance
-    public function create_finance(Request $request){
+    // Response for this finance request
+    public function request_response(){
 
-        
+        return view('finance.response');
     }
 
 }

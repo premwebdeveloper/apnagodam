@@ -61,4 +61,175 @@ class UsersController extends Controller
 
     	return view("user.change_password", array('user' => $user));
     }
+
+    // Finance page view
+    public function user_finance_view(){
+
+        $currentuserid = Auth::user()->id;
+
+        // Get user inventory
+        $inventories =  DB::table('inventories')
+                        ->leftjoin('finances as fin','fin.commodity_id', '=', 'inventories.id')
+                        ->where('inventories.user_id', $currentuserid)
+                        ->select('fin.status as finance_status', 'fin.id as finance_id', 'inventories.*')
+                        ->get();
+
+        return view("user.finance", array('inventories' => $inventories));
+    }
+
+    // Request for loan
+    public function request_for_loan(Request $request){
+
+        $id = $request->id;
+        $currentuserid = Auth::user()->id;
+
+        // Get inventory details
+        $inventory= DB::table('inventories')
+                    ->where('id', $id)
+                    ->first();
+
+        return view("user.request_for_loan", array('commodity_id' => $id, 'inventory' => $inventory));
+    }
+
+    // Requested for loan
+    public function requested_for_loan(Request $request){
+
+        $finance_id = $request->finance_id;
+        $commodity_id = $request->id;
+        $currentuserid = Auth::user()->id;
+
+        // Get Requested for loan details
+        $finance =  DB::table('finances')
+                        ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
+                        ->where(['finances.id' => $finance_id])
+                        ->select('finances.*', 'inv.commodity', 'inv.quantity')
+                        ->first();
+
+        return view("user.requested_for_loan", array('finance' => $finance));
+    }
+
+    // Request for loan submit
+    public function loan_request(Request $request){
+
+        $currentuserid = Auth::user()->id;
+
+        # Set validation for
+        $this->validate($request, [
+            'account_number' => 'required',
+            'bank_name' => 'required',
+            'account_number' => 'required',
+            'ifsc_code' => 'required',
+            'branch_name' => 'required',
+            'pan_card' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',
+            'aadhar_card' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',
+            'balance_sheet' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',
+            'bank_statement' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',            
+        ]);
+
+        $commodity_id = $request->commodity_id;
+        $bank_name = $request->bank_name;
+        $account_number = $request->account_number;
+        $ifsc_code = $request->ifsc_code;
+        $branch_name = $request->branch_name;
+        $date = date('Y-m-d H:i:s');
+
+        # Pan Card Upload
+        if($request->hasFile('pan_card')) {
+
+            $file = $request->pan_card;
+
+            $pan_card = $file->getClientOriginalName();
+
+            $ext = pathinfo($pan_card, PATHINFO_EXTENSION);
+
+            $pan_card = substr(md5(microtime()),rand(0,26),6);
+
+            $pan_card .= '.'.$ext;
+
+            $destinationPath = base_path() . '/resources/assets/upload/pancards/'.$currentuserid.'/';
+            $file->move($destinationPath,$pan_card);
+            $filepath = $destinationPath.$pan_card;            
+        }
+
+        # Aadhar Card Upload
+        if($request->hasFile('aadhar_card')) {
+
+            $file = $request->aadhar_card;
+
+            $aadhar_card = $file->getClientOriginalName();
+
+            $ext = pathinfo($aadhar_card, PATHINFO_EXTENSION);
+
+            $aadhar_card = substr(md5(microtime()),rand(0,26),6);
+
+            $aadhar_card .= '.'.$ext;
+
+            $destinationPath = base_path() . '/resources/assets/upload/aadharcards/'.$currentuserid.'/';
+            $file->move($destinationPath,$aadhar_card);
+            $filepath = $destinationPath.$aadhar_card;            
+        }
+
+        # Balance Sheet Upload
+        if($request->hasFile('balance_sheet')) {
+
+            $file = $request->balance_sheet;
+
+            $balance_sheet = $file->getClientOriginalName();
+
+            $ext = pathinfo($balance_sheet, PATHINFO_EXTENSION);
+
+            $balance_sheet = substr(md5(microtime()),rand(0,26),6);
+
+            $balance_sheet .= '.'.$ext;
+
+            $destinationPath = base_path() . '/resources/assets/upload/balancesheets/'.$currentuserid.'/';
+            $file->move($destinationPath,$balance_sheet);
+            $filepath = $destinationPath.$balance_sheet;            
+        }
+
+        # Bank Statement Upload
+        if($request->hasFile('bank_statement')) {
+
+            $file = $request->bank_statement;
+
+            $bank_statement = $file->getClientOriginalName();
+
+            $ext = pathinfo($bank_statement, PATHINFO_EXTENSION);
+
+            $bank_statement = substr(md5(microtime()),rand(0,26),6);
+
+            $bank_statement .= '.'.$ext;
+
+            $destinationPath = base_path() . '/resources/assets/upload/bankstatements/'.$currentuserid.'/';
+            $file->move($destinationPath,$bank_statement);
+            $filepath = $destinationPath.$bank_statement;            
+        }
+
+        // Insert entry with all required fields
+        $insert = DB::table('finances')->Insert([
+            'user_id' => $currentuserid,
+            'bank_name' => $bank_name,
+            'branch_name' => $branch_name,
+            'acc_number' => $account_number,
+            'ifsc' => $ifsc_code,
+            'pan' => $pan_card,
+            'aadhar' => $aadhar_card,
+            'balance_sheet' => $balance_sheet,
+            'bank_statement' => $bank_statement,
+            'commodity_id' => $commodity_id,
+            'status' => 1,
+            'created_at' => $date,
+            'updated_at' => $date,
+        ]);
+
+        if($insert){
+
+            $status = 'Request submitted successfully.';
+        }else{
+            
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('user_finance_view')->with('status', $status);
+    }
 }
