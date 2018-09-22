@@ -47,7 +47,7 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td><b>First Name</b></td>
+                                    <td><b>Name</b></td>
                                     <td>{{ $user->fname }}</td>
                                     <td><b>Email</b></td>
                                     <td>{{ $user->email }}</td>

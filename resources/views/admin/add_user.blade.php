@@ -45,25 +45,12 @@
                             
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('fname', 'First Name') !!}
-                                    {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+                                    {!! Form::label('fname', 'Name') !!}
+                                    {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'Name']) !!}
 
                                     @if($errors->has('fname'))
                                         <span class="help-block red">
                                             <strong>{{ $errors->first('fname') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('lname', 'Last Name') !!}
-                                    {!! Form::text('lname', '', ['class' => 'form-control', 'id' => 'lname', 'placeholder' => 'Last Name']) !!}
-
-                                    @if($errors->has('lname'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('lname') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -133,8 +120,46 @@
                                     @endif
                                 </div>
                             </div>
-                            
+                            <script>
+                                $(document).ready(function(){
+
+                                    $(document).on('change', '#category', function(){
+                                        var category = $('#category').val();
+                                        if(category==1){
+                                            $("#khasra_show").show();
+                                            $("#gst_show").hide();
+                                        }
+                                        else if(category==2 || category==3){
+                                            $("#khasra_show").hide();
+                                            $("#gst_show").show();
+                                        }
+                                        else{
+                                            $("#khasra_show").hide();
+                                            $("#gst_show").hide();
+                                        }
+                                    });  
+                                    $("#khasra_show").hide();
+                                    $("#gst_show").hide();
+                                });
+                            </script>
                             <div class="col-md-3">
+                                <label for="name">{{ __('Category') }}</label>
+
+                                <div class="form-group">
+                                    <select id="category" name="category" class="form-control {{ $errors->has('category') ? ' is-invalid' : '' }}">
+                                        <option value="">Select Category</option>
+                                        <option value="1">Farmer</option>
+                                        <option value="2">Trader</option>
+                                        <option value="3">Miller</option>
+                                    </select>
+                                    @if ($errors->has('category'))
+                                        <span class="help-block red" role="alert">
+                                            <strong>{{ $errors->first('category') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-3" id="khasra_show">
                                 <div class="form-group">
                                     {!! Form::label('khasra', 'Khasra Number') !!}
                                     {!! Form::text('khasra', '', ['class' => 'form-control', 'id' => 'khasra', 'placeholder' => 'Khasra Number']) !!}
@@ -145,8 +170,19 @@
                                         </span>
                                     @endif
                                 </div>
+                            </div>   
+                            <div class="col-md-3" id="gst_show">
+                                <div class="form-group">
+                                    {!! Form::label('gst', 'GST Number') !!}
+                                    {!! Form::text('gst', '', ['class' => 'form-control', 'id' => 'gst', 'placeholder' => 'GST Number']) !!}
+
+                                    @if($errors->has('gst'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('gst') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                            
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('village', 'Village') !!}
@@ -185,20 +221,7 @@
                                     @endif
                                 </div>
                             </div>
-                            
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('commodity', 'Commodity') !!}
-                                    {!! Form::text('commodity', '', ['class' => 'form-control', 'id' => 'commodity', 'placeholder' => 'Commodity']) !!}
 
-                                    @if($errors->has('commodity'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('commodity') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('image', 'Image') !!}

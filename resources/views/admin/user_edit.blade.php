@@ -1,7 +1,6 @@
 @extends('layouts.auth_app')
 
 @section('content')
-
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Edit User</h2>
@@ -47,8 +46,8 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('fname', 'First Name') !!}
-                                    {!! Form::text('fname', $user->fname, ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'First Name']) !!}
+                                    {!! Form::label('fname', 'Name') !!}
+                                    {!! Form::text('fname', $user->fname, ['class' => 'form-control', 'id' => 'fname', 'placeholder' => 'Name']) !!}
 
                                     @if($errors->has('fname'))
                                         <span class="help-block red">
@@ -57,20 +56,7 @@
                                     @endif
                                 </div>
                             </div>
-                            
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('lname', 'Last Name') !!}
-                                    {!! Form::text('lname', $user->lname, ['class' => 'form-control', 'id' => 'lname', 'placeholder' => 'Last Name']) !!}
 
-                                    @if($errors->has('lname'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('lname') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('email', 'Email ID') !!}
@@ -109,7 +95,36 @@
                                     @endif
                                 </div>
                             </div>
-                            
+                            <script>
+                                $(document).ready(function(){
+
+                                    $(document).on('change', '#category', function(){
+                                        var category = $('#category').val();
+                                        if(category==1){
+                                            $("#khasra_show").show();
+                                            $("#gst_show").hide();
+                                        }
+                                        else if(category==2 || category==3){
+                                            $("#khasra_show").hide();
+                                            $("#gst_show").show();
+                                        }
+                                        else{
+                                            $("#khasra_show").hide();
+                                            $("#gst_show").hide();
+                                        }
+                                    });  
+                                    var cat_id = <?= $user->category; ?>;
+                                    if(cat_id==1){
+                                        $("#khasra_show").show();
+                                        $("#gst_show").hide();
+                                    }
+                                    else if(cat_id==2 || cat_id==3){
+                                        $("#khasra_show").hide();
+                                        $("#gst_show").show();
+                                    }
+                                    $('#category option[value="'+cat_id+'"]').attr('selected', 'selected');
+                                });
+                            </script>
                             <div class="col-md-3">
                                 <label for="name">{{ __('Category') }}</label>
 
@@ -127,8 +142,7 @@
                                     @endif
                                 </div>
                             </div>
-
-                            <div class="col-md-3">
+                            <div class="col-md-3" id="khasra_show">
                                 <div class="form-group">
                                     {!! Form::label('khasra', 'Khasra Number') !!}
                                     {!! Form::text('khasra', $user->khasra_no, ['class' => 'form-control', 'id' => 'khasra', 'placeholder' => 'Khasra Number']) !!}
@@ -139,8 +153,19 @@
                                         </span>
                                     @endif
                                 </div>
+                            </div>   
+                            <div class="col-md-3" id="gst_show">
+                                <div class="form-group">
+                                    {!! Form::label('gst', 'GST Number') !!}
+                                    {!! Form::text('gst', $user->gst_number, ['class' => 'form-control', 'id' => 'gst', 'placeholder' => 'GST Number']) !!}
+
+                                    @if($errors->has('gst'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('gst') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                            
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('village', 'Village') !!}

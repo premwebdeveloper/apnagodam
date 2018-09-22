@@ -31,17 +31,21 @@ class WarehouseController extends Controller
     public function add_warehouse_view(){
 
         // All Items
+        $all_items = DB::table('items')->where('status', 1)->get();
         $items = [];
-        $items['1'] = 'item A';
-        $items['2'] = 'item B';
-        $items['3'] = 'item C';
+
+        foreach ($all_items as $key => $item) {
+            $items[$item->id] = $item->item;
+        }
+     
 
         // All facilities
+        $all_facilities = DB::table('facilities')->where('status', 1)->get();
         $facilities = [];
-        $facilities['1'] = 'Finance';
-        $facilities['2'] = 'Dharmkanta';
-        $facilities['3'] = 'CCTV';
-        $facilities['4'] = 'procurement';
+       
+       foreach ($all_facilities as $key => $facility) {
+            $facilities[$facility->id] = $facility->facility;
+        }
 
         return view('warehouse.add_warehouse', ['items' => $items, 'facilities' => $facilities]);
     }
@@ -131,17 +135,21 @@ class WarehouseController extends Controller
     public function warehouse_edit_view(Request $request){
 
         // All Items
+        $all_items = DB::table('items')->where('status', 1)->get();
         $items = [];
-        $items['1'] = 'item A';
-        $items['2'] = 'item B';
-        $items['3'] = 'item C';
+
+        foreach ($all_items as $key => $item) {
+            $items[$item->id] = $item->item;
+        }
+     
 
         // All facilities
+        $all_facilities = DB::table('facilities')->where('status', 1)->get();
         $facilities = [];
-        $facilities['1'] = 'Finance';
-        $facilities['2'] = 'Dharmkanta';
-        $facilities['3'] = 'CCTV';
-        $facilities['4'] = 'procurement';
+       
+       foreach ($all_facilities as $key => $facility) {
+            $facilities[$facility->id] = $facility->facility;
+        }
 
         $id = $request->id;
 

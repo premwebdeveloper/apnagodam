@@ -74,7 +74,7 @@ class AdminController extends Controller
         # Set validation for
         $this->validate($request, [
             'fname' => 'required',
-            'lname' => 'required',
+            'category' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required|min:6',
@@ -82,7 +82,6 @@ class AdminController extends Controller
         ]);
 
         $fname = $request->fname;
-        $lname = $request->lname;
         $email = $request->email;
         $password = Hash::make($request->password);
         $phone = $request->phone;
@@ -91,7 +90,9 @@ class AdminController extends Controller
         $village = $request->village;
         $tehsil = $request->tehsil;
         $district = $request->district;
-        $commodity = $request->commodity;
+        $category = $request->category;
+        $khasra_no = $request->khasra;
+        $gst_number = $request->gst;
         $date = date('Y-m-d H:i:s');
 
         $filename = 'user.png';
@@ -134,7 +135,6 @@ class AdminController extends Controller
         // Create user in users table
         $user = User::create([
             'fname' => $fname,
-            'lname' => $lname,
             'email' => $email,
             'password' => $password,
             'phone' => $phone,
@@ -155,15 +155,15 @@ class AdminController extends Controller
         $user_details = DB::table('user_details')->insert([
             'user_id' => $user_id,
             'fname' => $fname,
-            'lname' => $lname,
             'email' => $email,
             'phone' => $phone,
             'father_name' => $father_name,
-            'khasra_no' => $khasra,
+            'category' => $category,
+            'khasra_no' => $khasra_no,
+            'gst_number' => $gst_number,
             'village' => $village,
             'tehsil' => $tehsil,
             'district' => $district,
-            'commodity' => $commodity,
             'image' => $filename,
             'created_at' => $date,
             'updated_at' => $date,
@@ -210,7 +210,7 @@ class AdminController extends Controller
         # Set validation for
         $this->validate($request, [
             'fname' => 'required',
-            'lname' => 'required',
+            //'lname' => 'required',
             //'email' => 'required|email|unique:users',
             //'password' => 'required|min:6|confirmed',
             //'password_confirmation' => 'required|min:6',
@@ -219,7 +219,7 @@ class AdminController extends Controller
 
         $user_id = $request->user_id;
         $fname = $request->fname;
-        $lname = $request->lname;
+        //$lname = $request->lname;
         //$email = $request->email;
         //$password = Hash::make($request->password);
         $phone = $request->phone;
@@ -228,7 +228,9 @@ class AdminController extends Controller
         $village = $request->village;
         $tehsil = $request->tehsil;
         $district = $request->district;
-        $commodity = $request->commodity;
+        $category = $request->category;
+        $khasra_no = $request->khasra;
+        $gst_number = $request->gst;
         $date = date('Y-m-d H:i:s');
 
         // First get users data from user details table
@@ -274,7 +276,6 @@ class AdminController extends Controller
         $user_edit = DB::table('users')->where('id', $user_id)->update([
 
             'fname' => $fname,
-            'lname' => $lname,
             'phone' => $phone,
             'updated_at' => $date
         ]);
@@ -283,14 +284,15 @@ class AdminController extends Controller
         $edit = DB::table('user_details')->where('user_id', $user_id)->update([
 
             'fname' => $fname,
-            'lname' => $lname,
             'phone' => $phone,
             'father_name' => $father_name,
             'khasra_no' => $khasra,
             'village' => $village,
             'tehsil' => $tehsil,
             'district' => $district,
-            'commodity' => $commodity,
+            'category' => $category,
+            'khasra_no' => $khasra_no,
+            'gst_number' => $gst_number,
             'image' => $filename,
             'updated_at' => $date
         ]);

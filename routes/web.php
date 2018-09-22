@@ -93,5 +93,20 @@ Route::post('/inventory_edit', 'InventoryController@edit')->name('inventory_edit
 
 Route::get('/inventory_delete/{id}', 'InventoryController@delete')->name('inventory_delete');
 
+// Items Routes
+Route::get('/items', 'ItemsController@index')->name('items');
+Route::get('/create_item', 'ItemsController@create_item')->name('create_item');
+Route::post('/add_item', 'ItemsController@add_item')->name('add_item');
+Route::get('/item_edit_view/{id}', 'ItemsController@view')->name('item_edit_view');
+Route::post('/item_edit', 'ItemsController@edit')->name('item_edit');
+Route::get('/item_delete/{id}', 'ItemsController@delete')->name('item_delete');
+
+// facilities Routes
+Route::get('/facility', 'FacilitiesController@index')->name('facility');
+Route::get('/create_facility', 'FacilitiesController@create_facility')->name('create_facility');
+Route::post('/add_facility', 'FacilitiesController@add_facility')->name('add_facility');
+Route::get('/facility_edit_view/{id}', 'FacilitiesController@view')->name('facility_edit_view');
+Route::post('/facility_edit', 'FacilitiesController@edit')->name('facility_edit');
+Route::get('/facility_delete/{id}', 'FacilitiesController@delete')->name('facility_delete');
 
 
