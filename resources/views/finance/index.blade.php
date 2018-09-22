@@ -44,14 +44,26 @@
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
 	                            <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
+                                    <th>User</th>
+                                    <th>Commodity</th>
+                                    <th>Quantity</th>
+                                    <th>Requested Date</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                <!--  -->
+                                @foreach($requests as $key => $request)
+                                <tr>
+                                    <td>{!! $request->fname !!}</td>
+                                    <td>{!! $request->commodity !!}</td>
+                                    <td>{!! $request->quantity !!}</td>
+                                    <td>{!! $request->created_at !!}</td>
+                                    <td>                                        
+                                        <a href="{{ route('request_view', ['id' => $request->id ]) }}" class="btn btn-xs btn-primary">View</a>
+                                        <a href="{{ route('request_response', ['id' => $request->id ]) }}" class="btn btn-xs btn-info">Response</a>
+                                    </td>
+                                </tr>
+                                @endforeach
 	                        </tbody>
 	                    </table>
 	                </div>
