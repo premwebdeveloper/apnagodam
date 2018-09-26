@@ -206,7 +206,7 @@ class UsersController extends Controller
         }
 
         // Insert entry with all required fields
-        $insert = DB::table('finances')->Insert([
+        $last_id = DB::table('finances')->insertGetId([
             'user_id' => $currentuserid,
             'bank_name' => $bank_name,
             'branch_name' => $branch_name,
@@ -222,6 +222,14 @@ class UsersController extends Controller
             'updated_at' => $date,
         ]);
 
+
+        // insert entry in finance_response table
+        $insert = DB::table('finance_responses')->Insert([
+            'finance_id' => $last_id,
+            'created_at' => $date,
+            'updated_at' => $date,
+        ]);
+
         if($insert){
 
             $status = 'Request submitted successfully.';
@@ -231,5 +239,77 @@ class UsersController extends Controller
         }
 
         return redirect('user_finance_view')->with('status', $status);
+    }
+
+    public function loan_approved(Request $request){
+
+        $finance_id = $request->id;
+
+        $currentuserid = Auth::user()->id;
+
+        // Get user inventory
+        $inventories =  DB::table('finances')
+                        ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
+                        ->join('finance_responses as fin_res','fin_res.finance_id', '=', 'finances.id')
+                        ->where('finances.id', $finance_id)
+                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'fin_res.bank_name as res_bank_name', 'fin_res.amount as res_amount', 'fin_res.interest as res_interest')
+                        ->first();
+
+        $agree = [];
+        $agree['1'] = 'yes';
+        $agree['0'] = 'no';
+
+        return view("user.requested_loan", array('finance_id' => $finance_id, 'inventories' => $inventories, 'agree' => $agree));
+    }
+
+    // user agree / disagree for loan final approcal
+    public function user_agree_for_loan(Request $request){
+
+        $finance_id = $request->finance_id;
+        $agree = $request->agree;
+        $date = date('Y-m-d H:i:s');
+
+        // if user disagree for loan then delete all enteries
+        if($agree == 0){
+
+            $finance_del = DB::table('finances')->where('id', $finance_id)->delete();
+            $finance_res_del = DB::table('finance_responses')->where('finance_id', $finance_id)->delete();
+
+            if($finance_res_done){
+
+                $status = 'You refused the request for loan. You can request again.';
+            }else{
+
+                $status = 'Something went wrong !';
+            }
+
+            return redirect('user_finance_view')->with('status', $status);  
+
+        }else{
+
+            // update finances table
+            $finance_done = DB::table('finances')->where('id', $finance_id)->update([
+
+                'status' => 3,
+                'updated_at' => $date,
+            ]);
+
+            // update finances_response table
+            $finance_res_done = DB::table('finance_responses')->where('finance_id', $finance_id)->update([
+
+                'status' => 2,
+                'updated_at' => $date,
+            ]);
+
+            if($finance_res_done){
+
+                $status = 'Your loan amount will be credited in your account.';
+            }else{
+
+                $status = 'Something went wrong !';
+            }
+
+            return redirect('user_finance_view')->with('status', $status);
+        }
     }
 }

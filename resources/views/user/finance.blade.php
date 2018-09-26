@@ -58,11 +58,27 @@
 								@if(!empty($inventory->finance_status) && $inventory->finance_status == '1')
 									
 									<!-- Requested for loan -->
-									<a href="{!! route('requested_for_loan', ['finance_id' => $inventory->finance_id, 'id' => $inventory->id]) !!}" class="btn btn-success" title="Requested"> Requested </a> 
+									<a href="{!! route('requested_for_loan', ['finance_id' => $inventory->finance_id, 'id' => $inventory->id]) !!}" class="btn btn-warning" title="Requested"> Requested / Wait For Response</a> 
+
+								@elseif(!empty($inventory->finance_status) && $inventory->finance_status == '2')
+	
+									<!-- Request approve for loan -->
+									<a href="{!! route('loan_approved', ['id' => $inventory->finance_id]) !!}" class="btn btn-info" title="Approved"> Approved </a> 
+	
+								@elseif(!empty($inventory->finance_status) && $inventory->finance_status == '-1')
+									
+									<!-- Request Reject for loan -->
+									<a href="{!! route('request_for_loan', ['id' => $inventory->id]) !!}" class="btn btn-danger" title="Rejected"> Rejected / Request Again</a> 
+
+								@elseif(!empty($inventory->finance_status) && $inventory->finance_status == '3')
+									
+									<!-- Request Reject for loan -->
+									<a href="javascript:;" class="btn btn-success" title="Rejected"> Done</a> 
+
 								@else
 
 									<!-- Request for loan -->
-									<a href="{!! route('request_for_loan', ['id' => $inventory->id]) !!}" class="btn btn-primary" title="Request For Loan"> Request For Loan </a> 
+									<a href="{!! route('request_for_loan', ['id' => $inventory->id]) !!}" class="btn btn-primary" title="Request For Loan"> Request For Loan </a> 	
 								@endif
 								
 							</td>

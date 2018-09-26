@@ -215,3 +215,6 @@ ALTER TABLE `categories`
 
 ALTER TABLE `categories`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `finance_responses` CHANGE `status` `status` TINYINT(1) NULL;
