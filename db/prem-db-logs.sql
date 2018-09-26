@@ -170,3 +170,26 @@ ALTER TABLE `items`
 -- ------------------- ALTER TABLE `inventories` at 18-09-2018 -------------------
 ALTER TABLE `inventories` CHANGE `type` `type` INT(11) NULL;
 ALTER TABLE `inventories` ADD `image` VARCHAR(191) NULL AFTER `price`;
+
+-- ------------------- CREATE TABLE `finance_responses` at 22-09-2018 -------------------
+CREATE TABLE `finance_responses` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `finance_id` int(11) NOT NULL,
+  `finance_status` int(11) NOT NULL,
+  `bank_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `interest` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `finance_responses`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `finance_responses`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- ------------------- ALTER TABLE `users` at 22-09-2018 -------------------
+ALTER TABLE `users` CHANGE `email` `email` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `user_details` CHANGE `email` `email` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
