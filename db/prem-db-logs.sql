@@ -190,6 +190,28 @@ ALTER TABLE `finance_responses`
 ALTER TABLE `finance_responses`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
--- ------------------- ALTER TABLE `users` at 22-09-2018 -------------------
+-- ------------------- ALTER TABLE `users` at 26-09-2018 -------------------
 ALTER TABLE `users` CHANGE `email` `email` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `user_details` CHANGE `email` `email` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+ALTER TABLE `finance_responses` DROP `finance_status`;
+
+-- ------------------- CREATE TABLE `categories` at 26-09-2018 -------------------
+CREATE TABLE `categories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `category` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gst` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `commossion` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mandi_fees` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `loading` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bardana` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `freight` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
