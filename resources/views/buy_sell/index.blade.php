@@ -45,28 +45,22 @@
 <header class="masthead text-white d-flex masthalf"></header>
 <section id="about">
     <div class="container">
+        <h1 class="text-center">Our Commodity</h1>
+        <hr>
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 @foreach($categories as $key => $category)
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <figure class="card card-product">
                         <div class="img-wrap">
                             <img src="{{ asset('resources/assets/upload/category/'.$category->image) }}" class="img-responsive" style="width: 100%;height: 200px;">
                         </div>
-                        <figcaption class="info-wrap" style="padding: 15px!important;">
-                                <h4 class="title">{{ $category->category }}</h4>
-    <!--                             <p class="desc">Some small description goes here</p>
-                                <div class="rating-wrap">
-                                    <div class="label-rating">132 reviews</div>
-                                    <div class="label-rating">154 orders </div>
-                                </div> --> 
+                        <figcaption class="info-wrap">
+                                <h4 class="title text-center">{{ $category->category }}</h4>
+
                         </figcaption>
-                        <div class="bottom-wrap" style="padding: 0px 15px 0px 15px;">
-                            <a href="" class="btn btn-sm btn-primary float-right">Buy Now</a> 
-                            <div class="price-wrap h5">
-                                <span class="price-new"><i class="fa fa-inr"></i> </span>
-                            </div> <!-- price-wrap.// -->
+                        <div class="bottom-wrap">
+                            <a href="" class="btn btn-sm btn-primary btn-block">View Product</a> 
                         </div> <!-- bottom-wrap.// -->
                     </figure>
                 </div> <!-- col // -->

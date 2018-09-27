@@ -49,7 +49,9 @@ class UsersController extends Controller
 
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
 
-        return view("user.inventory", array('user' => $user));
+        $inventories = DB::table('inventories')->where('user_id', $currentuserid)->get();
+
+        return view("user.inventory", array('user' => $user, 'inventories' => $inventories));
     }
 
     // User profile view
