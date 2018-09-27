@@ -50,7 +50,7 @@
                                     <td>User</td>
                                     <td>{!! $request->fname !!}</td>
                                     <td>Commodity</td>
-                                    <td>{!! $request->commodity !!}</td>
+                                    <td>{!! $request->category !!}</td>
                                 </tr>
                                 <tr>
                                     <td>Quantity</td>

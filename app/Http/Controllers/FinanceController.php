@@ -24,8 +24,8 @@ class FinanceController extends Controller
         $requests =  DB::table('finances')
                         ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
                         ->join('user_details as user','user.user_id', '=', 'finances.user_id')
-                        //->where(['finances.status' => $finance_id])
-                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'user.fname')
+                        ->join('categories', 'categories.id', '=', 'inv.commodity')
+                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'user.fname', 'categories.category')
                         ->get();
 
 
@@ -40,9 +40,10 @@ class FinanceController extends Controller
         // Get finance request details for this request id
         $request =  DB::table('finances')
                     ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
+                    ->join('categories', 'categories.id', '=', 'inv.commodity')
                     ->join('user_details as user','user.user_id', '=', 'finances.user_id')
                     ->where(['finances.id' => $finance_id])
-                    ->select('finances.*', 'inv.commodity', 'inv.quantity', 'user.fname')
+                    ->select('finances.*', 'inv.commodity', 'inv.quantity', 'user.fname', 'categories.category')
                     ->first();
 
         return view('finance.view', array('request' => $request));
@@ -56,10 +57,11 @@ class FinanceController extends Controller
         // Get finance request details for this request id
         $request =  DB::table('finances')
                     ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
+                    ->join('categories', 'categories.id', '=', 'inv.commodity')
                     ->join('user_details as user','user.user_id', '=', 'finances.user_id')
                     ->leftjoin('finance_responses as fin_res','fin_res.finance_id', '=', 'finances.id')
                     ->where(['finances.id' => $finance_id])
-                    ->select('finances.*', 'inv.commodity', 'inv.quantity', 'user.fname', 'fin_res.status as finance_status', 'fin_res.bank_name as res_bank_name', 'fin_res.amount as res_amount', 'fin_res.interest as res_interest')
+                    ->select('finances.*', 'inv.commodity', 'inv.quantity', 'user.fname', 'categories.category', 'fin_res.status as finance_status', 'fin_res.bank_name as res_bank_name', 'fin_res.amount as res_amount', 'fin_res.interest as res_interest')
                     ->first();
 
         $response_status = [];

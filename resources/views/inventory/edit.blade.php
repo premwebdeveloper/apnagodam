@@ -61,7 +61,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('commodity', 'Commodity') !!}
-                                    {!! Form::text('commodity', $inventory->commodity, ['class' => 'form-control', 'id' => 'commodity', 'placeholder' => 'Commodity']) !!}
+                                    {!! Form::select('commodity', $categories, $inventory->commodity, ['class' => 'form-control', 'id' => 'commodity']) !!}
 
                                     @if($errors->has('commodity'))
                                         <span class="help-block red">

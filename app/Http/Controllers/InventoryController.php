@@ -21,8 +21,9 @@ class InventoryController extends Controller
 	public function index(){
 
 		$inventories = 	DB::table('inventories')
-         		       	->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
-         		       	->select('user_details.fname', 'inventories.*')
+                        ->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
+         		       	->join('categories', 'categories.id', '=', 'inventories.commodity')
+         		       	->select('user_details.fname', 'inventories.*', 'categories.category')
 						->where('inventories.status', 1)
 						->get();
 
@@ -35,12 +36,20 @@ class InventoryController extends Controller
 		// Get all users
 		$users = DB::table('user_details')->where('status', 1)->get();
 
-		$all_users = [];
-		foreach ($users as $key => $user) {			
-			$all_users[$user->user_id] = $user->fname;
+        $all_users[''] = 'Select User';
+        foreach ($users as $key => $user) {         
+            $all_users[$user->user_id] = $user->fname;
+        }
+
+        // Get all categories
+        $categories = DB::table('categories')->where('status', 1)->get();
+
+		$all_categories[''] = 'Select Commodity';
+		foreach ($categories as $key => $category) {			
+			$all_categories[$category->id] = $category->category;
 		}
 
-    	return view('inventory.create', array('users' => $all_users));
+    	return view('inventory.create', array('users' => $all_users, 'categories' => $all_categories));
 	}
 
 	// Add inventory
@@ -154,7 +163,8 @@ class InventoryController extends Controller
         // Get inventory details
         $inventory = DB::table('inventories')
          		       	->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
-         		       	->select('user_details.fname', 'inventories.*')
+                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
+         		       	->select('user_details.fname', 'inventories.*', 'categories.category')
 						->where(['inventories.id' => $id, 'inventories.status' => 1])
 						->first();
 
@@ -182,7 +192,15 @@ class InventoryController extends Controller
 			$all_users[$user->user_id] = $user->fname;
 		}
 
-    	return view('inventory.edit', array('users' => $all_users, 'inventory' => $inventory));
+        // Get all categories
+        $categories = DB::table('categories')->where('status', 1)->get();
+
+        $all_categories[''] = 'Select Commodity';
+        foreach ($categories as $key => $category) {            
+            $all_categories[$category->id] = $category->category;
+        }
+
+    	return view('inventory.edit', array('users' => $all_users, 'inventory' => $inventory, 'categories' => $all_categories));
 	}
 
 	// Edit inventory

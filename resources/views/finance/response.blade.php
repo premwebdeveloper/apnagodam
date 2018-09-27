@@ -27,7 +27,7 @@
 	        <div class="ibox float-e-margins">
 
 	            <div class="ibox-title">
-	                <h5>Finance Response against {!! $request->fname !!}'s commodity {!! $request->commodity !!} ( {!! $request->quantity !!} bags )</h5>
+	                <h5>Finance Response against {!! $request->fname !!}'s commodity {!! $request->category !!} ( {!! $request->quantity !!} bags )</h5>
 	                <div class="ibox-tools">
 	                    <a class="collapse-link">
 	                        <i class="fa fa-chevron-up"></i>

@@ -216,5 +216,43 @@ ALTER TABLE `categories`
 ALTER TABLE `categories`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-
+-- ------------------- ALTER TABLE `finance_responses` at 26-09-2018 -------------------
 ALTER TABLE `finance_responses` CHANGE `status` `status` TINYINT(1) NULL;
+
+-- ------------------- CREATE TABLE `buy_sells` at 27-09-2018 -------------------
+CREATE TABLE `buy_sells` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `seller_cat_id` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `buy_sells`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `buy_sells`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+-- ------------------- CREATE TABLE `buy_sell_conversations` at 27-09-2018 -------------------
+CREATE TABLE `buy_sell_conversations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `buy_sell_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `conversation` text COLLATE utf8mb4_unicode_ci,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `buy_sell_conversations`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `buy_sell_conversations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- ------------------- ALTER TABLE `inventories` at 27-09-2018 ------
+ALTER TABLE `inventories` CHANGE `commodity` `commodity` INT NOT NULL;

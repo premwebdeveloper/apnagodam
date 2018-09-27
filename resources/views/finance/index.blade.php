@@ -55,7 +55,7 @@
                                 @foreach($requests as $key => $request)
                                 <tr>
                                     <td>{!! $request->fname !!}</td>
-                                    <td>{!! $request->commodity !!}</td>
+                                    <td>{!! $request->category !!}</td>
                                     <td>{!! $request->quantity !!}</td>
                                     <td>{!! $request->created_at !!}</td>
                                     <td>                                        

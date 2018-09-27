@@ -48,7 +48,7 @@
                             <tbody>
                                 <tr>
                                     <td><b>Commodity</b></td>
-                                    <td>{{ $inventory->commodity }}</td>
+                                    <td>{{ $inventory->category }}</td>
                                     <td><b>Quantity</b></td>
                                     <td>{{ $inventory->quantity }}</td>
                                     

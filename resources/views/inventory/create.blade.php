@@ -46,7 +46,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('user', 'User') !!}
-                                    {!! Form::select('user', $users, '', ['class' => 'form-control', 'id' => 'user', 'placeholder' => 'User']) !!}
+                                    {!! Form::select('user', $users, '', ['class' => 'form-control', 'id' => 'user']) !!}
 
                                     @if($errors->has('user'))
                                         <span class="help-block red">
@@ -59,7 +59,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('commodity', 'Commodity') !!}
-                                    {!! Form::text('commodity', '', ['class' => 'form-control', 'id' => 'commodity', 'placeholder' => 'Commodity']) !!}
+                                    {!! Form::select('commodity', $categories, '', ['class' => 'form-control', 'id' => 'commodity']) !!}
 
                                     @if($errors->has('commodity'))
                                         <span class="help-block red">

@@ -57,7 +57,7 @@
                                 @foreach($inventories as $key => $inventory)
 	                                <tr class="gradeX">
                                         <td>{!! $inventory->fname !!}</td>
-                                        <td>{!! $inventory->commodity !!}</td>
+                                        <td>{!! $inventory->category !!}</td>
                                         <td>{!! $inventory->quantity !!}</td>
                                         <td>{!! $inventory->price !!}</td>
                                         <td>
