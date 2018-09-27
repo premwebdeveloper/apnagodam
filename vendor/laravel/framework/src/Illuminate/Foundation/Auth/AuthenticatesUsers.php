@@ -62,7 +62,8 @@ trait AuthenticatesUsers
     protected function validateLogin(Request $request)
     {
         $this->validate($request, [
-            $this->username() => 'required|string',
+
+            $this->username() => 'required|numeric',
             'password' => 'required|string',
         ]);
     }
@@ -141,7 +142,8 @@ trait AuthenticatesUsers
      */
     public function username()
     {
-        return 'email';
+        //return 'email';
+        return 'phone';
     }
 
     /**
@@ -173,6 +175,7 @@ trait AuthenticatesUsers
     
     protected function credentials(Request $request)
     {
-        return ['email'=>$request->{$this->username()},'password'=>$request->password,'status'=>'1'];
+        //return ['email'=>$request->{$this->username()},'password'=>$request->password,'status'=>'1'];
+        return ['phone'=>$request->{$this->username()},'password'=>$request->password,'status'=>'1'];
     }
 }

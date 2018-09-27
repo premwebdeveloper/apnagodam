@@ -256,3 +256,6 @@ ALTER TABLE `buy_sell_conversations`
 
 -- ------------------- ALTER TABLE `inventories` at 27-09-2018 ------
 ALTER TABLE `inventories` CHANGE `commodity` `commodity` INT NOT NULL;
+
+-- ------------------- ALTER TABLE `users` at 27-09-2018 ------
+ALTER TABLE `users` ADD `login_otp` VARCHAR(6) NULL AFTER `phone`;

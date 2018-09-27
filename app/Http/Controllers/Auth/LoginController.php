@@ -46,6 +46,13 @@ class LoginController extends Controller
         # User Role id
         $role_id = $user->role_id;
 
+        /*$otp_insert = DB::table('users')->where('id', $currentuserid)->update([
+
+            'login_otp' => 123456
+        ]);*/
+
+        // send otp using sms on phone with curl
+
         if($role_id == 1)
         {
             return redirect(route('dashboard'));
@@ -58,6 +65,7 @@ class LoginController extends Controller
         /*return $this->authenticated($request, $this->guard()->user())
                 ?: redirect()->intended($this->redirectPath());*/
     }
+
     protected $redirectTo = '/';
 
     /**
