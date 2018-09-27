@@ -19,7 +19,7 @@
 
             <div class="col-md-12">
 
-                <h2 class="section-heading">You requested for loan against {!! $inventories->commodity !!} commodity with {!! $inventories->quantity !!} Bags.Your loan has been approved. If you want to have this then approve this.</h2>
+                <h2 class="section-heading">You requested for loan against {!! $inventories->category !!} commodity with {!! $inventories->quantity !!} Bags.Your loan has been approved. If you want to have this then approve this.</h2>
                 <br>
 
                 <h4>Bank Name - {{ $inventories->res_bank_name }}</h4>

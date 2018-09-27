@@ -19,7 +19,7 @@
 
             <div class="col-md-12">
 
-                <h2 class="section-heading">Request For Loan against {!! $inventory->commodity !!} commodity with {!! $inventory->quantity !!} Bags.</h2>
+                <h2 class="section-heading">Request For Loan against {!! $inventory->category !!} commodity with {!! $inventory->quantity !!} Bags.</h2>
                 <br>
                     
                 {!! Form::open(array('url' => 'loan_request', 'files' => true)) !!}
@@ -130,8 +130,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
+                    <div class="">
+                        <div class="">
                             {!! Form::submit('Request For Loan', ['class' => 'btn btn-info btn btn-block']) !!}
                         </div>
                     </div>

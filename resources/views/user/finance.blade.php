@@ -45,7 +45,7 @@
 					@foreach($inventories as $key => $inventory)
 						<tr>
 							<th scope="row">{!! $key+1 !!}</th>
-							<td>{!! $inventory->commodity !!}</td>
+							<td>{!! $inventory->category !!}</td>
 							<td>{!! $inventory->quantity !!}</td>
 							<td>{!! $inventory->price !!}</td>
 							<td>

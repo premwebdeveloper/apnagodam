@@ -71,9 +71,10 @@ class UsersController extends Controller
 
         // Get user inventory
         $inventories =  DB::table('inventories')
+                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
                         ->leftjoin('finances as fin','fin.commodity_id', '=', 'inventories.id')
                         ->where('inventories.user_id', $currentuserid)
-                        ->select('fin.status as finance_status', 'fin.id as finance_id', 'inventories.*')
+                        ->select('fin.status as finance_status', 'fin.id as finance_id', 'inventories.*', 'categories.category')
                         ->get();
 
         return view("user.finance", array('inventories' => $inventories));
@@ -87,7 +88,10 @@ class UsersController extends Controller
 
         // Get inventory details
         $inventory= DB::table('inventories')
-                    ->where('id', $id)
+                    ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                    ->where('inventories.id', $id)
+                    ->select('inventories.*', 'categories.category')
+
                     ->first();
 
         return view("user.request_for_loan", array('commodity_id' => $id, 'inventory' => $inventory));
@@ -103,8 +107,9 @@ class UsersController extends Controller
         // Get Requested for loan details
         $finance =  DB::table('finances')
                         ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
+                        ->join('categories', 'categories.id', '=', 'inv.commodity')
                         ->where(['finances.id' => $finance_id])
-                        ->select('finances.*', 'inv.commodity', 'inv.quantity')
+                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'categories.category')
                         ->first();
 
         return view("user.requested_for_loan", array('finance' => $finance));
@@ -252,9 +257,10 @@ class UsersController extends Controller
         // Get user inventory
         $inventories =  DB::table('finances')
                         ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
+                        ->join('categories', 'categories.id', '=', 'inv.commodity')
                         ->join('finance_responses as fin_res','fin_res.finance_id', '=', 'finances.id')
                         ->where('finances.id', $finance_id)
-                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'fin_res.bank_name as res_bank_name', 'fin_res.amount as res_amount', 'fin_res.interest as res_interest')
+                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'fin_res.bank_name as res_bank_name', 'fin_res.amount as res_amount', 'fin_res.interest as res_interest', 'categories.category')
                         ->first();
 
         $agree = [];
