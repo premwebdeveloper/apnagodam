@@ -47,16 +47,16 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td>Commodity</td>
+                                    <td><b>Commodity</b></td>
                                     <td>{{ $inventory->commodity }}</td>
-                                    <td>Quantity</td>
+                                    <td><b>Quantity</b></td>
                                     <td>{{ $inventory->quantity }}</td>
                                     
                                 </tr>
                                 <tr>
-                                    <td>Price</td>
+                                    <td><b>Price</b></td>
                                     <td>{{ $inventory->price }}</td>
-                                    <td>Date Of Deposit</td>
+                                    <td><b>Date Of Deposit</b></td>
                                     <td>{{ $inventory->created_at }}</td>                            
                                 </tr>
                             </tbody>

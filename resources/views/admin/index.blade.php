@@ -42,9 +42,7 @@
                         </div>
                     @endif
 
-                    <?php //echo '<pre>'; print_r($users);?>
-
-	                <div class="table-responsive">
+                    <div class="table-responsive">
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
 	                            <tr>

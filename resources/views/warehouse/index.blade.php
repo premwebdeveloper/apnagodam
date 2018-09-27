@@ -63,7 +63,7 @@
                                             <a href="{!! route('warehouse_edit_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{!! route('warehouse_delete', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="Delete">
+                                            <a href="{!! route('warehouse_delete', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete Warehouse">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
                                         </td>

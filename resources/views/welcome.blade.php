@@ -71,7 +71,7 @@
                     <div class="service-box mt-5 mx-auto">
                         <i class="fab fa-buysellads"></i>
                         <h4 class="mb-2">Buy and Sell</h4>
-                         <p class="mb-4"><a href="javaScript:;">Read More</a></p>
+                         <p class="mb-4"><a href="{{ route('buy_sell') }}">Read More</a></p>
                     </div>
                 </div>
             </div>

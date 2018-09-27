@@ -10,7 +10,7 @@
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li>
-                <a href="{{ route('inventory') }}">Item</a>
+                <a href="{{ route('items') }}">Item</a>
             </li>
             <li class="active">
                 <strong>Add Item</strong>

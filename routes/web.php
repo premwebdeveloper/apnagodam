@@ -112,4 +112,16 @@ Route::get('/facility_edit_view/{id}', 'FacilitiesController@view')->name('facil
 Route::post('/facility_edit', 'FacilitiesController@edit')->name('facility_edit');
 Route::get('/facility_delete/{id}', 'FacilitiesController@delete')->name('facility_delete');
 
+// Category Routes
+Route::get('/category', 'CategoryController@index')->name('category');
+Route::get('/create_category', 'CategoryController@create_category')->name('create_category');
+Route::post('/add_category', 'CategoryController@add_category')->name('add_category');
+Route::get('/category_edit_view/{id}', 'CategoryController@view')->name('category_edit_view');
+Route::post('/category_edit', 'CategoryController@edit')->name('category_edit');
+Route::get('/category_delete/{id}', 'CategoryController@delete')->name('category_delete');
+
+
+//buy sell Routes
+Route::get('/buy_sell', 'BuySellController@index')->name('buy_sell');
+
 
