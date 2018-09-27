@@ -38,6 +38,10 @@ Route::post('/loan_request', 'UsersController@loan_request')->name('loan_request
 Route::get('/loan_approved/{id}', 'UsersController@loan_approved')->name('loan_approved');
 Route::post('/user_agree_for_loan/', 'UsersController@user_agree_for_loan')->name('user_agree_for_loan');
 
+// user update price 
+Route::post('/buy_sell_price_update', 'UsersController@update_price')->name('buy_sell_price_update');
+
+
 
 
 /* ********************** Admin routes start here *************************** */
@@ -122,7 +126,5 @@ Route::get('/category_delete/{id}', 'CategoryController@delete')->name('category
 
 
 //buy sell Routes
-
 Route::get('/buy_sell', 'BuySellController@index')->name('buy_sell');
-
 

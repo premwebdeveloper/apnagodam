@@ -49,7 +49,11 @@ class UsersController extends Controller
 
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
 
-        $inventories = DB::table('inventories')->where('user_id', $currentuserid)->get();
+        $inventories = DB::table('inventories')
+                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                        ->select('inventories.*', 'categories.category as cat_name')
+                        ->where(['inventories.status' => 1, 'inventories.user_id' => $currentuserid])
+                        ->get();
 
         return view("user.inventory", array('user' => $user, 'inventories' => $inventories));
     }
@@ -320,4 +324,33 @@ class UsersController extends Controller
             return redirect('user_finance_view')->with('status', $status);
         }
     }
+
+    // user update price
+    public function update_price(Request $request)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        $currentuserid = Auth::user()->id;
+
+        $id = $request->id;
+
+        $price = $request->price;
+
+        $inventories = DB::table('inventories')->where('id', $id)->update([
+
+                'price' => $price,
+                'updated_at' => $date
+
+            ]);
+
+        if($inventories){
+
+            $status = 'Price Successfully Updated';
+        }else{
+
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('inventories')->with('status', $status);
+    } 
 }

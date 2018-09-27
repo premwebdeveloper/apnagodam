@@ -25,7 +25,7 @@
 </footer>
 
 <!-- Bootstrap core JavaScript -->
-<script src="{{ asset('resources/frontend_assets/js/jquery.min.js') }}"> </script>
+
 <script src="{{ asset('resources/frontend_assets/js/bootstrap.bundle.min.js') }}"> </script>
 <script src="{{ asset('resources/frontend_assets/js/jquery.easing.min.js') }}"> </script>
 <script src="{{ asset('resources/frontend_assets/js/scrollreveal.min.js') }}"> </script>

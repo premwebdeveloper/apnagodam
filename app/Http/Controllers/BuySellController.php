@@ -22,4 +22,5 @@ class BuySellController extends Controller
         
         return view('buy_sell.index', array('categories' => $categories));
     }
+
 }

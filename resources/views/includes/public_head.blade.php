@@ -36,7 +36,9 @@
     <link href="{{ asset('resources/frontend_assets/css/main.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 
     <link href="{{ asset('resources/frontend_assets/css/carousel.min.css') }}" rel="stylesheet" type="text/css" media="all" />
-
+    
+    <script src="{{ asset('resources/frontend_assets/js/jquery.min.js') }}"> </script>
+    
     <meta name="keywords" content="warehouse, warehousing, logistics, storage, network, gst, distribution, delivery, pan-india, best-in class logistics, best-in class warehousing, kitting, packing, inward, outward, wms, warehouse management system">
     <meta name="description" content="ApnaGodam has a Pan-India network of Warehouses providing Best-in Class Warehousing and Logistics Solution. With industry Best Technology and Process, we make sure our Client's Operations are handled Effeicienty and Cost Effectively. ">
     <style>
