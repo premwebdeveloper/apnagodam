@@ -128,6 +128,27 @@ class WarehouseController extends Controller
         // Get warehouse details by id
         $warehouse = DB::table('warehouses')->where('id', $id)->first();
 
+        // Get items name
+        $items = json_decode($warehouse->items);
+
+        $item_available = '';
+        foreach ($items as $key => $item) {
+            
+            $item_name = DB::table('items')->where('id', $item)->first();
+            $item_available .= $item_name->item.', ';
+        }
+
+        $facility_available = '';
+        $facilities = json_decode($warehouse->facilities);
+        foreach ($facilities as $key => $facility) {
+            
+            $facility_name = DB::table('facilities')->where('id', $facility)->first();
+            $facility_available .= $facility_name->facility.', ';
+        }
+
+        $warehouse->{'item_available'} = $item_available;
+        $warehouse->{'facility_available'} = $facility_available;
+
         return view('warehouse.warehouse_view', array('warehouse' => $warehouse));
     }
 

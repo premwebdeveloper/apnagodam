@@ -75,15 +75,13 @@ class AdminController extends Controller
         $this->validate($request, [
             'fname' => 'required',
             'category' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required|min:6',
+            'email' => 'unique:users',
             'phone' => 'required|numeric|digits:10',
         ]);
 
         $fname = $request->fname;
         $email = $request->email;
-        $password = Hash::make($request->password);
+        $password = Hash::make('123456');
         $phone = $request->phone;
         $father_name = $request->father_name;
         $khasra = $request->khasra;
@@ -165,6 +163,7 @@ class AdminController extends Controller
             'tehsil' => $tehsil,
             'district' => $district,
             'image' => $filename,
+            'power' => 1,
             'created_at' => $date,
             'updated_at' => $date,
             'status' => 1   

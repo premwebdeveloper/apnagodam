@@ -44,10 +44,10 @@
                                     <td>{{ $warehouse->village }}</td>
                                     <td>{{ $warehouse->capacity }}</td>
                                     <td>
-                                        {{ $warehouse->items }}
+                                        {{ rtrim($warehouse->item_available, ', ') }}
                                     </td>
                                     <td>
-                                        {{ $warehouse->facilities }}
+                                        {{ rtrim($warehouse->facility_available, ', ') }}
                                     </td>
                                 </tr>
                             </tbody>
