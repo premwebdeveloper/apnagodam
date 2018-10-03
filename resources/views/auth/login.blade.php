@@ -1,6 +1,62 @@
 @extends('layouts.public_app')
 
 @section('content')
+
+<script>
+$(document).ready(function(){
+
+    $('#verifyButton').prop('disabled', true);
+
+    // OTP verification on keyUP
+    $(document).on('keyup', '#otp', function(){
+
+        var otp_length = $('#otp').val().length;
+        
+        if(otp_length == 6){
+
+            $('#otpMatched').hide();
+
+            var otp = $('#otp').val();
+            var exist_phone = $('#exist_phone').val();
+            
+            $.ajax({
+                method : 'post',
+                url: "{{ route('otpVerification') }}",
+                async : true,
+                data : {"_token": "{{ csrf_token() }}", 'otp' : otp, 'exist_phone' : exist_phone},
+                success:function(response){
+
+                    console.log(response);
+
+                    if(response == 0)
+                    {
+                        $('#verifyButton').prop('disabled', true);
+                    }
+                    else if(response == 1)
+                    {
+                        $('#verifyButton').prop('disabled', false);
+                    }
+                    else if(response == 2)
+                    {
+                        $('#verifyButton').prop('disabled', true);
+                    }
+                },
+                error: function(data){
+                    console.log(data);
+                },
+            });
+
+        }
+        else{
+
+            $('#verifyButton').prop('disabled', true);
+            $('#otpMatched').show();
+        }
+    });
+
+});  
+</script>
+
 <main id="main"> <!-- main body conatiner starts-->
     <header class="masthead text-white d-flex" style="margin-bottom: 40px;">
         <div class="container my-auto">
@@ -22,84 +78,89 @@
             </div>
         </div>
     @endif
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h2 class="section-heading text-center">{{ __('Login') }}</h2>
             <hr>
+
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{$errors->first()}}
+                </div>
+            @endif
+
             <div class="card">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
-                        @csrf
+                <div class="card-body">                    
 
-                        <div class="form-group row">
-                            <label for="phone" class="col-sm-4 col-form-label text-md-right">{{ __('Phone') }}</label>
+                    @if(isset($otp))
 
-                            <div class="col-md-6">
-                                <input id="phone" type="number" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="9876543210" value="{{ old('phone') }}" required autofocus>
+                        <div class="alert alert-warning" style="display: none;" id="otpMatched">Enter 6 digit OTP !</div>
 
-                                @if ($errors->has('phone'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('phone') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                         <input id="password" type="hidden" value="123456" name="password" required>
-
-                        <!-- <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-                        
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-                        
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-                        
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-                        
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                        
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
+                        <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                            @csrf
+                    
+                            <div class="form-group row">
+                                <label for="otp" class="col-sm-4 col-form-label text-md-right">Enter 6 digit OTP code sent to your mobile number</label>
+                            
+                                <div class="col-md-6">
+                                    <input id="otp" type="number" class="form-control{{ $errors->has('otp') ? ' is-invalid' : '' }}" name="otp" value="{{ old('otp') }}" placeholder="OTP" required autofocus>
+                            
+                                    @if ($errors->has('otp'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('otp') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
-                        </div> -->
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
+                            <input id="exist_phone" type="hidden" value="{{ $exist_phone }}" name="phone" required>
+                            <input id="password" type="hidden" value="123456" name="password" required>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary" id="verifyButton">
+                                        {{ __('Verify OTP') }}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+
+                        </form>
+
+                    @else
+
+                        <form method="POST" action="{{ route('verifyOtp') }}" aria-label="{{ __('Login') }}">
+                            @csrf
+
+                            <div class="form-group row">
+                                <label for="phone" class="col-sm-4 col-form-label text-md-right">{{ __('Phone') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="phone" type="number" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="9876543210" value="{{ old('phone') }}" required autofocus>
+
+                                    @if ($errors->has('phone'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('phone') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Login') }}
+                                    </button>
+
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    @endif                                           
                 </div>
             </div>
         </div>

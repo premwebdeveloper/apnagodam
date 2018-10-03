@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('/');
 
+Route::any('verifyOtp/', 'HomeController@verifyOtp')->name('verifyOtp');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 // User profile view route
@@ -41,7 +43,10 @@ Route::post('/user_agree_for_loan/', 'UsersController@user_agree_for_loan')->nam
 // user update price 
 Route::post('/buy_sell_price_update', 'UsersController@update_price')->name('buy_sell_price_update');
 
-
+/* ********************************************************************************************* */
+// Ajax functions in Ajax controller
+// OTP verification
+Route::post('/otpVerification', 'AjaxController@otpVerification')->name('otpVerification');
 
 
 /* ********************** Admin routes start here *************************** */

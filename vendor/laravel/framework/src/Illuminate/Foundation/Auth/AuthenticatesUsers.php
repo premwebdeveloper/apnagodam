@@ -65,6 +65,7 @@ trait AuthenticatesUsers
 
             $this->username() => 'required|numeric',
             'password' => 'required|string',
+            'otp' => 'required|numeric|digits:6',
         ]);
     }
 
@@ -176,6 +177,6 @@ trait AuthenticatesUsers
     protected function credentials(Request $request)
     {
         //return ['email'=>$request->{$this->username()},'password'=>$request->password,'status'=>'1'];
-        return ['phone'=>$request->{$this->username()},'password'=>$request->password,'status'=>'1'];
+        return ['phone'=>$request->{$this->username()},'password'=>$request->password,'status'=>'1','login_otp'=>$request->otp];
     }
 }

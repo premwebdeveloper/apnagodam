@@ -40,18 +40,17 @@ class LoginController extends Controller
         # Get user id
         $currentuserid = Auth::user()->id;
 
+        # empty otp for this user if successfully logged iN
+        $user = DB::table('users')->where('id', $currentuserid)->update([
+
+            'login_otp' => null
+        ]);
+
         # Get User role
         $user = DB::table('user_roles')->where('user_id', $currentuserid)->first();
 
         # User Role id
         $role_id = $user->role_id;
-
-        /*$otp_insert = DB::table('users')->where('id', $currentuserid)->update([
-
-            'login_otp' => 123456
-        ]);*/
-
-        // send otp using sms on phone with curl
 
         if($role_id == 1)
         {
@@ -81,7 +80,8 @@ class LoginController extends Controller
     // Custom function to redirect after login failed
     protected function sendFailedLoginResponse(Request $request)
     {
-        return redirect('/login')
+        //dd($request);
+        return redirect('/verifyOtp')
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors([
                 $this->username() => [trans('auth.failed')]
