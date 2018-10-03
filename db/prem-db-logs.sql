@@ -259,3 +259,6 @@ ALTER TABLE `inventories` CHANGE `commodity` `commodity` INT NOT NULL;
 
 -- ------------------- ALTER TABLE `users` at 27-09-2018 ------
 ALTER TABLE `users` ADD `login_otp` VARCHAR(6) NULL AFTER `phone`;
+
+-- ------------------- ALTER TABLE `inventories` at 03-10-2018 ------
+ALTER TABLE `inventories` ADD `warehouse_id` INT NOT NULL AFTER `user_id`;
