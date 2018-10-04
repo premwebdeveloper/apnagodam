@@ -57,6 +57,12 @@
     <div class="container">
         <h1 class="text-center">Our {{ $cat->category }}</h1>
         <hr>
+        @if($errors->any())
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{$errors->first()}}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-3">
@@ -136,7 +142,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('buy_sell_price_update') }}" method="post">
+            <form action="{{ route('buy_sell_conversation') }}" method="post">
                 {{ csrf_field() }}
                 <div class="modal-body mx-3">
                     
@@ -147,10 +153,10 @@
                     <div class="md-form mb-5">
 
                     <label data-error="wrong" data-success="right">Required Quantity</label>
-                    <input id="update_price" type="text" class="form-control" name="price" required autofocus>
+                    <input id="req_quantity" type="number" class="form-control" name="req_quantity" required autofocus>
                     <br>
                     <label data-error="wrong" data-success="right">Conversation</label>
-                    <textarea class="form-control" rows="5" cols="10" name="conversation" required></textarea>
+                    <textarea class="form-control" rows="5" cols="10" name="conversation" id="conversation" required></textarea>
 
                     </div>
 

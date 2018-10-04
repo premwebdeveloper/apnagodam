@@ -57,113 +57,104 @@ $(document).ready(function(){
 });  
 </script>
 
-<main id="main"> <!-- main body conatiner starts-->
-    <header class="masthead text-white d-flex" style="margin-bottom: 40px;">
-        <div class="container my-auto">
-            <div class="row">
-                <div class="col-lg-11 mx-auto">
-                    <h1 class="text-uppercase">
-                        <strong>Technology enabled<br/>Warehousing & Logistics</strong>
-                    </h1>
+<header class="masthead text-white d-flex masthalf"></header>
+<section id="about">
+
+    <div class="container">
+        @if(session('status'))
+            <div class="col-md-12">
+                <div class="alert alert-success">
+                    {{ session('status') }}
                 </div>
             </div>
-        </div>
-    </header>
+        @endif
 
-<div class="container">
-    @if(session('status'))
-        <div class="col-md-12">
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        </div>
-    @endif
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="section-heading text-center">{{ __('Login') }}</h2>
+                <hr>
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h2 class="section-heading text-center">{{ __('Login') }}</h2>
-            <hr>
+                @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{$errors->first()}}
+                    </div>
+                @endif
 
-            @if($errors->any())
-                <div class="alert alert-danger alert-dismissible">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    {{$errors->first()}}
-                </div>
-            @endif
+                <div class="card">
 
-            <div class="card">
+                    <div class="card-body">                    
 
-                <div class="card-body">                    
+                        @if(isset($otp))
 
-                    @if(isset($otp))
+                            <div class="alert alert-warning" style="display: none;" id="otpMatched">Enter 6 digit OTP !</div>
 
-                        <div class="alert alert-warning" style="display: none;" id="otpMatched">Enter 6 digit OTP !</div>
-
-                        <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
-                            @csrf
-                    
-                            <div class="form-group row">
-                                <label for="otp" class="col-sm-4 col-form-label text-md-right">Enter 6 digit OTP code sent to your mobile number</label>
-                            
-                                <div class="col-md-6">
-                                    <input id="otp" type="number" class="form-control{{ $errors->has('otp') ? ' is-invalid' : '' }}" name="otp" value="{{ old('otp') }}" placeholder="OTP" required autofocus>
-                            
-                                    @if ($errors->has('otp'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('otp') }}</strong>
-                                        </span>
-                                    @endif
+                            <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                                @csrf
+                        
+                                <div class="form-group row">
+                                    <label for="otp" class="col-sm-4 col-form-label text-md-right">Enter 6 digit OTP code sent to your mobile number</label>
+                                
+                                    <div class="col-md-6">
+                                        <input id="otp" type="number" class="form-control{{ $errors->has('otp') ? ' is-invalid' : '' }}" name="otp" value="{{ old('otp') }}" placeholder="OTP" required autofocus>
+                                
+                                        @if ($errors->has('otp'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('otp') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
 
-                            <input id="exist_phone" type="hidden" value="{{ $exist_phone }}" name="phone" required>
-                            <input id="password" type="hidden" value="123456" name="password" required>
+                                <input id="exist_phone" type="hidden" value="{{ $exist_phone }}" name="phone" required>
+                                <input id="password" type="hidden" value="123456" name="password" required>
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary" id="verifyButton">
-                                        {{ __('Verify OTP') }}
-                                    </button>
+                                <div class="form-group row mb-0">
+                                    <div class="col-md-8 offset-md-4">
+                                        <button type="submit" class="btn btn-primary" id="verifyButton">
+                                            {{ __('Verify OTP') }}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
-                        </form>
+                            </form>
 
-                    @else
+                        @else
 
-                        <form method="POST" action="{{ route('verifyOtp') }}" aria-label="{{ __('Login') }}">
-                            @csrf
+                            <form method="POST" action="{{ route('verifyOtp') }}" aria-label="{{ __('Login') }}">
+                                @csrf
 
-                            <div class="form-group row">
-                                <label for="phone" class="col-sm-4 col-form-label text-md-right">{{ __('Phone') }}</label>
+                                <div class="form-group row">
+                                    <label for="phone" class="col-sm-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
-                                <div class="col-md-6">
-                                    <input id="phone" type="number" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="9876543210" value="{{ old('phone') }}" required autofocus>
+                                    <div class="col-md-6">
+                                        <input id="phone" type="number" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="9876543210" value="{{ old('phone') }}" required autofocus>
 
-                                    @if ($errors->has('phone'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('phone') }}</strong>
-                                        </span>
-                                    @endif
+                                        @if ($errors->has('phone'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('phone') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
-                                    </button>
+                                <div class="form-group row mb-0">
+                                    <div class="col-md-8 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Login') }}
+                                        </button>
 
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
+                                        <!-- <a class="btn btn-link" href="{{ route('password.request') }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a> -->
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    @endif                                           
+                            </form>
+                        @endif                                           
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 @endsection
