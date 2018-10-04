@@ -66,7 +66,7 @@ class BuySellController extends Controller
 
         // insert Conversation detail
         $insert = DB::table('buy_sell_conversations')->insert([
-            'buy_sell_id' => $invnt_id,
+            'buy_sell_id' => $last_id,
             'user_id' => $buyer_id,
             'conversation' => $conversation,
             'status' => 1,
@@ -77,6 +77,7 @@ class BuySellController extends Controller
         if($insert){
 
             $status = 'Request submitted successfully.';
+            
         }else{
             
             $status = 'Something went wrong !';

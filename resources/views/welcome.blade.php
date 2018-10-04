@@ -1,17 +1,38 @@
 @extends('layouts.public_app')
 
 @section('content')
+
 <main id="main"> <!-- main body conatiner starts-->
-    <header class="masthead text-white d-flex">
-        <div class="container my-auto">
-            <div class="row">
-                <div class="col-lg-11 mx-auto">
-                    <h1 class="text-uppercase">
-                        <strong>Technology enabled<br/>Warehousing & Logistics</strong>
-                    </h1>
-                </div>
+    <header class="">
+        <link href="http://aashiholidays.com/css/responsive-slider.css" rel="stylesheet"> 
+        <div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
+            <div class="slides apna_godam1" data-group="slides">
+                <ul>
+                    
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner1.png') }}">              
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner2.png') }}">              
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner3.png') }}">              
+                        </div>
+                    </li>
+                </ul>
             </div>
+           <!-- <a class="slider-control left" href="#" data-jump="prev">Prev</a>
+            <a class="slider-control right" href="#" data-jump="next">Next</a>-->
         </div>
+        <script src="http://aashiholidays.com/js/jquery.event.move.js"></script>
+        <script src="http://aashiholidays.com/js/responsive-slider.js"></script>
     </header>
 <!-- 
     <section id="cta">
