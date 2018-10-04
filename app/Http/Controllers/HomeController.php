@@ -51,8 +51,30 @@ class HomeController extends Controller
                 if(is_null($exist->login_otp)){
 
                     $send_otp = DB::table('users')->where('phone', $request->phone)->update(['login_otp' => $otp]);
+
                     
                     // send otp on mobile number using curl
+                    $url = "http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp";                    
+                    //$mobiles = implode(",", $mobilesArr);
+                    $sms = 'Verify your mobile to login Apnagodam with OTP - '.$otp;
+
+                    $params = array(
+                                "username" => "s1542",
+                                "password" => "sky844",
+                                "sendername" => "rkware",
+                                "mobileno" => $request->phone,
+                                "message" => $sms
+                                );
+
+                    $params = http_build_query($params);            
+
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    $result = curl_exec($ch);
                 }
 
                 return view('auth.login', array('otp' => $otp, 'exist_phone' => $request->phone ));

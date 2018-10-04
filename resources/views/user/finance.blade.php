@@ -36,7 +36,6 @@
 						<th scope="col">Commodity</th>
 						<th scope="col">Quantity (Bags)</th>
 						<th scope="col">Price (Rs/Bag) </th>
-						<th scope="col">Image</th>
 						<th scope="col">Date Of Deposit</th>
 						<th scope="col">Action</th>
 					</tr>
@@ -48,9 +47,7 @@
 							<td>{!! $inventory->category !!}</td>
 							<td>{!! $inventory->quantity !!}</td>
 							<td>{!! $inventory->price !!}</td>
-							<td>
-								<img src="{!! asset('resources/assets/upload/inventory/'.$inventory->image) !!}" alt="{!! $inventory->image !!}" style="width:100px;">
-							</td>
+						
 							<td>{!! $inventory->created_at !!}</td>
 
 							<td>

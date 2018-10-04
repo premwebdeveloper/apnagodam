@@ -262,3 +262,6 @@ ALTER TABLE `users` ADD `login_otp` VARCHAR(6) NULL AFTER `phone`;
 
 -- ------------------- ALTER TABLE `inventories` at 03-10-2018 ------
 ALTER TABLE `inventories` ADD `warehouse_id` INT NOT NULL AFTER `user_id`;
+
+-- ------------------- ALTER TABLE `buy_sells` at 04-10-2018 ------
+ALTER TABLE `buy_sells` ADD `quantity` VARCHAR(191) NULL AFTER `seller_cat_id`;
