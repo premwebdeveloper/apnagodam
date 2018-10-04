@@ -44,9 +44,8 @@
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
 	                            <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
                                     <th>Phone</th>
+                                    <th>Name</th>
                                     <th>Father Name</th>
                                     <th>Category</th>
                                     <th>Khasra Number</th>
@@ -60,9 +59,8 @@
 	                        <tbody>
                                 @foreach($enquiries as $key => $enquiry)
 	                                <tr class="gradeX">
-                                        <td>{!! $enquiry->fname !!}</td>
-                                        <td>{!! $enquiry->email !!}</td>
                                         <td>{!! $enquiry->phone !!}</td>
+                                        <td>{!! $enquiry->fname !!}</td>
                                         <td>{!! $enquiry->father_name !!}</td>
                                         @if($enquiry->category==1)
                                         <td>Farmer</td>

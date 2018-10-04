@@ -47,7 +47,6 @@
 	                        <thead>
 	                            <tr>
                                     <th>Name</th>
-                                    <th>Email</th>
                                     <th>Phone</th>
                                     <th>Action</th>
 	                            </tr>
@@ -56,7 +55,6 @@
                                 @foreach($users as $key => $user)
 	                                <tr class="gradeX">
                                         <td>{!! $user->fname . $user->lname !!}</td>
-                                        <td>{!! $user->email !!}</td>
                                         <td>{!! $user->phone !!}</td>
                                         <td>
                                             <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="View">

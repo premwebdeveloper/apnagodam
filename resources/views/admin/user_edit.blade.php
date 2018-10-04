@@ -60,7 +60,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('email', 'Email ID') !!}
-                                    {!! Form::email('email', $user->email, ['class' => 'form-control', 'id' => 'email', 'readonly' => 'readonly']) !!}
+                                    {!! Form::email('email', $user->email, ['class' => 'form-control', 'id' => 'email']) !!}
 
                                     @if($errors->has('email'))
                                         <span class="help-block red">
@@ -73,7 +73,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('phone', 'Phone') !!}
-                                    {!! Form::text('phone', $user->phone, ['class' => 'form-control', 'id' => 'phone', 'placeholder' => '9876543210']) !!}
+                                    {!! Form::text('phone', $user->phone, ['class' => 'form-control', 'id' => 'phone', 'placeholder' => '9876543210', 'readonly' => 'readonly']) !!}
 
                                     @if($errors->has('phone'))
                                         <span class="help-block red">
@@ -200,6 +200,19 @@
                                     @if($errors->has('district'))
                                         <span class="help-block red">
                                             <strong>{{ $errors->first('district') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('power', 'Power') !!}
+                                    {!! Form::text('power', $user->power, ['class' => 'form-control', 'id' => 'power', 'placeholder' => 'Power', 'required' => 'required']) !!}
+
+                                    @if($errors->has('power'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('power') }}</strong>
                                         </span>
                                     @endif
                                 </div>

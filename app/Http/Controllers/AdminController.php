@@ -75,7 +75,7 @@ class AdminController extends Controller
         $this->validate($request, [
             'fname' => 'required',
             'category' => 'required',
-            'email' => 'unique:users',
+            'email' => 'nullable|unique:users',
             'phone' => 'required|numeric|digits:10',
         ]);
 
@@ -214,12 +214,13 @@ class AdminController extends Controller
             //'password' => 'required|min:6|confirmed',
             //'password_confirmation' => 'required|min:6',
             'phone' => 'required|numeric|digits:10',
+            'power' => 'required|numeric',
         ]);
 
         $user_id = $request->user_id;
         $fname = $request->fname;
         //$lname = $request->lname;
-        //$email = $request->email;
+        $email = $request->email;
         //$password = Hash::make($request->password);
         $phone = $request->phone;
         $father_name = $request->father_name;
@@ -230,6 +231,7 @@ class AdminController extends Controller
         $category = $request->category;
         $khasra_no = $request->khasra;
         $gst_number = $request->gst;
+        $power = $request->power;
         $date = date('Y-m-d H:i:s');
 
         // First get users data from user details table
@@ -275,6 +277,7 @@ class AdminController extends Controller
         $user_edit = DB::table('users')->where('id', $user_id)->update([
 
             'fname' => $fname,
+            'email' => $email,
             'phone' => $phone,
             'updated_at' => $date
         ]);
@@ -283,6 +286,7 @@ class AdminController extends Controller
         $edit = DB::table('user_details')->where('user_id', $user_id)->update([
 
             'fname' => $fname,
+            'email' => $email,
             'phone' => $phone,
             'father_name' => $father_name,
             'khasra_no' => $khasra,
@@ -293,6 +297,7 @@ class AdminController extends Controller
             'khasra_no' => $khasra_no,
             'gst_number' => $gst_number,
             'image' => $filename,
+            'power' => $power,
             'updated_at' => $date
         ]);
 
