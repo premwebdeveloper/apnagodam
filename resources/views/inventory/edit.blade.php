@@ -60,6 +60,19 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
+                                    {!! Form::label('warehouse', 'Warehouse') !!}
+                                    {!! Form::select('warehouse', $warehouses, $inventory->warehouse_id, ['class' => 'form-control', 'id' => 'warehouse']) !!}
+
+                                    @if($errors->has('warehouse'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('warehouse') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     {!! Form::label('commodity', 'Commodity') !!}
                                     {!! Form::select('commodity', $categories, $inventory->commodity, ['class' => 'form-control', 'id' => 'commodity']) !!}
 
@@ -87,7 +100,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('price', 'Price') !!}
-                                    {!! Form::text('price', $inventory->price, ['class' => 'form-control', 'id' => 'price', 'placeholder' => 'Price']) !!}
+                                    {!! Form::text('price', $inventory->price, ['class' => 'form-control', 'id' => 'price', 'placeholder' => 'Price', 'readonly' => 'readonly']) !!}
 
                                     @if($errors->has('price'))
                                         <span class="help-block red">

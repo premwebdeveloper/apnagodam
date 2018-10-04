@@ -22,8 +22,9 @@ class InventoryController extends Controller
 
 		$inventories = 	DB::table('inventories')
                         ->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
-         		       	->join('categories', 'categories.id', '=', 'inventories.commodity')
-         		       	->select('user_details.fname', 'inventories.*', 'categories.category')
+                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
+         		       	->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+         		       	->select('user_details.fname', 'inventories.*', 'categories.category', 'warehouses.name as warehouse')
 						->where('inventories.status', 1)
 						->get();
 
@@ -43,13 +44,19 @@ class InventoryController extends Controller
 
         // Get all categories
         $categories = DB::table('categories')->where('status', 1)->get();
-
 		$all_categories[''] = 'Select Commodity';
 		foreach ($categories as $key => $category) {			
 			$all_categories[$category->id] = $category->category;
 		}
+        
+        // Get all warehouses
+        $warehouses = DB::table('warehouses')->where('status', 1)->get();
+        $all_warehouses[''] = 'Select Warehouse';
+        foreach ($warehouses as $key => $warehouse) {            
+            $all_warehouses[$warehouse->id] = $warehouse->name;
+        }
 
-    	return view('inventory.create', array('users' => $all_users, 'categories' => $all_categories));
+    	return view('inventory.create', array('users' => $all_users, 'categories' => $all_categories, 'warehouses' => $all_warehouses));
 	}
 
 	// Add inventory
@@ -59,13 +66,15 @@ class InventoryController extends Controller
         $this->validate($request, [
             'user' => 'required',
             'commodity' => 'required',
+            'warehouse' => 'required',
             'quantity' => 'required',
             'price' => 'required',
-            'image' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',
+            'image' => 'required | mimes:pdf| max:2000',
         ]);
 
         $user_id = $request->user;
         $commodity = $request->commodity;
+        $warehouse = $request->warehouse;
         $quantity = $request->quantity;
         $price = $request->price;
         $date = date('Y-m-d H:i:s');
@@ -84,11 +93,11 @@ class InventoryController extends Controller
             $filename .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+            $extensions = ['pdf'];
 
             if(! in_array($ext, $extensions))
             {
-                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                $status = 'File type is not allowed you have uploaded. Please upload any PDF !';
                 return redirect('create_inventory')->with('status', $status);
             }
 
@@ -96,7 +105,7 @@ class InventoryController extends Controller
 
             // first check file size if greater than 1mb than hit error
             if($filesize > 1052030){
-                $status = 'File size is too large. Please upload file less than 1MB !';
+                $status = 'File size is too large. Please upload file less than 2MB !';
                 return redirect('create_inventory')->with('status', $status);
             }
 
@@ -108,6 +117,7 @@ class InventoryController extends Controller
         // Add Inventory
         $inventory = DB::table('inventories')->insert([
             'user_id' => $user_id,
+            'warehouse_id' => $warehouse,
             'commodity' => $commodity,
             'type' => null,
             'quantity' => $quantity,
@@ -164,7 +174,8 @@ class InventoryController extends Controller
         $inventory = DB::table('inventories')
          		       	->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
-         		       	->select('user_details.fname', 'inventories.*', 'categories.category')
+                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+         		       	->select('user_details.fname', 'inventories.*', 'categories.category', 'warehouses.name as warehouse')
 						->where(['inventories.id' => $id, 'inventories.status' => 1])
 						->first();
 
@@ -200,7 +211,15 @@ class InventoryController extends Controller
             $all_categories[$category->id] = $category->category;
         }
 
-    	return view('inventory.edit', array('users' => $all_users, 'inventory' => $inventory, 'categories' => $all_categories));
+        // Get all warehouses
+        $warehouses = DB::table('warehouses')->where('status', 1)->get();
+
+        $all_warehouses[''] = 'Select Warehouse';
+        foreach ($warehouses as $key => $warehouse) {            
+            $all_warehouses[$warehouse->id] = $warehouse->name;
+        }
+
+    	return view('inventory.edit', array('users' => $all_users, 'inventory' => $inventory, 'categories' => $all_categories, 'warehouses' => $all_warehouses));
 	}
 
 	// Edit inventory
@@ -209,14 +228,16 @@ class InventoryController extends Controller
 		# Set validation for
         $this->validate($request, [
             'user' => 'required',
+            'warehouse' => 'required',
             'commodity' => 'required',
             'quantity' => 'required',
             'price' => 'required',
-            'image' => 'mimes:jpeg,jpg,png,gif,bmp | max:1000',
+            //'image' => 'mimes:pdf| max:1000',
         ]);
 
         $id = $request->inventory_id;
         $user_id = $request->user;
+        $warehouse = $request->warehouse;
         $commodity = $request->commodity;
         $quantity = $request->quantity;
         $price = $request->price;
@@ -244,11 +265,11 @@ class InventoryController extends Controller
             $filename .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+            $extensions = ['pdf'];
 
             if(! in_array($ext, $extensions))
             {
-                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                $status = 'File type is not allowed you have uploaded. Please upload any PDF !';
                 return redirect('create_inventory')->with('status', $status);
             }
 
@@ -256,7 +277,7 @@ class InventoryController extends Controller
 
             // first check file size if greater than 1mb than hit error
             if($filesize > 1052030){
-                $status = 'File size is too large. Please upload file less than 1MB !';
+                $status = 'File size is too large. Please upload file less than 2MB !';
                 return redirect('create_inventory')->with('status', $status);
             }
 
@@ -268,6 +289,7 @@ class InventoryController extends Controller
         // Edit Inventory
         $edit = DB::table('inventories')->where('id', $id)->update([
             'user_id' => $user_id,
+            'warehouse_id' => $warehouse,
             'commodity' => $commodity,
             'quantity' => $quantity,
             'price' => $price,

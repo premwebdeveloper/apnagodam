@@ -58,6 +58,19 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
+                                    {!! Form::label('warehouse', 'Warehouse') !!}
+                                    {!! Form::select('warehouse', $warehouses, '', ['class' => 'form-control', 'id' => 'warehouse']) !!}
+
+                                    @if($errors->has('warehouse'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('warehouse') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     {!! Form::label('commodity', 'Commodity') !!}
                                     {!! Form::select('commodity', $categories, '', ['class' => 'form-control', 'id' => 'commodity']) !!}
 
@@ -97,7 +110,7 @@
                             
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('image', 'Image') !!}
+                                    {!! Form::label('image', 'Report PDF') !!}
                                     {!! Form::file('image', ['class' => 'form-control', 'id' => 'image']) !!}
 
                                     @if($errors->has('image'))

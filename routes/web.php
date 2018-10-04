@@ -132,4 +132,5 @@ Route::get('/category_delete/{id}', 'CategoryController@delete')->name('category
 
 //buy sell Routes
 Route::get('/buy_sell', 'BuySellController@index')->name('buy_sell');
+Route::get('/buy_sell_view/{id}', 'BuySellController@view')->name('buy_sell_view');
 

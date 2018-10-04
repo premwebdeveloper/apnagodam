@@ -333,7 +333,22 @@ legend {
     color: inherit;
     white-space: normal
 }
-
+.apna_godam{
+    list-style: none;
+    padding-left: 0;
+    background: #00c0f5;
+}    
+.apna_godam li{
+    padding-left: 15px;
+    border-bottom: 1px solid #fff;
+}  
+.liactive{
+    background: #000;
+}  
+.apna_godam li a{
+    color: #fff;
+    font-size: 20px;
+}
 progress {
     vertical-align: baseline
 }
@@ -1230,7 +1245,8 @@ pre code {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 75%;
         flex: 0 0 75%;
-        max-width: 75%
+        max-width: 75%;
+        float: left;
     }
     .col-md-10 {
         -webkit-box-flex: 0;

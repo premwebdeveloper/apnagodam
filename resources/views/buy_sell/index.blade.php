@@ -60,7 +60,7 @@
 
                         </figcaption>
                         <div class="bottom-wrap">
-                            <a href="" class="btn btn-sm btn-primary btn-block">View Product</a> 
+                            <a href="{!! route('buy_sell_view', ['id' => $category->id]) !!}" class="btn btn-sm btn-primary btn-block">View Product</a> 
                         </div> <!-- bottom-wrap.// -->
                     </figure>
                 </div> <!-- col // -->

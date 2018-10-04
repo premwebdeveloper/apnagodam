@@ -48,7 +48,7 @@
                         <td id="price_{{ $inventory->id }}" val="{{ $inventory->price }}"><i class="fa fa-inr"></i> {{ $inventory->price }}</td>
                         <td>{{ $inventory->created_at }}</td>
                         <td>
-                            <a href="#{{ $inventory->id }}" id="{{ $inventory->id }}" class="btn btn-info btn-sm price" data-toggle="modal" title="Edit Price">
+                            <a href="#{{ $inventory->id }}" id="{{ $inventory->id }}" class="btn btn-info btn-sm price" title="Edit Price">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </a>
                         </td>
@@ -59,46 +59,4 @@
         </div>
     </div>
 </section>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".price").on('click', function(){
-            var id = $(this).attr('id');
-            var price = $("#price_"+id).attr('val');
-
-            $("#update_price").val(price);
-            $("#price_id").val(id);
-            $("#edit_price").modal('show');
-        });
-    });
-</script>
-<!-- Modal -->
-<div class="modal fade" id="edit_price" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('buy_sell_price_update') }}" method="post">
-                {{ csrf_field() }}
-                <div class="modal-body mx-3">
-                    
-                    <input type="hidden" name="id" id="price_id">
-
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right">Your Price</label>
-
-                        <input id="update_price" type="text" class="form-control" name="price" required autofocus>
-                    </div>
-
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-default">Update Price</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 @endsection

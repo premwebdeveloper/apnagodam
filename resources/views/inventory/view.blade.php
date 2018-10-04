@@ -29,7 +29,9 @@
 
                 <div>
                     <div class="ibox-content no-padding border-left-right" style="border: 1px solid #e7eaec;">
-                        <img alt="image" class="img-responsive" src="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}">
+                        <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}">
+                            <embed src="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}" width="100%" height="200px" />
+                        </a>
                     </div>
                 </div>
             </div>
@@ -58,6 +60,10 @@
                                     <td>{{ $inventory->price }}</td>
                                     <td><b>Date Of Deposit</b></td>
                                     <td>{{ $inventory->created_at }}</td>                            
+                                </tr>                                
+                                <tr>
+                                    <td><b>Warehouse</b></td>
+                                    <td>{{ $inventory->warehouse }}</td>
                                 </tr>
                             </tbody>
                         </table>
