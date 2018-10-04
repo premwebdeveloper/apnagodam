@@ -31,14 +31,15 @@
                         @if(Auth::user()->id != 1)
                             <li class="nav-item dropdown">
                                 <a class="nav-link js-scroll-trigger" href="">
-                                    <span class="fa fa-user"></span> My Account
+                                    <span class="fa fa-user"></span> {{ Auth::user()->fname }}
                                 </a>
                                 <div class="dropdown-content">
-                                    <a href="{{ route('user_dashboard') }}">Dashboard</a>
+                                    <!-- <a href="{{ route('user_dashboard') }}">Dashboard</a> -->
                                     <a href="{{ route('profile') }}">Profile</a>
                                     <a href="{{ route('inventories') }}">Inventories</a>
                                     <a href="{{ route('user_finance_view') }}">Finance</a>
-                                    <a href="{{ route('change_password') }}">Change Password</a>
+                                    <!-- <a href="{{ route('change_password') }}">Change Password</a> -->
+                                    <a href="{{ route('change_password') }}">Notifications</a>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
