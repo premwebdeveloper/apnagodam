@@ -47,6 +47,7 @@
                                     <th>User</th>
                                     <th>Commodity</th>
                                     <th>Quantity</th>
+                                    <th>Amount</th>
                                     <th>Requested Date</th>
                                     <th>Action</th>
 	                            </tr>
@@ -56,7 +57,14 @@
                                 <tr>
                                     <td>{!! $request->fname !!}</td>
                                     <td>{!! $request->category !!}</td>
-                                    <td>{!! $request->quantity !!}</td>
+                                    <td>
+                                        @if(!empty($request->quantity))
+                                            {!! $request->quantity !!}
+                                        @else
+                                            {!! $request->qty !!}                                        
+                                        @endif
+                                    </td>
+                                    <td>{!! $request->amount !!}</td>
                                     <td>{!! $request->created_at !!}</td>
                                     <td>                                        
                                         <a href="{{ route('request_view', ['id' => $request->id ]) }}" class="btn btn-xs btn-primary">View</a>

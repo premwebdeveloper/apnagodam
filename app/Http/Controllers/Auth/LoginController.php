@@ -58,7 +58,7 @@ class LoginController extends Controller
         }
         else
         {
-            return redirect(route('user_dashboard'));
+            return redirect(route('profile'));
         }
 
         /*return $this->authenticated($request, $this->guard()->user())

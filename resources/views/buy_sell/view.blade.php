@@ -82,32 +82,37 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Warehouse</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Price</th>
+                                <th scope="col">Quantity (Bags)</th>
+                                <th scope="col">Price (<i class="fa fa-inr"></i>/Bag)</th>
                                 <th scope="col">Product Report</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($inventories as $key => $inventory)
-                            <tr>
-                                <th scope="row">{{ $key + 1 }}</th>
-                                <td>{{ $inventory->warehouse }}</td>
-                                <td>{{ $inventory->quantity }}</td>
-                                <input type="hidden" value="{{ $inventory->user_id }}" id="userid_{{ $inventory->id }}">
-                                <input type="hidden" value="{{ Auth::user()->id }}" id="authuserid_{{ $inventory->id }}">
-                                <td id="buyprice_{{ $inventory->id }}" val="{{ $inventory->price }}"><i class="fa fa-inr"></i> {{ $inventory->price }}</td>
-                                <td>
-                                    <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}" class="btn btn-info btn-sm" target="_blank">
-                                        View Report
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:;" id="{{ $inventory->id }}" class="btn btn-primary btn-sm buy_now" title="Buy Now">
-                                        Buy Now
-                                    </a>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">{{ $key + 1 }}</th>
+                                    <td>{{ $inventory->warehouse }}</td>
+                                    <td>{{ $inventory->sell_quantity }}</td>
+
+                                    <input type="hidden" value="{{ $inventory->user_id }}" id="userid_{{ $inventory->id }}" class="this_seller_id">
+
+                                    <td>{{ $inventory->price }}</td>
+
+                                    <td>
+                                        <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}" class="btn btn-info btn-sm" target="_blank">
+                                            View Report
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" 
+                                        id="{{ $inventory->id.'_'.$inventory->user_id }}" 
+                                        class="btn btn-primary btn-sm buy_now" 
+                                        title="Buy Now">
+                                            Buy Now
+                                        </a>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -116,23 +121,19 @@
         </div> <!-- row.// -->
     </div>
 </section>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $(".buy_now").on('click', function(){
+
             var id = $(this).attr('id');
-            var buy_price = $("#buyprice_"+id).attr('val');
-            var user_id = $("#userid_"+id).val();
-            var auth_user_id = $("#authuserid_"+id).val();
-
-            //alert(id +'_'+ buy_price +'_'+ user_id +'_'+ auth_user_id);
-
-            $("#invnt_id").val(id);
-            $("#seller_id").val(user_id);
-            $("#buyer_id").val(auth_user_id);
+            $("#invnt_attr").val(id);
             $("#buy_now_modal").modal('show');
+
         });
     });
 </script>
+
 <!-- Modal -->
 <div class="modal fade" id="buy_now_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -142,21 +143,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('buy_sell_conversation') }}" method="post">
+            <form action="{{ route('purchasing') }}" method="post">
                 {{ csrf_field() }}
                 <div class="modal-body mx-3">
                     
-                    <input type="hidden" name="invnt_id" id="invnt_id">
-                    <input type="hidden" name="seller_id" id="seller_id">
-                    <input type="hidden" name="buyer_id" id="buyer_id">
+                    <input type="hidden" name="invnt_attr" id="invnt_attr">
 
                     <div class="md-form mb-5">
 
-                    <label data-error="wrong" data-success="right">Required Quantity</label>
-                    <input id="req_quantity" type="number" class="form-control" name="req_quantity" required autofocus>
-                    <br>
-                    <label data-error="wrong" data-success="right">Conversation</label>
-                    <textarea class="form-control" rows="5" cols="10" name="conversation" id="conversation" required></textarea>
+                        <label data-error="wrong" data-success="right">Required Quantity</label>
+                        <input id="req_quantity" type="number" class="form-control" name="req_quantity" required autofocus placeholder="Quantity">
+                        <br>
+
+                        <label data-error="wrong" data-success="right">Conversation</label>
+                        <textarea class="form-control" rows="5" cols="10" name="conversation" id="conversation" required placeholder="Conversation"></textarea>
 
                     </div>
 

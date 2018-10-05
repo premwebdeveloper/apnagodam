@@ -28,36 +28,50 @@ class BuySellController extends Controller
     {
         $current_user_id = Auth::user()->id;
 
-        $id = $request->id;
+        $cat_id = $request->id;
 
         $categories = DB::table('categories')->where('status', 1)->get();
 
-        $cat = DB::table('categories')->where(['status' => 1, 'id' => $id])->first();
+        $cat = DB::table('categories')->where(['status' => 1, 'id' => $cat_id])->first();
 
         $inventories = DB::table('inventories')
                         ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                         ->select('warehouses.name as warehouse', 'inventories.*')
                         ->where('inventories.user_id', '!=', $current_user_id)
                         ->where('inventories.status', '=', 1)
-                        ->where('inventories.commodity', '=', $id)->get();
+                        ->where('inventories.commodity', '=', $cat_id)
+                        ->get();
+
         return view('buy_sell.view', array('categories' => $categories, 'inventories' => $inventories, 'cat' => $cat));
     }
 
-    public function conversation(Request $request)
+    public function purchasing(Request $request)
     {
-        $date = date('Y-m-d H:i:s');
-
-        $invnt_id = $request->invnt_id;
-        $seller_id = $request->seller_id;
-        $buyer_id = $request->buyer_id;
+        $current_user_id = Auth::user()->id;
+        $invnt_attr = $request->invnt_attr;
         $req_quantity = $request->req_quantity;
         $conversation = $request->conversation;
+        $date = date('Y-m-d H:i:s');
+
+        $invnt_attr = explode('_', $invnt_attr);
+        $inventory_id = $invnt_attr[0];
+        $seller_id = $invnt_attr[1];
+
+        // First check required quantity is more than exist quantity or not
+        $inventory = DB::table('inventories')
+                        ->where('inventories.id', '=', $inventory_id)
+                        ->first();
         
+        if($req_quantity > $inventory->quantity){
+
+            return Redirect::back()->withErrors(['There is not sufficient bags exist.']);
+        }
+
         // Add Conversation
         $last_id = DB::table('buy_sells')->insertGetId([
-            'buyer_id' => $buyer_id,
+            'buyer_id' => $current_user_id,
             'seller_id' => $seller_id,
-            'seller_cat_id' => $invnt_id,
+            'seller_cat_id' => $inventory_id,
             'quantity' => $req_quantity,
             'status' => 1,
             'created_at' => $date,
@@ -67,7 +81,7 @@ class BuySellController extends Controller
         // insert Conversation detail
         $insert = DB::table('buy_sell_conversations')->insert([
             'buy_sell_id' => $last_id,
-            'user_id' => $buyer_id,
+            'user_id' => $current_user_id,
             'conversation' => $conversation,
             'status' => 1,
             'created_at' => $date,

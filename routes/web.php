@@ -43,6 +43,9 @@ Route::post('/user_agree_for_loan/', 'UsersController@user_agree_for_loan')->nam
 // user update price 
 Route::post('/buy_sell_price_update', 'UsersController@update_price')->name('buy_sell_price_update');
 
+Route::get('/notifications', 'UsersController@notifications')->name('notifications');
+Route::get('/deals', 'UsersController@deals')->name('deals');
+
 /* ********************************************************************************************* */
 // Ajax functions in Ajax controller
 // OTP verification
@@ -133,7 +136,7 @@ Route::get('/category_delete/{id}', 'CategoryController@delete')->name('category
 //buy sell Routes
 Route::get('/buy_sell', 'BuySellController@index')->name('buy_sell');
 Route::get('/buy_sell_view/{id}', 'BuySellController@view')->name('buy_sell_view');
-Route::post('/buy_sell_conversation', 'BuySellController@conversation')->name('buy_sell_conversation');
+Route::post('/purchasing', 'BuySellController@purchasing')->name('purchasing');
 
 //Website Pages
 Route::get('/privacy-policy', 'HomeController@privacy_policy')->name('privacy-policy');

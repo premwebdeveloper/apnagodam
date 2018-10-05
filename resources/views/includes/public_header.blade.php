@@ -42,7 +42,8 @@
                                     <a href="{{ route('inventories') }}">Inventories</a>
                                     <a href="{{ route('user_finance_view') }}">Finance</a>
                                     <!-- <a href="{{ route('change_password') }}">Change Password</a> -->
-                                    <a href="{{ route('change_password') }}">Notifications</a>
+                                    <!-- <a href="javascript:;">Notifications</a> -->
+                                    <a href="{{ route('deals') }}">Purchase / Sell</a>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
@@ -61,93 +62,3 @@
             </div>
         </div>
     </nav>  <!-- naivigation ends -->
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".price").on('click', function(){
-            var id = $(this).attr('id');
-            var price = $("#price_"+id).attr('val');
-
-            $("#update_price").val(price);
-            $("#price_id").val(id);
-            $("#edit_price").modal('show');
-        });
-    });
-</script>
-<!-- Modal -->
-<div class="modal fade" id="edit_price" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('buy_sell_price_update') }}" method="post">
-                {{ csrf_field() }}
-                <div class="modal-body mx-3">
-                    
-                    <input type="hidden" name="id" id="price_id">
-
-                    <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right">Your Price</label>
-
-                        <input id="update_price" type="text" class="form-control" name="price" required autofocus>
-
-                    </div>
-
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-default">Update Price</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="Login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('login') }}" method="post">
-                {{ csrf_field() }}
-                <div class="modal-body mx-3">
-
-                    <div style="text-align: -webkit-center;">
-                        <img src="{{ asset('resources/frontend_assets/img/paytm-logo.png') }}" class="img-responsive" style="width: 150px;margin-bottom: 20px;">
-                    </div>
-
-                    <div class="md-form mb-5{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label data-error="wrong" data-success="right" for="defaultForm-email">Your email</label>
-                        <input id="email" placeholder="Email Address" type="text" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-
-                        @if ($errors->has('email'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('email') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-
-                    <div class="md-form mb-4{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
-                        <input id="password" type="password" placeholder="*******" class="form-control" name="password" required>
-                                
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-default">Login</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-

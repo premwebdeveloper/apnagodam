@@ -265,3 +265,9 @@ ALTER TABLE `inventories` ADD `warehouse_id` INT NOT NULL AFTER `user_id`;
 
 -- ------------------- ALTER TABLE `buy_sells` at 04-10-2018 ------
 ALTER TABLE `buy_sells` ADD `quantity` VARCHAR(191) NULL AFTER `seller_cat_id`;
+
+-- ------------------- ALTER TABLE `finances` at 05-10-2018 ------
+ALTER TABLE `finances` ADD `quantity` VARCHAR(191) NULL AFTER `commodity_id`, ADD `amount` VARCHAR(191) NULL AFTER `quantity`;
+
+-- ------------------- ALTER TABLE `inventories` at 05-10-2018 ------
+ALTER TABLE `inventories` ADD `sell_quantity` VARCHAR(191) NULL AFTER `quantity`;

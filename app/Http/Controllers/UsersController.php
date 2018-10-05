@@ -50,8 +50,9 @@ class UsersController extends Controller
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
 
         $inventories = DB::table('inventories')
+                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                        ->select('inventories.*', 'categories.category as cat_name')
+                        ->select('inventories.*', 'categories.category as cat_name', 'warehouses.name')
                         ->where(['inventories.status' => 1, 'inventories.user_id' => $currentuserid])
                         ->get();
 
@@ -75,10 +76,11 @@ class UsersController extends Controller
 
         // Get user inventory
         $inventories =  DB::table('inventories')
+                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
                         ->leftjoin('finances as fin','fin.commodity_id', '=', 'inventories.id')
                         ->where('inventories.user_id', $currentuserid)
-                        ->select('fin.status as finance_status', 'fin.id as finance_id', 'inventories.*', 'categories.category')
+                        ->select('fin.status as finance_status', 'fin.id as finance_id', 'inventories.*', 'categories.category', 'warehouses.name')
                         ->get();
 
         return view("user.finance", array('inventories' => $inventories));
@@ -142,6 +144,8 @@ class UsersController extends Controller
         $account_number = $request->account_number;
         $ifsc_code = $request->ifsc_code;
         $branch_name = $request->branch_name;
+        $quantity = $request->quantity;
+        $amount = $request->amount;
         $date = date('Y-m-d H:i:s');
 
         # Pan Card Upload
@@ -228,6 +232,8 @@ class UsersController extends Controller
             'balance_sheet' => $balance_sheet,
             'bank_statement' => $bank_statement,
             'commodity_id' => $commodity_id,
+            'quantity' => $quantity,
+            'amount' => $amount,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date,
@@ -332,20 +338,20 @@ class UsersController extends Controller
 
         $currentuserid = Auth::user()->id;
 
-        $id = $request->id;
-
+        $invetory_id = $request->invetory_id;
         $price = $request->price;
+        $sell_quantity = $request->sell_quantity;
 
-        $inventories = DB::table('inventories')->where('id', $id)->update([
+        $inventories = DB::table('inventories')->where('id', $invetory_id)->update([
 
+                'sell_quantity' => $sell_quantity,
                 'price' => $price,
                 'updated_at' => $date
-
             ]);
 
         if($inventories){
 
-            $status = 'Price Successfully Updated';
+            $status = 'Price and quantity updated successfully.';
         }else{
 
             $status = 'Something went wrong !';
@@ -353,4 +359,42 @@ class UsersController extends Controller
 
         return redirect('inventories')->with('status', $status);
     } 
+
+    // User notification
+    public function notifications(){
+
+        // Get deal conversationns
+        
+        return view("user.notifications");
+    }
+
+    // User notification
+    public function deals(){
+
+        $currentuserid = Auth::user()->id;
+
+        // Get all sell products
+        $sells = DB::table('buy_sells')
+                ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+                ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                ->where('buy_sells.seller_id', $currentuserid)
+                ->select('buy_sells.*', 'categories.category', 'warehouses.name')
+                ->get();
+
+                /*echo '<pre>';
+                print_r($sells);
+                exit;*/
+
+        // Get all buy products
+        $buys = DB::table('buy_sells')
+                ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+                ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                ->where('buy_sells.buyer_id', $currentuserid)
+                ->select('buy_sells.*', 'categories.category', 'warehouses.name')
+                ->get();
+
+        return view("user.deals", array('sells' => $sells, 'buys' => $buys));
+    }
 }

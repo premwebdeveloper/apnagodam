@@ -130,6 +130,32 @@
                         </div>
                     </div>
 
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {!! Form::label('quantity', 'Quantity') !!}
+                            {!! Form::number('quantity', '', ['class' => 'form-control', 'id' => 'quantity', 'placeholder' => 'Quantity']) !!}
+
+                            @if($errors->has('quantity'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('quantity') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {!! Form::label('amount', 'Amount') !!}
+                            {!! Form::number('amount', '', ['class' => 'form-control', 'id' => 'amount', 'placeholder' => 'Amount']) !!}
+
+                            @if($errors->has('amount'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('amount') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
                     <div class="">
                         <div class="">
                             {!! Form::submit('Request For Loan', ['class' => 'btn btn-info btn btn-block']) !!}

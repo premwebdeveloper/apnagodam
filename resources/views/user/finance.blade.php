@@ -33,6 +33,7 @@
 				<thead>
 					<tr>
 						<th scope="col">#</th>
+						<th scope="col">Warehouse</th>
 						<th scope="col">Commodity</th>
 						<th scope="col">Quantity (Bags)</th>
 						<th scope="col">Price (Rs/Bag) </th>
@@ -44,6 +45,7 @@
 					@foreach($inventories as $key => $inventory)
 						<tr>
 							<th scope="row">{!! $key+1 !!}</th>
+							<td>{!! $inventory->name !!}</td>
 							<td>{!! $inventory->category !!}</td>
 							<td>{!! $inventory->quantity !!}</td>
 							<td>{!! $inventory->price !!}</td>

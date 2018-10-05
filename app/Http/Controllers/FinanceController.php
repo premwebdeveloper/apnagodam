@@ -25,7 +25,7 @@ class FinanceController extends Controller
                         ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
                         ->join('user_details as user','user.user_id', '=', 'finances.user_id')
                         ->join('categories', 'categories.id', '=', 'inv.commodity')
-                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'user.fname', 'categories.category')
+                        ->select('finances.*', 'inv.commodity', 'inv.quantity as qty', 'user.fname', 'categories.category')
                         ->get();
 
 
