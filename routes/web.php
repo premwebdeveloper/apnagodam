@@ -135,3 +135,8 @@ Route::get('/buy_sell', 'BuySellController@index')->name('buy_sell');
 Route::get('/buy_sell_view/{id}', 'BuySellController@view')->name('buy_sell_view');
 Route::post('/buy_sell_conversation', 'BuySellController@conversation')->name('buy_sell_conversation');
 
+//Website Pages
+Route::get('/privacy-policy', 'HomeController@privacy_policy')->name('privacy-policy');
+Route::get('/terms-conditions', 'HomeController@terms_conditions')->name('terms-conditions');
+Route::get('/about-us', 'HomeController@about_us')->name('about-us');
+

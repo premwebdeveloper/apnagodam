@@ -88,4 +88,23 @@ class HomeController extends Controller
             return redirect('/login');
         }
     }
+
+    // privacy policy
+    public function privacy_policy()
+    {
+        return view('website_pages.privacy_policy');
+    }
+
+    // Terms & Conditions
+    public function terms_conditions()
+    {
+        return view('website_pages.terms-conditions');
+    }
+
+    // About Us
+    public function about_us()
+    {
+        return view('website_pages.aboutus');
+    }
+
 }

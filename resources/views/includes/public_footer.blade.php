@@ -7,16 +7,15 @@
                    <p><img class="max-100" src="img/paytm-logo.png"></p>
                 </div>
                 <div class="col-sm-3 px-4 mb-4">
-                <p> 2018 Copyright. All rights reserved<br/>
-                   Privacy Policy | Terms of Service</p>
+                <p> 2018 Copyright. All rights reserved</p>
                 </div>
                 <div class="col-sm-3 px-4 mb-4">
-                   <p>Warehouse in Andheri, Warehouse in Bhiwandi, Warehouse in Lower Parel, Warehouse in Chembur</p>
+                   <p>Warehouse in Jaipur, Warehouse in Sikar, Warehouse in Jhunjhunu, Warehouse in Bikaner</p>
                 </div>
                 <div class="col-sm-3 px-4 mb-4">
-                   <p><a href="javascript:;">ABOUT US</a>&nbsp; |&nbsp; <a href="javascript:;">FAQs</a> &nbsp;|&nbsp; <a href="javascript:;">BLOG</a>
+                   <p><a href="javascript:;">About Us</a>&nbsp; |&nbsp; <a href="javascript:;">Our Team</a> &nbsp;|&nbsp; <a href="javascript:;">Privacy Policy</a>
                    <br>
-                   <a href="javascript:;">CAREERS</a> &nbsp;|&nbsp; <a href="javascript:;">CONTACT US</a></p>
+                   <a href="javascript:;">Terms & Conditions</a> &nbsp;|&nbsp; <a href="javascript:;">Photo Gallery</a></p>
                 </div>
 
             </div>

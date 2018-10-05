@@ -51,8 +51,11 @@
                 <h2 class="section-heading">Welcome to Apna Godam</h2>
                 
                 <hr class="margin-unset">
-                <p class="mb-4">We handle complete end-to-end logistics operations for our clients from Transporting the Goods from Source to our Warehouse, Inwarding the Goods, Quality Check, Storage, Dispatch, Reporting and End Customer Delivery Transportation. 
-                <p class="mb-4">With our In-House WMS and Process Management, we provide our Clients Real-Time Data of their Inventory across all locations and Daily MIS Reports of each and every Operational Activity.</p>
+                <p class="mb-4"><b>“An exclusive portal in Agri Warehousing which connects farmers / traders with the godown owners “</b></p>
+                <p class="mb-4">
+                There are old sheds / buildings and storage areas which are lying idle / vacant and at the same time the farmers / traders in that area are sending their Agri produce for storage at distant area after incurring huge cost on transportation.</p>
+                <p class="mb-4">
+                Apna Godam  is a platform to connect both and hence the idle assets are put to use and the Agri produce is preserved as well.</p>
                 </div>
                 <div class="col-lg-6 text-center">
                     <img class="max-100" src="{{ asset('resources/frontend_assets/img/section-1.png') }}">
@@ -99,7 +102,7 @@
         </div>
     </section>
 
-    <section id="clients">
+<!--     <section id="clients">
       <div class="container">
         <div class="row">
             <div class="col-lg-4 my-auto">
@@ -114,7 +117,7 @@
             </div>
         </div>
       </div>
-    </section>
+    </section> -->
     
     <section id="why-us">
         <div class="container">
@@ -122,7 +125,7 @@
                 <div class="col-md-8 mx-lg-auto text-lg-center">
                     <h2 class="section-heading">Why Apna Godam</h2>
                     <hr class="my-4 mob-left">
-                    <p>Our objective is to Reduce our clients overall Logistics Cost and Increase their Customer Order Servicability</p>
+                    <p>We remove inefficiency in the entire supply chain and save cost to the farmers</p>
                 </div>
             </div>
         </div>
@@ -137,11 +140,12 @@
                     <h2 class="text-left section-heading">Our Strength</h2>
                     
                     <ul class="text-left">
-                        <li>Pan India network of warehouses covering each region</li>   
-                        <li>Multi-user and shared Warehouse Facility</li>
-                        <li>Flexible Warehousing Model</li>
-                        <li>System & Process Driven Organization</li>
-                        <li>Experinced team in running operations across multiple sectors like: FMCG, Retail, E-Comm, Technology etc. </li>         
+                        <li>Warehouses NEAR FARM</li>   
+                        <li>Affordable storage solution</li>
+                        <li>Paper less loan process in just 10 minutes</li>
+                        <li>Online CCTV access to customers</li>
+                        <li>Online sale of agri commodity on “ As is where is basis”.</li>         
+                        <li>System and process driven organization.</li>         
                     </ul>
                 </div> 
             </div>
@@ -155,11 +159,11 @@
                 <h2 class="text-left section-heading">Customer Benefits</h2>
                 
                 <ul class="text-left">
-                    <li>Distribution & Delivery in any Tier-1 and Tier-3 cities within 24 hours</li>    
-                    <li>Lower Inventory Holding and Handling cost</li>
-                    <li>Effective use of warehouse space during peak and non-peak seasons and order level</li>
-                    <li>Fixed SLA & KPI for managing inventory and Dispactches, Real-time update of inventory stock</li>
-                    <li>Continous focus on Process Improvment and cost Efficiency</li>          
+                    <li>Low transportation cost as the warehouse is nearby</li>    
+                    <li>Just send the commodity in warehouse and relax , everything is online</li>
+                    <li>Proper Fumigations and spray to keep the commodity safe</li>
+                    <li>Millers on board to purchase the commodity from warehouses</li>
+                    <li>Grading / sorting facility in some warehouses</li>          
                 </ul>
                 </div>    
             </div>
@@ -180,46 +184,46 @@
             </div>
             <div class="col-md-9">
             
-<div id="featured-caro" class="owl-carousel">
-  <div class="item">
-    <p class="pb-2">Box My Space, is allocating space crunch substitutes to those who need it the most</p>
-    <img class="iblock bline" src="img/dna.png"> <span class="iblock bline">&nbsp; DNA India</span>
-    </div>
-  <div class="item">
-    <p class="pb-2">ApnaGodam raises 1.92cr in a seed-round of funding from a group of angel investors.</p>
-    <img class="iblock bline" src="img/economic-times.jpg"> <span class="iblock bline">&nbsp; Economic Times</span>
-  
-  </div>
-  <div class="item">
-    <p class="pb-2">India's ApnaGodam Wants To Be The DropBox For Physical Storage</p>
-    <img class="iblock bline" src="img/inc-42.jpg"> <span class="iblock bline">&nbsp; INC42.</span>
-  
-  </div>
-  <div class="item">
-    <p class="pb-2">Out of the box thinking - startup ApnaGodam stores your belongings till you want them back</p>
-    <img class="iblock bline" src="img/your-story.jpg"> <span class="iblock bline">&nbsp; Your Story</span>
-  
-  </div>
-  <div class="item">
-    <p class="pb-2">What an idea - Box My Space works on the same lines except that they also do the transferring for you.</p>
-    <img class="iblock bline" src="img/asian-age.jpg"> <span class="iblock bline">&nbsp; Asian Age</span>
-  
-  </div>
-  <div class="item">
-  <p class="pb-2">Storing everything away in a box has created so much space at home and my stuff stays accessible too.</p>
-    <img class="iblock bline" src="img/ht.jpg"> <span class="iblock bline">&nbsp; Hindustan Times</span>
-  </div>
-</div>
-<div class="customNavigation">
-    <a class="btn prev"><i class="fa fa-chevron-left"></i></a>
-    <a class="btn next"><i class="fa fa-chevron-right"></i></a>
-  </div>
+            <div id="featured-caro" class="owl-carousel">
+              <div class="item">
+                <p class="pb-2">Box My Space, is allocating space crunch substitutes to those who need it the most</p>
+                <img class="iblock bline" src="img/dna.png"> <span class="iblock bline">&nbsp; DNA India</span>
+                </div>
+              <div class="item">
+                <p class="pb-2">ApnaGodam raises 1.92cr in a seed-round of funding from a group of angel investors.</p>
+                <img class="iblock bline" src="img/economic-times.jpg"> <span class="iblock bline">&nbsp; Economic Times</span>
+              
+              </div>
+              <div class="item">
+                <p class="pb-2">India's ApnaGodam Wants To Be The DropBox For Physical Storage</p>
+                <img class="iblock bline" src="img/inc-42.jpg"> <span class="iblock bline">&nbsp; INC42.</span>
+              
+              </div>
+              <div class="item">
+                <p class="pb-2">Out of the box thinking - startup ApnaGodam stores your belongings till you want them back</p>
+                <img class="iblock bline" src="img/your-story.jpg"> <span class="iblock bline">&nbsp; Your Story</span>
+              
+              </div>
+              <div class="item">
+                <p class="pb-2">What an idea - Box My Space works on the same lines except that they also do the transferring for you.</p>
+                <img class="iblock bline" src="img/asian-age.jpg"> <span class="iblock bline">&nbsp; Asian Age</span>
+              
+              </div>
+              <div class="item">
+              <p class="pb-2">Storing everything away in a box has created so much space at home and my stuff stays accessible too.</p>
+                <img class="iblock bline" src="img/ht.jpg"> <span class="iblock bline">&nbsp; Hindustan Times</span>
+              </div>
+            </div>
+            <div class="customNavigation">
+                <a class="btn prev"><i class="fa fa-chevron-left"></i></a>
+                <a class="btn next"><i class="fa fa-chevron-right"></i></a>
             </div>
         </div>
-      </div>
-    </section>
+    </div>
+    </div>
+</section>
     
-    <section id="counter">
+<!--     <section id="counter">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
@@ -239,7 +243,7 @@
                 </div>
             </div>
         </div>
-    </section>  
+    </section>   -->
 </main> 
 <!-- Page Content Ends -->
 
