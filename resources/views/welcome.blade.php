@@ -25,6 +25,30 @@
                         <div class="slide-body" data-group="slide">
                             <img src="{{ asset('resources/frontend_assets/img/banner3.png') }}">              
                         </div>
+                    </li>    
+
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner4.png') }}">              
+                        </div>
+                    </li>  
+
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner5.png') }}">              
+                        </div>
+                    </li>  
+                                      
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner6.png') }}">              
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner7.png') }}">              
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -46,19 +70,29 @@
 
     <section id="about">
         <div class="container">
-            <div class="row">
+            <div class="row text-justify">
                 <div class="col-lg-6">
                 <h2 class="section-heading">Welcome to Apna Godam</h2>
                 
                 <hr class="margin-unset">
-                <p class="mb-4"><b>“An exclusive portal in Agri Warehousing which connects farmers / traders with the godown owners “</b></p>
+                <p class="mb-4"><b>“An exclusive portal for farmers / village level collectors
+where they can avail Warehousing , Commodity Finance and
+Market linkage all three facilities at one place”</b></p>
                 <p class="mb-4">
-                There are old sheds / buildings and storage areas which are lying idle / vacant and at the same time the farmers / traders in that area are sending their Agri produce for storage at distant area after incurring huge cost on transportation.</p>
+                Farmers don’t have access to warehousing facilities and
+                commodity finance since warehouses are situated at far off
+                locations. They sell their commodity immediately post harvest at
+                lower price and don’t get the benefit of price appreciation.</p>
                 <p class="mb-4">
-                Apna Godam  is a platform to connect both and hence the idle assets are put to use and the Agri produce is preserved as well.</p>
+                We identify closed factories, Old sheds and abandoned buildings
+NEAR production area and convert them into agriculture
+warehouses where the farmers can keep the Agri commodity and
+avail commodity loan by pledging the stock. When prices of agri
+produce are better then they can sell the stock to millers on the
+apnagodam portal on “ As is Where is basis”.</p>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <img class="max-100" src="{{ asset('resources/frontend_assets/img/section-1.png') }}">
+                    <img class="max-100" src="{{ asset('resources/frontend_assets/img/farmer.jpg') }}">
                 </div>
             </div>
         </div>
@@ -156,7 +190,7 @@
             </div>    
             <div class="col-lg-6s col-lg-pull-6s my-auto text-lg-center px-0">
                 <div class="iblock px-5">
-                <h2 class="text-left section-heading">Customer Benefits</h2>
+                <h2 class="text-left section-heading">Benefits to Farmers</h2>
                 
                 <ul class="text-left">
                     <li>Low transportation cost as the warehouse is nearby</li>    
@@ -176,50 +210,34 @@
       <div class="container-fluid">
         <div class="row pt-4">
             <div class="col-md-3 text-center my-auto">
-              <div class="iblock text-left quoted">
-                <h2 class="section-heading text-center text-md-left">Featured<br>
-                in print media</h2>
-                <hr class="mx-lg-0 mx-auto">
-              </div>
+                <div class="iblock text-left quoted">
+                    <h2 class="section-heading text-center text-md-left">Testimonials</h2>
+                    <hr class="mx-lg-0 mx-auto">
+                </div>
             </div>
             <div class="col-md-9">
             
-            <div id="featured-caro" class="owl-carousel">
-              <div class="item">
-                <p class="pb-2">Box My Space, is allocating space crunch substitutes to those who need it the most</p>
-                <img class="iblock bline" src="img/dna.png"> <span class="iblock bline">&nbsp; DNA India</span>
+                <div id="featured-caro" class="owl-carousel">
+                    <div class="item">
+                        <p class="pb-2">We are getting better realization of produce by using Agri warehousing facility which is provided at nominal cost and near to us. We get sms on our mobile phone for every transaction.</p>
+                        <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/q1.png') }}"> <span class="iblock bline">&nbsp; Baldev Chaudhary (Farmer)</span>
+                    </div>
+                    <div class="item">
+                        <p class="pb-2">This is the first time we used Agri Godam of this company and the experience was wonderful. Specially online CCTV footage access and real time kanta parchi is unique feature of this warehouse.</p>
+                        <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/qwe.png') }}"> <span class="iblock bline">&nbsp; Lokesh Agarwal ( Trader)</span>
+                    </div>
+                    <div class="item">
+                        <p class="pb-2">Our Shed was lying unused since last 15 years. I am grateful to Apna Godam Team for making best use of it. We are not earning only money but the idle resource of the country has been put to use.</p>
+                        <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/gzz.png') }}"> <span class="iblock bline">&nbsp; Karun Modi  ( Godam owner)</span>
+                      
+                    </div>
                 </div>
-              <div class="item">
-                <p class="pb-2">ApnaGodam raises 1.92cr in a seed-round of funding from a group of angel investors.</p>
-                <img class="iblock bline" src="img/economic-times.jpg"> <span class="iblock bline">&nbsp; Economic Times</span>
-              
-              </div>
-              <div class="item">
-                <p class="pb-2">India's ApnaGodam Wants To Be The DropBox For Physical Storage</p>
-                <img class="iblock bline" src="img/inc-42.jpg"> <span class="iblock bline">&nbsp; INC42.</span>
-              
-              </div>
-              <div class="item">
-                <p class="pb-2">Out of the box thinking - startup ApnaGodam stores your belongings till you want them back</p>
-                <img class="iblock bline" src="img/your-story.jpg"> <span class="iblock bline">&nbsp; Your Story</span>
-              
-              </div>
-              <div class="item">
-                <p class="pb-2">What an idea - Box My Space works on the same lines except that they also do the transferring for you.</p>
-                <img class="iblock bline" src="img/asian-age.jpg"> <span class="iblock bline">&nbsp; Asian Age</span>
-              
-              </div>
-              <div class="item">
-              <p class="pb-2">Storing everything away in a box has created so much space at home and my stuff stays accessible too.</p>
-                <img class="iblock bline" src="img/ht.jpg"> <span class="iblock bline">&nbsp; Hindustan Times</span>
-              </div>
-            </div>
-            <div class="customNavigation">
-                <a class="btn prev"><i class="fa fa-chevron-left"></i></a>
-                <a class="btn next"><i class="fa fa-chevron-right"></i></a>
+                <div class="customNavigation">
+                    <a class="btn prev"><i class="fa fa-chevron-left"></i></a>
+                    <a class="btn next"><i class="fa fa-chevron-right"></i></a>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </section>
     

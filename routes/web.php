@@ -139,4 +139,6 @@ Route::post('/buy_sell_conversation', 'BuySellController@conversation')->name('b
 Route::get('/privacy-policy', 'HomeController@privacy_policy')->name('privacy-policy');
 Route::get('/terms-conditions', 'HomeController@terms_conditions')->name('terms-conditions');
 Route::get('/about-us', 'HomeController@about_us')->name('about-us');
+Route::get('/our-team', 'HomeController@our_team')->name('our-team');
+Route::get('/contact-us', 'HomeController@contact_us')->name('contact-us');
 

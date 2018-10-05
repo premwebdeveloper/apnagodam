@@ -107,4 +107,16 @@ class HomeController extends Controller
         return view('website_pages.aboutus');
     }
 
+    // Our Team
+    public function our_team()
+    {
+        return view('website_pages.ourteam');
+    }
+
+    // Our Team
+    public function contact_us()
+    {
+        return view('website_pages.contact-us');
+    }
+
 }

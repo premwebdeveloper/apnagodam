@@ -1,10 +1,10 @@
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: rgba(0,0,0,.4);">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <img class="head-logo" src="{{ asset('resources/frontend_assets/img/paytm-logo.png') }}" style="width: 160px;">
+            <a class="navbar-brand js-scroll-trigger" href="{{ url('/')}}">
+                <img class="head-logo" src="{{ asset('resources/frontend_assets/img/apna-godam-logo-1.png') }}" style="width: 100px;">
             </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -15,13 +15,16 @@
                         <a class="nav-link js-scroll-trigger" href="{{ url('/')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="javaScript:;">About Us</a>
+                        <a class="nav-link js-scroll-trigger" href="{{ route('about-us') }}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="javaScript:;">Services</a>
+                        <a class="nav-link js-scroll-trigger" href="{{ url('/')}}#services">Services</a>
+                    </li>                    
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ route('our-team') }}">Our Team</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#Login" data-toggle="modal">CONTACT US</a>
+                        <a class="nav-link js-scroll-trigger" href="{{ route('contact-us') }}">CONTACT US</a>
                     </li>
                     @guest
                     <li class="nav-item">

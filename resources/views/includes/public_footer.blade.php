@@ -4,18 +4,27 @@
             <div class="row">
                 
                 <div class="col-sm-3 px-4 mb-4">
-                   <p><img class="max-100" src="img/paytm-logo.png"></p>
+                   <iframe width="100%" height="200" src="https://www.youtube.com/embed/hzZdgPYVIhM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="col-sm-3 px-4 mb-4">
-                <p> 2018 Copyright. All rights reserved</p>
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/dswDEBdAtZ8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="col-sm-3 px-4 mb-4">
                    <p>Warehouse in Jaipur, Warehouse in Sikar, Warehouse in Jhunjhunu, Warehouse in Bikaner</p>
                 </div>
                 <div class="col-sm-3 px-4 mb-4">
-                   <p><a href="javascript:;">About Us</a>&nbsp; |&nbsp; <a href="javascript:;">Our Team</a> &nbsp;|&nbsp; <a href="javascript:;">Privacy Policy</a>
-                   <br>
-                   <a href="javascript:;">Terms & Conditions</a> &nbsp;|&nbsp; <a href="javascript:;">Photo Gallery</a></p>
+                   <p><a href="{{ route('about-us') }}">About Us</a>&nbsp; |&nbsp; <a href="{{ route('our-team') }}">Our Team</a> &nbsp;|&nbsp; <a href="{{ route('privacy-policy') }}">Privacy Policy</a><br><a href="{{ route('terms-conditions') }}">Terms & Conditions</a>
+                </div>
+
+            </div>    
+            <hr>        
+            <div class="row">
+                
+                <div class="col-sm-6 px-4 mb-4">
+                   <p>&copy; 2018 Apna Godam All Rights Reserved</p>
+                </div>
+                <div class="col-sm-6 px-4 mb-4 text-right">
+                    <p>Designed by <a href="http://dexusmedia.com/" target="_blank" style="color:#00c0f5!important;"><b>Dexus Media</b></p>
                 </div>
 
             </div>
