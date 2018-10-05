@@ -45,6 +45,13 @@ Route::post('/buy_sell_price_update', 'UsersController@update_price')->name('buy
 
 Route::get('/notifications', 'UsersController@notifications')->name('notifications');
 Route::get('/deals', 'UsersController@deals')->name('deals');
+Route::get('/bidding/{deal_id}', 'UsersController@bidding')->name('bidding');
+
+// Seller self bid submit
+Route::post('/seller_bid', 'UsersController@seller_bid')->name('seller_bid');
+
+// Deal done by seller
+Route::get('/deal_done/{deal_id}', 'UsersController@deal_done')->name('deal_done');
 
 /* ********************************************************************************************* */
 // Ajax functions in Ajax controller

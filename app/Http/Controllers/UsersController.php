@@ -382,10 +382,6 @@ class UsersController extends Controller
                 ->select('buy_sells.*', 'categories.category', 'warehouses.name')
                 ->get();
 
-                /*echo '<pre>';
-                print_r($sells);
-                exit;*/
-
         // Get all buy products
         $buys = DB::table('buy_sells')
                 ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
@@ -396,5 +392,83 @@ class UsersController extends Controller
                 ->get();
 
         return view("user.deals", array('sells' => $sells, 'buys' => $buys));
+    }
+
+    // Bidding on deal
+    public function bidding(Request $request){
+
+        $currentuserid = Auth::user()->id;
+
+        $deal_id = $request->deal_id;
+
+        $deal_info = DB::table('buy_sells')
+                ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+                ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                ->where('buy_sells.id', $deal_id)
+                ->select('buy_sells.*', 'categories.category', 'warehouses.name')
+                ->first();
+
+        $deal = DB::table('buy_sell_conversations')
+                ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
+                ->select('buy_sells.*', 'buy_sell_conversations.user_id', 'buy_sell_conversations.price')
+                ->where('buy_sell_conversations.buy_sell_id', $deal_id)
+                ->get();
+
+        return view("user.bidding", array('deal' => $deal, 'deal_info' => $deal_info));
+    }
+
+    // Seller self bid
+    public function seller_bid(Request $request){
+
+        $currentuserid = Auth::user()->id;
+
+        $deal_id = $request->deal_id;
+        $my_bid = $request->my_bid;
+        $date = date('Y-m-d H:i:s');
+
+        // insert bid price for this deal
+        $bid = DB::table('buy_sell_conversations')->insert([
+
+            'buy_sell_id' => $deal_id,
+            'user_id' => $currentuserid,
+            'price' => $my_bid,
+            'status' => 1,
+            'created_at' => $date,
+            'updated_at' => $date
+        ]);
+
+        if($bid){
+
+            $status = 'Bid submitted successfully.';
+        }else{
+
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('bidding/'.$deal_id)->with('status', $status);
+    }
+
+    // deal done by seller
+    public function deal_done(Request $request){
+
+        $deal_id = $request->deal_id;
+        $date = date('Y-m-d H:i:s');
+
+        // get last bid price of this deal
+        $last_price = DB::table('buy_sell_conversations')->where('buy_sell_id', $deal_id)
+                        ->orderBy('price', 'desc')
+                        ->take(1)
+                        ->first();
+
+        // Get inventory quantity n all to update quantity after deal done
+                                
+
+        $done = DB::table('buy_sells')->where('id', $deal_id)->update([
+
+            'price' => $last_price->price,
+            'status' => 2,
+            'updated_at' => $date
+        ]);
     }
 }

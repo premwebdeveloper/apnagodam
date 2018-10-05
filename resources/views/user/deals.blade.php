@@ -29,6 +29,7 @@
                             <th scope="col">Warehouse</th>
                             <th scope="col">Commodity</th>
                             <th scope="col">Quantity</th>
+                            <th scope="col">Price</th>
                             <th scope="col">Date</th>
                             <th scope="col">Bid</th>
                         </tr>
@@ -38,10 +39,17 @@
                             <tr>
                                 <td>{{ $sell->name }}</td>
                                 <td>{{ $sell->category }}</td>
-                                <td>{{ $sell->quantity }}</td>
+                                <td>{{ $sell->quantity }}</td>                                 
+                                <td>{{ $sell->price }}</td>
                                 <td>{{ $sell->created_at }}</td>
                                 <td>
-                                    <a href="" class="btn btn-info">Bid</a>
+                                    @if($sell->status == 2)
+                                        
+                                        <a href="javascript:;" class="btn btn-info">Deal Done</a>
+
+                                    @else
+                                        <a href="{{ route('bidding', ['deal_id' => $sell->id]) }}" class="btn btn-info">Bid</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

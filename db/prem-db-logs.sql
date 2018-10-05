@@ -271,3 +271,9 @@ ALTER TABLE `finances` ADD `quantity` VARCHAR(191) NULL AFTER `commodity_id`, AD
 
 -- ------------------- ALTER TABLE `inventories` at 05-10-2018 ------
 ALTER TABLE `inventories` ADD `sell_quantity` VARCHAR(191) NULL AFTER `quantity`;
+
+-- ------------------- ALTER TABLE `buy_sell_conversations` at 05-10-2018 ------
+ALTER TABLE `buy_sell_conversations` CHANGE `conversation` `price` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
+
+-- ------------------- ALTER TABLE `buy_sells` at 05-10-2018 ------
+ALTER TABLE `buy_sells` ADD `price` VARCHAR(191) NULL COMMENT 'final price after bidding between seller and buyer' AFTER `quantity`;

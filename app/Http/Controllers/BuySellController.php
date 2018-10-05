@@ -40,6 +40,8 @@ class BuySellController extends Controller
                         ->where('inventories.user_id', '!=', $current_user_id)
                         ->where('inventories.status', '=', 1)
                         ->where('inventories.commodity', '=', $cat_id)
+                        ->where('inventories.sell_quantity', '>', 0)
+                        ->where('inventories.sell_quantity', '!=', null)
                         ->get();
 
         return view('buy_sell.view', array('categories' => $categories, 'inventories' => $inventories, 'cat' => $cat));
@@ -50,7 +52,7 @@ class BuySellController extends Controller
         $current_user_id = Auth::user()->id;
         $invnt_attr = $request->invnt_attr;
         $req_quantity = $request->req_quantity;
-        $conversation = $request->conversation;
+        $price = $request->price;
         $date = date('Y-m-d H:i:s');
 
         $invnt_attr = explode('_', $invnt_attr);
@@ -82,7 +84,7 @@ class BuySellController extends Controller
         $insert = DB::table('buy_sell_conversations')->insert([
             'buy_sell_id' => $last_id,
             'user_id' => $current_user_id,
-            'conversation' => $conversation,
+            'price' => $price,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date

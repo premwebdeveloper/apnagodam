@@ -1,10 +1,7 @@
 @extends('layouts.public_app')
 
 @section('content')
-<?php
-    date_default_timezone_set('Asia/Kolkata');
-    $timestamp = date("H:i:s A");
-?>
+
 <script type="text/javascript">
     $(document).ready(function(){
         //var cat_id = '<?= $cat->id; ?>';
@@ -155,8 +152,9 @@
                         <input id="req_quantity" type="number" class="form-control" name="req_quantity" required autofocus placeholder="Quantity">
                         <br>
 
-                        <label data-error="wrong" data-success="right">Conversation</label>
-                        <textarea class="form-control" rows="5" cols="10" name="conversation" id="conversation" required placeholder="Conversation"></textarea>
+                        <label data-error="wrong" data-success="right">Price</label>
+                        
+                        <input class="form-control" name="price" id="price" required placeholder="Price">
 
                     </div>
 
