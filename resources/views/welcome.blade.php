@@ -70,26 +70,28 @@
 
     <section id="about">
         <div class="container">
-            <div class="row text-justify">
+            <div class="row">
                 <div class="col-lg-6">
                 <h2 class="section-heading">Welcome to Apna Godam</h2>
                 
                 <hr class="margin-unset">
-                <p class="mb-4"><b>“An exclusive portal for farmers / village level collectors
-where they can avail Warehousing , Commodity Finance and
-Market linkage all three facilities at one place”</b></p>
-                <p class="mb-4">
-                Farmers don’t have access to warehousing facilities and
-                commodity finance since warehouses are situated at far off
-                locations. They sell their commodity immediately post harvest at
-                lower price and don’t get the benefit of price appreciation.</p>
-                <p class="mb-4">
-                We identify closed factories, Old sheds and abandoned buildings
-NEAR production area and convert them into agriculture
-warehouses where the farmers can keep the Agri commodity and
-avail commodity loan by pledging the stock. When prices of agri
-produce are better then they can sell the stock to millers on the
-apnagodam portal on “ As is Where is basis”.</p>
+                <div class="text-justify">
+                    <p class="mb-4"><b>“An exclusive portal for farmers / village level collectors
+    where they can avail Warehousing , Commodity Finance and
+    Market linkage all three facilities at one place”</b></p>
+                    <p class="mb-4">
+                    Farmers don’t have access to warehousing facilities and
+                    commodity finance since warehouses are situated at far off
+                    locations. They sell their commodity immediately post harvest at
+                    lower price and don’t get the benefit of price appreciation.</p>
+                    <p class="mb-4">
+                    We identify closed factories, Old sheds and abandoned buildings
+    NEAR production area and convert them into agriculture
+    warehouses where the farmers can keep the Agri commodity and
+    avail commodity loan by pledging the stock. When prices of agri
+    produce are better then they can sell the stock to millers on the
+    apnagodam portal on “ As is Where is basis”.</p>
+                    </div>
                 </div>
                 <div class="col-lg-6 text-center">
                     <img class="max-100" src="{{ asset('resources/frontend_assets/img/farmer.jpg') }}">
@@ -114,7 +116,7 @@ apnagodam portal on “ As is Where is basis”.</p>
                     <div class="service-box mt-5 mx-auto">
                         <i class="fa fa-warehouse"></i>
                         <h4 class="mb-2">Warehousing Services</h4>
-                        <p class="mb-4"><a href="{{ route('register') }}">Read More</a></p>
+                        <p class="mb-4"><a href="{{ route('register') }}">Click Here</a></p>
                     </div>
                 </div>
              
@@ -122,14 +124,14 @@ apnagodam portal on “ As is Where is basis”.</p>
                     <div class="service-box mt-5 mx-auto" style="background: #012b72;">
                         <i class="fa fa-rupee-sign" style="color:#fff"></i>
                         <h4 class="mb-2" style="color:#fff">Financing</h4>
-                         <p class="mb-4"><a href="javaScript:;" style="color:#fff">Read More</a></p>
+                         <p class="mb-4"><a href="javaScript:;" style="color:#fff">Click Here</a></p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box mt-5 mx-auto">
                         <i class="fab fa-buysellads"></i>
                         <h4 class="mb-2">Buy and Sell</h4>
-                         <p class="mb-4"><a href="{{ route('buy_sell') }}">Read More</a></p>
+                         <p class="mb-4"><a href="{{ route('buy_sell') }}">Click Here</a></p>
                     </div>
                 </div>
             </div>

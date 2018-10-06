@@ -52,7 +52,6 @@ class HomeController extends Controller
 
                     $send_otp = DB::table('users')->where('phone', $request->phone)->update(['login_otp' => $otp]);
 
-                    
                     // send otp on mobile number using curl
                     $url = "http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp";                    
                     //$mobiles = implode(",", $mobilesArr);
@@ -84,7 +83,6 @@ class HomeController extends Controller
                 return Redirect::back()->withErrors(['This phone number is not exist in our record ! Please try with another phone number.']);
             }
         }else{
-
             return redirect('/login');
         }
     }

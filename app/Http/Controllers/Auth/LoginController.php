@@ -81,7 +81,7 @@ class LoginController extends Controller
     protected function sendFailedLoginResponse(Request $request)
     {
         //dd($request);
-        return redirect('/verifyOtp')
+        return redirect('login')
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors([
                 $this->username() => [trans('auth.failed')]
