@@ -28,8 +28,8 @@
                         <tr>
                             <th scope="col">Warehouse</th>
                             <th scope="col">Commodity</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Price</th>
+                            <th scope="col">Quantity (Bags)</th>
+                            <th scope="col">Price (Rs/Bag)</th>
                             <th scope="col">Date</th>
                             <th scope="col">Bid</th>
                         </tr>
@@ -66,7 +66,8 @@
                         <tr>
                             <th scope="col">Warehouse</th>
                             <th scope="col">Commodity</th>
-                            <th scope="col">Quantity</th>
+                            <th scope="col">Quantity (Bags)</th>
+                            <th scope="col">Price (Rs/Bag)</th>
                             <th scope="col">Date</th>
                             <th scope="col">Bid</th>
                         </tr>
@@ -77,9 +78,16 @@
                                 <td>{{ $buy->name }}</td>
                                 <td>{{ $buy->category }}</td>
                                 <td>{{ $buy->quantity }}</td>
+                                <td>{{ $buy->price }}</td>
                                 <td>{{ $buy->created_at }}</td>
                                 <td>
-                                    <a href="" class="btn btn-info">Bid</a>
+                                    @if($buy->status == 2)
+                                        
+                                        <a href="javascript:;" class="btn btn-info">Deal Done</a>
+
+                                    @else
+                                        <a href="{{ route('bidding', ['deal_id' => $buy->id]) }}" class="btn btn-info">Bid</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

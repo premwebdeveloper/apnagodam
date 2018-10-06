@@ -26,15 +26,21 @@
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ route('contact-us') }}">CONTACT US</a>
                     </li>
+                    
                     @guest
                     <li class="nav-item">
                         <a class="btn btn-primary" href="{{ route('login') }}" >Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </li>
                     @else
                         @if(Auth::user()->id != 1)
+
+                            <li class="nav-item">
+                                <a href="{{ route('notifications') }}" class="nav-link js-scroll-trigger"><i class="fa fa-bell"></i></a>
+                            </li>
+                            
                             <li class="nav-item dropdown">
                                 <a class="nav-link js-scroll-trigger" href="">
-                                    <span class="fa fa-user"></span> {{ Auth::user()->fname }}
+                                    <span class="fa fa-user"></span> {{ Auth::user()->fname }} 
                                 </a>
                                 <div class="dropdown-content">
                                     <!-- <a href="{{ route('user_dashboard') }}">Dashboard</a> -->
@@ -44,6 +50,7 @@
                                     <!-- <a href="{{ route('change_password') }}">Change Password</a> -->
                                     <!-- <a href="javascript:;">Notifications</a> -->
                                     <a href="{{ route('deals') }}">Purchase / Sell</a>
+                                    <a href="{{ route('deals') }}">Notifications </a>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}

@@ -53,6 +53,9 @@ Route::post('/seller_bid', 'UsersController@seller_bid')->name('seller_bid');
 // Deal done by seller
 Route::get('/deal_done/{deal_id}', 'UsersController@deal_done')->name('deal_done');
 
+// show all notification 
+Route::get('/notifications', 'UsersController@notifications')->name('notifications');
+
 /* ********************************************************************************************* */
 // Ajax functions in Ajax controller
 // OTP verification

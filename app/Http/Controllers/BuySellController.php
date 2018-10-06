@@ -59,12 +59,23 @@ class BuySellController extends Controller
         $inventory_id = $invnt_attr[0];
         $seller_id = $invnt_attr[1];
 
+
+        // first check buyer power / buyer can puchase or not
+        $buyer_info = DB::table('user_details')->where('user_id', $current_user_id)->first();
+
+        $buyer_power = $buyer_info->power;
+
+        if($buyer_power < $req_quantity*$price){
+
+            return Redirect::back()->withErrors(['You do not have the power to puchase this commodity. Please contact to Administrator.']);
+        }
+
         // First check required quantity is more than exist quantity or not
         $inventory = DB::table('inventories')
                         ->where('inventories.id', '=', $inventory_id)
                         ->first();
         
-        if($req_quantity > $inventory->quantity){
+        if($req_quantity > $inventory->sell_quantity){
 
             return Redirect::back()->withErrors(['There is not sufficient bags exist.']);
         }

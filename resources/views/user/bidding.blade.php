@@ -23,10 +23,12 @@
                 <h4 class="section-heading text-center">
                     Someone want to buy your commodity [{{ $deal_info->category }}] placed in [{{ $deal_info->name }}]
                 </h4>
-
-                <div class="col-md-12 text-right" style="padding: 0px;">
-                    <a href="{{ route('deal_done', ['deal_id' => $deal_info->id]) }}" class="btn btn-success">Deal Done</a>
-                </div>
+    
+                @if($deal_info->seller_id == Auth::user()->id)
+                    <div class="col-md-12 text-right" style="padding: 0px;">
+                        <a href="{{ route('deal_done', ['deal_id' => $deal_info->id]) }}" class="btn btn-success">Deal Done</a>
+                    </div>
+                @endif
 
                 <div class="clearfix">&nbsp;</div>
 
@@ -47,7 +49,7 @@
 
                                 @else
                                     
-                                    <td>Buyer</td>
+                                    <td>Dealer</td>
                                     <td>{{ $d->price }}</td>
 
                                 @endif

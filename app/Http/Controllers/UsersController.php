@@ -361,14 +361,6 @@ class UsersController extends Controller
     } 
 
     // User notification
-    public function notifications(){
-
-        // Get deal conversationns
-        
-        return view("user.notifications");
-    }
-
-    // User notification
     public function deals(){
 
         $currentuserid = Auth::user()->id;
@@ -406,7 +398,7 @@ class UsersController extends Controller
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
                 ->where('buy_sells.id', $deal_id)
-                ->select('buy_sells.*', 'categories.category', 'warehouses.name')
+                ->select('buy_sells.*', 'categories.category', 'warehouses.name', 'inventories.user_id as seller_id')
                 ->first();
 
         $deal = DB::table('buy_sell_conversations')
@@ -457,18 +449,76 @@ class UsersController extends Controller
 
         // get last bid price of this deal
         $last_price = DB::table('buy_sell_conversations')->where('buy_sell_id', $deal_id)
-                        ->orderBy('price', 'desc')
-                        ->take(1)
+                        ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
+                        ->orderBy('id', 'desc')
+                        ->limit(1)
+                        ->select('buy_sells.seller_cat_id', 'buy_sells.quantity', 'buy_sell_conversations.*')
                         ->first();
 
         // Get inventory quantity n all to update quantity after deal done
-                                
-
         $done = DB::table('buy_sells')->where('id', $deal_id)->update([
 
             'price' => $last_price->price,
             'status' => 2,
             'updated_at' => $date
         ]);
+
+        if($done){
+
+            // get old sell quantity of this inventory
+            $sell_quantity = DB::table('inventories')->where('id', $last_price->seller_cat_id)->first();
+
+            $remaining_sell_quantity = $sell_quantity->sell_quantity - $last_price->quantity;
+
+            // If deal done then update sell quantity
+            $update_sell_quantity = DB::table('inventories')->where('id', $sell_quantity->id)->update([
+
+                'sell_quantity' => $remaining_sell_quantity,
+                'updated_at' => $date,
+            ]);
+
+            $status = 'Deal Done.';
+        }else{
+
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('deals')->with('status', $status);
+
+    }
+
+    // show all notification to users
+    public function notifications(Request $request){
+
+        $currentuserid = Auth::user()->id;
+        $date = date('Y-m-d H:i:s');
+
+        // get all notification
+        $deals = DB::table('buy_sells')
+                        ->where(['buyer_id' => $currentuserid, 'status' => 1])
+                        ->orWhere('seller_id', $currentuserid)
+                        ->get();
+
+
+        foreach ($deals as $key => $deal) {
+            
+            $row = DB::table('buy_sell_conversations')
+                    ->where('buy_sell_id', $deal->id)
+                    ->orderBy('id', 'desc')
+                    ->limit(1)
+                    ->get();
+            };
+
+            if($row->user_id != $currentuserid){
+
+
+            }
+
+            echo '<pre>';
+            print_r($notifications);
+            exit;
+
+
+        return view("user.notifications", array('notifications' => $notifications));
     }
 }
