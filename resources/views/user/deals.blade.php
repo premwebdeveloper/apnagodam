@@ -45,7 +45,7 @@
                                 <td>
                                     @if($sell->status == 2)
                                         
-                                        <a href="javascript:;" class="btn btn-info">Deal Done</a>
+                                        <a href="javascript:;" class="btn btn-success">Deal Done</a>
 
                                     @else
                                         <a href="{{ route('bidding', ['deal_id' => $sell->id]) }}" class="btn btn-info">Bid</a>
@@ -83,7 +83,7 @@
                                 <td>
                                     @if($buy->status == 2)
                                         
-                                        <a href="javascript:;" class="btn btn-info">Deal Done</a>
+                                        <a href="javascript:;" class="btn btn-success">Deal Done</a>
 
                                     @else
                                         <a href="{{ route('bidding', ['deal_id' => $buy->id]) }}" class="btn btn-info">Bid</a>

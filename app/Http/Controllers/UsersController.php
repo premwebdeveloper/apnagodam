@@ -432,6 +432,38 @@ class UsersController extends Controller
 
         if($bid){
 
+            // Get old bids
+            $last_dealer_bid = DB::table('buy_sell_conversations')
+                            ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
+                            ->where(['buy_sell_id' => $deal_id, 'user_id', '!=', $currentuserid])
+                            ->orderBy('id', 'desc')
+                            ->limit(1)
+                            ->select('buy_sells.seller_cat_id', 'buy_sells.quantity', 'buy_sell_conversations.*')
+                            ->first();
+
+            // if seller and buyers last bid is same then deal done
+            if($last_dealer_bid->price == $my_bid){
+
+                $done = DB::table('buy_sells')->where('id', $deal_id)->update([
+
+                    'price' => $my_bid,
+                    'status' => 2,
+                    'updated_at' => $date
+                ]);
+
+                // get old sell quantity of this inventory
+                $sell_quantity = DB::table('inventories')->where('id', $last_dealer_bid->seller_cat_id)->first();
+
+                $remaining_sell_quantity = $sell_quantity->sell_quantity - $last_dealer_bid->quantity;
+
+                // If deal done then update sell quantity
+                $update_sell_quantity = DB::table('inventories')->where('id', $sell_quantity->id)->update([
+
+                    'sell_quantity' => $remaining_sell_quantity,
+                    'updated_at' => $date,
+                ]);
+            }
+
             $status = 'Bid submitted successfully.';
         }else{
 

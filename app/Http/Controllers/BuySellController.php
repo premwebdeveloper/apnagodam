@@ -140,7 +140,7 @@ class BuySellController extends Controller
                 if(!empty($check_commodity)){
 
                     // update quantity
-                    $update_commodity = DB::table('inventories')->where('id' => $check_commodity->id)->update([
+                    $update_commodity = DB::table('inventories')->where('id', $check_commodity->id)->update([
 
                         'quantity' => $req_quantity + $check_commodity->quantity,
                     ]);
@@ -165,8 +165,8 @@ class BuySellController extends Controller
                 // update buyer power on deal done
                 $power_update = DB::table('user_details')->where('user_id', $current_user_id)->update([
 
-                    'power' = $buyer_power - $req_quantity*$price,
-                    'updated_at' = $date
+                    'power' => $buyer_power - $req_quantity*$price,
+                    'updated_at' => $date
                 ]);
                 
                 $status = 'Deal done successfully.';
