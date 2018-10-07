@@ -499,22 +499,37 @@ class UsersController extends Controller
                         ->orWhere('seller_id', $currentuserid)
                         ->get();
 
+        $notifications = array();
+
+        echo '<pre>';
+        print_r($deals);
+
 
         foreach ($deals as $key => $deal) {
             
             $row = DB::table('buy_sell_conversations')
-                    ->where('buy_sell_id', $deal->id)
-                    ->orderBy('id', 'desc')
+                    ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
+                    ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+                    ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                    ->where('buy_sell_conversations.buy_sell_id', $deal->id)
+                    ->orderBy('buy_sell_conversations.id', 'desc')
                     ->limit(1)
-                    ->get();
-            };
+                    ->select('categories.category', 'buy_sells.*', 'buy_sell_conversations.user_id');
 
-            if($row->user_id != $currentuserid){
+                    $data = $row->first();
 
+                   //echo ($row->tosql());
+            
+            print_r($data);
 
+            if($data->user_id != $currentuserid){
+
+                $notifications[$key] = $data;
             }
+        };
 
-            echo '<pre>';
+
+            
             print_r($notifications);
             exit;
 

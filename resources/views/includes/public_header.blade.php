@@ -34,9 +34,9 @@
                     @else
                         @if(Auth::user()->id != 1)
 
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="{{ route('notifications') }}" class="nav-link js-scroll-trigger"><i class="fa fa-bell"></i></a>
-                            </li>
+                            </li> -->
                             
                             <li class="nav-item dropdown">
                                 <a class="nav-link js-scroll-trigger" href="">
@@ -50,7 +50,7 @@
                                     <!-- <a href="{{ route('change_password') }}">Change Password</a> -->
                                     <!-- <a href="javascript:;">Notifications</a> -->
                                     <a href="{{ route('deals') }}">Purchase / Sell</a>
-                                    <a href="{{ route('deals') }}">Notifications </a>
+                                    <!-- <a href="{{ route('deals') }}">Notifications </a> -->
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
