@@ -111,6 +111,13 @@
                 </a>
             </li>
 
+            <li>
+                <a href="{{ route('done_deals') }}">
+                    <i class="fa fa-users"></i> 
+                    <span class="nav-label">Deals</span>
+                </a>
+            </li>
+
 		</ul>
 	</div>
 </nav>

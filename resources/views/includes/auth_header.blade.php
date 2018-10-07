@@ -10,9 +10,9 @@
 
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell"></i>  <span class="label label-warning"></span>
+                        <i class="fa fa-bell"></i>  <span class="label label-danger"></span>
                     </a>
-                    <ul class="dropdown-menu dropdown-messages">
+<!--                     <ul class="dropdown-menu dropdown-messages">
                         <li>
                             <div class="dropdown-messages-box">
                                 <a href="javascript:;" class="pull-left">
@@ -33,7 +33,7 @@
                                 </a>
                             </div>
                         </li>
-                    </ul>
+                    </ul> -->
                 </li>
 
                 <li>

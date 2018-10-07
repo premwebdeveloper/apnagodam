@@ -412,4 +412,18 @@ class AdminController extends Controller
 
         return redirect('enquiries')->with('status', $status);
     }
+
+    // Done Deals
+    public function done_deals(){
+        $done_deals =   DB::table('buy_sells')
+                        ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+                        ->join('users','users.id', '=', 'buy_sells.seller_id')
+                        ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+                        ->join('categories', 'categories.id', '=', 'inv.commodity')
+                        ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+                        ->select('buy_sells.*', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
+                        ->get();
+
+        return view('admin.done_deals', array('done_deals' => $done_deals));
+    }
 }

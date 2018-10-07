@@ -87,6 +87,8 @@ Route::get('/enquiries', 'AdminController@enquiries')->name('enquiries');
 Route::get('/approve/{user_id}', 'AdminController@approve')->name('approve');
 Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove');
 
+// Admin Dashboard Done Deals 
+Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
 
 // Warehouses Routes
 Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');

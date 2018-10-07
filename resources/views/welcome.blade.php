@@ -124,7 +124,7 @@
                     <div class="service-box mt-5 mx-auto" style="background: #012b72;">
                         <i class="fa fa-rupee-sign" style="color:#fff"></i>
                         <h4 class="mb-2" style="color:#fff">Financing</h4>
-                         <p class="mb-4"><a href="javaScript:;" style="color:#fff">Click Here</a></p>
+                         <p class="mb-4"><a href="{{ route('user_finance_view') }}" style="color:#fff">Click Here</a></p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 text-center">
