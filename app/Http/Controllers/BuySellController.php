@@ -72,7 +72,6 @@ class BuySellController extends Controller
             return Redirect::back()->withErrors(['You do not have the power to puchase this commodity. Please contact to Administrator.']);
         }
 
-
         // First check required quantity is more than exist quantity or not
         $inventory = DB::table('inventories')
                         ->where('inventories.id', '=', $inventory_id)
@@ -129,6 +128,7 @@ class BuySellController extends Controller
                 // update sellers commodity in inventories table
                 $update_sell_price = DB::table('inventories')->where('id', $inventory->id)->update([
 
+                    'quantity' => $inventory->quantity - $req_quantity,
                     'sell_quantity' => $inventory->sell_quantity - $req_quantity,
                     'updated_at' => $date,
                 ]);
