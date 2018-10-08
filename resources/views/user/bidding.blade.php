@@ -31,6 +31,13 @@
                     </h4>
                 @endif
 
+                @if(session('status'))
+                    <div class="alert alert-warning alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ session('status') }}
+                    </div>
+                @endif
+
                 <div class="clearfix">&nbsp;</div>
 
                 <table class="table table-bordered">
@@ -67,7 +74,7 @@
                     <div class="col-md-3" style="padding: 0px;">
                         <div class="form-group">
                             {!! Form::label('my_bid', 'My Bid') !!}
-                            {!! Form::number('my_bid', '', ['class' => 'form-control', 'id' => 'my_bid', 'placeholder' => 'Price']) !!}
+                            {!! Form::number('my_bid', '', ['class' => 'form-control', 'id' => 'my_bid', 'placeholder' => 'Price', 'required' => 'required']) !!}
 
                             @if($errors->has('my_bid'))
                                 <span class="help-block red">
