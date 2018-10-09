@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('/');
 
+Route::get('crons/', 'CronsController@crons')->name('crons');
+
 Route::any('verifyOtp/', 'HomeController@verifyOtp')->name('verifyOtp');
 
 Route::get('/home', 'HomeController@index')->name('home');
