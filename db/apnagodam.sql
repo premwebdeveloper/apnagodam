@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2018 at 12:43 PM
+-- Generation Time: Oct 09, 2018 at 02:57 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -34,6 +34,7 @@ CREATE TABLE `buy_sells` (
   `seller_id` int(11) NOT NULL,
   `seller_cat_id` int(11) NOT NULL,
   `quantity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'final price after bidding between seller and buyer',
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -43,11 +44,10 @@ CREATE TABLE `buy_sells` (
 -- Dumping data for table `buy_sells`
 --
 
-INSERT INTO `buy_sells` (`id`, `buyer_id`, `seller_id`, `seller_cat_id`, `quantity`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 6, 21, '50', 1, '2018-10-05 03:01:22', '2018-10-05 03:01:22'),
-(2, 2, 6, 21, '10', 1, '2018-10-05 03:29:00', '2018-10-05 03:29:00'),
-(3, 7, 3, 18, '100', 1, '2018-10-05 03:49:03', '2018-10-05 03:49:03'),
-(4, 7, 2, 17, '80', 1, '2018-10-05 04:40:47', '2018-10-05 04:40:47');
+INSERT INTO `buy_sells` (`id`, `buyer_id`, `seller_id`, `seller_cat_id`, `quantity`, `price`, `status`, `created_at`, `updated_at`) VALUES
+(1, 7, 3, 18, '5', '5000', 2, '2018-10-08 06:42:58', '2018-10-08 06:42:58'),
+(3, 7, 3, 18, '10', '4500', 2, '2018-10-08 07:37:01', '2018-10-08 07:37:45'),
+(4, 7, 3, 18, '4', '4300', 2, '2018-10-08 07:40:40', '2018-10-08 07:46:57');
 
 -- --------------------------------------------------------
 
@@ -59,7 +59,7 @@ CREATE TABLE `buy_sell_conversations` (
   `id` int(10) UNSIGNED NOT NULL,
   `buy_sell_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `conversation` text COLLATE utf8mb4_unicode_ci,
+  `price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -69,11 +69,16 @@ CREATE TABLE `buy_sell_conversations` (
 -- Dumping data for table `buy_sell_conversations`
 --
 
-INSERT INTO `buy_sell_conversations` (`id`, `buy_sell_id`, `user_id`, `conversation`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'hfgjh', 1, '2018-10-05 03:01:22', '2018-10-05 03:01:22'),
-(2, 2, 2, 'bjfdjkldgmmnikjbkmfgb mg bm', 1, '2018-10-05 03:29:00', '2018-10-05 03:29:00'),
-(3, 3, 7, '1000', 1, '2018-10-05 03:49:03', '2018-10-05 03:49:03'),
-(4, 4, 7, '100', 1, '2018-10-05 04:40:47', '2018-10-05 04:40:47');
+INSERT INTO `buy_sell_conversations` (`id`, `buy_sell_id`, `user_id`, `price`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 7, '5000', 1, '2018-10-08 06:42:58', '2018-10-08 06:42:58'),
+(8, 3, 7, '4000', 1, '2018-10-08 07:37:01', '2018-10-08 07:37:01'),
+(9, 3, 3, '4800', 1, '2018-10-08 07:37:31', '2018-10-08 07:37:31'),
+(10, 3, 7, '4500', 1, '2018-10-08 07:37:38', '2018-10-08 07:37:38'),
+(11, 3, 3, '4500', 1, '2018-10-08 07:37:45', '2018-10-08 07:37:45'),
+(12, 4, 7, '4000', 1, '2018-10-08 07:40:40', '2018-10-08 07:40:40'),
+(13, 4, 3, '4500', 1, '2018-10-08 07:41:27', '2018-10-08 07:41:27'),
+(16, 4, 7, '4300', 1, '2018-10-08 07:46:50', '2018-10-08 07:46:50'),
+(17, 4, 3, '4300', 1, '2018-10-08 07:46:57', '2018-10-08 07:46:57');
 
 -- --------------------------------------------------------
 
@@ -210,12 +215,14 @@ CREATE TABLE `inventories` (
 --
 
 INSERT INTO `inventories` (`id`, `user_id`, `warehouse_id`, `commodity`, `type`, `quantity`, `sell_quantity`, `price`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(17, 2, 4, 1, NULL, '100', NULL, '2100', '222ba7.pdf', 1, '2018-10-05 02:31:05', '2018-10-05 02:33:32'),
-(18, 3, 2, 4, NULL, '200', NULL, '5000', '30e148.pdf', 1, '2018-10-05 02:31:24', '2018-10-05 02:31:24'),
-(19, 2, 4, 3, NULL, '150', NULL, '2500', 'e74ac3.pdf', 1, '2018-10-05 02:31:40', '2018-10-05 02:31:40'),
-(20, 4, 1, 2, NULL, '500', NULL, '3500', 'bcb772.pdf', 1, '2018-10-05 02:31:58', '2018-10-05 02:31:58'),
-(21, 6, 4, 3, NULL, '100', NULL, '1500', '162c9a.pdf', 1, '2018-10-05 02:32:23', '2018-10-05 02:32:23'),
-(22, 7, 1, 1, NULL, '100', '40', '1000', '2ffffe.pdf', 1, '2018-10-05 03:40:31', '2018-10-05 05:04:38');
+(17, 2, 4, 1, NULL, '100', '20', '20', '222ba7.pdf', 1, '2018-10-05 02:31:05', '2018-10-07 05:36:08'),
+(18, 3, 2, 4, NULL, '181', '51', '5000', '30e148.pdf', 1, '2018-10-05 02:31:24', '2018-10-08 07:46:57'),
+(19, 2, 4, 3, NULL, '150', '80', '2500', 'e74ac3.pdf', 1, '2018-10-05 02:31:40', '2018-10-08 06:41:15'),
+(20, 4, 1, 2, NULL, '500', '400', '3500', 'bcb772.pdf', 1, '2018-10-05 02:31:58', '2018-10-05 02:31:58'),
+(21, 6, 4, 3, NULL, '100', '100', '1500', '162c9a.pdf', 1, '2018-10-05 02:32:23', '2018-10-05 02:32:23'),
+(22, 7, 1, 1, NULL, '100', '0', '0', '2ffffe.pdf', 1, '2018-10-05 03:40:31', '2018-10-07 05:31:54'),
+(23, 7, 4, 3, NULL, '50', NULL, '0', NULL, 1, '2018-10-07 06:46:54', '2018-10-07 06:46:54'),
+(24, 7, 2, 4, NULL, '19', NULL, '0', NULL, 1, '2018-10-08 06:42:58', '2018-10-08 06:42:58');
 
 -- --------------------------------------------------------
 
@@ -330,7 +337,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `phone`, `login_otp`, `remember_token`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', '', 'admin@admin.com', '$2y$10$8tXr4/YWabiDDW2AfnMZC.TuF0tMtetSx9Pe/yvlNON2hLlymmqeK', '7014957469', NULL, 'sA72wUSZWjqO46uzH3KZd4rK9pXpdrYBTGQqBbBNSDoWcdDSJbLLzY0HunMU', 1, '2018-09-01 08:17:09', '2018-09-17 08:03:32'),
-(2, 'Amit Sharma', NULL, NULL, '$2y$10$6JzKUBsDb0hmrFa2xx9/d.U6Thwphdsrjhq20tQspzBshV9befJuG', '8003947560', NULL, 'BQAm6qJg6aSRiX7GucU5hs6B8k84sKoAG4ahDzNFpdZnrxXv6S1poewy8hd3', 1, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
+(2, 'Amit Sharma', NULL, NULL, '$2y$10$6JzKUBsDb0hmrFa2xx9/d.U6Thwphdsrjhq20tQspzBshV9befJuG', '9314142089', NULL, 'BQAm6qJg6aSRiX7GucU5hs6B8k84sKoAG4ahDzNFpdZnrxXv6S1poewy8hd3', 1, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
 (3, 'Prem Saini', NULL, 'premsaini9602@gmail.com', '$2y$10$eT3lvbBhSxZDazizdE4V/ONbBq/2U5rp/ATlHElFCDksKreTMZE4e', '9602947878', NULL, '3XW2aHX5NTHv2inq4vQWWauUCBcWhHnpzqzM5TK3HzQKk8PD8AQ9m6UpxKG6', 1, '2018-10-05 02:25:33', '2018-10-05 02:25:33'),
 (4, 'Ravi Kumar', NULL, NULL, '$2y$10$qjEhOP9qJVX/V4VIt4JeK.7.MdB6kgjxN6Z.QvNF9ZH5OTwhI/vRu', '9509201120', NULL, NULL, 1, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
 (6, 'Kumar Prem', NULL, NULL, '$2y$10$50G6l0BAYE65sHdPtvpGS.SAM0RW2bRQKaPAluJrUSwOY6abRlfTi', '8005609866', NULL, NULL, 1, '2018-10-05 02:27:45', '2018-10-05 02:27:55'),
@@ -371,8 +378,8 @@ INSERT INTO `user_details` (`id`, `user_id`, `fname`, `lname`, `email`, `phone`,
 (1, 2, 'Amit Sharma', NULL, NULL, '8003947560', 'FAther', 1, NULL, '12345', 'singhana', 'Buhana', 'jhunjhunu', 'c9e0c7.jpg', '1', 1, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
 (2, 3, 'Prem Saini', NULL, 'premsaini9602@gmail.com', '9602947878', 'Father', 2, '98765', NULL, 'singhana', 'Buhana', 'jhunjhunu', 'b571e4.jpg', '1', 1, '2018-10-05 02:25:33', '2018-10-05 02:25:33'),
 (3, 4, 'Ravi Kumar', NULL, NULL, '9509201120', 'Father', 3, '123456789', NULL, 'Shastri Nagar', 'Vidhyadhar Nagar', 'Jaipur', '462df1.jpg', '1', 1, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(5, 6, 'Kumar Prem', NULL, NULL, '8005609866', 'Father', 1, NULL, '1234', 'vidhyadhar nagar', 'jaipur', 'jaipur', 'user.png', '1', 1, '2018-10-05 02:27:44', '2018-10-05 02:27:55'),
-(6, 7, 'Ani Modi', NULL, NULL, '9602047010', 'Father NAme', 1, NULL, '12345', 'vidhyadhar nagar', 'jaipur', 'jaipur', 'user.png', '1', 1, '2018-10-05 03:37:51', '2018-10-05 03:39:05');
+(5, 6, 'Kumar Prem', NULL, NULL, '8005609866', 'Father', 1, NULL, '1234', 'vidhyadhar nagar', 'jaipur', 'jaipur', 'user.png', '500000', 1, '2018-10-05 02:27:44', '2018-10-05 02:27:55'),
+(6, 7, 'Ani Modi', NULL, NULL, '9602047010', 'Father NAme', 1, NULL, '12345', 'vidhyadhar nagar', 'jaipur', 'jaipur', 'user.png', '2800', 1, '2018-10-05 03:37:51', '2018-10-08 07:46:57');
 
 -- --------------------------------------------------------
 
@@ -538,7 +545,7 @@ ALTER TABLE `buy_sells`
 -- AUTO_INCREMENT for table `buy_sell_conversations`
 --
 ALTER TABLE `buy_sell_conversations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -568,7 +575,7 @@ ALTER TABLE `finance_responses`
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `items`
