@@ -342,6 +342,16 @@ class UsersController extends Controller
         $price = $request->price;
         $sell_quantity = $request->sell_quantity;
 
+        // First get this inventory information
+        $inventory_info = DB::table('inventories')->where('id', $invetory_id)->first();
+
+        if($inventory_info->quantity < $sell_quantity):
+
+            $status = 'You can not update sell quantity more than you have !';
+            return redirect('inventories')->with('status', $status);
+
+        endif;
+
         $inventories = DB::table('inventories')->where('id', $invetory_id)->update([
 
                 'sell_quantity' => $sell_quantity,
