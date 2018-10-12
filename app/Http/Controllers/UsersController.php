@@ -148,6 +148,16 @@ class UsersController extends Controller
         $amount = $request->amount;
         $date = date('Y-m-d H:i:s');
 
+        // First get commodity informatioon
+        $commodity_info = DB::table('inventories')->where('id', $commodity_id)->first();
+
+        if($commodity_info->quantity < $quantity):
+
+            $status = 'You can not apply for loan on more than quantity you have !';
+            return redirect('request_for_loan/'.$commodity_id)->with('status', $status);
+
+        endif;
+
         # Pan Card Upload
         if($request->hasFile('pan_card')) {
 
