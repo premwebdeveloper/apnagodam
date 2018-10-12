@@ -43,21 +43,34 @@
                         </div>
                     @endif
 
-                    @if($request->finance_status == 2)
+                    @if(!empty($request->finance_status) || !is_null($request->finance_status))
+    
+                        @if($request->finance_status == 2)
                         
-                        <h1>
-                            
-                        User agree for this loan amount 
-                        <strong>( Rs {{ $request->res_amount}} )</strong> 
-                        and inetrest 
-                        <strong>( {{ $request->res_interest}} %)</strong> 
-                        from bank 
-                        <strong>( {{ $request->res_bank_name}} ).</strong>
+                            <h1>
+                                
+                            User agree for this loan amount 
+                            <strong>( Rs {{ $request->res_amount}} )</strong> 
+                            and inetrest 
+                            <strong>( {{ $request->res_interest}} %)</strong> 
+                            from bank 
+                            <strong>( {{ $request->res_bank_name}} ).</strong>
 
-                        </h1>
+                            </h1>
+
+                        @elseif($request->finance_status == 0)
+                                
+                            Loan request Unapproved by Admin!
+
+                        @elseif($request->finance_status == 1)
+
+                            Loan request Approved by Admin. Wait for client verification.
+
+                        @endif
+
                     @else
-
-    	                <div class="row">                        
+    
+                        <div class="row">                        
                             {!! Form::open(array('url' => 'request_responded', 'files' => true)) !!}
                                 
                                 {!! Form::hidden('finance_id', $finance_id) !!}
@@ -122,7 +135,7 @@
 
                             {!! Form::close() !!}
 
-                        </div>                    
+                        </div> 
 
                     @endif 
 

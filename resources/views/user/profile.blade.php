@@ -33,6 +33,7 @@
                             <th scope="col">Village</th>
                             <th scope="col">Tehsil</th>
                             <th scope="col">District</th>
+                            <th scope="col">Power</th>
                             <th scope="col">Image</th>
                             </tr>
                     </thead>
@@ -49,6 +50,7 @@
                             <td>{{ $user->village }}</td>
                             <td>{{ $user->tehsil }}</td>
                             <td>{{ $user->district }}</td>
+                            <td>{{ $user->power }}</td>
                             <td>
                                 <img alt="image" class="img-responsive" src="{{ asset('resources/assets/upload/profile_image/'.$user->image) }}" style="width:75px;">
                             </td>

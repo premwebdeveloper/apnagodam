@@ -125,6 +125,11 @@ class FinanceController extends Controller
         if($request_status == 0){
 
             $approved = '-1';
+
+            $delete_finance_responses = DB::table('finance_responses')->where('finance_id', $finance_id)->delete(); 
+
+            $delete_finances = DB::table('finances')->where('id', $finance_id)->delete();
+
         }
 
         // Update finance as approved / unapproved in finances table

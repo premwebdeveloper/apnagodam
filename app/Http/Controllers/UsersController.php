@@ -293,7 +293,7 @@ class UsersController extends Controller
             $finance_del = DB::table('finances')->where('id', $finance_id)->delete();
             $finance_res_del = DB::table('finance_responses')->where('finance_id', $finance_id)->delete();
 
-            if($finance_res_done){
+            if($finance_res_del){
 
                 $status = 'You refused the request for loan. You can request again.';
             }else{
