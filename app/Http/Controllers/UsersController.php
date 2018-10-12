@@ -418,7 +418,7 @@ class UsersController extends Controller
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
                 ->where('buy_sells.id', $deal_id)
-                ->select('buy_sells.*', 'categories.category', 'warehouses.name', 'inventories.user_id as seller_id')
+                ->select('buy_sells.*', 'categories.category', 'warehouses.name', 'inventories.price as commo_price', 'inventories.user_id as seller_id')
                 ->first();
 
         $deal = DB::table('buy_sell_conversations')
@@ -435,9 +435,18 @@ class UsersController extends Controller
 
         $currentuserid = Auth::user()->id;
 
+        $commodity_price = $request->commodity_price;
         $deal_id = $request->deal_id;
+        $buyer_id = $request->buyer_id;
+        $deal_quantity = $request->deal_quantity;
         $my_bid = $request->my_bid;
         $date = date('Y-m-d H:i:s');
+
+        // If user bid amount is greater than commodity price than hit error
+        if($commodity_price < $my_bid){
+
+            return redirect('bidding/'.$deal_id)->with('status', 'You can not bid amount more than commodity price !');
+        }
 
         // Get old bids
         $last_dealer_bid = DB::table('buy_sell_conversations')
@@ -451,13 +460,21 @@ class UsersController extends Controller
                         ->first();
 
         // first check buyer power / buyer can puchase or not
-        $buyer_info = DB::table('user_details')->where('user_id', $last_dealer_bid->buyer_id)->first();
+        $buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
 
+        // If seller bid amount less than buyers last bid then hit error
+        if($currentuserid != $buyer_info->user_id){
+
+            if($my_bid < $last_dealer_bid->price){
+
+                return redirect('bidding/'.$deal_id)->with('status', 'You can not bid an amount less than buyers last bid !');
+            }
+        }
 
         // First check the buyers power If less than bid amount * request quantity then this can bid else not
         if($currentuserid == $buyer_info->user_id){
 
-            if($buyer_info->power < $last_dealer_bid->quantity * $my_bid){
+            if($buyer_info->power < $deal_quantity * $my_bid){
 
                 return redirect('bidding/'.$deal_id)->with('status', 'You do not have the power to bid this amount! Please contact to administrator.');
             }
@@ -476,73 +493,80 @@ class UsersController extends Controller
 
         if($bid){
 
-            // if seller and buyers last bid is same then deal done
-            if($last_dealer_bid->price == $my_bid){
+            if(!empty($last_dealer_bid)){
 
-                // If my bid and dealer bid is same then deal done
-                $done = DB::table('buy_sells')->where('id', $deal_id)->update([
+                // if seller and buyers last bid is same then deal done
+                if($last_dealer_bid->price == $my_bid){
 
-                    'price' => $my_bid,
-                    'status' => 2,
-                    'updated_at' => $date
-                ]);
+                    // If my bid and dealer bid is same then deal done
+                    $done = DB::table('buy_sells')->where('id', $deal_id)->update([
 
-                // get old total and sell quantity of this inventory
-                $sell_quantity = DB::table('inventories')->where('id', $last_dealer_bid->seller_cat_id)->first();
-
-                // remaining total and sell quantity
-                $total_quantity = $sell_quantity->quantity - $last_dealer_bid->quantity;
-                $remaining_sell_quantity = $sell_quantity->sell_quantity - $last_dealer_bid->quantity;
-
-                // If deal done then update sell quantity and total quantity
-                $update_sell_quantity = DB::table('inventories')->where('id', $sell_quantity->id)->update([
-
-                    'quantity' => $total_quantity,
-                    'sell_quantity' => $remaining_sell_quantity,
-                    'updated_at' => $date,
-                ]);
-
-                // update buyer commodity in inventories table if not exist this commodity of this buyer then insert this commodity to this buyer
-                // First check if this buyer have this commodity or not
-                $check_commodity = DB::table('inventories')->where(['user_id' => $last_dealer_bid->buyer_id, 'commodity' => $last_dealer_bid->commodity, 'warehouse_id' => $last_dealer_bid->warehouse_id])->first();
-
-                // If the same commodity is exist in the same warehouse of this buyer then update quantity
-                if(!empty($check_commodity)){
-
-                    // update quantity
-                    $update_commodity = DB::table('inventories')->where('id', $check_commodity->id)->update([
-
-                        'quantity' => $last_dealer_bid->quantity + $check_commodity->quantity,
-                    ]);
-
-                }else{
-
-                    // if this commodity is not exist in this warehouse then insert this commodity
-                    // insert quantity
-                    $insert_commodity = DB::table('inventories')->insert([
-
-                        'user_id' => $last_dealer_bid->buyer_id,
-                        'warehouse_id' => $last_dealer_bid->warehouse_id,
-                        'commodity' => $last_dealer_bid->commodity,
-                        'quantity' => $last_dealer_bid->quantity,
-                        'price' => 0,
-                        'status' => 1,
-                        'created_at' => $date,
+                        'price' => $my_bid,
+                        'status' => 2,
                         'updated_at' => $date
                     ]);
+
+                    // get old total and sell quantity of this inventory
+                    $sell_quantity = DB::table('inventories')->where('id', $last_dealer_bid->seller_cat_id)->first();
+
+                    // remaining total and sell quantity
+                    $total_quantity = $sell_quantity->quantity - $deal_quantity;
+                    $remaining_sell_quantity = $sell_quantity->sell_quantity - $deal_quantity;
+
+                    // If deal done then update sell quantity and total quantity
+                    $update_sell_quantity = DB::table('inventories')->where('id', $sell_quantity->id)->update([
+
+                        'quantity' => $total_quantity,
+                        'sell_quantity' => $remaining_sell_quantity,
+                        'updated_at' => $date,
+                    ]);
+
+                    // update buyer commodity in inventories table if not exist this commodity of this buyer then insert this commodity to this buyer
+                    // First check if this buyer have this commodity or not
+                    $check_commodity = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $last_dealer_bid->commodity, 'warehouse_id' => $last_dealer_bid->warehouse_id])->first();
+
+                    // If the same commodity is exist in the same warehouse of this buyer then update quantity
+                    if(!empty($check_commodity)){
+
+                        // update quantity
+                        $update_commodity = DB::table('inventories')->where('id', $check_commodity->id)->update([
+
+                            'quantity' => $deal_quantity + $check_commodity->quantity,
+                        ]);
+
+                    }else{
+
+                        // if this commodity is not exist in this warehouse then insert this commodity
+                        // insert quantity
+                        $insert_commodity = DB::table('inventories')->insert([
+
+                            'user_id' => $buyer_id,
+                            'warehouse_id' => $last_dealer_bid->warehouse_id,
+                            'commodity' => $last_dealer_bid->commodity,
+                            'quantity' => $deal_quantity,
+                            'price' => 0,
+                            'status' => 1,
+                            'created_at' => $date,
+                            'updated_at' => $date
+                        ]);
+                    }
+
+                    // update power of this buyer on deal done
+                    $power_update = DB::table('user_details')->where('user_id', $buyer_info->user_id)->update([
+
+                        'power' => $buyer_info->power - $last_dealer_bid->quantity*$my_bid,
+                        'updated_at' => $date
+                    ]);
+                    
+                    $status = 'Deal done successfully.';
+
+                    // redirect to the deals page
+                    return redirect('deals/')->with('status', $status);
                 }
+                else{
 
-                // update power of this buyer on deal done
-                $power_update = DB::table('user_details')->where('user_id', $buyer_info->user_id)->update([
-
-                    'power' => $buyer_info->power - $last_dealer_bid->quantity*$my_bid,
-                    'updated_at' => $date
-                ]);
-                
-                $status = 'Deal done successfully.';
-
-                // redirect to the deals page
-                return redirect('deals/')->with('status', $status);
+                    $status = 'Bid submitted successfully.';
+                }
             }
             else{
 
