@@ -69,7 +69,10 @@
 
                 {!! Form::open(array('url' => 'seller_bid')) !!}
                     
+                    {!! Form::hidden('commodity_price', $deal_info->commo_price) !!}
                     {!! Form::hidden('deal_id', $deal_info->id) !!}
+                    {!! Form::hidden('buyer_id', $deal_info->buyer_id) !!}
+                    {!! Form::hidden('deal_quantity', $deal_info->quantity) !!}
                     
                     <div class="col-md-3" style="padding: 0px;">
                         <div class="form-group">
