@@ -21,6 +21,13 @@
 
                 <h2 class="section-heading">Request For Loan against {!! $inventory->category !!} commodity with {!! $inventory->quantity !!} Bags.</h2>
                 <br>
+
+                @if(session('status'))
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ session('status') }}
+                    </div>
+                @endif
                     
                 {!! Form::open(array('url' => 'loan_request', 'files' => true)) !!}
                     
