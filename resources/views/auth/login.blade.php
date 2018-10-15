@@ -38,6 +38,10 @@ $(document).ready(function(){
                     }
                     else if(response == 2)
                     {
+                        $('#otpMatched').html('');
+                        $('#otpMatched').html('OTP did not match!');
+                        $('#otpMatched').show();
+
                         $('#verifyButton').prop('disabled', true);
                     }
                 },
@@ -128,7 +132,7 @@ $(document).ready(function(){
                                     <label for="phone" class="col-sm-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="phone" type="number" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="9876543210" value="{{ old('phone') }}" required autofocus>
+                                        <input id="phone" type="number" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="Mobile Number" value="{{ old('phone') }}" required autofocus>
 
                                         @if ($errors->has('phone'))
                                             <span class="invalid-feedback" role="alert">
@@ -144,9 +148,9 @@ $(document).ready(function(){
                                             {{ __('Login') }}
                                         </button>
 
-                                        <!-- <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a> -->
+                                        <a class="btn btn-link" href="{{ route('register') }}">
+                                            New User? Register Here.
+                                        </a>
                                     </div>
                                 </div>
                             </form>

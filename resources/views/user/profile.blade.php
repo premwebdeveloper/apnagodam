@@ -18,6 +18,7 @@
             <div class="col-lg-12">
 
                 <h2 class="section-heading text-center">Profile</h2>
+                <hr>
 
                 <table class="table table-bordered">
                     <thead>
@@ -58,7 +59,37 @@
                     </tbody>
                 </table>
             
-                <hr>
+
+                <section id="services">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto text-center">
+                                <h2 class="section-heading">Services We Provide</h2>
+                                <hr class="my-4">
+                                <p>Through our experienced operations team we can handle various kind of supply chain operations and services</p>
+                            </div>
+                        </div>
+                    </div>
+                  <div class="container">
+                        <div class="row">
+                                                     
+                            <div class="col-lg-6 col-md-6 text-center">
+                                <div class="service-box mt-5 mx-auto" style="background: #012b72;">
+                                    <i class="fa fa-rupee-sign" style="color:#fff"></i>
+                                    <h4 class="mb-2" style="color:#fff">Financing</h4>
+                                     <p class="mb-4"><a href="{{ route('user_finance_view') }}" style="color:#fff">Click Here</a></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 text-center">
+                                <div class="service-box mt-5 mx-auto">
+                                    <i class="fab fa-buysellads"></i>
+                                    <h4 class="mb-2">Buy and Sell</h4>
+                                     <p class="mb-4"><a href="{{ route('buy_sell') }}">Click Here</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
         </div>
