@@ -42,7 +42,7 @@ class HomeController extends Controller
                 'phone' => 'required|numeric|digits:10',
             ]);
 
-            $exist = DB::table('users')->where('phone', $request->phone)->first();
+            $exist = DB::table('users')->where(['phone' => $request->phone, 'status' => 1])->first();
 
             if(!empty($exist)){
 

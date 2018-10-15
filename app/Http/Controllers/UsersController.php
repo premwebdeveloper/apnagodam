@@ -126,6 +126,9 @@ class UsersController extends Controller
 
         $currentuserid = Auth::user()->id;
 
+        // Get user info
+        $user_info = DB::table('user_details')->where('user_id', $currentuserid)->first();
+
         # Set validation for
         $this->validate($request, [
             'account_number' => 'required',
@@ -249,7 +252,6 @@ class UsersController extends Controller
             'updated_at' => $date,
         ]);
 
-
         // insert entry in finance_response table
         $insert = DB::table('finance_responses')->Insert([
             'finance_id' => $last_id,
@@ -258,6 +260,28 @@ class UsersController extends Controller
         ]);
 
         if($insert){
+
+            // send sms on mobile number using curl
+            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+            $mobiles = implode(",", $mobilesArr);
+            $sms = 'Verify your mobile to login Apnagodam with OTP - '.$otp;
+
+            $params = array(
+                "user" => "apnagodam",
+                "password" => "45cfd8bb21XX",
+                "senderid" => "apnago",
+                "mobiles" => $mobiles,
+                "sms" => $sms
+            );
+
+            $params = http_build_query($params);            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
 
             $status = 'Request submitted successfully.';
         }else{
