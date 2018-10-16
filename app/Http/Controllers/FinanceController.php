@@ -121,8 +121,60 @@ class FinanceController extends Controller
         // Default approved status is 2 / approve finance request
         $approved = 2;
 
+        // get this finance record
+        $finance_info = DB::table('finances')->where('id', $finance_id)->first();
+
+        // Get user info of this finance record
+        $user_info = DB::table('user_details')->where('user_id', $finance_info->user_id)->first();
+
+        // finance enquiry message for admin
+        $admin_phone = DB::table('users')->where('id', 1)->first();
+
         // If request staus is 2 then unapproce finance request
         if($request_status == 0){
+
+            // send sms on mobile number using curl
+            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
+
+            $sms = 'Apna Godam - You have unapproved '.$user_info->fname.' loan request';
+
+            $params = array(
+                "user" => "apnagodam",
+                "password" => "45cfd8bb21XX",
+                "senderid" => "apnago",
+                "mobiles" => $admin_phone->phone,
+                "sms" => $sms
+            );
+
+            $params = http_build_query($params);            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
+
+            // sent email to user
+            $sms = 'Apna Godam - Your loan request unapproved by Admin.';
+
+            $params = array(
+                "user" => "apnagodam",
+                "password" => "45cfd8bb21XX",
+                "senderid" => "apnago",
+                "mobiles" => $user_info->phone,
+                "sms" => $sms
+            );
+
+            $params = http_build_query($params);            
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);    
+
 
             $approved = '-1';
 
@@ -130,15 +182,56 @@ class FinanceController extends Controller
 
             $delete_finances = DB::table('finances')->where('id', $finance_id)->delete();
 
+        }else{
+                // send sms on mobile number using curl
+                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
+
+                $sms = 'Apna Godam - You have approved '.$user_info->fname.' loan request';
+
+                $params = array(
+                    "user" => "apnagodam",
+                    "password" => "45cfd8bb21XX",
+                    "senderid" => "apnago",
+                    "mobiles" => $admin_phone->phone,
+                    "sms" => $sms
+                );
+
+                $params = http_build_query($params);            
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($ch);
+
+                // sent email to user
+                $sms = 'Apna Godam - Your loan request approved by Admin.';
+
+                $params = array(
+                    "user" => "apnagodam",
+                    "password" => "45cfd8bb21XX",
+                    "senderid" => "apnago",
+                    "mobiles" => $user_info->phone,
+                    "sms" => $sms
+                );
+
+                $params = http_build_query($params);            
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($ch);            
+
+            // Update finance as approved / unapproved in finances table
+            $update = DB::table('finances')->where('id', $finance_id)->update([
+
+                'status' => $approved,
+                'updated_at' => $date,
+            ]);
         }
-
-        // Update finance as approved / unapproved in finances table
-        $update = DB::table('finances')->where('id', $finance_id)->update([
-
-            'status' => $approved,
-            'updated_at' => $date,
-        ]);
-
 
         if($respond){
 
