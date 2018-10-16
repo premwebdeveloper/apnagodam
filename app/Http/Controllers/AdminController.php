@@ -359,6 +359,9 @@ class AdminController extends Controller
 
         $user_id = $request->user_id;
 
+        // approve by admin
+        $user = DB::table('users')->where('id', $user_id)->first();
+
         $date = date('Y-m-d H:i:s');
 
         // User update in users table
@@ -378,6 +381,29 @@ class AdminController extends Controller
         if($approve)
         {
             $status = 'Enquiry approved successfully.';
+
+            // send otp on mobile number using curl
+            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+            //$mobiles = implode(",", $mobilesArr);
+            $sms = 'Apna Godam - Enquiry approved by Admin.';
+
+            $params = array(
+                        "user" => "apnagodam",
+                        "password" => "45cfd8bb21XX",
+                        "senderid" => "apnago",
+                        "mobiles" => $user->phone,
+                        "sms" => $sms
+                        );   
+
+            $params = http_build_query($params);            
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
         }
         else
         {
@@ -392,6 +418,9 @@ class AdminController extends Controller
 
         $user_id = $request->user_id;
 
+        // unapprove by admin
+        $user = DB::table('users')->where('id', $user_id)->first();
+
         // User delete in users table
         $user_unapprove = DB::table('users')->where('id', $user_id)->delete();
 
@@ -403,7 +432,30 @@ class AdminController extends Controller
 
         if($unapprove)
         {
-            $status = 'Enquiry unapproved successfully.';
+            $status = 'Enquiry unapproved by Admin.';
+
+            // send otp on mobile number using curl
+            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+            //$mobiles = implode(",", $mobilesArr);
+            $sms = 'Apna Godam - Enquiry unapproved successfully.';
+
+            $params = array(
+                        "user" => "apnagodam",
+                        "password" => "45cfd8bb21XX",
+                        "senderid" => "apnago",
+                        "mobiles" => $user->phone,
+                        "sms" => $sms
+                        );   
+
+            $params = http_build_query($params);            
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
         }
         else
         {

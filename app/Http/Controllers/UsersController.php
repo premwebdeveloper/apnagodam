@@ -91,7 +91,7 @@ class UsersController extends Controller
 
         $id = $request->id;
         $currentuserid = Auth::user()->id;
-
+        $user = DB::table('users')->where('id', $currentuserid)->first();
         // Get inventory details
         $inventory= DB::table('inventories')
                     ->join('categories', 'categories.id', '=', 'inventories.commodity')
@@ -99,6 +99,32 @@ class UsersController extends Controller
                     ->select('inventories.*', 'categories.category')
 
                     ->first();
+
+        // finance enquiry message for admin
+        $admin_phone = DB::table('users')->where('id', 1)->first();
+
+        // send otp on mobile number using curl
+        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+        //$mobiles = implode(",", $mobilesArr);
+        $sms = 'Apna Godam - loan Enquiry by - '.$user->fname;
+
+        $params = array(
+                    "user" => "apnagodam",
+                    "password" => "45cfd8bb21XX",
+                    "senderid" => "apnago",
+                    "mobiles" => $admin_phone->phone,
+                    "sms" => $sms
+                    );   
+
+        $params = http_build_query($params);            
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
 
         return view("user.request_for_loan", array('commodity_id' => $id, 'inventory' => $inventory));
     }
@@ -263,7 +289,7 @@ class UsersController extends Controller
 
             // send sms on mobile number using curl
             $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
-            $mobiles = implode(",", $mobilesArr);
+            //$mobiles = implode(",", $mobilesArr);
             $sms = 'Verify your mobile to login Apnagodam with OTP - '.$otp;
 
             $params = array(

@@ -66,6 +66,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $date = date('Y-m-d H:i:s');
+        $full_name = $data['fname'];
+        $phone = $data['phone'];
 
         $user = User::create([
             'fname' => $data['fname'],
@@ -109,6 +111,51 @@ class RegisterController extends Controller
             )
         );
 
+        $admin_phone = DB::table('users')->where('id', 1)->first();
+
+        // send otp on mobile number using curl
+        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+        //$mobiles = implode(",", $mobilesArr);
+        $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
+
+        $params1 = array(
+                    "user" => "apnagodam",
+                    "password" => "45cfd8bb21XX",
+                    "senderid" => "apnago",
+                    "mobiles" => $admin_phone->phone,
+                    "sms" => $sms
+                    );   
+
+        $params1 = http_build_query($params1);            
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+
+        //$mobiles = implode(",", $mobilesArr);
+        $sms1 = 'Apna Godam - Enquiry Successfully Submited. Wait for administrator response !';
+
+        $params = array(
+                    "user" => "apnagodam",
+                    "password" => "45cfd8bb21XX",
+                    "senderid" => "apnago",
+                    "mobiles" => $phone,
+                    "sms" => $sms1
+                    );
+
+        $params = http_build_query($params);            
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
         return $user;
         exit;
     }
