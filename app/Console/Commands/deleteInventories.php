@@ -3,22 +3,23 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use DB;
 
-class cronJobs extends Command
+class deleteInventories extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'delete:bid';
+    protected $signature = 'inventories:truncate';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Inventories truncate';
 
     /**
      * Create a new command instance.
@@ -47,9 +48,6 @@ class cronJobs extends Command
             'updated_at' => $date
         ]);
 
-        // remove all pending deals which are not completed yet
-        $remove_deals = DB::table('buy_sells')->where('status', '!=', '2')->delete();
-
         // First get all incomplete deal's bid
         $bids = DB::table('buy_sell_conversations')
                 ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
@@ -63,5 +61,9 @@ class cronJobs extends Command
             $remove_bids = DB::table('buy_sell_conversations')->where('id', $bid->id)->delete();        
 
         }
+
+        // remove all pending deals which are not completed yet
+        $remove_deals = DB::table('buy_sells')->where('status', '!=', '2')->delete();
+
     }
 }
