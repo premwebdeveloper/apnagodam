@@ -76,6 +76,11 @@ class BuySellController extends Controller
         $inventory = DB::table('inventories')
                         ->where('inventories.id', '=', $inventory_id)
                         ->first();
+                        
+        // Get Commodity Name for SMS
+        $commodity_name = DB::table('categories')
+                        ->where('id', '=', $inventory->commodity)
+                        ->first();
         
         // Requested quantity should be less than or equal to available quantity
         if($req_quantity > $inventory->sell_quantity){
@@ -93,6 +98,56 @@ class BuySellController extends Controller
         if($price == $inventory->price){
             $buy_sell_status = 2;
             $deal_price = $price;
+
+            // then request price and seller price is equal send msg (buyer, seller and admin)
+            $admin = DB::table('users')->where('id', 1)->first();
+            
+            $buyer_phone = DB::table('users')->where('id', $current_user_id)->first();
+
+            $seller_phone = DB::table('users')->where('id', $seller_id)->first();
+
+            // mobile number in array
+            $mobilesArr = array($admin->phone,$buyer_phone->phone,$seller_phone->phone);
+
+/*            //admin sms
+            $admin_sms = 'Deal Done Successfully! Buyer - '.$buyer_phone->fname.' and Seller - '.$seller_phone->fname;
+
+            //buyer sms 
+            $buyer_sms = 'Deal Done Successfully! RS - '.$deal_price;
+
+            //seller sms
+            $seller_sms = 'Deal Done Successfully! RS - '.$deal_price;
+
+            // sms in array
+            $smsArr = array($admin_sms,$buyer_sms,$seller_sms);*/
+
+            // send otp on mobile number using curl
+            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+            
+            //$mobiles = implode(",", $mobilesArr);
+            $mobiles = implode(",", $mobilesArr); 
+
+            //$sms = implode(",", $smsArr);
+            //$sms = implode(",", $smsArr);
+            $sms = "Deal Done Successfully!";
+            $params = array(
+                        "user" => "apnagodam",
+                        "password" => "45cfd8bb21XX",
+                        "senderid" => "apnago",
+                        "mobiles" => $mobiles,
+                        "sms" => $sms
+                        );
+
+            $params = http_build_query($params);            
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
+
         }else{
             $buy_sell_status = 1;
             $deal_price = null;
@@ -172,6 +227,34 @@ class BuySellController extends Controller
                 $status = 'Deal done successfully.';
             }else{
                 
+                // the request price for seller
+                $seller_phone = DB::table('users')->where('id', $seller_id)->first();
+
+                // send otp on mobile number using curl
+                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+                
+                $sms = 'Request - RS '.$price.' for - '.$commodity_name->category.' Commodity';
+                
+                $mobiles = $seller_phone->phone;
+
+                $params = array(
+                            "user" => "apnagodam",
+                            "password" => "45cfd8bb21XX",
+                            "senderid" => "apnago",
+                            "mobiles" => $mobiles,
+                            "sms" => $sms
+                            );
+
+                $params = http_build_query($params);            
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($ch);
+
                 $status = 'Request submitted successfully.';
             }   
 

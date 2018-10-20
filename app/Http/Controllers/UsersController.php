@@ -578,6 +578,7 @@ class UsersController extends Controller
         $commodity_price = $request->commodity_price;
         $deal_id = $request->deal_id;
         $buyer_id = $request->buyer_id;
+
         $deal_quantity = $request->deal_quantity;
         $my_bid = $request->my_bid;
         $date = date('Y-m-d H:i:s');
@@ -604,7 +605,7 @@ class UsersController extends Controller
 
         // If seller bid amount less than buyers last bid then hit error
         if($currentuserid != $buyer_info->user_id){
-
+            
             if($my_bid < $last_dealer_bid->price){
 
                 return redirect('bidding/'.$deal_id)->with('status', 'You can not bid an amount less than buyers last bid !');
@@ -613,7 +614,7 @@ class UsersController extends Controller
 
         // First check the buyers power If less than bid amount * request quantity then this can bid else not
         if($currentuserid == $buyer_info->user_id){
-
+            
             if($buyer_info->power < $deal_quantity * $my_bid){
 
                 return redirect('bidding/'.$deal_id)->with('status', 'You do not have the power to bid this amount! Please contact to administrator.');
@@ -634,7 +635,7 @@ class UsersController extends Controller
         if($bid){
 
             if(!empty($last_dealer_bid)){
-
+                
                 // if seller and buyers last bid is same then deal done
                 if($last_dealer_bid->price == $my_bid){
 
@@ -645,6 +646,9 @@ class UsersController extends Controller
                         'status' => 2,
                         'updated_at' => $date
                     ]);
+                    
+                    // deal done after get seller and buyer id
+                    $seller_buyer_id = DB::table('buy_sells')->where('seller_cat_id', $last_dealer_bid->seller_cat_id)->first();
 
                     // get old total and sell quantity of this inventory
                     $sell_quantity = DB::table('inventories')->where('id', $last_dealer_bid->seller_cat_id)->first();
@@ -697,13 +701,76 @@ class UsersController extends Controller
                         'power' => $buyer_info->power - $last_dealer_bid->quantity*$my_bid,
                         'updated_at' => $date
                     ]);
+
+                    // then request price and seller price is equal send msg (buyer, seller and admin)
+                    $admin = DB::table('users')->where('id', 1)->first();
                     
+                    $buyer_phone = DB::table('users')->where('id', $seller_buyer_id->buyer_id)->first();
+
+                    $seller_phone = DB::table('users')->where('id', $seller_buyer_id->seller_id)->first();
+
+                    // mobile no array
+                    $mobilesArr = array($admin->phone,$buyer_phone->phone,$seller_phone->phone);
+
+                    // send otp on mobile number using curl
+                    $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+                    //$mobiles = implode(",", $mobilesArr);
+                    $sms = 'Deal Done Successfully';
+
+                    $mobiles = implode(",", $mobilesArr);
+
+                    $params = array(
+                                "user" => "apnagodam",
+                                "password" => "45cfd8bb21XX",
+                                "senderid" => "apnago",
+                                "mobiles" => $mobiles,
+                                "sms" => $sms
+                                );
+
+                    $params = http_build_query($params);            
+
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    $result = curl_exec($ch);
+
                     $status = 'Deal done successfully.';
 
                     // redirect to the deals page
                     return redirect('deals/')->with('status', $status);
                 }
                 else{
+
+                    // buyer - seller phone info
+                    $buyer_phone_info = DB::table('user_details')->where('user_id', $last_dealer_bid->user_id)->first();
+                    
+                    // Bid sms for buyer and seller
+                    $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+                    
+                    $sms = 'Request - RS '.$my_bid;
+                    
+                    $mobiles = $buyer_phone_info->phone;
+
+                    $params = array(
+                                "user" => "apnagodam",
+                                "password" => "45cfd8bb21XX",
+                                "senderid" => "apnago",
+                                "mobiles" => $mobiles,
+                                "sms" => $sms
+                                );
+
+                    $params = http_build_query($params);            
+
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    $result = curl_exec($ch);
 
                     $status = 'Bid submitted successfully.';
                 }
