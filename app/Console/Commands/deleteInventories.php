@@ -40,14 +40,6 @@ class deleteInventories extends Command
     {
         $date = date('Y-m-d H:i:s');
 
-        // Make empty all commodities price and sell quantity
-        $remove_prices = DB::table('inventories')->update([
-
-            'sell_quantity' => null,
-            'price' => 0,
-            'updated_at' => $date
-        ]);
-
         // First get all incomplete deal's bid
         $bids = DB::table('buy_sell_conversations')
                 ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
@@ -64,6 +56,15 @@ class deleteInventories extends Command
 
         // remove all pending deals which are not completed yet
         $remove_deals = DB::table('buy_sells')->where('status', '!=', '2')->delete();
+        
+        // Make empty all commodities price and sell quantity
+        $remove_prices = DB::table('inventories')->update([
+
+            'sell_quantity' => null,
+            'price' => 0,
+            'updated_at' => $date
+        ]);
+
 
     }
 }

@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        'App\Console\Commands\cronJobs'
+        'App\Console\Commands\deleteInventories'
     ];
 
     /**
@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('delete:bid')
-                  ->dailyAt('19:25');
+        $schedule->command('inventories:truncate')
+                  ->dailyAt('17:01');
     }
 
     /**
