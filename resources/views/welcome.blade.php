@@ -4,50 +4,50 @@
 
 <main id="main"> <!-- main body conatiner starts-->
     <header class="">
-        <link href="http://aashiholidays.com/css/responsive-slider.css" rel="stylesheet"> 
+         <link href="{{ asset('resources/frontend_assets/css/responsive-slider.css') }}" rel="stylesheet"> 
         <div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
             <div class="slides apna_godam1" data-group="slides">
                 <ul>
                     
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner1.png') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner1.jpg') }}">              
                         </div>
                     </li>
                     
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner2.png') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner2.jpg') }}">              
                         </div>
                     </li>
                     
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner3.png') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner3.jpg') }}">              
                         </div>
                     </li>    
 
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner4.png') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner4.jpg') }}">              
                         </div>
                     </li>  
 
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner5.png') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner5.jpg') }}">              
                         </div>
                     </li>  
                                       
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner6.png') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner6.jpg') }}">              
                         </div>
                     </li>
 
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner7.png') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner7.jpg') }}">              
                         </div>
                     </li>
                 </ul>
@@ -55,8 +55,8 @@
            <!-- <a class="slider-control left" href="#" data-jump="prev">Prev</a>
             <a class="slider-control right" href="#" data-jump="next">Next</a>-->
         </div>
-        <script src="http://aashiholidays.com/js/jquery.event.move.js"></script>
-        <script src="http://aashiholidays.com/js/responsive-slider.js"></script>
+        <script src="{{ asset('resources/frontend_assets/js/jquery.event.move.js') }}"></script>
+        <script src="{{ asset('resources/frontend_assets/js/responsive-slider.js') }}"></script>
     </header>
 <!-- 
     <section id="cta">

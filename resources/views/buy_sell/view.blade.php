@@ -52,16 +52,26 @@
 <header class="masthead text-white d-flex masthalf"></header>
 <section id="about">
     <div class="container">
-        <h1 class="text-center">Our {{ $cat->category }}</h1>
-        <hr>
-        @if($errors->any())
-            <div class="alert alert-success alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                {{$errors->first()}}
-            </div>
-        @endif
+
         <div class="row">
             <div class="col-md-12">
+                <p style="float: right;font-weight: bold;">
+                    <strong>Click 
+                    <a href="https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx" target="_blank">
+                        Here
+                    </a>
+                    for Current Updates</strong>
+                </p>
+            </div>
+            <div class="col-md-12">
+                <h1 class="text-center">Our {{ $cat->category }}</h1>
+                <hr>
+                @if($errors->any())
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{$errors->first()}}
+                    </div>
+                @endif
                 <div class="col-md-3">
                     <ul class="apna_godam">
                         @foreach($categories as $key => $category)
@@ -74,6 +84,7 @@
                     </ul>
                 </div>
                 <div class="col-md-9">
+
                     <table class="table table-bordered">
                         <thead>
                             <tr>
