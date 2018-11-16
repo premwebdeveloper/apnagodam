@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2018 at 02:57 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Generation Time: Nov 16, 2018 at 01:23 PM
+-- Server version: 10.1.29-MariaDB
+-- PHP Version: 7.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -45,9 +45,8 @@ CREATE TABLE `buy_sells` (
 --
 
 INSERT INTO `buy_sells` (`id`, `buyer_id`, `seller_id`, `seller_cat_id`, `quantity`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(1, 7, 3, 18, '5', '5000', 2, '2018-10-08 06:42:58', '2018-10-08 06:42:58'),
-(3, 7, 3, 18, '10', '4500', 2, '2018-10-08 07:37:01', '2018-10-08 07:37:45'),
-(4, 7, 3, 18, '4', '4300', 2, '2018-10-08 07:40:40', '2018-10-08 07:46:57');
+(8, 23, 22, 7, '10', '910', 2, '2018-10-19 05:08:32', '2018-10-19 07:07:33'),
+(9, 23, 22, 7, '50', '900', 2, '2018-10-20 06:01:41', '2018-10-20 06:01:41');
 
 -- --------------------------------------------------------
 
@@ -70,15 +69,10 @@ CREATE TABLE `buy_sell_conversations` (
 --
 
 INSERT INTO `buy_sell_conversations` (`id`, `buy_sell_id`, `user_id`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 7, '5000', 1, '2018-10-08 06:42:58', '2018-10-08 06:42:58'),
-(8, 3, 7, '4000', 1, '2018-10-08 07:37:01', '2018-10-08 07:37:01'),
-(9, 3, 3, '4800', 1, '2018-10-08 07:37:31', '2018-10-08 07:37:31'),
-(10, 3, 7, '4500', 1, '2018-10-08 07:37:38', '2018-10-08 07:37:38'),
-(11, 3, 3, '4500', 1, '2018-10-08 07:37:45', '2018-10-08 07:37:45'),
-(12, 4, 7, '4000', 1, '2018-10-08 07:40:40', '2018-10-08 07:40:40'),
-(13, 4, 3, '4500', 1, '2018-10-08 07:41:27', '2018-10-08 07:41:27'),
-(16, 4, 7, '4300', 1, '2018-10-08 07:46:50', '2018-10-08 07:46:50'),
-(17, 4, 3, '4300', 1, '2018-10-08 07:46:57', '2018-10-08 07:46:57');
+(10, 8, 23, '900', 1, '2018-10-19 05:08:32', '2018-10-19 05:08:32'),
+(13, 8, 22, '910', 1, '2018-10-19 05:32:23', '2018-10-19 05:32:23'),
+(29, 8, 23, '910', 1, '2018-10-19 06:41:48', '2018-10-19 06:41:48'),
+(30, 9, 23, '900', 1, '2018-10-20 06:01:41', '2018-10-20 06:01:41');
 
 -- --------------------------------------------------------
 
@@ -106,10 +100,10 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `category`, `gst`, `commossion`, `mandi_fees`, `loading`, `bardana`, `freight`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'wheat', '5', '5', '5', '5', '5', '5', 'ff59de.jpg', 1, '2018-09-27 06:27:08', '2018-09-27 06:27:08'),
-(2, 'Chana', '5', '5', '5', '5', '5', '5', '4fc77c.jpg', 1, '2018-09-27 06:27:30', '2018-09-27 06:27:30'),
-(3, 'Peanut', '2', '200', '150', '100', '25', '75', '10fa78.jpg', 1, '2018-10-05 02:22:07', '2018-10-05 02:22:07'),
-(4, 'Almond', '5', '500', '250', '125', '400', '200', 'd3a32f.jpg', 1, '2018-10-05 02:22:37', '2018-10-05 02:22:37');
+(1, 'Chana', '123196', '10', '50', '200', '10', '50', 'e24536.jpg', 1, '2018-09-26 08:25:07', '2018-09-26 08:53:26'),
+(2, 'Rice', '32543', '10', '50', '200', '10', '50', '592ecc.jpg', 1, '2018-09-26 08:54:27', '2018-09-26 08:54:27'),
+(3, 'Mustard', '32543', '10', '50', '200', '10', '50', 'd0cbef.jpg', 1, '2018-09-26 08:55:13', '2018-09-26 08:55:13'),
+(4, 'Milk', '32543', '10', '50', '200', '10', '50', '24e090.png', 0, '2018-10-12 07:22:47', '2018-10-12 07:22:53');
 
 -- --------------------------------------------------------
 
@@ -130,8 +124,8 @@ CREATE TABLE `facilities` (
 --
 
 INSERT INTO `facilities` (`id`, `facility`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Dharm Kanta', 1, '2018-09-26 12:02:01', '2018-09-26 12:02:01'),
-(2, 'CCTV', 1, '2018-09-26 12:02:01', '2018-09-26 12:02:01');
+(1, 'facility', 1, '2018-09-20 08:31:00', '2018-09-20 08:31:00'),
+(2, 'facility 1', 1, '2018-09-20 08:35:44', '2018-09-20 08:35:46');
 
 -- --------------------------------------------------------
 
@@ -163,7 +157,9 @@ CREATE TABLE `finances` (
 --
 
 INSERT INTO `finances` (`id`, `user_id`, `bank_name`, `branch_name`, `acc_number`, `ifsc`, `pan`, `aadhar`, `balance_sheet`, `bank_statement`, `commodity_id`, `quantity`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(2, 3, 'Bank Of Baroda', 'Singhana', '61148299568', 'SBIN0031155', 'd9b4e7.jpg', '8bf51c.jpg', '78bf51.jpg', 'd397a7.jpg', 18, NULL, '10000', 1, '2018-10-05 04:22:02', '2018-10-05 04:22:02');
+(1, 5, 'sbi', 'jaipur', '123456', 'asfasf', 'd73433.png', 'd78fc1.png', '38cd22.png', 'd74e1c.png', 1, NULL, NULL, 3, '2018-10-03 08:08:15', '2018-10-03 08:09:49'),
+(2, 22, 'sbi', 'jaipur', '123456', 'asfasf', '353a4a.png', '9f964e.png', '4ec543.gif', '79c80b.png', 5, '10', '1000', 1, '2018-10-15 15:00:46', '2018-10-15 15:00:46'),
+(3, 22, 'sbi', 'jaipur', '123456', 'asfasf', '7c1a23.png', 'b177ff.png', 'a27573.gif', '4cbbe7.png', 5, '10', '1000', 1, '2018-10-15 15:01:13', '2018-10-15 15:01:13');
 
 -- --------------------------------------------------------
 
@@ -187,7 +183,9 @@ CREATE TABLE `finance_responses` (
 --
 
 INSERT INTO `finance_responses` (`id`, `finance_id`, `bank_name`, `amount`, `interest`, `status`, `created_at`, `updated_at`) VALUES
-(2, 2, NULL, NULL, NULL, NULL, '2018-10-05 04:22:02', '2018-10-05 04:22:02');
+(1, 1, 'ert', 2354, '343', 2, '2018-10-03 08:08:15', '2018-10-03 08:09:49'),
+(2, 2, NULL, NULL, NULL, NULL, '2018-10-15 15:00:46', '2018-10-15 15:00:46'),
+(3, 3, NULL, NULL, NULL, NULL, '2018-10-15 15:01:13', '2018-10-15 15:01:13');
 
 -- --------------------------------------------------------
 
@@ -215,14 +213,8 @@ CREATE TABLE `inventories` (
 --
 
 INSERT INTO `inventories` (`id`, `user_id`, `warehouse_id`, `commodity`, `type`, `quantity`, `sell_quantity`, `price`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(17, 2, 4, 1, NULL, '100', '20', '20', '222ba7.pdf', 1, '2018-10-05 02:31:05', '2018-10-07 05:36:08'),
-(18, 3, 2, 4, NULL, '181', '51', '5000', '30e148.pdf', 1, '2018-10-05 02:31:24', '2018-10-08 07:46:57'),
-(19, 2, 4, 3, NULL, '150', '80', '2500', 'e74ac3.pdf', 1, '2018-10-05 02:31:40', '2018-10-08 06:41:15'),
-(20, 4, 1, 2, NULL, '500', '400', '3500', 'bcb772.pdf', 1, '2018-10-05 02:31:58', '2018-10-05 02:31:58'),
-(21, 6, 4, 3, NULL, '100', '100', '1500', '162c9a.pdf', 1, '2018-10-05 02:32:23', '2018-10-05 02:32:23'),
-(22, 7, 1, 1, NULL, '100', '0', '0', '2ffffe.pdf', 1, '2018-10-05 03:40:31', '2018-10-07 05:31:54'),
-(23, 7, 4, 3, NULL, '50', NULL, '0', NULL, 1, '2018-10-07 06:46:54', '2018-10-07 06:46:54'),
-(24, 7, 2, 4, NULL, '19', NULL, '0', NULL, 1, '2018-10-08 06:42:58', '2018-10-08 06:42:58');
+(7, 22, 1, 1, NULL, '350', '150', '900', '125f00.pdf', 1, '2018-10-18 14:05:19', '2018-10-20 06:01:41'),
+(8, 23, 1, 1, NULL, '190', NULL, '0', NULL, 1, '2018-10-19 06:16:47', '2018-10-19 06:16:47');
 
 -- --------------------------------------------------------
 
@@ -243,8 +235,8 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `item`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Item A', 1, '2018-09-26 12:02:30', '2018-09-26 12:02:30'),
-(2, 'Item B', 1, '2018-09-26 12:02:30', '2018-09-26 12:02:30');
+(1, 'Item 1', 1, '2018-09-20 07:47:01', '2018-09-20 07:47:01'),
+(2, 'Item 2', 1, '2018-09-20 07:47:13', '2018-09-20 08:01:31');
 
 -- --------------------------------------------------------
 
@@ -264,19 +256,7 @@ CREATE TABLE `migrations` (
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(4, '2018_09_06_125124_create_roles_table', 2),
-(5, '2018_09_06_125445_create_user_roles_table', 3),
-(7, '2018_09_06_130518_create_user_details_table', 4),
-(8, '2018_09_13_114238_create_warehouses_table', 5),
-(9, '2018_09_17_120058_create_inventories_table', 6),
-(10, '2018_09_17_120618_create_finances_table', 7),
-(11, '2018_09_17_124005_create_items_table', 8),
-(12, '2018_09_17_124037_create_facilities_table', 8),
-(13, '2018_09_22_122228_create_finance_responses_table', 9),
-(14, '2018_09_26_123235_create_categories_table', 10),
-(15, '2018_09_27_115959_create_buy_sells_table', 11),
-(16, '2018_09_27_120032_create_buy_sell_conversations_table', 11);
+(2, '2014_10_12_100000_create_password_resets_table', 1);
 
 -- --------------------------------------------------------
 
@@ -308,8 +288,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '2018-09-06 13:57:26', '2018-09-06 13:57:26'),
-(2, 'user', '2018-09-06 13:57:26', '2018-09-06 13:57:26');
+(1, 'admin', '2018-09-06 08:27:26', '2018-09-06 08:27:26'),
+(2, 'user', '2018-09-06 08:27:26', '2018-09-06 08:27:26');
 
 -- --------------------------------------------------------
 
@@ -336,12 +316,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `phone`, `login_otp`, `remember_token`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', '', 'admin@admin.com', '$2y$10$8tXr4/YWabiDDW2AfnMZC.TuF0tMtetSx9Pe/yvlNON2hLlymmqeK', '7014957469', NULL, 'sA72wUSZWjqO46uzH3KZd4rK9pXpdrYBTGQqBbBNSDoWcdDSJbLLzY0HunMU', 1, '2018-09-01 08:17:09', '2018-09-17 08:03:32'),
-(2, 'Amit Sharma', NULL, NULL, '$2y$10$6JzKUBsDb0hmrFa2xx9/d.U6Thwphdsrjhq20tQspzBshV9befJuG', '9314142089', NULL, 'BQAm6qJg6aSRiX7GucU5hs6B8k84sKoAG4ahDzNFpdZnrxXv6S1poewy8hd3', 1, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
-(3, 'Prem Saini', NULL, 'premsaini9602@gmail.com', '$2y$10$eT3lvbBhSxZDazizdE4V/ONbBq/2U5rp/ATlHElFCDksKreTMZE4e', '9602947878', NULL, '3XW2aHX5NTHv2inq4vQWWauUCBcWhHnpzqzM5TK3HzQKk8PD8AQ9m6UpxKG6', 1, '2018-10-05 02:25:33', '2018-10-05 02:25:33'),
-(4, 'Ravi Kumar', NULL, NULL, '$2y$10$qjEhOP9qJVX/V4VIt4JeK.7.MdB6kgjxN6Z.QvNF9ZH5OTwhI/vRu', '9509201120', NULL, NULL, 1, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(6, 'Kumar Prem', NULL, NULL, '$2y$10$50G6l0BAYE65sHdPtvpGS.SAM0RW2bRQKaPAluJrUSwOY6abRlfTi', '8005609866', NULL, NULL, 1, '2018-10-05 02:27:45', '2018-10-05 02:27:55'),
-(7, 'Ani Modi', NULL, NULL, '$2y$10$tjwUzPXS5/bzc4X6Tfv6oOtBW/Y9X3t7VdmHeufl456a3lq83UxV6', '9602047010', NULL, NULL, 1, '2018-10-05 03:37:52', '2018-10-05 03:39:05');
+(1, 'Admin', '', 'admin@admin.com', '$2y$10$JCJ6HuLpoDYa0obD88w0buwVOYjjK5/M59CxfPM/UDqtJHLb2uK5O', '7378000002', '123456', '0AraHhkGaz3DbljiefWM8ak3Ya5WWcKiQKq4HdYriwef1Re0obMWka82q1T6', 1, '2018-09-01 08:17:09', '2018-09-01 08:17:09'),
+(22, 'amit', NULL, 'admin@gmail.com', '$2y$10$zsWb.TJ/RxNR4o6ozTEXj.Ru0/LE9ObDeMrPUNvbOOWG0ySqDMAgO', '8003947560', '384085', NULL, 1, '2018-10-15 14:16:51', '2018-10-17 14:23:48'),
+(23, 'Prem Saini', NULL, 'premsaini9602@gmail.com', '$2y$10$RJ1V2OOTWbaf8hyVn3JL6OIeu5G7POFz0CLGe23sJduQsLJXgQ0Tm', '7014957469', '668318', NULL, 1, '2018-10-17 14:15:19', '2018-10-17 14:27:23');
 
 -- --------------------------------------------------------
 
@@ -375,11 +352,8 @@ CREATE TABLE `user_details` (
 --
 
 INSERT INTO `user_details` (`id`, `user_id`, `fname`, `lname`, `email`, `phone`, `father_name`, `category`, `gst_number`, `khasra_no`, `village`, `tehsil`, `district`, `image`, `power`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Amit Sharma', NULL, NULL, '8003947560', 'FAther', 1, NULL, '12345', 'singhana', 'Buhana', 'jhunjhunu', 'c9e0c7.jpg', '1', 1, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
-(2, 3, 'Prem Saini', NULL, 'premsaini9602@gmail.com', '9602947878', 'Father', 2, '98765', NULL, 'singhana', 'Buhana', 'jhunjhunu', 'b571e4.jpg', '1', 1, '2018-10-05 02:25:33', '2018-10-05 02:25:33'),
-(3, 4, 'Ravi Kumar', NULL, NULL, '9509201120', 'Father', 3, '123456789', NULL, 'Shastri Nagar', 'Vidhyadhar Nagar', 'Jaipur', '462df1.jpg', '1', 1, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(5, 6, 'Kumar Prem', NULL, NULL, '8005609866', 'Father', 1, NULL, '1234', 'vidhyadhar nagar', 'jaipur', 'jaipur', 'user.png', '500000', 1, '2018-10-05 02:27:44', '2018-10-05 02:27:55'),
-(6, 7, 'Ani Modi', NULL, NULL, '9602047010', 'Father NAme', 1, NULL, '12345', 'vidhyadhar nagar', 'jaipur', 'jaipur', 'user.png', '2800', 1, '2018-10-05 03:37:51', '2018-10-08 07:46:57');
+(16, 22, 'amit', NULL, 'admin@gmail.com', '8003947560', 'Ganpat ram saini', 1, NULL, '321123', 'khetri nagar', 'khetri', 'jhunjhunu', 'user.png', '86000', 1, '2018-10-15 14:16:51', '2018-10-18 13:17:40'),
+(17, 23, 'Prem Saini', NULL, 'premsaini9602@gmail.com', '7014957469', 'Ganpat ram saini', 2, '3021364', NULL, 'khetri nagar', 'khetri', 'jhunjhunu', 'user.png', '27400', 1, '2018-10-17 14:15:18', '2018-10-20 06:01:41');
 
 -- --------------------------------------------------------
 
@@ -400,13 +374,17 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2018-09-06 13:56:31', '2018-09-06 13:56:31'),
-(12, 2, 2, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
-(13, 3, 2, '2018-10-05 02:25:33', '2018-10-05 02:25:33'),
-(14, 4, 2, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(15, 5, 2, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(16, 6, 2, '2018-10-05 02:27:44', '2018-10-05 02:27:44'),
-(17, 7, 2, '2018-10-05 03:37:51', '2018-10-05 03:37:51');
+(1, 1, 1, '2018-09-06 08:26:31', '2018-09-06 08:26:31'),
+(3, 5, 2, '2018-09-11 08:14:37', '2018-09-11 08:14:37'),
+(10, 14, 2, '2018-09-18 07:49:26', '2018-09-18 07:49:26'),
+(11, 15, 2, '2018-09-19 08:16:00', '2018-09-19 08:16:00'),
+(12, 16, 2, '2018-09-26 06:39:34', '2018-09-26 06:39:34'),
+(14, 18, 2, '2018-10-15 14:07:31', '2018-10-15 14:07:31'),
+(15, 19, 2, '2018-10-15 14:08:23', '2018-10-15 14:08:23'),
+(16, 20, 2, '2018-10-15 14:12:23', '2018-10-15 14:12:23'),
+(17, 21, 2, '2018-10-15 14:16:11', '2018-10-15 14:16:11'),
+(18, 22, 2, '2018-10-15 14:16:51', '2018-10-15 14:16:51'),
+(19, 23, 2, '2018-10-17 14:15:18', '2018-10-17 14:15:18');
 
 -- --------------------------------------------------------
 
@@ -431,10 +409,9 @@ CREATE TABLE `warehouses` (
 --
 
 INSERT INTO `warehouses` (`id`, `name`, `village`, `capacity`, `items`, `facilities`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'warehouse palsana', 'palsana', '200 ton', '[\"1\",\"3\"]', '[\"1\",\"2\",\"4\"]', 1, '2018-09-13 07:28:27', '2018-09-14 06:09:19'),
-(2, 'warehouse jaipur', 'chomu', '1000 ton', '[\"1\",\"3\"]', '[\"1\",\"4\"]', 1, '2018-09-13 07:31:05', '2018-09-14 06:09:45'),
-(3, 'warehouse jhunjhunu', 'singhana', '500 ton', '[\"2\"]', '[\"3\",\"4\"]', 2, '2018-09-13 08:00:38', '2018-09-14 06:18:35'),
-(4, 'vidhyadhar nagar warehouse', 'vidhyadhar nagar', '10000', '[\"1\",\"2\"]', '[\"1\",\"2\"]', 1, '2018-10-03 08:47:13', '2018-10-03 09:01:24');
+(1, 'Warehouse', 'jaipur', '1000 sqft.', '[\"1\",\"2\"]', '[\"1\"]', 1, '2018-09-20 08:52:04', '2018-09-22 06:42:51'),
+(2, 'Ravi', 'khetri nagar', '1000 sqft.', '[\"1\",\"2\"]', '[\"1\"]', 1, '2018-09-22 06:43:09', '2018-09-22 06:43:33'),
+(3, 'Amit', 'khetri nagar', '1000 sqft.', '[\"2\"]', '[\"1\"]', 1, '2018-09-22 06:43:42', '2018-09-22 06:47:26');
 
 --
 -- Indexes for dumped tables
@@ -539,13 +516,13 @@ ALTER TABLE `warehouses`
 -- AUTO_INCREMENT for table `buy_sells`
 --
 ALTER TABLE `buy_sells`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `buy_sell_conversations`
 --
 ALTER TABLE `buy_sell_conversations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -563,19 +540,19 @@ ALTER TABLE `facilities`
 -- AUTO_INCREMENT for table `finances`
 --
 ALTER TABLE `finances`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `finance_responses`
 --
 ALTER TABLE `finance_responses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -587,7 +564,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -599,25 +576,25 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `user_details`
 --
 ALTER TABLE `user_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `warehouses`
 --
 ALTER TABLE `warehouses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
