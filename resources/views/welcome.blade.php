@@ -1,7 +1,16 @@
 @extends('layouts.public_app')
 
 @section('content')
-
+<style type="text/css">
+    .amit{
+        display: inline-flex;
+        list-style-type: none;
+        margin-bottom: 0;
+    }
+    .amit li{
+        margin-left: 20px;
+    }
+</style>
 <main id="main"> <!-- main body conatiner starts-->
     <header class="">
          <link href="{{ asset('resources/frontend_assets/css/responsive-slider.css') }}" rel="stylesheet"> 
@@ -69,6 +78,14 @@
     </section> -->
 
     <section id="about">
+        <h2 class="section-heading text-center">Today's Price (Per Qtl)</h2>
+        <marquee style="background: #00c0f5;margin-bottom: 20px;">
+            <ul class="amit">
+                @foreach($today_prices as $key => $today_price)
+                    <li><b>{!! $today_price->name !!}-{!! $today_price->price !!}</b></li>
+                @endforeach
+            </ul>
+        </marquee>
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">

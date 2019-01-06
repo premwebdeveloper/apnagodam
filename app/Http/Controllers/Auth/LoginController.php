@@ -33,6 +33,7 @@ class LoginController extends Controller
     // Custom login response function
     protected function sendLoginResponse(Request $request)
     {
+
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
@@ -52,7 +53,7 @@ class LoginController extends Controller
         # User Role id
         $role_id = $user->role_id;
 
-        if($role_id == 1)
+        if($role_id == 1 || $role_id == 4)
         {
             return redirect(route('dashboard'));
         }
@@ -80,7 +81,6 @@ class LoginController extends Controller
     // Custom function to redirect after login failed
     protected function sendFailedLoginResponse(Request $request)
     {
-        //dd($request);
         return redirect('login')
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors([

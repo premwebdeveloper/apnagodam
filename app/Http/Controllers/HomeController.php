@@ -27,7 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $today_price =   DB::table('today_prices')
+                        ->where('status', 1)
+                        ->get();
+        return view('welcome', array('today_prices' => $today_price));
     }
 
     // send otp and verify otp function 

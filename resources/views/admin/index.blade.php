@@ -60,12 +60,14 @@
                                             <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
+                                            @if(Auth::user()->id == 1)
                                             <a href="{!! route('user_edit_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
                                             <a href="{!! route('user_delete', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete User">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
+                                            @endif
                                         </td>
 	                                </tr>
                                 @endforeach

@@ -71,12 +71,15 @@
                                         <td>{!! $category->freight !!}</td>
                                         <td><img src="{{ asset('resources/assets/upload/category/'.$category->image) }}" class="img-responsive" width="100" height="100"></td>
                                         <td>
+                                            @if(Auth::user()->id == 1)
                                             <a href="{!! route('category_edit_view', ['id' => $category->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
+                                            
                                             <a href="{!! route('category_delete', ['id' => $category->id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete Category">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

@@ -74,7 +74,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make(123456),
-            'status' => 0
+            'status' => 1
         ]);
 
         $user_id = $user->id;
@@ -107,7 +107,7 @@ class RegisterController extends Controller
                 'power' => 1,
                 'created_at' => $date,
                 'updated_at' => $date,
-                'status' => 0
+                'status' => 1
             )
         );
 
@@ -137,7 +137,7 @@ class RegisterController extends Controller
         $result = curl_exec($ch);
 
         //$mobiles = implode(",", $mobilesArr);
-        $sms1 = 'Apna Godam - Enquiry Successfully Submited. Wait for administrator response !';
+        $sms1 = 'Apna Godam - Successfully Registered !';
 
         $params = array(
                     "user" => "apnagodam",

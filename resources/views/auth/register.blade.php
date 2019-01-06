@@ -78,7 +78,7 @@
                                         <option value="">Select Category</option>
                                         <option value="1">Farmer</option>
                                         <option value="2">Trader</option>
-                                        <option value="3">Miller</option>
+                                        <!-- <option value="3">Miller</option> -->
                                     </select>
                                     @if ($errors->has('category'))
                                         <span class="invalid-feedback" role="alert">

@@ -29,7 +29,10 @@
                     
                     @guest
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="{{ route('login') }}" >Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="{{ route('login') }}" >Farmer Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="{{ route('login') }}" >Trader Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </li>
                     @else
                         @if(Auth::user()->id != 1)

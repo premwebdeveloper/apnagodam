@@ -478,4 +478,48 @@ class AdminController extends Controller
 
         return view('admin.done_deals', array('done_deals' => $done_deals));
     }
+
+    // Today's Price
+    public function today_price(){
+        $today_price =   DB::table('today_prices')
+                        ->where('status', 1)
+                        ->get();
+        return view('admin.today_price', array('today_prices' => $today_price));
+    }
+
+    // Today's Price Edit View
+    public function view(Request $request){
+        $id = $request->id;
+        
+        $today_price =   DB::table('today_prices')->where('id', $id)->first();
+
+        return view('admin.today_price_view', array('today_price' => $today_price));
+    }
+    // Today's Price Update
+    public function edit(Request $request){
+        $date = date('Y-m-d H:i:s');
+        $id = $request->id;
+        $name = $request->name;
+        $price = $request->price;
+        
+        // User details update in user details table
+        $edit = DB::table('today_prices')->where('id', $id)->update([
+
+            'name' => $name,
+            'price' => $price,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+
+        if($edit)
+        {
+            $status = 'Price Updated successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('today_price')->with('status', $status);
+    }
 }

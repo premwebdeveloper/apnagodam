@@ -92,6 +92,11 @@ Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove
 // Admin Dashboard Done Deals 
 Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
 
+// Admin Dashboard Today's Price 
+Route::get('/today_price', 'AdminController@today_price')->name('today_price');
+Route::get('/today_price_edit_view/{id}', 'AdminController@view')->name('today_price_edit_view');
+Route::post('/today_price_edit/', 'AdminController@edit')->name('today_price_edit');
+
 // Warehouses Routes
 Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');
 Route::get('/add_warehouse_view', 'WarehouseController@add_warehouse_view')->name('add_warehouse_view');

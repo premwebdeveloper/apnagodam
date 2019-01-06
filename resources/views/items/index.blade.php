@@ -57,12 +57,14 @@
                                         <td>{!! $key + 1 !!}</td>
                                         <td>{!! $item->item !!}</td>
                                         <td>
+                                            @if(Auth::user()->id == 1)
                                             <a href="{!! route('item_edit_view', ['id' => $item->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
                                             <a href="{!! route('item_delete', ['id' => $item->id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete Item">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

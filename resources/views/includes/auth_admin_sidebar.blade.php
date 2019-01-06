@@ -54,7 +54,14 @@
                     <span class="nav-label">Dashboard</span>
                 </a>
             </li>
-
+            @if(Auth::user()->id == 1)
+            <li>
+                <a href="{{ route('today_price') }}">
+                    <i class="fa fa-inr"></i> 
+                    <span class="nav-label">Today's Price</span>
+                </a>
+            </li>
+            @endif
             <li>
                 <a href="{{ route('users') }}">
                     <i class="fa fa-users"></i> 
@@ -96,14 +103,14 @@
                     <span class="nav-label">Warehouses</span>
                 </a>
             </li>
-
+            @if(Auth::user()->id == 1)
             <li>
                 <a href="{{ route('finance') }}">
                     <i class="fa fa-users"></i> 
                     <span class="nav-label">Finance</span>
                 </a>
             </li>
-
+            @endif
             <li>
                 <a href="{{ route('enquiries') }}">
                     <i class="fa fa-users"></i> 

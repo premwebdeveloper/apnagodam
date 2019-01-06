@@ -64,12 +64,14 @@
                                             <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
+                                            @if(Auth::user()->id == 1)
                                             <a href="{!! route('inventory_edit_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
                                             <a href="{!! route('inventory_delete', ['id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="Delete">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
+                                            @endif
                                         </td>
 	                                </tr>
                                 @endforeach

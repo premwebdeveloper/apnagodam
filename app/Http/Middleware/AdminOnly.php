@@ -17,6 +17,7 @@ class AdminOnly
      */
     public function handle($request, Closure $next)
     {
+
         # Get user id
         $currentuserid = Auth::user()->id;
 
@@ -26,7 +27,7 @@ class AdminOnly
         # User Role id
         $role_id = $user->role_id;
 
-        if($role_id == 1)
+        if($role_id == 1 || $role_id == 4)
         {
             return $next($request);
         }
