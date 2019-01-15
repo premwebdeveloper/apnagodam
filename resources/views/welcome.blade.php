@@ -76,16 +76,94 @@
         </div>
     </a>  
     </section> -->
+    <section id="featured">
+        <h2 class="section-heading text-center">Today's Price (Per Qtl)</h2>
+        <h6 class="section-heading text-center">Last Update Date : 12/01/2019</h6>
+        <div class="container-fluid">
+            <div class="row pt-4">
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <form>
+                            <select name="mandi" id="mandi" required="">
+                                <option value="">Select Mandi</option>
+                                @foreach($mandies as $key => $mandi)
+                                    <option value="{!! $mandi->id !!}">{!! $mandi->mandi_name !!}</option>
+                                @endforeach
+                            </select>
+                            <select name="commodity" id="commodity" required="">
+                                <option value="">Select Commodity</option>
+                                @foreach($commodities as $key => $commodity)
+                                    <option value="{!! $commodity->id !!}">{!! $commodity->commodity !!}</option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
+                
+                    <div id="featured-caro" class="owl-carousel">
+                        @foreach($today_prices as $key => $today_price)
+                        <div class="item">
+                            <img class="iblock bline" src="{{ asset('resources/assets/upload/commodity/'.$today_price->image) }}"> <br>
+                            <span class="iblock bline">&nbsp; {!! $today_price->commodity !!}</span>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                    <tr>
+                                        <td width="15">
+                                            <img src="{{ asset('resources/frontend_assets/img/scroll-bullet.png') }}" alt="">
+                                        </td>
+                                        <td>
+                                            <span id="ContentPlaceHolder1_rptScroller1_lblModal_39">Modal</span>
+                                        </td>
+                                        <td width="10">
+                                            :
+                                        </td>
+                                        <td>
+                                            {!! $today_price->modal !!}&nbsp;₹
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15">
+                                            <img src="{{ asset('resources/frontend_assets/img/scroll-bullet.png') }}" alt="">
+                                        </td>
+                                        <td>
+                                            <span id="ContentPlaceHolder1_rptScroller1_lblMax_39">Max</span>
+                                        </td>
+                                        <td width="10">
+                                            :
+                                        </td>
+                                        <td>
+                                            {!! $today_price->max !!}&nbsp;₹
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="15">
+                                            <img src="{{ asset('resources/frontend_assets/img/scroll-bullet.png') }}" alt="">
+                                        </td>
+                                        <td>
+                                            <span id="ContentPlaceHolder1_rptScroller1_lblMin_39">Min</span>
+                                        </td>
+                                        <td width="10">
+                                            :
+                                        </td>
+                                        <td>
+                                            {!! $today_price->min !!}&nbsp;₹
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> 
+                        @endforeach
+                    </div>
+                    <div class="customNavigation">
+                        <a class="btn prev"><i class="fa fa-chevron-left"></i></a>
+                        <a class="btn next"><i class="fa fa-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section id="about">
-        <h2 class="section-heading text-center">Today's Price (Per Qtl)</h2>
-        <marquee style="background: #00c0f5;margin-bottom: 20px;">
-            <ul class="amit">
-                @foreach($today_prices as $key => $today_price)
-                    <li><b>{!! $today_price->name !!}-{!! $today_price->price !!}</b></li>
-                @endforeach
-            </ul>
-        </marquee>
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
@@ -116,7 +194,6 @@
             </div>
         </div>
     </section>
-
     <section id="services">
         <div class="container">
             <div class="row">

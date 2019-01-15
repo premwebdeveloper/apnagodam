@@ -132,7 +132,7 @@ $(document).ready(function(){
                                     <label for="phone" class="col-sm-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="phone" type="number" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="Mobile Number" value="{{ old('phone') }}" required autofocus>
+                                        <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="Mobile Number" value="{{ old('phone') }}" required autofocus>
 
                                         @if ($errors->has('phone'))
                                             <span class="invalid-feedback" role="alert">
@@ -147,10 +147,6 @@ $(document).ready(function(){
                                         <button type="submit" class="btn btn-primary">
                                             {{ __('Login') }}
                                         </button>
-
-                                        <a class="btn btn-link" href="{{ route('register') }}">
-                                            New User? Register Here.
-                                        </a>
                                     </div>
                                 </div>
                             </form>

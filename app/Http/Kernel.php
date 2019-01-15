@@ -61,5 +61,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'adminOnly' => \App\Http\Middleware\AdminOnly::class,
         'userOnly' => \App\Http\Middleware\UserOnly::class,
+        'farmerOnly' => \App\Http\Middleware\FarmerOnly::class,
+        'traderOnly' => \App\Http\Middleware\TraderOnly::class,
     ];
 }

@@ -56,6 +56,18 @@
             </li>
             @if(Auth::user()->id == 1)
             <li>
+                <a href="{{ route('mandi_place_name') }}">
+                    <i class="fa fa-map-marker"></i> 
+                    <span class="nav-label">Mandi Place Name</span>
+                </a>
+            </li>            
+            <li>
+                <a href="{{ route('commodity_name') }}">
+                    <i class="fa fa-code"></i> 
+                    <span class="nav-label">Commodity Name</span>
+                </a>
+            </li>            
+            <li>
                 <a href="{{ route('today_price') }}">
                     <i class="fa fa-inr"></i> 
                     <span class="nav-label">Today's Price</span>

@@ -51,7 +51,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'fname' => 'required|string|max:255',
-            'email' => 'nullable|unique:users',
+            //'email' => 'nullable|unique:users',
             'phone' => 'required|numeric|digits:10|unique:users',
             /*'password' => 'required|string|min:6|confirmed',*/
         ]);
@@ -68,10 +68,13 @@ class RegisterController extends Controller
         $date = date('Y-m-d H:i:s');
         $full_name = $data['fname'];
         $phone = $data['phone'];
+        $role_id = $data['role_id'];
+        $firm_name = $data['firm_name'];
+        $license = $data['license'];
 
         $user = User::create([
             'fname' => $data['fname'],
-            'email' => $data['email'],
+            //'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make(123456),
             'status' => 1
@@ -82,7 +85,7 @@ class RegisterController extends Controller
         // Create User role
         $user_role = DB::table('user_roles')->insert(
             array(
-                'role_id' => 2,
+                'role_id' => $role_id,
                 'user_id' => $user_id,
                 'created_at' => $date,
                 'updated_at' => $date
@@ -94,15 +97,21 @@ class RegisterController extends Controller
             array(
                 'user_id' => $user_id,
                 'fname' => $data['fname'],
-                'email' => $data['email'],
+                //'email' => $data['email'],
                 'phone' => $data['phone'],
                 'father_name' => $data['father_name'],
-                'category' => $data['category'],
-                'gst_number' => $data['gst'],
-                'khasra_no' => $data['khasra'],
+                'aadhar' => $data['aadhar'],
+                'gst_number' => $gst,
+                //'khasra_no' => $data['khasra'],
                 'village' => $data['village'],
-                'tehsil' => $data['tehsil'],
                 'district' => $data['district'],
+                'bank_name' => $data['bank_name'],
+                'bank_branch' => $data['bank_branch'],
+                'bank_acc_no' => $data['bank_acc_no'],
+                'bank_ifsc_code' => $data['bank_ifsc_code'],
+                'firm_name' => $firm_name,
+                'address' => $data['address'],
+                'mandi_license' => $license,
                 'image' => "user.png",
                 'power' => 1,
                 'created_at' => $date,

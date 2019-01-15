@@ -25,6 +25,14 @@ Route::any('verifyOtp/', 'HomeController@verifyOtp')->name('verifyOtp');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Farmer profile view route
+Route::get('/farmer_profile', 'FarmerController@profile')->name('farmer_profile');
+Route::get('/farmer_inventory', 'FarmerController@inventories')->name('farmer_inventory');
+
+// Trader profile view route
+Route::get('/farmer_profile', 'TraderController@profile')->name('farmer_profile');
+Route::get('/trader_inventory', 'TraderController@inventories')->name('trader_inventory');
+
 // User profile view route
 Route::get('/profile', 'UsersController@profile')->name('profile');
 
@@ -91,11 +99,6 @@ Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove
 
 // Admin Dashboard Done Deals 
 Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
-
-// Admin Dashboard Today's Price 
-Route::get('/today_price', 'AdminController@today_price')->name('today_price');
-Route::get('/today_price_edit_view/{id}', 'AdminController@view')->name('today_price_edit_view');
-Route::post('/today_price_edit/', 'AdminController@edit')->name('today_price_edit');
 
 // Warehouses Routes
 Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');
@@ -164,3 +167,37 @@ Route::get('/about-us', 'HomeController@about_us')->name('about-us');
 Route::get('/our-team', 'HomeController@our_team')->name('our-team');
 Route::get('/contact-us', 'HomeController@contact_us')->name('contact-us');
 
+
+// Login Register Registration Farmer
+Route::get('/farmer_login', 'HomeController@farmer_login')->name('farmer_login');
+Route::get('/farmer_register', 'HomeController@farmer_register')->name('farmer_register');
+Route::post('/farmer_registration', 'HomeController@farmer_registration')->name('farmer_registration');
+
+// Login Register Registration Trader
+Route::get('/trader_login', 'HomeController@trader_login')->name('trader_login');
+Route::get('/trader_register', 'HomeController@trader_register')->name('trader_register');
+Route::post('/trader_registration', 'HomeController@trader_registration')->name('trader_registration');
+
+// Mandi place Name
+Route::get('/mandi_place_name', 'CommodityController@index')->name('mandi_place_name');
+Route::get('/create_mandi', 'CommodityController@create_mandi')->name('create_mandi');
+Route::post('/add_mandi', 'CommodityController@add_mandi')->name('add_mandi');
+Route::get('/mandi_edit_view/{id}', 'CommodityController@view')->name('mandi_edit_view');
+Route::post('/mandi_edit', 'CommodityController@edit')->name('mandi_edit');
+Route::get('/mandi_delete/{id}', 'CommodityController@delete')->name('mandi_delete');
+
+// Commodity Name
+Route::get('/commodity_name', 'CommodityController@commodity_index')->name('commodity_name');
+Route::get('/create_commodity', 'CommodityController@create_commodity')->name('create_commodity');
+Route::post('/add_commodity', 'CommodityController@add_commodity')->name('add_commodity');
+Route::get('/commodity_edit_view/{id}', 'CommodityController@commodity_view')->name('commodity_edit_view');
+Route::post('/commodity_edit', 'CommodityController@commodity_edit')->name('commodity_edit');
+Route::get('/commodity_delete/{id}', 'CommodityController@commodity_delete')->name('commodity_delete');
+
+// Today's Price 
+Route::get('/today_price', 'CommodityController@today_price')->name('today_price');
+Route::get('/create_today', 'CommodityController@create_today')->name('create_today');
+Route::post('/add_today', 'CommodityController@add_today')->name('add_today');
+Route::get('/today_price_edit_view/{id}', 'CommodityController@today_view')->name('today_price_edit_view');
+Route::post('/today_price_edit/', 'CommodityController@today_edit')->name('today_price_edit');
+Route::get('/today_price_delete/{id}', 'CommodityController@today_delete')->name('today_price_delete');

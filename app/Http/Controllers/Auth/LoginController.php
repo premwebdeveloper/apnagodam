@@ -56,10 +56,14 @@ class LoginController extends Controller
         if($role_id == 1 || $role_id == 4)
         {
             return redirect(route('dashboard'));
-        }
-        else
+        }        
+        elseif($role_id == 5)
         {
-            return redirect(route('profile'));
+            return redirect(route('farmer_inventory'));
+        }        
+        elseif($role_id == 6)
+        {
+            return redirect(route('trader_inventory'));
         }
 
         /*return $this->authenticated($request, $this->guard()->user())

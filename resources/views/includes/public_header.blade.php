@@ -29,10 +29,13 @@
                     
                     @guest
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="{{ route('login') }}" >Farmer Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="{{ route('farmer_login') }}" >Farmer Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-danger" href="{{ route('login') }}" >Trader Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-success" href="{{ route('trader_login') }}" >Trader Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger" href="{{ route('login') }}" >Admin Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </li>
                     @else
                         @if(Auth::user()->id != 1)
@@ -47,8 +50,8 @@
                                 </a>
                                 <div class="dropdown-content">
                                     <!-- <a href="{{ route('user_dashboard') }}">Dashboard</a> -->
-                                    <a href="{{ route('profile') }}">Profile</a>
-                                    <a href="{{ route('inventories') }}">Inventories</a>
+                                    <a href="{{ route('farmer_profile') }}">Profile</a>
+                                    <a href="{{ route('farmer_inventory') }}">Inventories</a>
                                     <a href="{{ route('user_finance_view') }}">Finance</a>
                                     <!-- <a href="{{ route('change_password') }}">Change Password</a> -->
                                     <!-- <a href="javascript:;">Notifications</a> -->
@@ -66,7 +69,7 @@
 
                     @endif
                     <li class="nav-item">
-                        <a class="tel-icon nav-link js-scroll-trigger" href="tel:+91-9314142089">+91-9314142089</a>
+                        <a class="tel-icon nav-link js-scroll-trigger" href="tel:+91-9314142089" style="background: none;">+91-9314142089</a>
                     </li>
                 </ul>
             </div>
