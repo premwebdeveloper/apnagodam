@@ -41,10 +41,11 @@ class FarmerController extends Controller
         $inventories = DB::table('inventories')
                         ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                        ->select('inventories.*', 'categories.category as cat_name', 'warehouses.name')
+                        ->select('inventories.*', 'categories.category as cat_name', 'warehouses.name', 'warehouses.village')
                         ->where(['inventories.status' => 1, 'inventories.user_id' => $currentuserid])
                         ->get();
 
+                        //dd($inventories);
         return view("farmer.inventory", array('user' => $user, 'inventories' => $inventories));
     }
 }

@@ -46,18 +46,20 @@
                     <tr>
                         <th scope="row">{{ $key + 1 }}</th>
                         <td>{{ $inventory->name }}</td>
+                        <td>{{ $inventory->village }}</td>
                         <td>{{ $inventory->cat_name }}</td>
                         <td>{{ $inventory->quantity }}</td>
                         <td>
-                            @if(!empty($inventory->sell_quantity))
-                                {{ $inventory->sell_quantity }}</td>
-                            @else
-                                0
-                            @endif
+                            <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" download>
+                                <i class="fa fa-download"></i>
+                            </a>
                         <td>{{ $inventory->created_at }}</td>
                         <td>
-                            <a href="#{{ $inventory->id }}" id="{{ $inventory->id }}" class="btn btn-info btn-sm want_to_sell" title="Edit Price">
+                            <a href="javascript:;" id="{{ $inventory->id }}" class="btn btn-info btn-sm want_to_sell" title="Edit Price">
                                 Want To Sell
+                            </a>
+                            <a href="{{ route('bidding', ['inventory_id' => $inventory->id]) }}" class="btn btn-warning btn-sm" title="Edit Price">
+                                My Bids
                             </a>
                         </td>
                     </tr>

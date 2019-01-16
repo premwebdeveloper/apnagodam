@@ -51,7 +51,7 @@
                                 <div class="dropdown-content">
                                     <!-- <a href="{{ route('user_dashboard') }}">Dashboard</a> -->
                                     <a href="{{ route('farmer_profile') }}">Profile</a>
-                                    <a href="{{ route('farmer_inventory') }}">Inventories</a>
+                                    <a href="{{ route('farmer_inventory') }}">Commodity</a>
                                     <a href="{{ route('user_finance_view') }}">Finance</a>
                                     <!-- <a href="{{ route('change_password') }}">Change Password</a> -->
                                     <!-- <a href="javascript:;">Notifications</a> -->

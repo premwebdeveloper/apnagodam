@@ -18,7 +18,7 @@ class UsersController extends Controller
 
 		// Only authenticated and user enter here
 		$this->middleware('auth');
-		$this->middleware('userOnly');
+		//$this->middleware('userOnly');
 	}
     
     // User user_dashboard
@@ -498,7 +498,7 @@ class UsersController extends Controller
         if($inventory_info->quantity < $sell_quantity):
 
             $status = 'You can not update sell quantity more than you have !';
-            return redirect('inventories')->with('status', $status);
+            return redirect('farmer_inventory')->with('status', $status);
 
         endif;
 
@@ -517,7 +517,7 @@ class UsersController extends Controller
             $status = 'Something went wrong !';
         }
 
-        return redirect('inventories')->with('status', $status);
+        return redirect('farmer_inventory')->with('status', $status);
     } 
 
     // User notification
@@ -551,7 +551,7 @@ class UsersController extends Controller
 
         $currentuserid = Auth::user()->id;
 
-        $deal_id = $request->deal_id;
+        $inventory_id = $request->inventory_id;
 
         $deal_info = DB::table('buy_sells')
                 ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')

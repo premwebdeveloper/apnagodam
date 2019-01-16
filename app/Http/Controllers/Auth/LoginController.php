@@ -53,16 +53,19 @@ class LoginController extends Controller
         # User Role id
         $role_id = $user->role_id;
 
+        # If the logged in user is admin or government role
         if($role_id == 1 || $role_id == 4)
         {
             return redirect(route('dashboard'));
         }        
         elseif($role_id == 5)
         {
+            // If the logged in user  is farmer
             return redirect(route('farmer_inventory'));
         }        
         elseif($role_id == 6)
         {
+            // If the logged in user  is trader
             return redirect(route('trader_inventory'));
         }
 
