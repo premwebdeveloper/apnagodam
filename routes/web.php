@@ -27,7 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Farmer profile view route
 Route::get('/farmer_profile', 'FarmerController@profile')->name('farmer_profile');
-Route::get('/farmer_inventory', 'FarmerController@inventories')->name('farmer_inventory');
+Route::get('/farmer_inventory', 'UsersController@inventories')->name('farmer_inventory');
 
 // Trader profile view route
 Route::get('/farmer_profile', 'TraderController@profile')->name('farmer_profile');
@@ -50,7 +50,14 @@ Route::post('/loan_request', 'UsersController@loan_request')->name('loan_request
 Route::get('/loan_approved/{id}', 'UsersController@loan_approved')->name('loan_approved');
 Route::post('/user_agree_for_loan/', 'UsersController@user_agree_for_loan')->name('user_agree_for_loan');
 
-// user update price 
+
+
+Route::post('/get_todays_price/', 'HomeController@get_todays_price')->name('get_todays_price');
+
+
+
+
+// user update price
 Route::post('/buy_sell_price_update', 'UsersController@update_price')->name('buy_sell_price_update');
 
 Route::get('/notifications', 'UsersController@notifications')->name('notifications');
@@ -61,9 +68,9 @@ Route::get('/bidding/{inventory_id}', 'UsersController@bidding')->name('bidding'
 Route::post('/seller_bid', 'UsersController@seller_bid')->name('seller_bid');
 
 // Deal done by seller
-Route::get('/deal_done/{deal_id}', 'UsersController@deal_done')->name('deal_done');
+Route::get('/deal_done/{inventory_id}', 'UsersController@deal_done')->name('deal_done');
 
-// show all notification 
+// show all notification
 Route::get('/notifications', 'UsersController@notifications')->name('notifications');
 
 /* ********************************************************************************************* */
@@ -97,7 +104,7 @@ Route::get('/enquiries', 'AdminController@enquiries')->name('enquiries');
 Route::get('/approve/{user_id}', 'AdminController@approve')->name('approve');
 Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove');
 
-// Admin Dashboard Done Deals 
+// Admin Dashboard Done Deals
 Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
 
 // Warehouses Routes
@@ -194,7 +201,7 @@ Route::get('/commodity_edit_view/{id}', 'CommodityController@commodity_view')->n
 Route::post('/commodity_edit', 'CommodityController@commodity_edit')->name('commodity_edit');
 Route::get('/commodity_delete/{id}', 'CommodityController@commodity_delete')->name('commodity_delete');
 
-// Today's Price 
+// Today's Price
 Route::get('/today_price', 'CommodityController@today_price')->name('today_price');
 Route::get('/create_today', 'CommodityController@create_today')->name('create_today');
 Route::post('/add_today', 'CommodityController@add_today')->name('add_today');
