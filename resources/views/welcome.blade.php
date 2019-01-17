@@ -13,50 +13,50 @@
 </style>
 <main id="main"> <!-- main body conatiner starts-->
     <header class="">
-         <link href="{{ asset('resources/frontend_assets/css/responsive-slider.css') }}" rel="stylesheet"> 
+         <link href="{{ asset('resources/frontend_assets/css/responsive-slider.css') }}" rel="stylesheet">
         <div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
             <div class="slides apna_godam1" data-group="slides">
                 <ul>
-                    
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner1.jpg') }}">              
-                        </div>
-                    </li>
-                    
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner2.jpg') }}">              
-                        </div>
-                    </li>
-                    
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner3.jpg') }}">              
-                        </div>
-                    </li>    
 
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner4.jpg') }}">              
-                        </div>
-                    </li>  
-
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner5.jpg') }}">              
-                        </div>
-                    </li>  
-                                      
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner6.jpg') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner1.jpg') }}">
                         </div>
                     </li>
 
                     <li>
                         <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner7.jpg') }}">              
+                            <img src="{{ asset('resources/frontend_assets/img/banner2.jpg') }}">
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner3.jpg') }}">
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner4.jpg') }}">
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner5.jpg') }}">
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner6.jpg') }}">
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="slide-body" data-group="slide">
+                            <img src="{{ asset('resources/frontend_assets/img/banner7.jpg') }}">
                         </div>
                     </li>
                 </ul>
@@ -67,38 +67,81 @@
         <script src="{{ asset('resources/frontend_assets/js/jquery.event.move.js') }}"></script>
         <script src="{{ asset('resources/frontend_assets/js/responsive-slider.js') }}"></script>
     </header>
-<!-- 
+<!--
     <section id="cta">
     <a style="margin-top:-125px" href="javascript:;" class="big-cta text-white">
         <div class="iblock">Enquire Now</div>
         <div class="iblock pl-4">
             <img src="{{ asset('resources/frontend_assets/img/right-arrow.png') }}">
         </div>
-    </a>  
+    </a>
     </section> -->
     <section id="featured">
         <h2 class="section-heading text-center">Today's Price (Per Qtl)</h2>
-        <h6 class="section-heading text-center">Last Update Date : 12/01/2019</h6>
+        <h6 class="section-heading text-center">Last Update Date : <?= date('Y-m-d'); ?></h6>
         <div class="container-fluid">
             <div class="row pt-4">
                 <div class="col-md-12">
+
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+
+                            $(document).on('change', '#mandi', function(){
+
+                                var mandi = $(this).val();
+
+                                // If there is any mandi selected
+                                if(mandi != ''){
+
+                                    $.ajax({
+                                        method : 'POST',
+                                        url : '{{ url("get_todays_price") }}',
+                                        async : true,
+                                        data : { '_token' : '{{ csrf_token() }}', 'mandi' : mandi},
+                                        success : function(response){
+                                            console.log(response);
+
+                                            $('#featured-caro').html(response);
+                                            /*if(response == 1)
+                                            {
+                                                // Show error message in pop
+                                                showErrorMessage('<i class="fa fa-check"></i>Friend  Request Cancelled Successfully.');
+                                            }
+
+                                            setTimeout(function(){
+                                                window.location.reload();
+                                            }, 1000);*/
+                                        },
+                                        error: function(data) { // What to do if we fail
+                                            console.log(data);
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    </script>
+
                     <div class="col-md-12">
                         <form>
-                            <select name="mandi" id="mandi" required="">
-                                <option value="">Select Mandi</option>
+                            <!-- <input type="text" name="commodity_wise" disabled="disabled" value="Commodity Wise" style="font-weight: bold;"> -->
+                            <span style="font-weight: bold;background-color: grey;padding: 2px 10px;">
+                                <a href="">Commodity Wise</a>
+                            </span>
+                            <!-- <select name="mandi" id="mandi">
+                                <option value="">Mandi Wise</option>
                                 @foreach($mandies as $key => $mandi)
                                     <option value="{!! $mandi->id !!}">{!! $mandi->mandi_name !!}</option>
                                 @endforeach
-                            </select>
-                            <select name="commodity" id="commodity" required="">
-                                <option value="">Select Commodity</option>
+                            </select> -->
+                            <!-- <select name="commodity" id="commodity" required="">
+                                <option value="">Commodity Wise</option>
                                 @foreach($commodities as $key => $commodity)
                                     <option value="{!! $commodity->id !!}">{!! $commodity->commodity !!}</option>
                                 @endforeach
-                            </select>
+                            </select> -->
                         </form>
                     </div>
-                
+
                     <div id="featured-caro" class="owl-carousel">
                         @foreach($today_prices as $key => $today_price)
                         <div class="item">
@@ -108,7 +151,7 @@
                                 <tbody>
                                     <tr>
                                         <td width="15">
-                                            <img src="{{ asset('resources/frontend_assets/img/scroll-bullet.png') }}" alt="">
+                                            <i class="fa fa-arrow-alt-circle-right"></i>
                                         </td>
                                         <td>
                                             <span id="ContentPlaceHolder1_rptScroller1_lblModal_39">Modal</span>
@@ -122,7 +165,7 @@
                                     </tr>
                                     <tr>
                                         <td width="15">
-                                            <img src="{{ asset('resources/frontend_assets/img/scroll-bullet.png') }}" alt="">
+                                            <i class="fa fa-arrow-alt-circle-right"></i>
                                         </td>
                                         <td>
                                             <span id="ContentPlaceHolder1_rptScroller1_lblMax_39">Max</span>
@@ -132,12 +175,12 @@
                                         </td>
                                         <td>
                                             {!! $today_price->max !!}&nbsp;₹
-                                            
+
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="15">
-                                            <img src="{{ asset('resources/frontend_assets/img/scroll-bullet.png') }}" alt="">
+                                            <i class="fa fa-arrow-alt-circle-right"></i>
                                         </td>
                                         <td>
                                             <span id="ContentPlaceHolder1_rptScroller1_lblMin_39">Min</span>
@@ -149,9 +192,10 @@
                                             {!! $today_price->min !!}&nbsp;₹
                                         </td>
                                     </tr>
+                                    <tr><td colspan="4" class="text-center" style="font-weight: bold;background-color: gray;">{{ $today_price->mandi_name }}</td></tr>
                                 </tbody>
                             </table>
-                        </div> 
+                        </div>
                         @endforeach
                     </div>
                     <div class="customNavigation">
@@ -168,7 +212,7 @@
             <div class="row">
                 <div class="col-lg-6">
                 <h2 class="section-heading">Welcome to Apna Godam</h2>
-                
+
                 <hr class="margin-unset">
                 <div class="text-justify">
                     <p class="mb-4"><b>“An exclusive portal for farmers / village level collectors
@@ -210,22 +254,22 @@
                     <div class="service-box mt-5 mx-auto">
                         <i class="fa fa-warehouse"></i>
                         <h4 class="mb-2">Warehousing Services</h4>
-                        <p class="mb-4"><a href="{{ route('register') }}">Click Here</a></p>
+                        <!-- <p class="mb-4"><a href="{{ route('register') }}">Click Here</a></p> -->
                     </div>
                 </div>
-             
+
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box mt-5 mx-auto" style="background: #012b72;">
                         <i class="fa fa-rupee-sign" style="color:#fff"></i>
                         <h4 class="mb-2" style="color:#fff">Financing</h4>
-                         <p class="mb-4"><a href="{{ route('user_finance_view') }}" style="color:#fff">Click Here</a></p>
+                        <!-- <p class="mb-4"><a href="{{ route('user_finance_view') }}" style="color:#fff">Click Here</a></p> -->
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box mt-5 mx-auto">
                         <i class="fab fa-buysellads"></i>
                         <h4 class="mb-2">Buy and Sell</h4>
-                         <p class="mb-4"><a href="{{ route('buy_sell') }}">Click Here</a></p>
+                        <!-- <p class="mb-4"><a href="{{ route('buy_sell') }}">Click Here</a></p> -->
                     </div>
                 </div>
             </div>
@@ -237,18 +281,18 @@
         <div class="row">
             <div class="col-lg-4 my-auto">
             <h2 class="section-heading">Warehouses Across <br>India</h2>
-            
+
             <hr class="margin-unset">
-            <p class="mb-4">We have dedicated and shared warehousing facilities in all the key Metro hubs across Pan-India - Mumbai, Pune, Bangalore, Delhi-NCR, Kolkata, Chennai, Hyderabad, Lucknow. Apart from these, we have partner warehouse space in Tier-2 and Tier-3 cities to provide a wider reach of logistics to our clients.</p>  
+            <p class="mb-4">We have dedicated and shared warehousing facilities in all the key Metro hubs across Pan-India - Mumbai, Pune, Bangalore, Delhi-NCR, Kolkata, Chennai, Hyderabad, Lucknow. Apart from these, we have partner warehouse space in Tier-2 and Tier-3 cities to provide a wider reach of logistics to our clients.</p>
             </div>
-          
+
             <div class="col-lg-8 text-center text-lg-right">
                 <img class="max-100" src="{{ asset('resources/frontend_assets/img/map.png') }}">
             </div>
         </div>
       </div>
     </section> -->
-    
+
     <section id="why-us">
         <div class="container">
             <div class="row">
@@ -263,43 +307,43 @@
         <div class="row pb-2">
             <div class="col-lg-6l px-0">
                 <img class="full-100 p-4 p-lg-0" src="{{ asset('resources/frontend_assets/img/strenght.png') }}" style="width: 91%;height: 500px;">
-            </div>          
+            </div>
 
             <div class="col-lg-6s my-auto text-lg-center px-0">
                 <div class="iblock px-5">
                     <h2 class="text-left section-heading">Our Strength</h2>
-                    
+
                     <ul class="text-left">
-                        <li>Warehouses NEAR FARM</li>   
+                        <li>Warehouses NEAR FARM</li>
                         <li>Affordable storage solution</li>
                         <li>Paper less loan process in just 10 minutes</li>
                         <li>Online CCTV access to customers</li>
-                        <li>Online sale of agri commodity on “ As is where is basis”.</li>         
-                        <li>System and process driven organization.</li>         
+                        <li>Online sale of agri commodity on “ As is where is basis”.</li>
+                        <li>System and process driven organization.</li>
                     </ul>
-                </div> 
+                </div>
             </div>
         </div>
         <div class="row pt-2">
             <div class="col-lg-6l col-lg-push-6l px-0">
                 <img class="full-100 p-4 p-lg-0" src="{{ asset('resources/frontend_assets/img/benifits.png') }}">
-            </div>    
+            </div>
             <div class="col-lg-6s col-lg-pull-6s my-auto text-lg-center px-0">
                 <div class="iblock px-5">
                 <h2 class="text-left section-heading">Benefits to Farmers</h2>
-                
+
                 <ul class="text-left">
-                    <li>Low transportation cost as the warehouse is nearby</li>    
+                    <li>Low transportation cost as the warehouse is nearby</li>
                     <li>Just send the commodity in warehouse and relax , everything is online</li>
                     <li>Proper Fumigations and spray to keep the commodity safe</li>
                     <li>Millers on board to purchase the commodity from warehouses</li>
-                    <li>Grading / sorting facility in some warehouses</li>          
+                    <li>Grading / sorting facility in some warehouses</li>
                 </ul>
-                </div>    
+                </div>
             </div>
-        </div>          
-    </div>      
-      
+        </div>
+    </div>
+
     </section>
 
     <section id="featured">
@@ -312,7 +356,7 @@
                 </div>
             </div>
             <div class="col-md-9">
-            
+
                 <div id="featured-caro" class="owl-carousel">
                     <div class="item">
                         <p class="pb-2">We are getting better realization of produce by using Agri warehousing facility which is provided at nominal cost and near to us. We get sms on our mobile phone for every transaction.</p>
@@ -325,7 +369,7 @@
                     <div class="item">
                         <p class="pb-2">Our Shed was lying unused since last 15 years. I am grateful to Apna Godam Team for making best use of it. We are not earning only money but the idle resource of the country has been put to use.</p>
                         <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/gzz.png') }}"> <span class="iblock bline">&nbsp; Karun Modi  ( Godam owner)</span>
-                      
+
                     </div>
                 </div>
                 <div class="customNavigation">
@@ -336,18 +380,18 @@
         </div>
     </div>
 </section>
-    
+
 <!--     <section id="counter">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
                     <p class="weight400 text-main text-big">Space (Sq.ft) we have available across pan-india</p>
-                    <h1 class="text-primary text-huge timer count-title count-number"><span id="count" class="counter">5,34,700</span>+</h1>                  
+                    <h1 class="text-primary text-huge timer count-title count-number"><span id="count" class="counter">5,34,700</span>+</h1>
                 </div>
             </div>
-        </div> 
+        </div>
     </section>
-    
+
     <section class="cta-bg">
         <div class="container">
             <div class="row py-5">
@@ -358,7 +402,7 @@
             </div>
         </div>
     </section>   -->
-</main> 
+</main>
 <!-- Page Content Ends -->
 
 @endsection

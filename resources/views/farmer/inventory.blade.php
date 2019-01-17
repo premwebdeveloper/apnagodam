@@ -27,7 +27,7 @@
                 <h2 class="section-heading">My Commodity</h2>
                 <hr>
             </div>
-            
+
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -43,26 +43,30 @@
                 </thead>
                 <tbody>
                     @foreach($inventories as $key => $inventory)
-                    <tr>
-                        <th scope="row">{{ $key + 1 }}</th>
-                        <td>{{ $inventory->name }}</td>
-                        <td>{{ $inventory->village }}</td>
-                        <td>{{ $inventory->cat_name }}</td>
-                        <td>{{ $inventory->quantity }}</td>
-                        <td>
-                            <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" download>
-                                <i class="fa fa-download"></i>
-                            </a>
-                        <td>{{ $inventory->created_at }}</td>
-                        <td>
-                            <a href="javascript:;" id="{{ $inventory->id }}" class="btn btn-info btn-sm want_to_sell" title="Edit Price">
-                                Want To Sell
-                            </a>
-                            <a href="{{ route('bidding', ['inventory_id' => $inventory->id]) }}" class="btn btn-warning btn-sm" title="Edit Price">
-                                My Bids
-                            </a>
-                        </td>
-                    </tr>
+
+                        @if($inventory->quantity > 0)
+                            <tr>
+                                <th scope="row">{{ $key + 1 }}</th>
+                                <td>{{ $inventory->name }}</td>
+                                <td>{{ $inventory->village }}</td>
+                                <td>{{ $inventory->cat_name }}</td>
+                                <td>{{ $inventory->quantity }}</td>
+                                <td>
+                                    <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" download>
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                <td>{{ $inventory->created_at }}</td>
+                                <td>
+                                    <a href="javascript:;" id="{{ $inventory->id }}" class="btn btn-info btn-sm want_to_sell" title="Edit Price">
+                                        Want To Sell
+                                    </a>
+                                    <a href="{{ route('bidding', ['inventory_id' => $inventory->id]) }}" class="btn btn-warning btn-sm" title="Edit Price">
+                                        My Bids
+                                    </a>
+                                </td>
+                            </tr>
+                        @endif
+
                     @endforeach
                 </tbody>
             </table>
@@ -93,7 +97,7 @@
             <form action="{{ route('buy_sell_price_update') }}" method="post">
                 {{ csrf_field() }}
                 <div class="modal-body mx-3">
-                    
+
                     <input type="hidden" name="invetory_id" id="invetory_id">
 
                     <div class="md-form mb-5">

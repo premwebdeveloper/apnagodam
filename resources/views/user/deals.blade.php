@@ -17,84 +17,67 @@
 
             <div class="col-lg-12">
 
-                <h2 class="section-heading text-center">Buy /Sell</h2>
-                
-                <hr>
+                @php
+                    $user = DB::table('user_roles')->where('user_id', Auth::user()->id)->first();
+                    $role_id = $user->role_id;
+                @endphp
 
-                <h4 class="section-heading text-center">Sell Products</h4>
+                @if($role_id == 5)
+                    <h2 class="section-heading text-center">My Sell</h2><hr>
 
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">Warehouse</th>
-                            <th scope="col">Commodity</th>
-                            <th scope="col">Quantity (Bags)</th>
-                            <th scope="col">Price (Rs/Bag)</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Bid</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($sells as $key => $sell)
+                    <table class="table table-bordered">
+                        <thead>
                             <tr>
-                                <td>{{ $sell->name }}</td>
-                                <td>{{ $sell->category }}</td>
-                                <td>{{ $sell->quantity }}</td>                                 
-                                <td>{{ $sell->price }}</td>
-                                <td>{{ $sell->created_at }}</td>
-                                <td>
-                                    @if($sell->status == 2)
-                                        
-                                        <a href="javascript:;" class="btn btn-success">Deal Done</a>
-
-                                    @else
-                                        <a href="{{ route('bidding', ['deal_id' => $sell->id]) }}" class="btn btn-info">Bid</a>
-                                    @endif
-                                </td>
+                                <th scope="col">Warehouse</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Commodity</th>
+                                <th scope="col">Quantity (Qtl.)</th>
+                                <th scope="col">Price (Rs/Qtl.)</th>
+                                <th scope="col">Date</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach($sells as $key => $sell)
+                                <tr>
+                                    <td>{{ $sell->name }}</td>
+                                    <td>{{ $sell->village }}</td>
+                                    <td>{{ $sell->category }}</td>
+                                    <td>{{ $sell->quantity }}</td>
+                                    <td>{{ $sell->price }}</td>
+                                    <td>{{ $sell->created_at }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
-                <div class="clearfix">&nbsp;</div>
-                <div class="clearfix">&nbsp;</div>
+                @elseif($role_id == 6)
+                    <h2 class="section-heading text-center">My Purchase</h2><hr>
 
-                <h4 class="section-heading text-center">Buy Products</h4>
-
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">Warehouse</th>
-                            <th scope="col">Commodity</th>
-                            <th scope="col">Quantity (Bags)</th>
-                            <th scope="col">Price (Rs/Bag)</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Bid</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($buys as $key => $buy)
+                    <table class="table table-bordered">
+                        <thead>
                             <tr>
-                                <td>{{ $buy->name }}</td>
-                                <td>{{ $buy->category }}</td>
-                                <td>{{ $buy->quantity }}</td>
-                                <td>{{ $buy->price }}</td>
-                                <td>{{ $buy->created_at }}</td>
-                                <td>
-                                    @if($buy->status == 2)
-                                        
-                                        <a href="javascript:;" class="btn btn-success">Deal Done</a>
-
-                                    @else
-                                        <a href="{{ route('bidding', ['deal_id' => $buy->id]) }}" class="btn btn-info">Bid</a>
-                                    @endif
-                                </td>
+                                <th scope="col">Warehouse</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Commodity</th>
+                                <th scope="col">Quantity (Qtl.)</th>
+                                <th scope="col">Price (Rs/Qtl.)</th>
+                                <th scope="col">Date</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            
-                <hr>
+                        </thead>
+                        <tbody>
+                            @foreach($buys as $key => $buy)
+                                <tr>
+                                    <td>{{ $buy->name }}</td>
+                                    <td>{{ $buy->village }}</td>
+                                    <td>{{ $buy->category }}</td>
+                                    <td>{{ $buy->quantity }}</td>
+                                    <td>{{ $buy->price }}</td>
+                                    <td>{{ $buy->created_at }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
 
         </div>

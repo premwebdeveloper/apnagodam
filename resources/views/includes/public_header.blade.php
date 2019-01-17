@@ -19,14 +19,14 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ url('/')}}#services">Services</a>
-                    </li>                    
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ route('our-team') }}">Our Team</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ route('contact-us') }}">CONTACT US</a>
                     </li>
-                    
+
                     @guest
                     <li class="nav-item">
                         <a class="btn btn-primary" href="{{ route('farmer_login') }}" >Farmer Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
@@ -43,19 +43,35 @@
                             <!-- <li class="nav-item">
                                 <a href="{{ route('notifications') }}" class="nav-link js-scroll-trigger"><i class="fa fa-bell"></i></a>
                             </li> -->
-                            
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link js-scroll-trigger" href="">
-                                    <span class="fa fa-user"></span> {{ Auth::user()->fname }} 
+                                    <span class="fa fa-user"></span> {{ Auth::user()->fname }}
                                 </a>
                                 <div class="dropdown-content">
                                     <!-- <a href="{{ route('user_dashboard') }}">Dashboard</a> -->
-                                    <a href="{{ route('farmer_profile') }}">Profile</a>
-                                    <a href="{{ route('farmer_inventory') }}">Commodity</a>
-                                    <a href="{{ route('user_finance_view') }}">Finance</a>
+                                    <a href="{{ route('profile') }}">Profile</a>
+                                    <a href="{{ route('inventories') }}">My Commodity</a>
+                                    @php
+                                        $user = DB::table('user_roles')->where('user_id', Auth::user()->id)->first();
+                                        $role_id = $user->role_id;
+
+                                        if($role_id == 5):
+                                    @endphp
+                                        <a href="{{ route('deals') }}">My Sell</a>
+                                    @php
+                                        elseif($role_id == 6):
+                                    @endphp
+                                        <a href="{{ route('buy_sell') }}">Market</a>
+                                        <a href="{{ route('deals') }}">My Purchase</a>
+                                    @php
+                                        endif;
+                                    @endphp
+
+                                    <!-- <a href="{{ route('user_finance_view') }}">Finance</a> -->
                                     <!-- <a href="{{ route('change_password') }}">Change Password</a> -->
                                     <!-- <a href="javascript:;">Notifications</a> -->
-                                    <a href="{{ route('deals') }}">Purchase / Sell</a>
+
                                     <!-- <a href="{{ route('deals') }}">Notifications </a> -->
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

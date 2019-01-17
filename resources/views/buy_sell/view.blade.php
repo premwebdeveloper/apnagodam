@@ -54,15 +54,15 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-md-12">
+            <!-- <div class="col-md-12">
                 <p style="float: right;font-weight: bold;">
-                    <strong>Click 
+                    <strong>Click
                     <a href="https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx" target="_blank">
                         Here
                     </a>
                     for Current Updates</strong>
                 </p>
-            </div>
+            </div> -->
             <div class="col-md-12">
                 <h1 class="text-center">Our {{ $cat->category }}</h1>
                 <hr>
@@ -90,9 +90,11 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Warehouse</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Farmer</th>
                                 <th scope="col">Quantity (Bags)</th>
                                 <th scope="col">Price (<i class="fa fa-inr"></i>/Bag)</th>
-                                <th scope="col">Product Report</th>
+                                <th scope="col">Lab Report</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -101,6 +103,8 @@
                                 <tr>
                                     <th scope="row">{{ $key + 1 }}</th>
                                     <td>{{ $inventory->warehouse }}</td>
+                                    <td>{{ $inventory->warehouse_location }}</td>
+                                    <td>{{ $inventory->farmer_name }}</td>
                                     <td>{{ $inventory->sell_quantity }}</td>
 
                                     <input type="hidden" value="{{ $inventory->user_id }}" id="userid_{{ $inventory->id }}" class="this_seller_id">
@@ -113,11 +117,14 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="javascript:;" 
-                                        id="{{ $inventory->id.'_'.$inventory->user_id }}" 
-                                        class="btn btn-primary btn-sm buy_now" 
+                                        <!-- <a href="javascript:;"
+                                        id="{{ $inventory->id.'_'.$inventory->user_id }}"
+                                        class="btn btn-primary btn-sm buy_now"
                                         title="Buy Now">
                                             Buy Now
+                                        </a> -->
+                                        <a href="{{ route('bidding', ['inventory_id' => $inventory->id])}}" class="btn btn-warning btn-smw" title="Bids">
+                                            Bids
                                         </a>
                                     </td>
                                 </tr>
@@ -154,7 +161,7 @@
             <form action="{{ route('purchasing') }}" method="post">
                 {{ csrf_field() }}
                 <div class="modal-body mx-3">
-                    
+
                     <input type="hidden" name="invnt_attr" id="invnt_attr">
 
                     <div class="md-form mb-5">
@@ -164,7 +171,7 @@
                         <br>
 
                         <label data-error="wrong" data-success="right">Price</label>
-                        
+
                         <input class="form-control" name="price" id="price" required placeholder="Price">
 
                     </div>

@@ -45,7 +45,7 @@
 <header class="masthead text-white d-flex masthalf"></header>
 <section id="about">
     <div class="container">
-        <h1 class="text-center">Our Commodity</h1>
+        <h1 class="text-center">Today's Market</h1>
         <hr>
         <div class="row">
             <div class="col-md-12">
@@ -60,7 +60,7 @@
 
                         </figcaption>
                         <div class="bottom-wrap">
-                            <a href="{!! route('buy_sell_view', ['id' => $category->id]) !!}" class="btn btn-sm btn-primary btn-block">View Product</a> 
+                            <a href="{!! route('buy_sell_view', ['id' => $category->id]) !!}" class="btn btn-sm btn-primary btn-block">View Product</a>
                         </div> <!-- bottom-wrap.// -->
                     </figure>
                 </div> <!-- col // -->
