@@ -57,16 +57,16 @@ class LoginController extends Controller
         if($role_id == 1 || $role_id == 4)
         {
             return redirect(route('dashboard'));
-        }        
+        }
         elseif($role_id == 5)
         {
             // If the logged in user  is farmer
             return redirect(route('farmer_inventory'));
-        }        
+        }
         elseif($role_id == 6)
         {
             // If the logged in user  is trader
-            return redirect(route('trader_inventory'));
+            return redirect(route('buy_sell'));
         }
 
         /*return $this->authenticated($request, $this->guard()->user())
@@ -84,7 +84,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    
+
     // Custom function to redirect after login failed
     protected function sendFailedLoginResponse(Request $request)
     {

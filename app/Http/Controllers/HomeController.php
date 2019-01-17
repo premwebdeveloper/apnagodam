@@ -29,7 +29,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         $commodities = DB::table('commodity_name')->where('status', 1)->get();
 
         $mandies = DB::table('mandi_name')->where('status', 1)->get();
@@ -44,7 +43,28 @@ class HomeController extends Controller
         return view('welcome', array('today_prices' => $today_price, 'commodities' => $commodities, 'mandies' => $mandies));
     }
 
-    // send otp and verify otp function 
+    // Get todays price mandi wise
+    public function get_todays_price(Request $request){
+
+        $mandi = $request->mandi;
+
+        # Get todays price according to mandi
+        $today_prices = DB::table('today_prices')
+                        ->join('commodity_name', 'commodity_name.id', '=', 'today_prices.commodity_id')
+                        ->join('mandi_name', 'mandi_name.id', '=', 'today_prices.mandi_id')
+                        ->select('today_prices.*', 'commodity_name.commodity as commodity', 'commodity_name.image', 'mandi_name.mandi_name as mandi_name')
+                        ->where(['today_prices.status' => 1, 'today_prices.mandi_id' => $mandi])
+                        ->get();
+
+        $html = '';
+        foreach ($today_prices as $key => $row) {
+            $html .= '<div class="item"><img class="iblock bline" src="resources/assets/upload/commodity/'.$row->image.'"><br><span class="iblock bline">&nbsp; '.$row->commodity.'</span><table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td width="15"><i class="fa fa-arrow-alt-circle-right"></i></td><td><span>Modal</span></td><td width="10">:</td><td>'. $row->modal .' &nbsp;₹</td></tr><tr><td width="15"><i class="fa fa-arrow-alt-circle-right"></i></td><td><span>Max</span></td><td width="10">:</td><td> '.$row->max.' &nbsp;₹ </td></tr><tr><td width="15"><i class="fa fa-arrow-alt-circle-right"></i></td><td><span>Min</span></td><td width="10">:</td><td>'. $row->min .' &nbsp;₹</td></tr><tr><td colspan="4" class="text-center" style="font-weight: bold;background-color: gray;">'. $row->mandi_name .'</td></tr></tbody></table></div>';
+        }
+
+        echo $html;
+    }
+
+    // send otp and verify otp function
     public function verifyOtp(Request $request){
 
         //dd($request);
@@ -67,7 +87,7 @@ class HomeController extends Controller
                     $send_otp = DB::table('users')->where('phone', $request->phone)->update(['login_otp' => $otp]);
 
                     // send otp on mobile number using curl
-                    $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+                    $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
                     //$mobiles = implode(",", $mobilesArr);
                     $sms = 'Verify your mobile to login Apnagodam with OTP - '.$otp;
 
@@ -79,7 +99,7 @@ class HomeController extends Controller
                                 "sms" => $sms
                                 );
 
-                    $params = http_build_query($params);            
+                    $params = http_build_query($params);
 
                     $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL, $url);
@@ -134,7 +154,8 @@ class HomeController extends Controller
     // Farmer Login
     public function farmer_login()
     {
-        return view('auth.farmer_login');
+        //return view('auth.farmer_login');
+        return view('auth.login');
     }
 
     // Farmer Register
@@ -164,7 +185,7 @@ class HomeController extends Controller
         $bank_branch = $request->bank_branch;
         $bank_acc_no = $request->bank_acc_no;
         $bank_ifsc_code = $request->bank_ifsc_code;
-        
+
         $user = User::create([
             'fname' => $full_name,
             //'email' => $data['email'],
@@ -210,7 +231,7 @@ class HomeController extends Controller
         $admin_phone = DB::table('users')->where('id', 1)->first();
 
         // send otp on mobile number using curl
-        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
         //$mobiles = implode(",", $mobilesArr);
         $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
 
@@ -220,9 +241,9 @@ class HomeController extends Controller
                     "senderid" => "apnago",
                     "mobiles" => $admin_phone->phone,
                     "sms" => $sms
-                    );   
+                    );
 
-        $params1 = http_build_query($params1);            
+        $params1 = http_build_query($params1);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -243,7 +264,7 @@ class HomeController extends Controller
                     "sms" => $sms1
                     );
 
-        $params = http_build_query($params);            
+        $params = http_build_query($params);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -265,7 +286,8 @@ class HomeController extends Controller
     // Trader Login
     public function trader_login()
     {
-        return view('auth.trader_login');
+        //return view('auth.trader_login');
+        return view('auth.login');
     }
 
     // Trader Registration
@@ -285,7 +307,7 @@ class HomeController extends Controller
         $address = $request->address;
         $mandi_license = $request->license;
         $gst = $request->gst;
-        
+
         $user = User::create([
             'fname' => $full_name,
             //'email' => $data['email'],
@@ -327,7 +349,7 @@ class HomeController extends Controller
         $admin_phone = DB::table('users')->where('id', 1)->first();
 
         // send otp on mobile number using curl
-        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
         //$mobiles = implode(",", $mobilesArr);
         $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
 
@@ -337,9 +359,9 @@ class HomeController extends Controller
                     "senderid" => "apnago",
                     "mobiles" => $admin_phone->phone,
                     "sms" => $sms
-                    );   
+                    );
 
-        $params1 = http_build_query($params1);            
+        $params1 = http_build_query($params1);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -360,7 +382,7 @@ class HomeController extends Controller
                     "sms" => $sms1
                     );
 
-        $params = http_build_query($params);            
+        $params = http_build_query($params);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

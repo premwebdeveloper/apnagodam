@@ -9,18 +9,18 @@ use DB;
 
 class BuySellController extends Controller
 {
-    // Construct function 
+    // Construct function
     public function __construct(){
 
         // Only authenticated and user enter here
         $this->middleware('auth');
-        $this->middleware('userOnly');
+        //$this->middleware('userOnly');
     }
 
     public function index()
     {
         $categories = DB::table('categories')->where('status', 1)->get();
-        
+
         return view('buy_sell.index', array('categories' => $categories));
     }
 
@@ -35,8 +35,9 @@ class BuySellController extends Controller
         $cat = DB::table('categories')->where(['status' => 1, 'id' => $cat_id])->first();
 
         $inventories = DB::table('inventories')
+                        ->leftjoin('user_details', 'user_details.user_id', '=', 'inventories.user_id')
                         ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-                        ->select('warehouses.name as warehouse', 'inventories.*')
+                        ->select('user_details.fname as farmer_name', 'warehouses.name as warehouse', 'warehouses.village as warehouse_location', 'inventories.*')
                         ->where('inventories.user_id', '!=', $current_user_id)
                         ->where('inventories.status', '=', 1)
                         ->where('inventories.commodity', '=', $cat_id)
@@ -76,12 +77,12 @@ class BuySellController extends Controller
         $inventory = DB::table('inventories')
                         ->where('inventories.id', '=', $inventory_id)
                         ->first();
-                        
+
         // Get Commodity Name for SMS
         $commodity_name = DB::table('categories')
                         ->where('id', '=', $inventory->commodity)
                         ->first();
-        
+
         // Requested quantity should be less than or equal to available quantity
         if($req_quantity > $inventory->sell_quantity){
 
@@ -101,7 +102,7 @@ class BuySellController extends Controller
 
             // then request price and seller price is equal send msg (buyer, seller and admin)
             $admin = DB::table('users')->where('id', 1)->first();
-            
+
             $buyer_phone = DB::table('users')->where('id', $current_user_id)->first();
 
             $seller_phone = DB::table('users')->where('id', $seller_id)->first();
@@ -112,7 +113,7 @@ class BuySellController extends Controller
 /*            //admin sms
             $admin_sms = 'Deal Done Successfully! Buyer - '.$buyer_phone->fname.' and Seller - '.$seller_phone->fname;
 
-            //buyer sms 
+            //buyer sms
             $buyer_sms = 'Deal Done Successfully! RS - '.$deal_price;
 
             //seller sms
@@ -122,10 +123,10 @@ class BuySellController extends Controller
             $smsArr = array($admin_sms,$buyer_sms,$seller_sms);*/
 
             // send otp on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
-            
+            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
+
             //$mobiles = implode(",", $mobilesArr);
-            $mobiles = implode(",", $mobilesArr); 
+            $mobiles = implode(",", $mobilesArr);
 
             //$sms = implode(",", $smsArr);
             //$sms = implode(",", $smsArr);
@@ -138,7 +139,7 @@ class BuySellController extends Controller
                         "sms" => $sms
                         );
 
-            $params = http_build_query($params);            
+            $params = http_build_query($params);
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -163,7 +164,7 @@ class BuySellController extends Controller
             'status' => $buy_sell_status,
             'created_at' => $date,
             'updated_at' => $date
-        ]); 
+        ]);
 
         // insert Conversation detail
         $insert = DB::table('buy_sell_conversations')->insert([
@@ -179,7 +180,7 @@ class BuySellController extends Controller
 
             // update the sell price in case deal is done / request and sell price is same then update
             if($price == $inventory->price){
-                
+
                 // update sellers commodity in inventories table
                 $update_sell_price = DB::table('inventories')->where('id', $inventory->id)->update([
 
@@ -223,18 +224,18 @@ class BuySellController extends Controller
                     'power' => $buyer_power - $req_quantity*$price,
                     'updated_at' => $date
                 ]);
-                
+
                 $status = 'Deal done successfully.';
             }else{
-                
+
                 // the request price for seller
                 $seller_phone = DB::table('users')->where('id', $seller_id)->first();
 
                 // send otp on mobile number using curl
-                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
-                
+                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
+
                 $sms = 'Request - RS '.$price.' for - '.$commodity_name->category.' Commodity';
-                
+
                 $mobiles = $seller_phone->phone;
 
                 $params = array(
@@ -245,7 +246,7 @@ class BuySellController extends Controller
                             "sms" => $sms
                             );
 
-                $params = http_build_query($params);            
+                $params = http_build_query($params);
 
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
@@ -256,14 +257,14 @@ class BuySellController extends Controller
                 $result = curl_exec($ch);
 
                 $status = 'Request submitted successfully.';
-            }   
+            }
 
-            
+
         }else{
-            
+
             $status = 'Something went wrong !';
         }
-        
+
         return Redirect::back()->withErrors([$status]);
     }
 }
