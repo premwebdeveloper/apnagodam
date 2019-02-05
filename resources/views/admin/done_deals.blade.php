@@ -43,7 +43,7 @@
                                 <tr>
                                     <th>Buyer Name</th>
                                     <th>Seller Name</th>
-                                    <th>Warehouse</th>
+                                    <th>Terminal</th>
                                     <th>Commodity</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
@@ -52,7 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+
                                 @foreach($done_deals as $key => $done_deal)
                                     <tr class="gradeX">
                                         <td>{!! $done_deal->buyer_name !!}</td>
@@ -69,7 +69,7 @@
                                         </td> -->
                                     </tr>
                                 @endforeach
-                               
+
                             </tbody>
                         </table>
                     </div>

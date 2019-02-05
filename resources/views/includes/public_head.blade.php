@@ -9,8 +9,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>ApnaGodam</title>
-    
-    <meta name="keywords" content="warehouse, warehousing, logistics, storage, network, gst, distribution, delivery, pan-india, best-in class logistics, best-in class warehousing, kitting, packing, inward, outward, wms, warehouse management system">
+
+    <meta name="keywords" content="Terminal, warehousing, logistics, storage, network, gst, distribution, delivery, pan-india, best-in class logistics, best-in class warehousing, kitting, packing, inward, outward, wms, Terminal management system">
     <meta name="description" content="ApnaGodam has a Pan-India network of Warehouses providing Best-in Class Warehousing and Logistics Solution. With industry Best Technology and Process, we make sure our Client's Operations are handled Effeicienty and Cost Effectively. ">
 
     <!-- Scripts -->
@@ -32,14 +32,14 @@
 
     <!-- Custom fonts for this template -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    
+
     <link href="https://fonts.googleapis.com/css?family=Heebo:100,300,400,500,700,800,900" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('resources/frontend_assets/css/main.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 
     <link href="{{ asset('resources/frontend_assets/css/carousel.min.css') }}" rel="stylesheet" type="text/css" media="all" />
-    
+
     <script src="{{ asset('resources/frontend_assets/js/jquery.min.js') }}"> </script>
     <style>
         .service-box>img{
@@ -54,7 +54,7 @@
         }
         .service-box a, h4{
             color: #000;
-        }                 
+        }
         .service-box .fa, .fab{
             font-size: 40px;
             margin-bottom: 20px;

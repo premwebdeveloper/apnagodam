@@ -3,19 +3,19 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>All Warehouses</h2>
+        <h2>All Terminals</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>Warehouses</strong>
+                <strong>Terminals</strong>
             </li>
         </ol>
     </div>
 	<div class="col-lg-2 text-right">
         <h2>
-            <a href="{{ route('add_warehouse_view') }}" class="btn btn-info">Add Warehouse</a>
+            <a href="{{ route('add_warehouse_view') }}" class="btn btn-info">Add Terminal</a>
         </h2>
     </div>
 </div>
@@ -26,7 +26,7 @@
 	        <div class="ibox float-e-margins">
 
 	            <div class="ibox-title">
-	                <h5>Warehouses</h5>
+	                <h5>Terminals</h5>
 	                <div class="ibox-tools">
 	                    <a class="collapse-link">
 	                        <i class="fa fa-chevron-up"></i>
@@ -46,7 +46,7 @@
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
 	                            <tr>
-                                    <th>Warehouse Name</th>
+                                    <th>Terminal Name</th>
                                     <th>Village</th>
                                     <th>Action</th>
 	                            </tr>
@@ -64,7 +64,7 @@
                                             <a href="{!! route('warehouse_edit_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{!! route('warehouse_delete', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete Warehouse">
+                                            <a href="{!! route('warehouse_delete', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete Terminal">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
                                             @endif

@@ -9,7 +9,7 @@ use DB;
 
 class InventoryController extends Controller
 {
-    // Construct function 
+    // Construct function
 	public function __construct(){
 
 		// Only authenticarte and admin user can enter here
@@ -24,7 +24,7 @@ class InventoryController extends Controller
                         ->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
          		       	->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-         		       	->select('user_details.fname', 'inventories.*', 'categories.category', 'warehouses.name as warehouse')
+         		       	->select('user_details.fname', 'user_details.phone', 'inventories.*', 'categories.category', 'warehouses.name as warehouse')
 						->where('inventories.status', 1)
 						->get();
 
@@ -38,21 +38,21 @@ class InventoryController extends Controller
 		$users = DB::table('user_details')->where('status', 1)->get();
 
         $all_users[''] = 'Select User';
-        foreach ($users as $key => $user) {         
+        foreach ($users as $key => $user) {
             $all_users[$user->user_id] = $user->fname;
         }
 
         // Get all categories
         $categories = DB::table('categories')->where('status', 1)->get();
 		$all_categories[''] = 'Select Commodity';
-		foreach ($categories as $key => $category) {			
+		foreach ($categories as $key => $category) {
 			$all_categories[$category->id] = $category->category;
 		}
-        
+
         // Get all warehouses
         $warehouses = DB::table('warehouses')->where('status', 1)->get();
         $all_warehouses[''] = 'Select Warehouse';
-        foreach ($warehouses as $key => $warehouse) {            
+        foreach ($warehouses as $key => $warehouse) {
             $all_warehouses[$warehouse->id] = $warehouse->name;
         }
 
@@ -111,7 +111,7 @@ class InventoryController extends Controller
 
             $destinationPath = base_path() . '/resources/assets/upload/inventory/';
             $file->move($destinationPath,$filename);
-            $filepath = $destinationPath.$filename;            
+            $filepath = $destinationPath.$filename;
         }
 
         // Add Inventory
@@ -199,7 +199,7 @@ class InventoryController extends Controller
 		$users = DB::table('user_details')->where('status', 1)->get();
 
 		$all_users = [];
-		foreach ($users as $key => $user) {			
+		foreach ($users as $key => $user) {
 			$all_users[$user->user_id] = $user->fname;
 		}
 
@@ -207,7 +207,7 @@ class InventoryController extends Controller
         $categories = DB::table('categories')->where('status', 1)->get();
 
         $all_categories[''] = 'Select Commodity';
-        foreach ($categories as $key => $category) {            
+        foreach ($categories as $key => $category) {
             $all_categories[$category->id] = $category->category;
         }
 
@@ -215,7 +215,7 @@ class InventoryController extends Controller
         $warehouses = DB::table('warehouses')->where('status', 1)->get();
 
         $all_warehouses[''] = 'Select Warehouse';
-        foreach ($warehouses as $key => $warehouse) {            
+        foreach ($warehouses as $key => $warehouse) {
             $all_warehouses[$warehouse->id] = $warehouse->name;
         }
 
@@ -249,7 +249,7 @@ class InventoryController extends Controller
 						->where(['inventories.id' => $id, 'inventories.status' => 1])
 						->first();
 
-		$filename = $inventory->image;	
+		$filename = $inventory->image;
 
         # If user profile image uploaded then
         if($request->hasFile('image')) {
@@ -283,7 +283,7 @@ class InventoryController extends Controller
 
             $destinationPath = base_path() . '/resources/assets/upload/inventory/';
             $file->move($destinationPath,$filename);
-            $filepath = $destinationPath.$filename;            
+            $filepath = $destinationPath.$filename;
         }
 
         // Edit Inventory

@@ -10,7 +10,7 @@ use DB;
 
 class WarehouseController extends Controller
 {
-	// Construct function 
+	// Construct function
 	public function __construct(){
 
 		// Only authenticarte and admin user can enter here
@@ -37,12 +37,12 @@ class WarehouseController extends Controller
         foreach ($all_items as $key => $item) {
             $items[$item->id] = $item->item;
         }
-     
+
 
         // All facilities
         $all_facilities = DB::table('facilities')->where('status', 1)->get();
         $facilities = [];
-       
+
        foreach ($all_facilities as $key => $facility) {
             $facilities[$facility->id] = $facility->facility;
         }
@@ -85,7 +85,7 @@ class WarehouseController extends Controller
 
         if($warehouse)
         {
-            $status = 'Warehouse Added successfully.';
+            $status = 'Terminal Added successfully.';
         }
         else
         {
@@ -109,7 +109,7 @@ class WarehouseController extends Controller
 
         if($delete)
         {
-            $status = 'Warehouse deleted successfully.';
+            $status = 'Terminal deleted successfully.';
         }
         else
         {
@@ -133,7 +133,7 @@ class WarehouseController extends Controller
 
         $item_available = '';
         foreach ($items as $key => $item) {
-            
+
             $item_name = DB::table('items')->where('id', $item)->first();
             $item_available .= $item_name->item.', ';
         }
@@ -141,7 +141,7 @@ class WarehouseController extends Controller
         $facility_available = '';
         $facilities = json_decode($warehouse->facilities);
         foreach ($facilities as $key => $facility) {
-            
+
             $facility_name = DB::table('facilities')->where('id', $facility)->first();
             $facility_available .= $facility_name->facility.', ';
         }
@@ -162,12 +162,12 @@ class WarehouseController extends Controller
         foreach ($all_items as $key => $item) {
             $items[$item->id] = $item->item;
         }
-     
+
 
         // All facilities
         $all_facilities = DB::table('facilities')->where('status', 1)->get();
         $facilities = [];
-       
+
        foreach ($all_facilities as $key => $facility) {
             $facilities[$facility->id] = $facility->facility;
         }
@@ -214,7 +214,7 @@ class WarehouseController extends Controller
 
         if($update)
         {
-            $status = 'Warehouse updated successfully.';
+            $status = 'Terminal updated successfully.';
         }
         else
         {

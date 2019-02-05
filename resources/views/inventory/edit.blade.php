@@ -29,7 +29,7 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>Edit Inventory</h5>
-            </div>                        
+            </div>
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
 
@@ -39,10 +39,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
-                    <div class="row">                        
+
+                    <div class="row">
                         {!! Form::open(array('url' => 'inventory_edit', 'files' => true)) !!}
-                            
+
                             {{ Form::hidden('inventory_id', $inventory->id) }}
 
                             <div class="col-md-3">
@@ -60,7 +60,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('warehouse', 'Warehouse') !!}
+                                    {!! Form::label('warehouse', 'Terminal') !!}
                                     {!! Form::select('warehouse', $warehouses, $inventory->warehouse_id, ['class' => 'form-control', 'id' => 'warehouse']) !!}
 
                                     @if($errors->has('warehouse'))
@@ -83,7 +83,7 @@
                                     @endif
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('quantity', 'Quantity') !!}
@@ -96,7 +96,7 @@
                                     @endif
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('price', 'Price') !!}
@@ -109,7 +109,7 @@
                                     @endif
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('image', 'Image') !!}
@@ -120,9 +120,9 @@
                                             <strong>{{ $errors->first('image') }}</strong>
                                         </span>
                                     @endif
-                                    
+
                                 </div>
-                            </div>   
+                            </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -132,7 +132,7 @@
 
                         {!! Form::close() !!}
 
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>

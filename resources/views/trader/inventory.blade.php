@@ -24,10 +24,10 @@
 
             <div class="col-lg-12 text-center">
 
-                <h2 class="section-heading">Warehouse Name</h2>
+                <h2 class="section-heading">Terminal Name</h2>
                 <hr>
             </div>
-            
+
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -91,7 +91,7 @@
             <form action="{{ route('buy_sell_price_update') }}" method="post">
                 {{ csrf_field() }}
                 <div class="modal-body mx-3">
-                    
+
                     <input type="hidden" name="invetory_id" id="invetory_id">
 
                     <div class="md-form mb-5">

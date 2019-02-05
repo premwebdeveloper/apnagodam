@@ -220,13 +220,13 @@
     Market linkage all three facilities at one place”</b></p>
                     <p class="mb-4">
                     Farmers don’t have access to warehousing facilities and
-                    commodity finance since warehouses are situated at far off
+                    commodity finance since Terminals are situated at far off
                     locations. They sell their commodity immediately post harvest at
                     lower price and don’t get the benefit of price appreciation.</p>
                     <p class="mb-4">
                     We identify closed factories, Old sheds and abandoned buildings
     NEAR production area and convert them into agriculture
-    warehouses where the farmers can keep the Agri commodity and
+    Terminals where the farmers can keep the Agri commodity and
     avail commodity loan by pledging the stock. When prices of agri
     produce are better then they can sell the stock to millers on the
     apnagodam portal on “ As is Where is basis”.</p>
@@ -280,7 +280,7 @@
       <div class="container">
         <div class="row">
             <div class="col-lg-4 my-auto">
-            <h2 class="section-heading">Warehouses Across <br>India</h2>
+            <h2 class="section-heading">Terminals Across <br>India</h2>
 
             <hr class="margin-unset">
             <p class="mb-4">We have dedicated and shared warehousing facilities in all the key Metro hubs across Pan-India - Mumbai, Pune, Bangalore, Delhi-NCR, Kolkata, Chennai, Hyderabad, Lucknow. Apart from these, we have partner warehouse space in Tier-2 and Tier-3 cities to provide a wider reach of logistics to our clients.</p>
@@ -314,7 +314,7 @@
                     <h2 class="text-left section-heading">Our Strength</h2>
 
                     <ul class="text-left">
-                        <li>Warehouses NEAR FARM</li>
+                        <li>Terminals NEAR FARM</li>
                         <li>Affordable storage solution</li>
                         <li>Paper less loan process in just 10 minutes</li>
                         <li>Online CCTV access to customers</li>
@@ -336,8 +336,8 @@
                     <li>Low transportation cost as the warehouse is nearby</li>
                     <li>Just send the commodity in warehouse and relax , everything is online</li>
                     <li>Proper Fumigations and spray to keep the commodity safe</li>
-                    <li>Millers on board to purchase the commodity from warehouses</li>
-                    <li>Grading / sorting facility in some warehouses</li>
+                    <li>Millers on board to purchase the commodity from Terminals</li>
+                    <li>Grading / sorting facility in some Terminals</li>
                 </ul>
                 </div>
             </div>

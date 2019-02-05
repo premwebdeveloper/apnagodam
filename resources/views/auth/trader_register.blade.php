@@ -18,7 +18,7 @@
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Mobile No.') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" placeholder="Mobile No." required>
+                                    <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" placeholder="Mobile No." required autofocus>
 
                                     @if ($errors->has('phone'))
                                         <span class="invalid-feedback" role="alert">
@@ -27,12 +27,12 @@
                                     @endif
                                 </div>
                             </div>
-                            
+
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Firm Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="firm_name" type="text" class="form-control{{ $errors->has('firm_name') ? ' is-invalid' : '' }}" name="firm_name" placeholder="Firm Name" value="{{ old('firm_name') }}" required autofocus>
+                                    <input id="firm_name" type="text" class="form-control{{ $errors->has('firm_name') ? ' is-invalid' : '' }}" name="firm_name" placeholder="Firm Name" value="{{ old('firm_name') }}" required >
 
                                     @if ($errors->has('firm_name'))
                                         <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Prop./Partner/Manager Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="fname" type="text" class="form-control{{ $errors->has('fname') ? ' is-invalid' : '' }}" name="fname" value="{{ old('fname') }}" placeholder="Name" required autofocus>
+                                    <input id="fname" type="text" class="form-control{{ $errors->has('fname') ? ' is-invalid' : '' }}" name="fname" value="{{ old('fname') }}" placeholder="Name" required >
 
                                     @if ($errors->has('fname'))
                                         <span class="invalid-feedback" role="alert">

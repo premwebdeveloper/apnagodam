@@ -43,10 +43,11 @@
                     @endif
 
 	                <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table id="inventory_table" class="table table-striped table-bordered table-hover">
 	                        <thead>
 	                            <tr>
                                     <th>User</th>
+                                    <th>Phone</th>
                                     <th>Commodity</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
@@ -57,6 +58,7 @@
                                 @foreach($inventories as $key => $inventory)
 	                                <tr class="gradeX">
                                         <td>{!! $inventory->fname !!}</td>
+                                        <td>{!! $inventory->phone !!}</td>
                                         <td>{!! $inventory->category !!}</td>
                                         <td>{!! $inventory->quantity !!}</td>
                                         <td>{!! $inventory->price !!}</td>
@@ -84,4 +86,12 @@
     	</div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#inventory_table").dataTable({
+            "order": [[ 3, "desc" ]]
+        });
+    });
+</script>
 @endsection

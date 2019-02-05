@@ -28,7 +28,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">Warehouse</th>
+                                <th scope="col">Terminal</th>
                                 <th scope="col">Location</th>
                                 <th scope="col">Commodity</th>
                                 <th scope="col">Quantity (Qtl.)</th>
@@ -56,7 +56,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">Warehouse</th>
+                                <th scope="col">Terminal</th>
                                 <th scope="col">Location</th>
                                 <th scope="col">Commodity</th>
                                 <th scope="col">Quantity (Qtl.)</th>

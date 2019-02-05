@@ -18,7 +18,7 @@
 
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Mobile No.') }}</label>
                                 <div class="col-md-6">
-                                    <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" placeholder="Mobile No." required>
+                                    <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" placeholder="Mobile No." required="required" autofocus>
 
                                     @if ($errors->has('phone'))
                                         <span class="invalid-feedback" role="alert">
@@ -32,7 +32,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="fname" type="text" class="form-control{{ $errors->has('fname') ? ' is-invalid' : '' }}" name="fname" value="{{ old('fname') }}" placeholder="Name" required autofocus>
+                                    <input id="fname" type="text" class="form-control{{ $errors->has('fname') ? ' is-invalid' : '' }}" name="fname" value="{{ old('fname') }}" placeholder="Name" required>
 
                                     @if ($errors->has('fname'))
                                         <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Father's Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="father_name" type="text" class="form-control{{ $errors->has('father_name') ? ' is-invalid' : '' }}" name="father_name" placeholder="Father's Name" value="{{ old('father_name') }}" required autofocus>
+                                    <input id="father_name" type="text" class="form-control{{ $errors->has('father_name') ? ' is-invalid' : '' }}" name="father_name" placeholder="Father's Name" value="{{ old('father_name') }}" required>
 
                                     @if ($errors->has('father_name'))
                                         <span class="invalid-feedback" role="alert">
@@ -103,7 +103,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Bank Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="bank_name" type="text" class="form-control{{ $errors->has('bank_name') ? ' is-invalid' : '' }}" name="bank_name" value="{{ old('bank_name') }}" placeholder="Bank Name" required autofocus>
+                                    <input id="bank_name" type="text" class="form-control{{ $errors->has('bank_name') ? ' is-invalid' : '' }}" name="bank_name" value="{{ old('bank_name') }}" placeholder="Bank Name" required>
 
                                     @if ($errors->has('bank_name'))
                                         <span class="invalid-feedback" role="alert">
@@ -117,7 +117,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Bank Branch') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="bank_branch" type="text" class="form-control{{ $errors->has('bank_branch') ? ' is-invalid' : '' }}" name="bank_branch" value="{{ old('bank_branch') }}" placeholder="Bank Branch" required autofocus>
+                                    <input id="bank_branch" type="text" class="form-control{{ $errors->has('bank_branch') ? ' is-invalid' : '' }}" name="bank_branch" value="{{ old('bank_branch') }}" placeholder="Bank Branch" required>
 
                                     @if ($errors->has('bank_branch'))
                                         <span class="invalid-feedback" role="alert">
@@ -131,7 +131,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Bank Account No.') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="bank_acc_no" type="text" class="form-control{{ $errors->has('bank_acc_no') ? ' is-invalid' : '' }}" name="bank_acc_no" value="{{ old('bank_acc_no') }}" placeholder="Bank Account No." required autofocus>
+                                    <input id="bank_acc_no" type="text" class="form-control{{ $errors->has('bank_acc_no') ? ' is-invalid' : '' }}" name="bank_acc_no" value="{{ old('bank_acc_no') }}" placeholder="Bank Account No." required>
 
                                     @if ($errors->has('bank_acc_no'))
                                         <span class="invalid-feedback" role="alert">
@@ -145,7 +145,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Bank IFSC Code') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="bank_ifsc_code" type="text" class="form-control{{ $errors->has('bank_ifsc_code') ? ' is-invalid' : '' }}" name="bank_ifsc_code" value="{{ old('bank_ifsc_code') }}" placeholder="Bank IFSC Code" required autofocus>
+                                    <input id="bank_ifsc_code" type="text" class="form-control{{ $errors->has('bank_ifsc_code') ? ' is-invalid' : '' }}" name="bank_ifsc_code" value="{{ old('bank_ifsc_code') }}" placeholder="Bank IFSC Code" required>
 
                                     @if ($errors->has('bank_ifsc_code'))
                                         <span class="invalid-feedback" role="alert">

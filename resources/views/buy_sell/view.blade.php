@@ -89,7 +89,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Warehouse</th>
+                                <th scope="col">Terminal</th>
                                 <th scope="col">Location</th>
                                 <th scope="col">Farmer</th>
                                 <th scope="col">Quantity (Bags)</th>

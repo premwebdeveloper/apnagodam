@@ -3,16 +3,16 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Warehouse Details</h2>
+        <h2>Terminal Details</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <a href="{{ route('warehouses') }}">Warehouses</a>
+                <a href="{{ route('warehouses') }}">Terminals</a>
             </li>
             <li class="active">
-                <strong>Warehouse Details</strong>
+                <strong>Terminal Details</strong>
             </li>
         </ol>
     </div>
@@ -25,11 +25,11 @@
             <div class="ibox float-e-margins">
 
                 <div class="ibox-title">
-                    <h5>Warehouse Details</h5>
+                    <h5>Terminal Details</h5>
                 </div>
 
                 <div class="ibox-content">
-                    <div class="feed-activity-list">                        
+                    <div class="feed-activity-list">
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
@@ -40,7 +40,7 @@
                                     <td>Facilities</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ $warehouse->name }}</td>    
+                                    <td>{{ $warehouse->name }}</td>
                                     <td>{{ $warehouse->village }}</td>
                                     <td>{{ $warehouse->capacity }}</td>
                                     <td>

@@ -154,8 +154,7 @@ class HomeController extends Controller
     // Farmer Login
     public function farmer_login()
     {
-        //return view('auth.farmer_login');
-        return view('auth.login');
+        return view('auth.farmer_login');
     }
 
     // Farmer Register
@@ -286,8 +285,7 @@ class HomeController extends Controller
     // Trader Login
     public function trader_login()
     {
-        //return view('auth.trader_login');
-        return view('auth.login');
+        return view('auth.trader_login');
     }
 
     // Trader Registration

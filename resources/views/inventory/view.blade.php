@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="ibox-content">
-                    <div class="feed-activity-list">                        
+                    <div class="feed-activity-list">
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
@@ -53,16 +53,16 @@
                                     <td>{{ $inventory->category }}</td>
                                     <td><b>Quantity</b></td>
                                     <td>{{ $inventory->quantity }}</td>
-                                    
+
                                 </tr>
                                 <tr>
                                     <td><b>Price</b></td>
                                     <td>{{ $inventory->price }}</td>
                                     <td><b>Date Of Deposit</b></td>
-                                    <td>{{ $inventory->created_at }}</td>                            
-                                </tr>                                
+                                    <td>{{ $inventory->created_at }}</td>
+                                </tr>
                                 <tr>
-                                    <td><b>Warehouse</b></td>
+                                    <td><b>Terminal</b></td>
                                     <td>{{ $inventory->warehouse }}</td>
                                 </tr>
                             </tbody>

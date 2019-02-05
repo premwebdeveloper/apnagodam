@@ -32,7 +32,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Father's Name</label>
 
                                 <div class="col-md-6">
-                                    <input id="father_name" type="text" class="form-control{{ $errors->has('father_name') ? ' is-invalid' : '' }}" name="father_name" placeholder="Father's Name" value="{{ old('father_name') }}" required autofocus>
+                                    <input id="father_name" type="text" class="form-control{{ $errors->has('father_name') ? ' is-invalid' : '' }}" name="father_name" placeholder="Father's Name" value="{{ old('father_name') }}" required >
 
                                     @if ($errors->has('father_name'))
                                         <span class="invalid-feedback" role="alert">
@@ -120,7 +120,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Village') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="village" type="text" class="form-control{{ $errors->has('village') ? ' is-invalid' : '' }}" name="village" value="{{ old('village') }}" placeholder="Village" required autofocus>
+                                    <input id="village" type="text" class="form-control{{ $errors->has('village') ? ' is-invalid' : '' }}" name="village" value="{{ old('village') }}" placeholder="Village" required >
 
                                     @if ($errors->has('village'))
                                         <span class="invalid-feedback" role="alert">
@@ -134,7 +134,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Tehsil') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="tehsil" type="text" class="form-control{{ $errors->has('tehsil') ? ' is-invalid' : '' }}" name="tehsil" value="{{ old('tehsil') }}" placeholder="Tehsil" required autofocus>
+                                    <input id="tehsil" type="text" class="form-control{{ $errors->has('tehsil') ? ' is-invalid' : '' }}" name="tehsil" value="{{ old('tehsil') }}" placeholder="Tehsil" required >
 
                                     @if ($errors->has('tehsil'))
                                         <span class="invalid-feedback" role="alert">
@@ -148,7 +148,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('District') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="district" type="text" class="form-control{{ $errors->has('district') ? ' is-invalid' : '' }}" name="district" value="{{ old('district') }}" placeholder="District" required autofocus>
+                                    <input id="district" type="text" class="form-control{{ $errors->has('district') ? ' is-invalid' : '' }}" name="district" value="{{ old('district') }}" placeholder="District" required >
 
                                     @if ($errors->has('district'))
                                         <span class="invalid-feedback" role="alert">
