@@ -545,7 +545,7 @@ class UsersController extends Controller
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
                 ->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '2'])
-                ->select('buy_sells.*', 'categories.category', 'warehouses.name', 'warehouses.village')
+                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouses.village')
                 ->get();
 
         // Get all buy products
@@ -554,7 +554,7 @@ class UsersController extends Controller
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
                 ->where(['buy_sells.buyer_id' => $currentuserid, 'buy_sells.status' => '2'])
-                ->select('buy_sells.*', 'categories.category', 'warehouses.name', 'warehouses.village')
+                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouses.village')
                 ->get();
 
         return view("user.deals", array('sells' => $sells, 'buys' => $buys));
@@ -581,16 +581,6 @@ class UsersController extends Controller
                 ->select('buy_sell_conversations.*', 'user_details.fname')
                 ->get();
 
-                /*echo '<pre>';
-                print_r($deal_info);
-                exit;*/
-
-/*        $deal = DB::table('buy_sell_conversations')
-                ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
-                ->select('buy_sells.*', 'buy_sell_conversations.user_id', 'buy_sell_conversations.price as deal_price')
-                ->where('buy_sell_conversations.buy_sell_id', $inventory_id)
-                ->get();*/
-
         return view("user.bidding", array('deal_info' => $deal_info, 'inventory_info' => $inventory_info));
     }
 
@@ -601,6 +591,7 @@ class UsersController extends Controller
 
         $inventory_id = $request->inventory_id;
         $my_bid = $request->my_bid;
+
         $date = date('Y-m-d H:i:s');
 
         // Get inventory details
@@ -611,34 +602,40 @@ class UsersController extends Controller
                 ->select('categories.category', 'warehouses.name', 'inventories.*')
                 ->first();
 
-        // If user bid amount is greater than commodity price than hit error
-        if($inventory_info->price < $my_bid){
+        // Get last bid on this commodity
+        $last_bid = DB::table('buy_sells')
+                ->join('buy_sell_conversations', 'buy_sell_conversations.buy_sell_id', '=', 'buy_sells.id')
+                ->where('buy_sells.seller_cat_id', $inventory_id)
+                ->orderBy('buy_sell_conversations.updated_at', 'desc')
+                ->select('buy_sells.*', 'buy_sell_conversations.price')
+                ->first();
 
-            return redirect('bidding/'.$inventory_id)->with('status', 'You can not bid amount more than commodity price !');
+        if(!empty($last_bid)){
+
+            if($last_bid->price >= $my_bid){
+
+                return redirect('bidding/'.$inventory_id)->with('status', 'You can not bid less than last bid price !');
+            }
+
+        }else{
+
+            // If user bid amount is less than commodity price than hit error
+            if($inventory_info->price >= $my_bid){
+
+                return redirect('bidding/'.$inventory_id)->with('status', 'You can not bid less than commodity price !');
+            }
         }
 
-        // Get old bids
-        /*$last_dealer_bid = DB::table('buy_sell_conversations')
-                        ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
-                        ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
-                        ->where('buy_sell_conversations.buy_sell_id', $deal_id)
-                        ->where('buy_sell_conversations.user_id', '!=', $currentuserid)
-                        ->orderBy('buy_sell_conversations.id', 'desc')
-                        ->limit(1)
-                        ->select('inventories.warehouse_id', 'inventories.commodity', 'buy_sells.seller_cat_id', 'buy_sells.quantity', 'buy_sells.buyer_id', 'buy_sell_conversations.*')
-                        ->first();*/
+        $all_bid_users = DB::table('buy_sells')
+                ->join('buy_sell_conversations', 'buy_sell_conversations.buy_sell_id', '=', 'buy_sells.id')
+                ->where('buy_sells.seller_cat_id', $inventory_id)
+                ->orderBy('buy_sell_conversations.updated_at', 'desc')
+                ->select('buy_sell_conversations.user_id')
+                ->get();
+
 
         // first check buyer power / buyer can puchase or not
         $buyer_info = DB::table('user_details')->where('user_id', $currentuserid)->first();
-
-        // If seller bid amount less than buyers last bid then hit error
-        /*if($currentuserid != $buyer_info->user_id){
-
-            if($my_bid < $last_dealer_bid->price){
-
-                return redirect('bidding/'.$deal_id)->with('status', 'You can not bid an amount less than buyers last bid !');
-            }
-        }*/
 
         // If the buyer so not have enough power then hit error
         if($buyer_info->power < $inventory_info->sell_quantity * $my_bid){
@@ -695,6 +692,66 @@ class UsersController extends Controller
                 'updated_at' => $date
             ]);
 
+        }
+
+        //Get All Bid User for Send message without current user
+        $all_bid = DB::table('buy_sell_conversations')
+                ->where(['buy_sell_id' => $buy_sell_id, 'status' => '1'])
+                ->where('user_id', "!=", $currentuserid)
+                ->get();
+
+        //Send Message to another buyer and farmer
+        $user = DB::table('users')->where('id', $inventory_info->user_id)->first();
+        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
+
+        $sms = "Trader Bid ".$my_bid. "on your inventory" ;
+
+        $params = array(
+                    "user" => "apnagodam",
+                    "password" => "45cfd8bb21XX",
+                    "senderid" => "apnago",
+                    "mobiles" => $user->phone,
+                    "sms" => $sms
+                    );
+
+        $params = http_build_query($params);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+
+        if(!empty($all_bid{0})){
+
+            foreach ($all_bid as $key => $data) {
+
+                //Send Message to another buyer and farmer
+                $user = DB::table('users')->where('id', $data->user_id)->first();
+                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
+
+                $sms = "Trader Bid ".$my_bid. " RS on curernt Inventory" ;
+
+                $params = array(
+                            "user" => "apnagodam",
+                            "password" => "45cfd8bb21XX",
+                            "senderid" => "apnago",
+                            "mobiles" => $user->phone,
+                            "sms" => $sms
+                        );
+
+                $params = http_build_query($params);
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($ch);
+            }
         }
 
         /*if($bid){
@@ -870,6 +927,10 @@ class UsersController extends Controller
         $deal_info_array = json_decode(json_encode($deal_info));
         $bid_prices = array_column($deal_info_array, 'price');
         $max_bid = max($bid_prices);
+        $user_ids = array();
+        $i = 0;
+        $buyer_id = null;
+        $seller_id = null;
 
         foreach ($deal_info as $key => $deal) {
 
@@ -883,10 +944,76 @@ class UsersController extends Controller
                     'status' => 2,
                     'updated_at' => $date
                 ]);
+
+                //Get Farmer User_id for send message
+                $seller = DB::table('buy_sells')->select('seller_id')->where('id', $deal->buy_sell_id)->first();
+                $user_ids[$i] = $seller->seller_id;
+                $i++;
+            }
+            else
+            {
+                $user_ids[$i] = $deal->user_id;
+                $i++;
             }
         }
 
         if($done){
+
+            //Send Message to Other trader who do not take this bid
+            foreach ($user_ids as $key => $value) {
+                $user = DB::table('users')->where('id', $value)->first();
+                //Send Message after Deal Done
+                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
+
+                $sms = 'This deal done on '.$max_bid." RS" ;
+
+                $params = array(
+                            "user" => "apnagodam",
+                            "password" => "45cfd8bb21XX",
+                            "senderid" => "apnago",
+                            "mobiles" => $user->phone,
+                            "sms" => $sms
+                            );
+
+                $params = http_build_query($params);
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($ch);
+
+            }
+
+            //Send messsage to trader(Buyer)
+            if($buyer_id)
+            {
+                $user = DB::table('users')->where('id', $value)->first();
+                //Send Message after Deal Done
+                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
+
+                $sms = 'Congratulations. Your Bid accepted by farmer amount by '.$max_bid." RS" ;
+
+                $params = array(
+                            "user" => "apnagodam",
+                            "password" => "45cfd8bb21XX",
+                            "senderid" => "apnago",
+                            "mobiles" => $user->phone,
+                            "sms" => $sms
+                            );
+
+                $params = http_build_query($params);
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($ch);
+            }
 
             // get old sell quantity of this inventory
             $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
@@ -932,11 +1059,11 @@ class UsersController extends Controller
             // first get power
             $buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
 
-            $update_buyers_power = DB::table('user_details')->where('user_id', $buyer_id)->update([
+            // $update_buyers_power = DB::table('user_details')->where('user_id', $buyer_id)->update([
 
-                'power' => $buyer_info->power - ($inventory_info->sell_quantity * $max_bid),
-                'updated_at' => $date,
-            ]);
+            //     'power' => $buyer_info->power - ($inventory_info->sell_quantity * $max_bid),
+            //     'updated_at' => $date,
+            // ]);
 
             $status = 'Deal Done.';
         }else{

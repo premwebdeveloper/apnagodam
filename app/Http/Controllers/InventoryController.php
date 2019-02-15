@@ -69,7 +69,9 @@ class InventoryController extends Controller
             'warehouse' => 'required',
             'quantity' => 'required',
             'price' => 'required',
-            'image' => 'required | mimes:pdf| max:2000',
+            'gate_pass_wr' => 'required',
+            'quality_category' => 'required',
+            'file' => 'required | mimes:pdf| max:2000',
         ]);
 
         $user_id = $request->user;
@@ -77,12 +79,14 @@ class InventoryController extends Controller
         $warehouse = $request->warehouse;
         $quantity = $request->quantity;
         $price = $request->price;
+        $quality_category = $request->quality_category;
+        $gate_pass_wr = $request->gate_pass_wr;
         $date = date('Y-m-d H:i:s');
 
         # If user profile image uploaded then
-        if($request->hasFile('image')) {
+        if($request->hasFile('file')) {
 
-            $file = $request->image;
+            $file = $request->file;
 
             $filename = $file->getClientOriginalName();
 
@@ -121,7 +125,8 @@ class InventoryController extends Controller
             'commodity' => $commodity,
             'type' => null,
             'quantity' => $quantity,
-            'price' => $price,
+            'gate_pass_wr' => $gate_pass_wr,
+            'quality_category' => $quality_category,
             'image' => $filename,
             'status' => 1,
             'created_at' => $date,
@@ -232,6 +237,8 @@ class InventoryController extends Controller
             'commodity' => 'required',
             'quantity' => 'required',
             'price' => 'required',
+            'gate_pass_wr' => 'required',
+            'quality_category' => 'required',
             //'image' => 'mimes:pdf| max:1000',
         ]);
 
@@ -241,6 +248,8 @@ class InventoryController extends Controller
         $commodity = $request->commodity;
         $quantity = $request->quantity;
         $price = $request->price;
+        $quality_category = $request->quality_category;
+        $gate_pass_wr = $request->gate_pass_wr;
         $date = date('Y-m-d H:i:s');
 
         $inventory = DB::table('inventories')
@@ -252,9 +261,9 @@ class InventoryController extends Controller
 		$filename = $inventory->image;
 
         # If user profile image uploaded then
-        if($request->hasFile('image')) {
+        if($request->hasFile('file')) {
 
-            $file = $request->image;
+            $file = $request->file;
 
             $filename = $file->getClientOriginalName();
 
@@ -292,6 +301,8 @@ class InventoryController extends Controller
             'warehouse_id' => $warehouse,
             'commodity' => $commodity,
             'quantity' => $quantity,
+            'quality_category' => $quality_category,
+            'gate_pass_wr' => $gate_pass_wr,
             'price' => $price,
             'image' => $filename,
             'updated_at' => $date

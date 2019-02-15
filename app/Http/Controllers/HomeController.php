@@ -84,7 +84,9 @@ class HomeController extends Controller
 
                 if(is_null($exist->login_otp)){
 
-                    $send_otp = DB::table('users')->where('phone', $request->phone)->update(['login_otp' => $otp]);
+                    $date = date('Y-m-d H:i:s');
+
+                    $send_otp = DB::table('users')->where('phone', $request->phone)->update(['login_otp' => $otp, 'updated_at' => $date]);
 
                     // send otp on mobile number using curl
                     $url = "http://bulksms.dexusmedia.com/sendsms.jsp";

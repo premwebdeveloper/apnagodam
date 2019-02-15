@@ -277,3 +277,10 @@ ALTER TABLE `buy_sell_conversations` CHANGE `conversation` `price` VARCHAR(191) 
 
 -- ------------------- ALTER TABLE `buy_sells` at 05-10-2018 ------
 ALTER TABLE `buy_sells` ADD `price` VARCHAR(191) NULL COMMENT 'final price after bidding between seller and buyer' AFTER `quantity`;
+
+-- ------------------- ALTER TABLE `inventories` at 08-02-2019 ------
+ALTER TABLE `inventories` ADD `gate_pass_wr` VARCHAR(25) NULL AFTER `price`;
+ALTER TABLE `inventories` ADD `quality_category` VARCHAR(5) NULL AFTER `gate_pass_wr`;
+
+-- ------------------- ALTER TABLE `inventories` at 14-02-2019 ------
+ALTER TABLE `buy_sells` CHANGE `status` `status` TINYINT(1) NOT NULL COMMENT 'status 1 active bid and 0 for complete bid / deal done 3 for pdf send and payment accept';

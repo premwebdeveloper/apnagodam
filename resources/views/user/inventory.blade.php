@@ -32,11 +32,12 @@
                 <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Warehouse</th>
+                      <th scope="col">Terminal</th>
                       <th scope="col">Location</th>
                       <th scope="col">Commodity</th>
                       <th scope="col">Quantity</th>
-                      <th scope="col">Quality</th>
+                      <th scope="col">Quality Category</th>
+                      <th scope="col">Download PDF</th>
                       <th scope="col">Create Date</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -46,20 +47,29 @@
 
                         @if($inventory->quantity > 0)
                             <tr>
-                                <th scope="row">{{ $key + 1 }}</th>
+                                <td>{{ $key + 1 }}</td>
                                 <td>{{ $inventory->name }}</td>
                                 <td>{{ $inventory->village }}</td>
                                 <td>{{ $inventory->cat_name }}</td>
                                 <td>{{ $inventory->quantity }}</td>
+                                <td>{{ $inventory->quality_category }}</td>
                                 <td>
-                                    <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" download>
+                                    <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" data-title="Download" download>
                                         <i class="fa fa-download"></i>
                                     </a>
-                                <td>{{ $inventory->created_at }}</td>
+                                </td>
+                                <td>{{ date('d-M-Y', strtotime($inventory->created_at)) }}</td>
                                 <td>
-                                    <a href="javascript:;" id="{{ $inventory->id }}" class="btn btn-info btn-sm want_to_sell" title="Edit Price">
-                                        Want To Sell
-                                    </a>
+                                    @php
+                                        $user = DB::table('user_roles')->where('user_id', Auth::user()->id)->first();
+                                        $role_id = $user->role_id;
+                                    @endphp
+                                    @if($role_id == 5)
+                                        <a href="javascript:;" id="{{ $inventory->id }}_{{ $inventory->quantity }}" class="btn btn-info btn-sm want_to_sell" title="Edit Price">
+                                            Want To Sell
+                                        </a>
+                                    @endif
+
                                     @if(!empty($inventory->sell_quantity) &&  $inventory->sell_quantity != 0)
                                         <a href="{{ route('bidding', ['inventory_id' => $inventory->id]) }}" class="btn btn-warning btn-sm" title="Edit Price">
                                             My Bids
@@ -79,9 +89,11 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $(".want_to_sell").on('click', function(){
-            var id = $(this).attr('id');
+            var data = $(this).attr('id');
+            var temp = data.split('_');
 
-            $("#invetory_id").val(id);
+            $("#invetory_id").val(temp[0]);
+            $("#sell_quantity").val(temp[1]);
             $("#edit_price").modal('show');
         });
     });

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
-    // Construct function 
+    // Construct function
 	public function __construct(){
 
 		// Only authenticarte and admin user can enter here
@@ -127,7 +127,7 @@ class AdminController extends Controller
 
             $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
             $file->move($destinationPath,$filename);
-            $filepath = $destinationPath.$filename;            
+            $filepath = $destinationPath.$filename;
         }
 
         // Create user in users table
@@ -142,7 +142,7 @@ class AdminController extends Controller
         $user_id = $user->id;
 
         // Create user role in users role table
-        $user_role = DB::table('user_roles')->insert([            
+        $user_role = DB::table('user_roles')->insert([
             'user_id' => $user_id,
             'role_id' => 2,
             'created_at' => $date,
@@ -166,7 +166,7 @@ class AdminController extends Controller
             'power' => 1,
             'created_at' => $date,
             'updated_at' => $date,
-            'status' => 1   
+            'status' => 1
         ]);
 
         if($user_details)
@@ -270,7 +270,7 @@ class AdminController extends Controller
 
             $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
             $file->move($destinationPath,$filename);
-            $filepath = $destinationPath.$filename;            
+            $filepath = $destinationPath.$filename;
         }
 
         // User update in users table
@@ -383,7 +383,7 @@ class AdminController extends Controller
             $status = 'Enquiry approved successfully.';
 
             // send otp on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
             //$mobiles = implode(",", $mobilesArr);
             $sms = 'Apna Godam - Enquiry approved by Admin.';
 
@@ -393,9 +393,9 @@ class AdminController extends Controller
                         "senderid" => "apnago",
                         "mobiles" => $user->phone,
                         "sms" => $sms
-                        );   
+                        );
 
-            $params = http_build_query($params);            
+            $params = http_build_query($params);
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -424,7 +424,7 @@ class AdminController extends Controller
         // User delete in users table
         $user_unapprove = DB::table('users')->where('id', $user_id)->delete();
 
-        // User delete in user roles table 
+        // User delete in user roles table
         $userrole_unapprove = DB::table('user_roles')->where('user_id', $user_id)->delete();
 
         // User details update in user details table
@@ -435,7 +435,7 @@ class AdminController extends Controller
             $status = 'Enquiry unapproved by Admin.';
 
             // send otp on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";                    
+            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
             //$mobiles = implode(",", $mobilesArr);
             $sms = 'Apna Godam - Enquiry unapproved successfully.';
 
@@ -445,9 +445,9 @@ class AdminController extends Controller
                         "senderid" => "apnago",
                         "mobiles" => $user->phone,
                         "sms" => $sms
-                        );   
+                        );
 
-            $params = http_build_query($params);            
+            $params = http_build_query($params);
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -479,4 +479,44 @@ class AdminController extends Controller
         return view('admin.done_deals', array('done_deals' => $done_deals));
     }
 
+    // Done Deals
+    public function payment_accept(Request $request){
+
+        $deal_id = $request->id;
+
+        $done_deals = DB::table('buy_sells')
+            ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+            ->join('users','users.id', '=', 'buy_sells.seller_id')
+            ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+            ->join('categories', 'categories.id', '=', 'inv.commodity')
+            ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+            ->where('buy_sells.id', $deal_id)
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
+            ->first();
+
+        $price = $done_deals->price;
+        $buyer_id = $done_deals->buyer_id;
+        $quantity = $done_deals->quantity;
+
+        //Get User Old Power
+        $user = DB::table('user_details')->where('user_id', $buyer_id)->first();
+
+        $new_power = $user->power - ($quantity * $price);
+        $date = date('Y-m-d H:i:s');
+
+        //Update Power of Trader
+        $update_buy_sells = DB::table('buy_sells')->where('id', $deal_id)->update([
+            'status' => 2,
+            'updated_at' => $date,
+        ]);
+
+        //Update Power of Trader
+        $user_power_update = DB::table('user_details')->where('user_id', $buyer_id)->update([
+            'power' => $new_power,
+            'updated_at' => $date,
+        ]);
+
+        $message = 'Approve Deal Successfully.';
+        return redirect('done_deals')->with('status', $message);
+    }
 }

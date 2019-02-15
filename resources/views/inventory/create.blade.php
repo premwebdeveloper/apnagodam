@@ -110,12 +110,45 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('image', 'Report PDF') !!}
-                                    {!! Form::file('image', ['class' => 'form-control', 'id' => 'image']) !!}
+                                    {!! Form::label('gate_pass_wr', 'Gate Pass / WR No.') !!}
+                                    {!! Form::text('gate_pass_wr', '', ['class' => 'form-control', 'id' => 'gate_pass_wr', 'placeholder' => 'Gate Pass / WR No.']) !!}
 
-                                    @if($errors->has('image'))
+                                    @if($errors->has('gate_pass_wr'))
                                         <span class="help-block red">
-                                            <strong>{{ $errors->first('image') }}</strong>
+                                            <strong>{{ $errors->first('gate_pass_wr') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @php
+                                        $quality = array(
+                                            'A' => 'A',
+                                            'B' => 'B',
+                                            'C' => 'C',
+                                        );
+                                    @endphp
+                                    {!! Form::label('quality_category', 'Quality Category') !!}
+                                    {!! Form::select('quality_category', $quality, '', ['class' => 'form-control', 'id' => 'quality_category']) !!}
+
+                                    @if($errors->has('quality_category'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('quality_category') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('file', 'Report PDF') !!}
+                                    {!! Form::file('file', ['class' => 'form-control', 'id' => 'file']) !!}
+
+                                    @if($errors->has('file'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('file') }}</strong>
                                         </span>
                                     @endif
 

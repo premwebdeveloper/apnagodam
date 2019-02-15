@@ -48,7 +48,7 @@
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Done Date</th>
-                                    <!-- <th>Action</th> -->
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,11 +62,17 @@
                                         <td>{!! $done_deal->quantity !!}</td>
                                         <td>{!! $done_deal->price !!}</td>
                                         <td>{!! $done_deal->created_at !!}</td>
-                                        <!-- <td>
-                                            <a href="{!! route('user_view', ['id' => $done_deal->id]) !!}" class="btn btn-info btn-sm" title="View">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
-                                        </td> -->
+                                        <td>
+                                            @if($done_deal->status != 2)
+                                                <a href="{!! route('payment_accept', ['id' => $done_deal->id]) !!}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Deal Done">
+                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                                </a>
+                                            @else
+                                                <a href="javascript:;" class="btn btn-info btn-sm" data-toggle="tooltip" title="Deal Done">
+                                                    Done
+                                                </a>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
 

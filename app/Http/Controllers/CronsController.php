@@ -28,13 +28,35 @@ class CronsController extends Controller
     			->get();
 
     	foreach ($bids as $key => $bid) {
-    		
+
 	    	// remove all bids which deal is not completed yet
-	    	$remove_bids = DB::table('buy_sell_conversations')->where('id', $bid->id)->delete();   		
+	    	$remove_bids = DB::table('buy_sell_conversations')->where('id', $bid->id)->delete();
 
     	}
 
     	// remove all pending deals which are not completed yet
     	$remove_deals = DB::table('buy_sells')->where('status', '!=', '2')->delete();
+    }
+
+    //Crons for Expire Login OTP
+    public function expirOTP()
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Get All User Data they recently logedin with orp
+        $users = DB::table('users')->where('status', 1)->get();
+       foreach ($users as $key => $user) {
+
+            $given_time = date('Y-m-d H:i:s',  strtotime("+1 minute", $user['updated_at']));
+            $current_time = date('Y-m-d H:i:s');
+            if(!empty($user['login_otp']))
+            {
+                if($current_time > $given_time)
+                {
+                    //Remove OTP
+                    $expir = DB::table('users')->where('1d', $user->id)->update(['login_otp' => null, 'updated_at' => $date]);
+                }
+            }
+       }
     }
 }

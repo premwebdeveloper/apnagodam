@@ -32,6 +32,7 @@
                                 <th scope="col">Location</th>
                                 <th scope="col">Commodity</th>
                                 <th scope="col">Quantity (Qtl.)</th>
+                                <th scope="col">Quality Categgory</th>
                                 <th scope="col">Price (Rs/Qtl.)</th>
                                 <th scope="col">Date</th>
                             </tr>
@@ -43,6 +44,7 @@
                                     <td>{{ $sell->village }}</td>
                                     <td>{{ $sell->category }}</td>
                                     <td>{{ $sell->quantity }}</td>
+                                    <td>{{ $sell->quality_category }}</td>
                                     <td>{{ $sell->price }}</td>
                                     <td>{{ $sell->created_at }}</td>
                                 </tr>
@@ -60,6 +62,7 @@
                                 <th scope="col">Location</th>
                                 <th scope="col">Commodity</th>
                                 <th scope="col">Quantity (Qtl.)</th>
+                                <th scope="col">Quality Categgory</th>
                                 <th scope="col">Price (Rs/Qtl.)</th>
                                 <th scope="col">Date</th>
                             </tr>
@@ -71,6 +74,7 @@
                                     <td>{{ $buy->village }}</td>
                                     <td>{{ $buy->category }}</td>
                                     <td>{{ $buy->quantity }}</td>
+                                    <td>{{ $buy->quality_category }}</td>
                                     <td>{{ $buy->price }}</td>
                                     <td>{{ $buy->created_at }}</td>
                                 </tr>

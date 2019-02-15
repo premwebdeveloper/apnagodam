@@ -50,6 +50,8 @@
                                     <th>Phone</th>
                                     <th>Commodity</th>
                                     <th>Quantity</th>
+                                    <th>Gate Pass / WR No.</th>
+                                    <th>Quality Category</th>
                                     <th>Price</th>
                                     <th>Action</th>
 	                            </tr>
@@ -61,6 +63,8 @@
                                         <td>{!! $inventory->phone !!}</td>
                                         <td>{!! $inventory->category !!}</td>
                                         <td>{!! $inventory->quantity !!}</td>
+                                        <td>{!! $inventory->gate_pass_wr !!}</td>
+                                        <td>{!! $inventory->quality_category !!}</td>
                                         <td>{!! $inventory->price !!}</td>
                                         <td>
                                             <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">

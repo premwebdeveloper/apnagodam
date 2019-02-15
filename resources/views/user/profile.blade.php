@@ -58,9 +58,9 @@
                         </tr>
                     </tbody>
                 </table>
-            
 
-                <section id="services">
+
+                <!-- <section id="services">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-8 mx-auto text-center">
@@ -72,7 +72,7 @@
                     </div>
                   <div class="container">
                         <div class="row">
-                                                     
+
                             <div class="col-lg-6 col-md-6 text-center">
                                 <div class="service-box mt-5 mx-auto" style="background: #012b72;">
                                     <i class="fa fa-rupee-sign" style="color:#fff"></i>
@@ -89,7 +89,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> -->
             </div>
 
         </div>

@@ -64,6 +64,12 @@
                                 <tr>
                                     <td><b>Terminal</b></td>
                                     <td>{{ $inventory->warehouse }}</td>
+                                    <td><b>Quality Category</b></td>
+                                    <td>{{ $inventory->quality_category }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Gate Pass / WR No.</b></td>
+                                    <td>{{ $inventory->gate_pass_wr }}</td>
                                 </tr>
                             </tbody>
                         </table>

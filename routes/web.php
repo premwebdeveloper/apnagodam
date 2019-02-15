@@ -22,6 +22,7 @@ Route::get('/', 'HomeController@index')->name('/');
 Route::get('crons/', 'CronsController@crons')->name('crons');
 
 Route::any('verifyOtp/', 'HomeController@verifyOtp')->name('verifyOtp');
+Route::get('/resendOtp/{id}', 'HomeController@resendOtp')->name('resendOtp');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -45,6 +46,7 @@ Route::get('/change_password', 'UsersController@change_password')->name('change_
 Route::get('/user_finance_view', 'UsersController@user_finance_view')->name('user_finance_view');
 
 Route::get('/request_for_loan/{id}', 'UsersController@request_for_loan')->name('request_for_loan');
+
 Route::get('/requested_for_loan/{finance_id}/{id}', 'UsersController@requested_for_loan')->name('requested_for_loan');
 Route::post('/loan_request', 'UsersController@loan_request')->name('loan_request');
 Route::get('/loan_approved/{id}', 'UsersController@loan_approved')->name('loan_approved');
@@ -77,6 +79,7 @@ Route::get('/notifications', 'UsersController@notifications')->name('notificatio
 // Ajax functions in Ajax controller
 // OTP verification
 Route::post('/otpVerification', 'AjaxController@otpVerification')->name('otpVerification');
+Route::post('/otpResend', 'AjaxController@otpResend')->name('otpResend');
 
 
 /* ********************** Admin routes start here *************************** */
@@ -104,8 +107,9 @@ Route::get('/enquiries', 'AdminController@enquiries')->name('enquiries');
 Route::get('/approve/{user_id}', 'AdminController@approve')->name('approve');
 Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove');
 
-// Admin Dashboard Done Deals
+// Admin Dashboard Done Deals and Paymenta
 Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
+Route::get('/payment_accept/{id}', 'AdminController@payment_accept')->name('payment_accept');
 
 // Warehouses Routes
 Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');
