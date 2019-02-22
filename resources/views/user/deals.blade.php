@@ -30,24 +30,32 @@
                             <tr>
                                 <th scope="col">Terminal</th>
                                 <th scope="col">Location</th>
+                                <th scope="col">Buyer</th>
                                 <th scope="col">Commodity</th>
                                 <th scope="col">Quantity (Qtl.)</th>
                                 <th scope="col">Quality Categgory</th>
                                 <th scope="col">Price (Rs/Qtl.)</th>
                                 <th scope="col">Date</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($sells as $key => $sell)
-                                <tr>
-                                    <td>{{ $sell->name }}</td>
-                                    <td>{{ $sell->village }}</td>
-                                    <td>{{ $sell->category }}</td>
-                                    <td>{{ $sell->quantity }}</td>
-                                    <td>{{ $sell->quality_category }}</td>
-                                    <td>{{ $sell->price }}</td>
-                                    <td>{{ $sell->created_at }}</td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ $sell->name }}</td>
+                                        <td>{{ $sell->village }}</td>
+                                        <td>{{ $sell->fname }}</td>
+                                        <td>{{ $sell->category }}</td>
+                                        <td>{{ $sell->quantity }}</td>
+                                        <td>{{ $sell->quality_category }}</td>
+                                        <td>{{ $sell->price }}</td>
+                                        <td>{{ $sell->created_at }}</td>
+                                        @if($sell->status == 2)
+                                            <td><strong class="red">Pending With Admin</strong></td>
+                                        @elseif($sell->status == 3)
+                                            <td><strong style="color:green;">Success</strong></td>
+                                        @endif
+                                    </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -65,19 +73,23 @@
                                 <th scope="col">Quality Categgory</th>
                                 <th scope="col">Price (Rs/Qtl.)</th>
                                 <th scope="col">Date</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($buys as $key => $buy)
-                                <tr>
-                                    <td>{{ $buy->name }}</td>
-                                    <td>{{ $buy->village }}</td>
-                                    <td>{{ $buy->category }}</td>
-                                    <td>{{ $buy->quantity }}</td>
-                                    <td>{{ $buy->quality_category }}</td>
-                                    <td>{{ $buy->price }}</td>
-                                    <td>{{ $buy->created_at }}</td>
-                                </tr>
+                                @if($buy->status == 2)
+                                    <tr>
+                                        <td>{{ $buy->name }}</td>
+                                        <td>{{ $buy->village }}</td>
+                                        <td>{{ $buy->category }}</td>
+                                        <td>{{ $buy->quantity }}</td>
+                                        <td>{{ $buy->quality_category }}</td>
+                                        <td>{{ $buy->price }}</td>
+                                        <td>{{ $buy->created_at }}</td>
+                                        <td><b class="red">Pending With Admin</b></td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

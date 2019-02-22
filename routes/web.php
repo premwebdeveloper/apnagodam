@@ -110,6 +110,7 @@ Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove
 // Admin Dashboard Done Deals and Paymenta
 Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
 Route::get('/payment_accept/{id}', 'AdminController@payment_accept')->name('payment_accept');
+Route::get('/download_vikray_parchi/{id}', 'AdminController@download_vikray_parchi')->name('download_vikray_parchi');
 
 // Warehouses Routes
 Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');

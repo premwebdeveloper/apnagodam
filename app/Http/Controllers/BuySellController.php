@@ -41,8 +41,8 @@ class BuySellController extends Controller
                         ->where('inventories.user_id', '!=', $current_user_id)
                         ->where('inventories.status', '=', 1)
                         ->where('inventories.commodity', '=', $cat_id)
-                        ->where('inventories.sell_quantity', '>', 0)
-                        ->where('inventories.sell_quantity', '!=', null)
+                        ->where('inventories.quantity', '>', 0)
+                        ->where('inventories.quantity', '!=', null)
                         ->get();
 
         return view('buy_sell.view', array('categories' => $categories, 'inventories' => $inventories, 'cat' => $cat));

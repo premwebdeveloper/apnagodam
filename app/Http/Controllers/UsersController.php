@@ -45,6 +45,9 @@ class UsersController extends Controller
     // User profile view
     public function inventories(){
 
+        echo time();
+        die;
+
         $currentuserid = Auth::user()->id;
 
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
@@ -264,47 +267,13 @@ class UsersController extends Controller
             // finance enquiry message for admin
             $admin_phone = DB::table('users')->where('id', 1)->first();
 
-            // send sms on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
             $sms = 'Apna Godam - '.$user_info->fname.' requested for loan.';
+            // send sms on mobile number using curl
+            $done = sendsms($admin_phone->phone, $sms);
 
-            $params = array(
-                "user" => "apnagodam",
-                "password" => "45cfd8bb21XX",
-                "senderid" => "apnago",
-                "mobiles" => $admin_phone->phone,
-                "sms" => $sms
-            );
-
-            $params = http_build_query($params);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
-
-            // send sms to user for loan request
             $sms = 'Apna Godam - You have requested for loan successfully.';
-
-            $params = array(
-                "user" => "apnagodam",
-                "password" => "45cfd8bb21XX",
-                "senderid" => "apnago",
-                "mobiles" => $user_info->phone,
-                "sms" => $sms
-            );
-
-            $params = http_build_query($params);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
+            // send sms to user for loan request
+            $success = sendsms($user_info->phone, $sms);
 
             $status = 'Request submitted successfully.';
         }else{
@@ -356,47 +325,14 @@ class UsersController extends Controller
         // if user disagree for loan then delete all enteries
         if($agree == 0){
 
-            // send sms on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
             $sms = 'Apna Godam - You have dis-agreed to have approved loan amount.';
-
-            $params = array(
-                "user" => "apnagodam",
-                "password" => "45cfd8bb21XX",
-                "senderid" => "apnago",
-                "mobiles" => $user_info->phone,
-                "sms" => $sms
-            );
-
-            $params = http_build_query($params);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
+            // send sms on mobile number using curl
+            $success = sendsms($user_info->phone, $sms);
 
             // send sms to admin
             $sms = 'Apna Godam - '.$user_info->fname.' dis-agreed to have approved loan amount.';
-
-            $params = array(
-                "user" => "apnagodam",
-                "password" => "45cfd8bb21XX",
-                "senderid" => "apnago",
-                "mobiles" => $admin_phone->phone,
-                "sms" => $sms
-            );
-
-            $params = http_build_query($params);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
+            // send sms on mobile number using curl
+            $done = sendsms($admin_phone->phone, $sms);
 
             $finance_del = DB::table('finances')->where('id', $finance_id)->delete();
             $finance_res_del = DB::table('finance_responses')->where('finance_id', $finance_id)->delete();
@@ -413,47 +349,13 @@ class UsersController extends Controller
 
         }else{
 
-            // send sms on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
             $sms = 'Apna Godam - You have agreed to have approved loan amount.';
-
-            $params = array(
-                "user" => "apnagodam",
-                "password" => "45cfd8bb21XX",
-                "senderid" => "apnago",
-                "mobiles" => $user_info->phone,
-                "sms" => $sms
-            );
-
-            $params = http_build_query($params);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
+            // send sms on mobile number using curl
+            $success = sendsms($user_info->phone, $sms);
 
             // send sms to admin
             $sms = 'Apna Godam - '.$user_info->fname.' agreed to have approved loan amount.';
-
-            $params = array(
-                "user" => "apnagodam",
-                "password" => "45cfd8bb21XX",
-                "senderid" => "apnago",
-                "mobiles" => $admin_phone->phone,
-                "sms" => $sms
-            );
-
-            $params = http_build_query($params);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
+            $success = sendsms($admin_phone->phone, $sms);
 
             // update finances table
             $finance_done = DB::table('finances')->where('id', $finance_id)->update([
@@ -544,8 +446,9 @@ class UsersController extends Controller
                 ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                ->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '2'])
-                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouses.village')
+                ->join('user_details', 'user_details.user_id', '=', 'buy_sells.buyer_id')
+                ->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '3'])
+                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouses.village','user_details.fname')
                 ->get();
 
         // Get all buy products
@@ -578,6 +481,7 @@ class UsersController extends Controller
                 ->join('buy_sell_conversations', 'buy_sell_conversations.buy_sell_id', '=', 'buy_sells.id')
                 ->join('user_details', 'user_details.user_id', '=', 'buy_sell_conversations.user_id')
                 ->where(['buy_sells.seller_cat_id' => $inventory_id, 'buy_sells.status' => '1'])
+                ->orderBy('buy_sell_conversations.price', 'desc')
                 ->select('buy_sell_conversations.*', 'user_details.fname')
                 ->get();
 
@@ -702,27 +606,8 @@ class UsersController extends Controller
 
         //Send Message to another buyer and farmer
         $user = DB::table('users')->where('id', $inventory_info->user_id)->first();
-        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
-        $sms = "Trader Bid ".$my_bid. "on your inventory" ;
-
-        $params = array(
-                    "user" => "apnagodam",
-                    "password" => "45cfd8bb21XX",
-                    "senderid" => "apnago",
-                    "mobiles" => $user->phone,
-                    "sms" => $sms
-                    );
-
-        $params = http_build_query($params);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $result = curl_exec($ch);
+        $sms = "Trader Bid ".$my_bid. " RS. on your inventory." ;
+        $done = sendsms($user->phone, $sms);
 
         if(!empty($all_bid{0})){
 
@@ -730,27 +615,9 @@ class UsersController extends Controller
 
                 //Send Message to another buyer and farmer
                 $user = DB::table('users')->where('id', $data->user_id)->first();
-                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
 
-                $sms = "Trader Bid ".$my_bid. " RS on curernt Inventory" ;
-
-                $params = array(
-                            "user" => "apnagodam",
-                            "password" => "45cfd8bb21XX",
-                            "senderid" => "apnago",
-                            "mobiles" => $user->phone,
-                            "sms" => $sms
-                        );
-
-                $params = http_build_query($params);
-
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $result = curl_exec($ch);
+                $sms = "Trader Bid ".$my_bid. " RS. on curernt Inventory." ;
+                $success = sendsms($user->phone, $sms);
             }
         }
 
@@ -963,101 +830,63 @@ class UsersController extends Controller
             foreach ($user_ids as $key => $value) {
                 $user = DB::table('users')->where('id', $value)->first();
                 //Send Message after Deal Done
-                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
-                $sms = 'This deal done on '.$max_bid." RS" ;
-
-                $params = array(
-                            "user" => "apnagodam",
-                            "password" => "45cfd8bb21XX",
-                            "senderid" => "apnago",
-                            "mobiles" => $user->phone,
-                            "sms" => $sms
-                            );
-
-                $params = http_build_query($params);
-
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $result = curl_exec($ch);
-
+                $sms = 'This deal done on '.$max_bid." RS." ;
+                $done = sendsms($user->phone, $sms);
             }
 
             //Send messsage to trader(Buyer)
             if($buyer_id)
             {
-                $user = DB::table('users')->where('id', $value)->first();
+                $user = DB::table('users')->where('id', $buyer_id)->first();
+
                 //Send Message after Deal Done
-                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
-                $sms = 'Congratulations. Your Bid accepted by farmer amount by '.$max_bid." RS" ;
-
-                $params = array(
-                            "user" => "apnagodam",
-                            "password" => "45cfd8bb21XX",
-                            "senderid" => "apnago",
-                            "mobiles" => $user->phone,
-                            "sms" => $sms
-                            );
-
-                $params = http_build_query($params);
-
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $result = curl_exec($ch);
+                $sms = 'Congratulations. Your Bid accepted by farmer amount by '.$max_bid." RS.";
+                $done = sendsms($user->phone, $sms);
             }
 
             // get old sell quantity of this inventory
-            $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
+            // $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
 
-            $remaining_quantity = $inventory_info->quantity - $inventory_info->sell_quantity;
+            // $remaining_quantity = $inventory_info->quantity - $inventory_info->sell_quantity;
 
-            // update inventory / qauantity of farmaer
-            $update_sell_quantity = DB::table('inventories')->where('id', $inventory_info->id)->update([
+            // // update inventory / qauantity of farmaer
+            // $update_sell_quantity = DB::table('inventories')->where('id', $inventory_info->id)->update([
 
-                'quantity' => $remaining_quantity,
-                'sell_quantity' => 0,
-                'updated_at' => $date,
-            ]);
+            //     'quantity' => $remaining_quantity,
+            //     'sell_quantity' => 0,
+            //     'updated_at' => $date,
+            // ]);
 
-            // update inventory / quantity of trader
-            $trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
+            // // update inventory / quantity of trader
+            // $trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
 
             // If trader have this commodity already then update quantity
-            if(!empty($trader_inventory)){
+            // if(!empty($trader_inventory)){
 
-                $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
+            //     $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
 
-                    'quantity' => $trader_inventory->quantity + $inventory_info->sell_quantity,
-                    'updated_at' => $date,
-                ]);
+            //         'quantity' => $trader_inventory->quantity + $inventory_info->sell_quantity,
+            //         'updated_at' => $date,
+            //     ]);
 
-            }else{
+            // }else{
 
-                // If trader do not have this commodity already then insert this commodity with this teader
-                $insert_commodity = DB::table('inventories')->insert([
+            //     // If trader do not have this commodity already then insert this commodity with this teader
+            //     $insert_commodity = DB::table('inventories')->insert([
 
-                    'user_id' => $buyer_id,
-                    'warehouse_id' => $inventory_info->warehouse_id,
-                    'commodity' => $inventory_info->commodity,
-                    'quantity' => $inventory_info->sell_quantity,
-                    'status' => 1,
-                    'created_at' => $date,
-                    'updated_at' => $date,
-                ]);
-            }
+            //         'user_id' => $buyer_id,
+            //         'warehouse_id' => $inventory_info->warehouse_id,
+            //         'commodity' => $inventory_info->commodity,
+            //         'quantity' => $inventory_info->sell_quantity,
+            //         'status' => 1,
+            //         'created_at' => $date,
+            //         'updated_at' => $date,
+            //     ]);
+            // }
 
             // Update power in users details table
             // first get power
-            $buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
+            //$buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
 
             // $update_buyers_power = DB::table('user_details')->where('user_id', $buyer_id)->update([
 
@@ -1115,13 +944,6 @@ class UsersController extends Controller
                 $notifications[$key] = $data;
             }
         };
-
-
-
-            print_r($notifications);
-            exit;
-
-
         return view("user.notifications", array('notifications' => $notifications));
     }
 }

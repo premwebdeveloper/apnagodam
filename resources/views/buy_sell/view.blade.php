@@ -101,35 +101,31 @@
                         </thead>
                         <tbody>
                             @foreach($inventories as $key => $inventory)
-                                <tr>
-                                    <th scope="row">{{ $key + 1 }}</th>
-                                    <td>{{ $inventory->warehouse }}</td>
-                                    <td>{{ $inventory->warehouse_location }}</td>
-                                    <td>{{ $inventory->farmer_name }}</td>
-                                    <td>{{ $inventory->sell_quantity }}</td>
-                                    <td>{{ $inventory->quality_category }}</td>
+                                @if($inventory->quantity > 0)
+                                    <tr>
+                                        <th scope="row">{{ $key + 1 }}</th>
+                                        <td>{{ $inventory->warehouse }}</td>
+                                        <td>{{ $inventory->warehouse_location }}</td>
+                                        <td>{{ $inventory->farmer_name }}</td>
+                                        <td>{{ $inventory->quantity }}</td>
+                                        <td>{{ $inventory->quality_category }}</td>
 
-                                    <input type="hidden" value="{{ $inventory->user_id }}" id="userid_{{ $inventory->id }}" class="this_seller_id">
+                                        <input type="hidden" value="{{ $inventory->user_id }}" id="userid_{{ $inventory->id }}" class="this_seller_id">
 
-                                    <td>{{ $inventory->price }}</td>
+                                        <td>{{ $inventory->price }}</td>
 
-                                    <td>
-                                        <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}" class="btn btn-info btn-sm" target="_blank">
-                                            View Report
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <!-- <a href="javascript:;"
-                                        id="{{ $inventory->id.'_'.$inventory->user_id }}"
-                                        class="btn btn-primary btn-sm buy_now"
-                                        title="Buy Now">
-                                            Buy Now
-                                        </a> -->
-                                        <a href="{{ route('bidding', ['inventory_id' => $inventory->id])}}" class="btn btn-warning btn-smw" title="Bids">
-                                            Bids
-                                        </a>
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}" class="btn btn-info btn-sm" target="_blank">
+                                                View Report
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('bidding', ['inventory_id' => $inventory->id])}}" class="btn btn-warning btn-smw" title="Bids">
+                                                Bids
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

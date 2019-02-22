@@ -23,9 +23,7 @@
                 <div class="ibox-title">
                     <h5>Done Deals</h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
+                        <span class="red">Deal Approve Time : 01:00 PM to 06:30PM</span>
                     </div>
                 </div>
 
@@ -63,13 +61,13 @@
                                         <td>{!! $done_deal->price !!}</td>
                                         <td>{!! $done_deal->created_at !!}</td>
                                         <td>
-                                            @if($done_deal->status != 2)
-                                                <a href="{!! route('payment_accept', ['id' => $done_deal->id]) !!}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Deal Done">
-                                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                            @if($done_deal->status == 2)
+                                                <a href="{!! route('payment_accept', ['id' => $done_deal->id]) !!}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Deal Done">
+                                                    Approve
                                                 </a>
                                             @else
-                                                <a href="javascript:;" class="btn btn-info btn-sm" data-toggle="tooltip" title="Deal Done">
-                                                    Done
+                                                <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id]) !!}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Deal Done">
+                                                    Download PDF
                                                 </a>
                                             @endif
                                         </td>

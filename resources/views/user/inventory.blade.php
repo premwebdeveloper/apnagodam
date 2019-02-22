@@ -37,7 +37,6 @@
                       <th scope="col">Commodity</th>
                       <th scope="col">Quantity</th>
                       <th scope="col">Quality Category</th>
-                      <th scope="col">Download PDF</th>
                       <th scope="col">Create Date</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -52,9 +51,9 @@
                                 <td>{{ $inventory->village }}</td>
                                 <td>{{ $inventory->cat_name }}</td>
                                 <td>{{ $inventory->quantity }}</td>
-                                <td>{{ $inventory->quality_category }}</td>
                                 <td>
-                                    <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" data-title="Download" download>
+                                    {{ $inventory->quality_category }}&nbsp;&nbsp;&nbsp;
+                                    <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" data-toggle='tooltip' title="Download PDF" download>
                                         <i class="fa fa-download"></i>
                                     </a>
                                 </td>

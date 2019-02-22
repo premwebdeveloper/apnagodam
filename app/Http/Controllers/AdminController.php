@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\user_details;
 use DB;
+use PDF;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
@@ -479,7 +480,7 @@ class AdminController extends Controller
         return view('admin.done_deals', array('done_deals' => $done_deals));
     }
 
-    // Done Deals
+    // Payment Accept By Admin
     public function payment_accept(Request $request){
 
         $deal_id = $request->id;
@@ -493,9 +494,60 @@ class AdminController extends Controller
             ->where('buy_sells.id', $deal_id)
             ->select('buy_sells.*', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
             ->first();
+        $inventory_id = $done_deals->seller_cat_id;
+        $quantity = $done_deals->quantity;
+        $buyer_id = $done_deals->buyer_id;
+
+        // get old sell quantity of this inventory
+        $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
+
+        $remaining_quantity = $inventory_info->quantity - $quantity;
+        $date = date('Y-m-d H:i:s');
+
+        // update inventory / qauantity of farmaer
+        $update_sell_quantity = DB::table('inventories')->where('id', $inventory_info->id)->update([
+
+            'quantity' => $remaining_quantity,
+            'sell_quantity' => $quantity,
+            'updated_at' => $date,
+        ]);
+
+        $trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
+
+        // If trader have this commodity already then update quantity
+        if(!empty($trader_inventory)){
+
+            $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
+
+                'quantity' => $trader_inventory->quantity + $quantity,
+                'updated_at' => $date,
+            ]);
+
+        }else{
+
+            // If trader do not have this commodity already then insert this commodity with this teader
+            $insert_commodity = DB::table('inventories')->insert([
+
+                'user_id' => $buyer_id,
+                'warehouse_id' => $inventory_info->warehouse_id,
+                'commodity' => $inventory_info->commodity,
+                'quantity' => $quantity,
+                'status' => 1,
+                'created_at' => $date,
+                'updated_at' => $date,
+            ]);
+        }
+
+        //If Send pdf to email
+        $data = json_decode(json_encode($done_deals),true);
+
+        $pdf = PDF::loadView('vikray_parchi_pdf', $data);
+
+        $pdf->download('vikray_parchi.pdf');
 
         $price = $done_deals->price;
         $buyer_id = $done_deals->buyer_id;
+        $seller_id  = $done_deals->seller_id ;
         $quantity = $done_deals->quantity;
 
         //Get User Old Power
@@ -504,9 +556,9 @@ class AdminController extends Controller
         $new_power = $user->power - ($quantity * $price);
         $date = date('Y-m-d H:i:s');
 
-        //Update Power of Trader
+        //Update sell status
         $update_buy_sells = DB::table('buy_sells')->where('id', $deal_id)->update([
-            'status' => 2,
+            'status' => 3,
             'updated_at' => $date,
         ]);
 
@@ -516,7 +568,36 @@ class AdminController extends Controller
             'updated_at' => $date,
         ]);
 
-        $message = 'Approve Deal Successfully.';
+        //Send SMS to Seller
+        $user = DB::table('users')->where('id', $seller_id)->first();
+
+        //Send Message after Deal Done
+        $sms = 'Congratulations. Your Payment done by Admin';
+        $done = sendsms($user->phone, $sms);
+
+        $message = 'Payment Accepted Successfully.';
         return redirect('done_deals')->with('status', $message);
+    }
+
+    // Re Download  vikray parchi
+    public function download_vikray_parchi(Request $request){
+
+        $deal_id = $request->id;
+
+        $done_deals = DB::table('buy_sells')
+            ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+            ->join('users','users.id', '=', 'buy_sells.seller_id')
+            ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+            ->join('categories', 'categories.id', '=', 'inv.commodity')
+            ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+            ->where('buy_sells.id', $deal_id)
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
+            ->first();
+
+        $data = json_decode(json_encode($done_deals),true);
+
+        $pdf = PDF::loadView('vikray_parchi_pdf', $data);
+
+        return $pdf->download('vikray_parchi.pdf');
     }
 }

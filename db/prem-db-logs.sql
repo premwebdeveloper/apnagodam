@@ -284,3 +284,4 @@ ALTER TABLE `inventories` ADD `quality_category` VARCHAR(5) NULL AFTER `gate_pas
 
 -- ------------------- ALTER TABLE `inventories` at 14-02-2019 ------
 ALTER TABLE `buy_sells` CHANGE `status` `status` TINYINT(1) NOT NULL COMMENT 'status 1 active bid and 0 for complete bid / deal done 3 for pdf send and payment accept';
+ALTER TABLE `buy_sells` CHANGE `status` `status` TINYINT(1) NOT NULL COMMENT 'status 1 active bid and 2 for deal done 3 for pdf send and payment accept';

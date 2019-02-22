@@ -125,6 +125,7 @@ class InventoryController extends Controller
             'commodity' => $commodity,
             'type' => null,
             'quantity' => $quantity,
+            'price' => $price,
             'gate_pass_wr' => $gate_pass_wr,
             'quality_category' => $quality_category,
             'image' => $filename,

@@ -27,25 +27,27 @@
                     </h4>
                     <h5 class="section-heading text-center">My selling price - {{ $inventory_info->price }} ( {{ $inventory_info->sell_quantity }} Qtl.)</h5>
                     @php
-                        $begin = date('H:i:s', strtotime('12:00'));
-                        $end = date('H:i:s', strtotime('13:00'));
+                        $begin = date('H:i:s', strtotime('08:00'));
+                        $end = date('H:i:s', strtotime('20:00'));
                         $now = date('H:i:s');
                     @endphp
                     @if($now < $begin)
                         <p class="section-heading text-right">
-                            Bid Accepet Time: 12:00 PM - 01:00 PM
+                            Bid Accepet Time: 09:00 AM - 01:00 PM
                         </p>
                     @elseif($now >= $begin && $now <= $end)
-                        <p class="section-heading text-right">
-                            <a href="{{ route('deal_done', ['inventory_id' => $inventory_info->id]) }}" class="btn btn-info">Accept With High Price</a>
-                        </p>
+                        @if(count($deal_info) >= 1)
+                            <p class="section-heading text-right">
+                                <a href="{{ route('deal_done', ['inventory_id' => $inventory_info->id]) }}" class="btn btn-info">Accept With High Price</a>
+                            </p>
+                        @endif
                     @else
                         <h6 class="text-center red">Your Time Out. You can not accept this Bid now. Bid Again Tomorrow.</h6>
                     @endif
                 @else
                     @php
-                        $begin = date('H:i:s', strtotime('10:00'));
-                        $end = date('H:i:s', strtotime('12:00'));
+                        $begin = date('H:i:s', strtotime('09:00'));
+                        $end = date('H:i:s', strtotime('18:00'));
                         $now = date('H:i:s');
                         $bid_open = 0;
                     @endphp
@@ -61,6 +63,7 @@
                     @elseif($now >= $begin && $now <= $end)
                         @php
                         $bid_open = 1;
+                        echo '<h6 class="text-right" style="color: green;"><b>You can bid now. Bid is Open</b></h6>';
                         @endphp
                     @else
                         <h6 class="text-center red">You can not bid now. Bid Time Out.Better luck Tomorrow</h6>
@@ -95,7 +98,7 @@
 
                 <!-- if the logged in user is not seller then user can bid / show bid form to buyer only -->
                 @if($inventory_info->user_id != Auth::user()->id)
-                    @if($bid_open == 1)
+                    @if($bid_open == 1 && count($deal_info) >= 1)
                         {!! Form::open(array('url' => 'seller_bid')) !!}
 
                             {!! Form::hidden('inventory_id', $inventory_info->id) !!}

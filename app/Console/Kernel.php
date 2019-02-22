@@ -14,7 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        'App\Console\Commands\deleteInventories'
+        'App\Console\Commands\deleteInventories',
+        'App\Console\Commands\expireOtp',
+        'App\Console\Commands\deleteSells'
     ];
 
     /**
@@ -27,6 +29,12 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('inventories:truncate')
                   ->dailyAt('17:01');
+
+        $schedule->command('expire:otp')
+                  ->everyMinute();
+
+        $schedule->command('delete:sells')
+                  ->everyMinute();
     }
 
     /**
