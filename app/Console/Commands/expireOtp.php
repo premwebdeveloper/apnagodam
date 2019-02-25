@@ -42,16 +42,17 @@ class expireOtp extends Command
 
         //Get All User Data they recently logedin with otp
         $users = DB::table('users')->where('status', 1)->get();
+
         foreach ($users as $key => $user) {
 
-            $given_time = date('Y-m-d H:i:s',  strtotime("+1 minute", $user['updated_at']));
+            $given_time = date('Y-m-d H:i:s',  strtotime("+1 minute", strtotime($user->updated_at)));
             $current_time = date('Y-m-d H:i:s');
-            if(!empty($user['login_otp']))
+            if(!is_null($user->login_otp))
             {
                 if($current_time > $given_time)
                 {
                     //Remove OTP
-                    $expir = DB::table('users')->where('1d', $user->id)->update(['login_otp' => null, 'updated_at' => $date]);
+                    $expir = DB::table('users')->where('id', $user->id)->update(['login_otp' => null, 'updated_at' => $date]);
                 }
             }
         }

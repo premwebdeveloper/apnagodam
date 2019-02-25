@@ -44,17 +44,16 @@ class deleteInventories extends Command
         if($current_time > $expire_time){
             // First get all incomplete deal's bid
             $buy_sells = DB::table('buy_sells')
-                    ->where('status', '<=', '1')
+                    ->where('status', '=', '1')
                     ->select('buy_sells.*')
                     ->get();
 
             foreach ($bids as $key => $bid) {
                 // remove all bids which deal is not completed yet
-                $remove_bids = DB::table('buy_sell_conversations')->where('id', $bid->id)->delete();
+                $remove_bids = DB::table('buy_sell_conversations')->where('buy_sell_id', $bid->id)->delete();
             }
             // remove all pending deals which are not completed yet
-            //$remove_deals = DB::table('buy_sells')->where('status', '<=', '1')->delete();
+            $remove_deals = DB::table('buy_sells')->where('status', '=', '1')->delete();
         }
-
     }
 }

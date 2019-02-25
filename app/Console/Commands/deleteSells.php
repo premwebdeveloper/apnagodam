@@ -45,19 +45,18 @@ class deleteSells extends Command
 
             // First get all incomplete deal's bid
             $buy_sells = DB::table('buy_sells')
-                ->where('status', '==', '2')
+                ->where('status', '=', '2')
                 ->select('buy_sells.*')
                 ->get();
 
             foreach ($buy_sells as $key => $sell) {
                 // remove all bids which deal is not completed yet
                 $remove_bids = DB::table('buy_sell_conversations')
-                                    ->where('id', $sell->id)
+                                    ->where('buy_sell_id', $sell->id)
                                     ->delete();
            }
             // remove all pending deals which are not completed yet
-            //$remove_deals = DB::table('buy_sells')->where('status', '==', '2')->delete();
+            $remove_deals = DB::table('buy_sells')->where('status', '=', '2')->delete();
         }
-
     }
 }
