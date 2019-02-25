@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2019 at 12:26 PM
+-- Generation Time: Feb 25, 2019 at 03:22 PM
 -- Server version: 10.1.22-MariaDB
 -- PHP Version: 7.1.4
 
@@ -35,19 +35,10 @@ CREATE TABLE `buy_sells` (
   `seller_cat_id` int(11) NOT NULL,
   `quantity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'final price after bidding between seller and buyer',
-  `status` tinyint(1) NOT NULL COMMENT 'status 1 active bid and 0 for complete bid / deal done',
+  `status` tinyint(1) NOT NULL COMMENT 'status 1 active bid and 2 for deal done 3 for pdf send and payment accept',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `buy_sells`
---
-
-INSERT INTO `buy_sells` (`id`, `buyer_id`, `seller_id`, `seller_cat_id`, `quantity`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(2, 37, 36, 11, '170', '2440', 2, '2019-01-17 06:36:37', '2019-01-17 07:52:53'),
-(3, 35, 33, 9, '100', '1900', 2, '2019-01-17 07:00:53', '2019-01-17 08:46:27'),
-(4, 37, 33, 10, '50', '475', 2, '2019-01-17 08:10:55', '2019-01-17 08:11:47');
 
 -- --------------------------------------------------------
 
@@ -64,17 +55,6 @@ CREATE TABLE `buy_sell_conversations` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `buy_sell_conversations`
---
-
-INSERT INTO `buy_sell_conversations` (`id`, `buy_sell_id`, `user_id`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(3, 2, 35, '2425', 1, '2019-01-17 06:36:37', '2019-01-17 06:50:27'),
-(4, 2, 37, '2440', 1, '2019-01-17 06:37:02', '2019-01-17 06:50:08'),
-(5, 3, 35, '1900', 1, '2019-01-17 07:00:53', '2019-01-17 07:00:53'),
-(6, 4, 35, '450', 1, '2019-01-17 08:10:55', '2019-01-17 08:10:55'),
-(7, 4, 37, '475', 1, '2019-01-17 08:11:21', '2019-01-17 08:11:28');
 
 -- --------------------------------------------------------
 
@@ -102,10 +82,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `category`, `gst`, `commossion`, `mandi_fees`, `loading`, `bardana`, `freight`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Chana', '123196', '10', '50', '200', '10', '50', 'e24536.jpg', 1, '2018-09-26 08:25:07', '2018-09-26 08:53:26'),
-(2, 'Rice', '32543', '10', '50', '200', '10', '50', '592ecc.jpg', 1, '2018-09-26 08:54:27', '2018-09-26 08:54:27'),
-(3, 'Mustard', '32543', '10', '50', '200', '10', '50', 'd0cbef.jpg', 1, '2018-09-26 08:55:13', '2018-09-26 08:55:13'),
-(4, 'Milk', '32543', '10', '50', '200', '10', '50', '24e090.png', 0, '2018-10-12 07:22:47', '2018-10-12 07:22:53');
+(1, 'Rice', '32543', '10', '50', '200', '10', '50', '592ecc.jpg', 1, '2018-09-26 08:54:27', '2018-09-26 08:54:27'),
+(2, 'Chana', '5', '10', '50', '150', '10', '40', 'f14b5c.jpg', 1, '2019-02-21 05:14:41', '2019-02-21 05:14:41');
 
 -- --------------------------------------------------------
 
@@ -130,11 +108,11 @@ INSERT INTO `commodity_name` (`id`, `commodity`, `image`, `created_at`, `updated
 (1, 'Barley', '66e9cf.jpg', '2019-01-15 13:04:13', '2019-01-17 15:22:37', 0),
 (2, 'Grams', '6245e3.jpg', '2019-01-15 14:31:05', '2019-01-17 15:22:40', 0),
 (3, 'Barley', '81af37.jpg', '2019-01-17 15:23:03', '2019-01-17 15:23:03', 1),
-(4, 'chana', 'c70dd1.jpg', '2019-01-17 15:23:13', '2019-01-17 15:23:13', 1),
+(4, 'Chana', 'c70dd1.jpg', '2019-01-17 15:23:13', '2019-01-17 15:23:13', 1),
 (5, 'Bajra', '132f50.jpg', '2019-01-17 15:23:22', '2019-01-17 15:23:22', 1),
 (6, 'Guar', '507926.jpg', '2019-01-17 15:23:31', '2019-01-17 15:23:31', 1),
 (7, 'Ground nutt', '763b2c.jpg', '2019-01-17 15:23:43', '2019-01-17 15:23:43', 1),
-(8, 'chola', '71ad5a.jpg', '2019-01-17 15:23:52', '2019-01-17 15:23:52', 1),
+(8, 'Chola', '71ad5a.jpg', '2019-01-17 15:23:52', '2019-01-17 15:23:52', 1),
 (9, 'Methi', '8e8b4e.jpg', '2019-01-17 15:24:01', '2019-01-17 15:24:01', 1);
 
 -- --------------------------------------------------------
@@ -156,8 +134,10 @@ CREATE TABLE `facilities` (
 --
 
 INSERT INTO `facilities` (`id`, `facility`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'facility', 1, '2018-09-20 08:31:00', '2018-09-20 08:31:00'),
-(2, 'facility 1', 1, '2018-09-20 08:35:44', '2018-09-20 08:35:46');
+(1, 'CCTV cameras', 1, '2019-02-12 08:59:34', '2019-02-12 08:59:34'),
+(2, 'Secuirity Guards', 1, '2019-02-12 08:59:47', '2019-02-12 08:59:47'),
+(3, 'Electical Boundaries', 1, '2019-02-12 09:00:08', '2019-02-12 09:00:08'),
+(4, 'Water Proof', 1, '2019-02-12 09:00:18', '2019-02-12 09:00:18');
 
 -- --------------------------------------------------------
 
@@ -184,15 +164,6 @@ CREATE TABLE `finances` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `finances`
---
-
-INSERT INTO `finances` (`id`, `user_id`, `bank_name`, `branch_name`, `acc_number`, `ifsc`, `pan`, `aadhar`, `balance_sheet`, `bank_statement`, `commodity_id`, `quantity`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 5, 'sbi', 'jaipur', '123456', 'asfasf', 'd73433.png', 'd78fc1.png', '38cd22.png', 'd74e1c.png', 1, NULL, NULL, 3, '2018-10-03 08:08:15', '2018-10-03 08:09:49'),
-(2, 22, 'sbi', 'jaipur', '123456', 'asfasf', '353a4a.png', '9f964e.png', '4ec543.gif', '79c80b.png', 5, '10', '1000', 1, '2018-10-15 15:00:46', '2018-10-15 15:00:46'),
-(3, 22, 'sbi', 'jaipur', '123456', 'asfasf', '7c1a23.png', 'b177ff.png', 'a27573.gif', '4cbbe7.png', 5, '10', '1000', 1, '2018-10-15 15:01:13', '2018-10-15 15:01:13');
-
 -- --------------------------------------------------------
 
 --
@@ -210,15 +181,6 @@ CREATE TABLE `finance_responses` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `finance_responses`
---
-
-INSERT INTO `finance_responses` (`id`, `finance_id`, `bank_name`, `amount`, `interest`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'ert', 2354, '343', 2, '2018-10-03 08:08:15', '2018-10-03 08:09:49'),
-(2, 2, NULL, NULL, NULL, NULL, '2018-10-15 15:00:46', '2018-10-15 15:00:46'),
-(3, 3, NULL, NULL, NULL, NULL, '2018-10-15 15:01:13', '2018-10-15 15:01:13');
-
 -- --------------------------------------------------------
 
 --
@@ -234,6 +196,8 @@ CREATE TABLE `inventories` (
   `quantity` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sell_quantity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gate_pass_wr` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `quality_category` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -244,15 +208,11 @@ CREATE TABLE `inventories` (
 -- Dumping data for table `inventories`
 --
 
-INSERT INTO `inventories` (`id`, `user_id`, `warehouse_id`, `commodity`, `type`, `quantity`, `sell_quantity`, `price`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(9, 33, 1, 1, NULL, '0', '0', '2000', 'e2e33a.pdf', 1, '2019-01-15 13:40:31', '2019-01-17 08:46:27'),
-(10, 33, 1, 2, NULL, '0', '0', '500', 'f1e0ee.pdf', 1, '2019-01-15 13:40:50', '2019-01-17 08:11:47'),
-(11, 36, 1, 1, NULL, '30', '10', '500', '43a315.pdf', 1, '2019-01-17 05:02:37', '2019-01-17 09:37:22'),
-(12, 36, 2, 2, NULL, '150', '150', '500', '105e8a.pdf', 1, '2019-01-17 05:03:04', '2019-01-17 05:05:54'),
-(13, 36, 2, 3, NULL, '250', '225', '425', '3e4a54.pdf', 1, '2019-01-17 05:03:25', '2019-01-17 05:43:06'),
-(14, 37, 1, 1, NULL, '170', '150', '2500', NULL, 1, '2019-01-17 07:52:53', '2019-01-17 09:30:07'),
-(15, 37, 1, 2, NULL, '50', NULL, NULL, NULL, 1, '2019-01-17 08:11:47', '2019-01-17 08:11:47'),
-(16, 35, 1, 1, NULL, '100', NULL, NULL, NULL, 1, '2019-01-17 08:46:27', '2019-01-17 08:46:27');
+INSERT INTO `inventories` (`id`, `user_id`, `warehouse_id`, `commodity`, `type`, `quantity`, `sell_quantity`, `price`, `gate_pass_wr`, `quality_category`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 3, 1, NULL, '0', '80', '3000', '1201', 'B', '4fe35a.pdf', 1, '2019-02-21 05:16:22', '2019-02-22 05:25:02'),
+(2, 3, 3, 1, NULL, '200', NULL, '3300', '1202', 'A', '096fb8.pdf', 1, '2019-02-21 05:16:55', '2019-02-21 05:16:55'),
+(3, 2, 3, 2, NULL, '100', NULL, '4200', '1203', 'A', '9a6dd3.pdf', 1, '2019-02-21 05:20:51', '2019-02-21 05:20:51'),
+(4, 6, 3, 1, NULL, '80', NULL, NULL, NULL, NULL, NULL, 1, '2019-02-22 05:25:02', '2019-02-22 05:25:02');
 
 -- --------------------------------------------------------
 
@@ -267,14 +227,6 @@ CREATE TABLE `items` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `items`
---
-
-INSERT INTO `items` (`id`, `item`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Item 1', 1, '2018-09-20 07:47:01', '2018-09-20 07:47:01'),
-(2, 'Item 2', 1, '2018-09-20 07:47:13', '2018-09-20 08:01:31');
 
 -- --------------------------------------------------------
 
@@ -419,12 +371,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `phone`, `login_otp`, `remember_token`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', '', 'admin@admin.com', '$2y$10$JCJ6HuLpoDYa0obD88w0buwVOYjjK5/M59CxfPM/UDqtJHLb2uK5O', '9829309074', NULL, 'AsZ5p2nk1ZKfOtJOAkU49YCuK8dbhyYCCbCDofs2E7qLmJ8to6wNDJGfgMHa', 1, '2018-09-01 08:17:09', '2018-09-01 08:17:09'),
-(25, 'Goverment', NULL, NULL, '$2y$10$JCJ6HuLpoDYa0obD88w0buwVOYjjK5/M59CxfPM/UDqtJHLb2uK5O', '9413145945', NULL, 'bXmTLRdeFyqjBGw1kJBhffU8PXZewz3CsUyOHuzXl0NKflzVQFgbSYOXmqGb', 1, '2019-01-05 13:06:59', '2019-01-05 13:06:59'),
-(33, 'amit', 'farmer', NULL, '$2y$10$rm66CB3Ql9RmwpTACNXw1.pICZCs4MdXATP3GIfYNNGG/6ry4OHF.', '8005609866', NULL, '3embMPEWWfhPTcMPL0TMcary366D9mmrkDJ5Ne2Pa4FyO0ndXcojV9OznoPQ', 1, '2019-01-15 06:06:24', '2019-01-15 06:06:24'),
-(35, 'Ravi', 'trader', NULL, '$2y$10$InG2QGMkWB2DUbiPLSJY/uhIKmIVAJ4WpTcedU4GC5.PPjiIIEtUS', '9602047010', NULL, 'vTVKdhnViaM9nVAjtgdD5oh8hPIMmEWYQVF4b3EPgDkmzS8sRYEFf8mzbnik', 1, '2019-01-15 06:21:08', '2019-01-15 06:21:08'),
-(36, 'sumit', 'farmer', NULL, '$2y$10$rm66CB3Ql9RmwpTACNXw1.pICZCs4MdXATP3GIfYNNGG/6ry4OHF.', '9602947878', NULL, 'La3Rl7omuAug4deuuqoaexreCxSKmRVCUv3WIpWVpywCkupF8CAoNIEBsgGo', 1, '2019-01-15 06:06:24', '2019-01-15 06:06:24'),
-(37, 'vinay', 'trader', NULL, '$2y$10$InG2QGMkWB2DUbiPLSJY/uhIKmIVAJ4WpTcedU4GC5.PPjiIIEtUS', '9413347010', NULL, 'F1EUpICMy1yJIyfuUL6stqhJR1e0BRAkZkn0TLzD4r897QFJoUIglZph2C3b', 1, '2019-01-15 06:21:08', '2019-01-15 06:21:08');
+(1, 'Admin', '', 'admin@admin.com', '$2y$10$JCJ6HuLpoDYa0obD88w0buwVOYjjK5/M59CxfPM/UDqtJHLb2uK5O', '7014432414', NULL, '1owxBfye80m9xeR09aUVlqWilDE8yb1dQX1yrQOfnw6oSGkQbohBG8lRW0rX', 1, '2018-09-01 08:17:09', '2019-02-25 13:05:26'),
+(2, 'Ravi Farmer', NULL, NULL, '$2y$10$WAsNHIL96vkPp6ubK6lW5uCsbr4OPntdyj3LB6ZXvQdB6WYmcpbEm', '9549494175', NULL, '8wDEMpeYvMaQEB04GlEBka8ctG3IHqFIV82nJnzc0V71g5KUwYC1bpI0t6CS', 1, '2019-02-12 08:52:35', '2019-02-25 13:05:26'),
+(3, 'Prem Farmer', NULL, NULL, '$2y$10$yijOkP8L3rFRphaRtRmpGOf8vCyn.orc9QbcxGxzqxnT85uAh0fge', '9602947878', NULL, 'nMRwchhteS9mYRrG8ZihM8y3q27Lt5r4gZ1Yp8qEsVCV1ixrnAmjl0OKQgyJ', 1, '2019-02-12 08:55:13', '2019-02-25 13:03:50'),
+(4, 'Amit Trader', NULL, NULL, '$2y$10$dwol5Qhqkx1KyYwH1zAGj.ExKjYCQVx8PQmkG8QVWGYj5SV1scKLK', '7014957469', NULL, 'uCmlpoc0pYuPBZPqMLxe5Vv9tXbZWYPugdIniB6E9hv0ErnZmkjPMoWJT3V8', 1, '2019-02-12 08:56:11', '2019-02-21 05:43:57'),
+(5, 'Akshay Trader', NULL, NULL, '$2y$10$JHchoGC.g.UW6n/rJrm05ejImgjp7rwwKxm6nZFQDxTbrxF3hEEc6', '8005609866', NULL, 'hzOF5ysKkSEngRRL7tSTKnwUpfw1rvNWratWdnqQJNoTKv1MXWrahkkMCwoZ', 1, '2019-02-12 08:57:32', '2019-02-21 05:57:59'),
+(6, 'Manish Trader', NULL, NULL, '$2y$10$yHB0fszvAylMUDRgUeYgH.rZlrB5crSoWQ9DggdmrPWSOAZeTmVqG', '8003947560', NULL, NULL, 1, '2019-02-12 08:58:13', '2019-02-22 08:23:25');
 
 -- --------------------------------------------------------
 
@@ -466,10 +418,11 @@ CREATE TABLE `user_details` (
 --
 
 INSERT INTO `user_details` (`id`, `user_id`, `fname`, `lname`, `email`, `phone`, `father_name`, `category`, `gst_number`, `khasra_no`, `village`, `tehsil`, `district`, `image`, `power`, `aadhar_no`, `bank_name`, `bank_branch`, `bank_acc_no`, `bank_ifsc_code`, `firm_name`, `address`, `mandi_license`, `status`, `created_at`, `updated_at`) VALUES
-(19, 33, 'amit', 'farmer', NULL, '8003947560', 'ashok', NULL, NULL, NULL, 'singhana', NULL, 'jhunjhunu', 'user.png', '1', '123456789012', 'icici', 'singhana', '888', 'icici0006731', NULL, NULL, NULL, 1, '2019-01-15 06:06:23', '2019-01-15 06:06:23'),
-(20, 35, 'Ravi', 'trader', NULL, '9509201120', NULL, NULL, '32543', NULL, NULL, NULL, NULL, 'user.png', '310000', NULL, NULL, NULL, NULL, NULL, 'Beauty', 'jaipur', '98765425', 1, '2019-01-15 06:21:08', '2019-01-17 08:46:27'),
-(21, 36, 'sumit', 'farmer', NULL, '8003947560', 'mohan', NULL, NULL, NULL, 'singhana', 'buhana', 'jhunjhunu', 'user.png', '1', '123456789012', 'icici', 'singhana', '888', 'icici0006731', NULL, NULL, NULL, 1, '2019-01-15 06:06:23', '2019-01-15 06:06:23'),
-(22, 37, 'vinay', 'trader', NULL, '9509201120', NULL, NULL, '32543', NULL, NULL, NULL, NULL, 'user.png', '1000000', NULL, NULL, NULL, NULL, NULL, 'Beauty', 'jaipur', '98765425', 1, '2019-01-15 06:21:08', '2019-01-15 06:21:08');
+(1, 2, 'Ravi Farmer', NULL, NULL, '9976543210', 'Father Name', NULL, NULL, NULL, 'kuchaman', NULL, 'nagaur', 'user.png', '1', '0123456789', 'SBI', 'Kuchaman city', '61140020032', 'SBIN123456', NULL, NULL, NULL, 1, '2019-02-12 08:52:34', '2019-02-12 08:52:34'),
+(2, 3, 'Prem Farmer', NULL, NULL, '9988776655', 'Father Name', NULL, NULL, NULL, 'Khetri nagar', NULL, 'jhunjhunu', 'user.png', '1', '9120524528', 'Uco Bank', 'Vishwakarma', '9638521470', 'UCO9876543', NULL, NULL, NULL, 1, '2019-02-12 08:55:13', '2019-02-12 08:55:13'),
+(3, 4, 'Amit Trader', NULL, NULL, '1234567890', NULL, NULL, '654321', NULL, NULL, NULL, NULL, 'user.png', '100000000', NULL, NULL, NULL, NULL, NULL, 'Amit Firm', 'Jaipur', '123456', 1, '2019-02-12 08:56:11', '2019-02-19 04:35:19'),
+(4, 5, 'Akshay Trader', NULL, NULL, '8974563210', NULL, NULL, '543210', NULL, NULL, NULL, NULL, 'user.png', '100000000', NULL, NULL, NULL, NULL, NULL, 'Akshay Firm', 'Chomu', '012345', 1, '2019-02-12 08:57:32', '2019-02-12 08:57:32'),
+(5, 6, 'Manish Trader', NULL, NULL, '7894563210', NULL, NULL, '256985', NULL, NULL, NULL, NULL, 'user.png', '99758800', NULL, NULL, NULL, NULL, NULL, 'Manish Firm', 'Behror', '520825', 1, '2019-02-12 08:58:13', '2019-02-22 05:25:08');
 
 -- --------------------------------------------------------
 
@@ -491,11 +444,11 @@ CREATE TABLE `user_roles` (
 
 INSERT INTO `user_roles` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, '2018-09-06 08:26:31', '2018-09-06 08:26:31'),
-(21, 25, 4, '2019-01-05 13:22:33', '2019-01-05 13:22:33'),
-(29, 33, 5, '2019-01-15 06:06:23', '2019-01-15 06:06:23'),
-(31, 35, 6, '2019-01-15 06:21:08', '2019-01-15 06:21:08'),
-(32, 36, 5, '2019-01-15 06:06:23', '2019-01-15 06:06:23'),
-(33, 37, 6, '2019-01-15 06:21:08', '2019-01-15 06:21:08');
+(2, 2, 5, '2019-02-12 08:52:34', '2019-02-12 08:52:34'),
+(3, 3, 5, '2019-02-12 08:55:13', '2019-02-12 08:55:13'),
+(4, 4, 6, '2019-02-12 08:56:11', '2019-02-12 08:56:11'),
+(5, 5, 6, '2019-02-12 08:57:32', '2019-02-12 08:57:32'),
+(6, 6, 6, '2019-02-12 08:58:13', '2019-02-12 08:58:13');
 
 -- --------------------------------------------------------
 
@@ -520,7 +473,7 @@ CREATE TABLE `warehouses` (
 --
 
 INSERT INTO `warehouses` (`id`, `name`, `village`, `capacity`, `items`, `facilities`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'b 97', 'Palsana', '1500 MT', '[\"1\",\"2\"]', '[\"1\"]', 1, '2018-09-20 08:52:04', '2019-01-15 13:24:26'),
+(1, 'Bansal Warehouse', 'Palsana', '1500 MT', '[\"1\",\"2\"]', '[\"1\"]', 1, '2018-09-20 08:52:04', '2019-01-15 13:24:26'),
 (2, 'CLPL', 'Manda', '3000 MT', '[\"1\",\"2\"]', '[\"1\"]', 1, '2018-09-22 06:43:09', '2019-01-15 13:24:03'),
 (3, 'R K Warehouse', 'Morija', '3000 MT', '[\"2\"]', '[\"1\"]', 1, '2018-09-22 06:43:42', '2019-01-15 13:23:21');
 
@@ -645,17 +598,17 @@ ALTER TABLE `warehouses`
 -- AUTO_INCREMENT for table `buy_sells`
 --
 ALTER TABLE `buy_sells`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `buy_sell_conversations`
 --
 ALTER TABLE `buy_sell_conversations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `commodity_name`
 --
@@ -665,27 +618,27 @@ ALTER TABLE `commodity_name`
 -- AUTO_INCREMENT for table `facilities`
 --
 ALTER TABLE `facilities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `finances`
 --
 ALTER TABLE `finances`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `finance_responses`
 --
 ALTER TABLE `finance_responses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `mandi_name`
 --
@@ -710,17 +663,17 @@ ALTER TABLE `today_prices`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `user_details`
 --
 ALTER TABLE `user_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `warehouses`
 --
