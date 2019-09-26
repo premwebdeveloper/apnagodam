@@ -32,6 +32,7 @@ class HomeController extends Controller
         $commodities = DB::table('commodity_name')->where('status', 1)->get();
 
         $mandies = DB::table('mandi_name')->where('status', 1)->get();
+        $warehouse_rent_rates = DB::table('warehouse_rent_rates')->where('status', 1)->get();
 
         $today_price = DB::table('today_prices')
                         ->join('commodity_name', 'commodity_name.id', '=', 'today_prices.commodity_id')
@@ -40,7 +41,7 @@ class HomeController extends Controller
                         ->where('today_prices.status', 1)
                         ->get();
 
-        return view('welcome', array('today_prices' => $today_price, 'commodities' => $commodities, 'mandies' => $mandies));
+        return view('welcome', array('today_prices' => $today_price, 'commodities' => $commodities, 'mandies' => $mandies, 'warehouse_rent_rates' => $warehouse_rent_rates));
     }
 
     // Get todays price mandi wise
@@ -90,7 +91,7 @@ class HomeController extends Controller
                     $sms = 'Verify your mobile to login Apnagodam with OTP - '.$otp;
 
                     // send otp on mobile number using Helper
-                    $done = sendsms($request->phone, $sms);
+                    $done = sendotp($request->phone, $sms, $otp);
                 }
 
                 return view('auth.login', array('otp' => $otp, 'exist_phone' => $request->phone ));
@@ -167,6 +168,78 @@ class HomeController extends Controller
         $bank_branch = $request->bank_branch;
         $bank_acc_no = $request->bank_acc_no;
         $bank_ifsc_code = $request->bank_ifsc_code;
+        $aadhar_name = '';
+        $cheque_name = '';
+
+        # If user profile image uploaded then
+        if($request->hasFile('aadhar_image')) {
+
+            $file = $request->aadhar_image;
+
+            $aadhar_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($aadhar_name, PATHINFO_EXTENSION);
+
+            $aadhar_name = substr(md5(microtime()),rand(0,26),6);
+
+            $aadhar_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('farmer_register')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('farmer_register')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
+            $file->move($destinationPath,$aadhar_name);
+            $filepath = $destinationPath.$aadhar_name;
+        }
+
+        # If user profile image uploaded then
+        if($request->hasFile('cheque_image')) {
+
+            $file = $request->cheque_image;
+
+            $cheque_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($cheque_name, PATHINFO_EXTENSION);
+
+            $cheque_name = substr(md5(microtime()),rand(0,26),6);
+
+            $cheque_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('farmer_register')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('farmer_register')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
+            $file->move($destinationPath,$cheque_name);
+            $filepath = $destinationPath.$cheque_name;
+        }
 
         $user = User::create([
             'fname' => $full_name,
@@ -203,6 +276,8 @@ class HomeController extends Controller
                 'bank_acc_no' => $bank_acc_no,
                 'bank_ifsc_code' => $bank_ifsc_code,
                 'image' => "user.png",
+                'aadhar_image' => $aadhar_name,
+                'cheque_image' => $cheque_name,
                 'power' => 1,
                 'created_at' => $date,
                 'updated_at' => $date,
@@ -218,9 +293,9 @@ class HomeController extends Controller
 
         //$mobiles = implode(",", $mobilesArr);
         $sms = 'Apna Godam - Successfully Registered !';
-        $done = sendsms($phone, $sms1);
+        $done = sendsms($phone, $sms);
 
-        return redirect('farmer_login')->with('status', $sms1);
+        return redirect('farmer_login')->with('status', $sms);
     }
 
     // Trader Register

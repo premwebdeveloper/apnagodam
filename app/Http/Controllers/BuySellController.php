@@ -86,7 +86,7 @@ class BuySellController extends Controller
         // Requested quantity should be less than or equal to available quantity
         if($req_quantity > $inventory->sell_quantity){
 
-            return Redirect::back()->withErrors(['There is not sufficient bags exist.']);
+            return Redirect::back()->withErrors(['There is not sufficient Qtl. exist.']);
         }
 
         // Requested price should be less than or equal to sell price

@@ -45,9 +45,6 @@ class UsersController extends Controller
     // User profile view
     public function inventories(){
 
-        echo time();
-        die;
-
         $currentuserid = Auth::user()->id;
 
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
@@ -514,7 +511,7 @@ class UsersController extends Controller
                 ->select('buy_sells.*', 'buy_sell_conversations.price')
                 ->first();
 
-        if(!empty($last_bid)){
+        /*if(!empty($last_bid)){
 
             if($last_bid->price >= $my_bid){
 
@@ -528,7 +525,7 @@ class UsersController extends Controller
 
                 return redirect('bidding/'.$inventory_id)->with('status', 'You can not bid less than commodity price !');
             }
-        }
+        }*/
 
         $all_bid_users = DB::table('buy_sells')
                 ->join('buy_sell_conversations', 'buy_sell_conversations.buy_sell_id', '=', 'buy_sells.id')
@@ -606,7 +603,7 @@ class UsersController extends Controller
 
         //Send Message to another buyer and farmer
         $user = DB::table('users')->where('id', $inventory_info->user_id)->first();
-        $sms = "Trader Bid ".$my_bid. " RS. on your inventory." ;
+        $sms = "Buyer Bid ".$my_bid. " RS. on your inventory." ;
         $done = sendsms($user->phone, $sms);
 
         if(!empty($all_bid{0})){
@@ -616,7 +613,7 @@ class UsersController extends Controller
                 //Send Message to another buyer and farmer
                 $user = DB::table('users')->where('id', $data->user_id)->first();
 
-                $sms = "Trader Bid ".$my_bid. " RS. on curernt Inventory." ;
+                $sms = "Buyer Bid ".$my_bid. " RS. on curernt Inventory." ;
                 $success = sendsms($user->phone, $sms);
             }
         }
@@ -830,7 +827,7 @@ class UsersController extends Controller
             foreach ($user_ids as $key => $value) {
                 $user = DB::table('users')->where('id', $value)->first();
                 //Send Message after Deal Done
-                $sms = 'This deal done on '.$max_bid." RS." ;
+                $sms = 'This deal done by other buyer Rs.  '.$max_bid;
                 $done = sendsms($user->phone, $sms);
             }
 
@@ -840,7 +837,7 @@ class UsersController extends Controller
                 $user = DB::table('users')->where('id', $buyer_id)->first();
 
                 //Send Message after Deal Done
-                $sms = 'Congratulations. Your Bid accepted by farmer amount by '.$max_bid." RS.";
+                $sms = 'Congratulations. Your Bid accepted by seller amount by '.$max_bid." RS.";
                 $done = sendsms($user->phone, $sms);
             }
 

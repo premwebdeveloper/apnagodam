@@ -19,7 +19,7 @@ class deleteInventories extends Command
      *
      * @var string
      */
-    protected $description = 'Delete All Sells(Bid Conversation) if Farmer can not Accept With High Price Before 01.00PM';
+    protected $description = 'Delete All Sells(Bid Conversation) if Seller can not Accept With High Price Before 01.00PM';
 
     /**
      * Create a new command instance.
@@ -39,7 +39,7 @@ class deleteInventories extends Command
     public function handle()
     {
         $date = date('Y-m-d H:i:s');
-        $expire_time = date("H:i:s", strtotime("13:00:00"));
+        $expire_time = date("H:i:s", strtotime("20:00:00"));
         $current_time = date("H:i:s");
         if($current_time > $expire_time){
             // First get all incomplete deal's bid

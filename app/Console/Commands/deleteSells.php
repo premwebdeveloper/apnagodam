@@ -39,7 +39,7 @@ class deleteSells extends Command
     public function handle()
     {
         $date = date('Y-m-d H:i:s');
-        $expire_time = date("H:i:s", strtotime("18:30:00"));
+        $expire_time = date("H:i:s", strtotime("20:00:00"));
         $current_time = date("H:i:s");
         if($current_time > $expire_time){
 

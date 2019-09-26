@@ -9,6 +9,8 @@ use App\User;
 use App\user_details;
 use DB;
 use PDF;
+use Mail;
+use App\Mail\SendMail;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
@@ -63,11 +65,87 @@ class AdminController extends Controller
     	return view('admin.index', array('users' => $users));
     }
 
+    // View Warehouse Rent Rates
+    public function warehouse_rent_rates(){
+
+        $werehouse_rates = DB::table('warehouse_rent_rates')->where('status', 1)->get();
+    	return view('admin.warehouse_rent_rates', array('werehouse_rates' => $werehouse_rates));
+    }
+    // Add Warehouse rent
+    public function add_warehouse_rent(Request $request){
+
+        # Set validation for
+        $this->validate($request, [
+            'address'        => 'required',
+            'location'       => 'required',
+            'area'           => 'required',
+            'district'       => 'required',
+            'area_sqr_ft'    => 'required',
+            'rent_per_month' => 'required',
+            'capacity_in_mt' => 'required',
+        ]);
+
+        $address        = $request->address;
+        $location       = $request->location;
+        $area           = $request->area;
+        $district       = $request->district;
+        $area_sqr_ft    = $request->area_sqr_ft;
+        $rent_per_month = $request->rent_per_month;
+        $capacity_in_mt = $request->capacity_in_mt;
+        $date           = date('Y-m-d H:i:s');
+
+        // Create User Details
+        $warehouse_rent_rates = DB::table('warehouse_rent_rates')->insert([
+            'address'        => $address,
+            'location'       => $location,
+            'area'           => $area,
+            'district'       => $district,
+            'area_sqr_ft'    => $area_sqr_ft,
+            'rent_per_month' => $rent_per_month,
+            'capacity_in_mt' => $capacity_in_mt,
+            'created_at'     => $date,
+            'updated_at'     => $date,
+            'status'         => 1
+        ]);
+
+        if($warehouse_rent_rates)
+        {
+            $status = 'Wahrehouse rent Added successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('warehouse_rent_rates')->with('status', $status);
+    }
+
+    // User Delete
+    public function werehouse_rent_delete(Request $request){
+
+        $id = $request->id;
+
+        // User update in users table
+        $delete = DB::table('warehouse_rent_rates')->where('id', $id)->delete();
+
+        if($delete)
+        {
+            $status = 'Wahrehouse rent Deleted successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('warehouse_rent_rates')->with('status', $status);
+    }
+
     // Add user page view
     public function add_user_view(){
 
-    	return view('admin.add_user');
+        return view('admin.add_user');
     }
+
 
     // Add User
     public function add_user(Request $request){
@@ -583,6 +661,7 @@ class AdminController extends Controller
     public function download_vikray_parchi(Request $request){
 
         $deal_id = $request->id;
+        $email_status = $request->email;        
 
         $done_deals = DB::table('buy_sells')
             ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
@@ -598,6 +677,56 @@ class AdminController extends Controller
 
         $pdf = PDF::loadView('vikray_parchi_pdf', $data);
 
-        return $pdf->download('vikray_parchi.pdf');
+        if($email_status == 1)
+        {
+            $buyer_id = $done_deals->buyer_id;
+            $seller_id = $done_deals->seller_id;
+
+            //Get User Details 
+            $buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
+
+            $seller_info = DB::table('user_details')->where('user_id', $seller_id)->first();
+
+            $data = [];
+
+            if($buyer_info->email)
+            {
+                $data['to_name'] = $buyer_info->fname;            
+                $data['email'] = $buyer_info->email;    
+
+                //Send Vikray Parchi To Trader or Farmer
+                $send = Mail::send('email.send_vikray_parchi', $data, function($message) use ($data,$pdf){
+                    $message->from('info@apnagodam.com');
+                    $message->to($data['email']);
+                    $message->subject('Vikray Parchi by Apna Godam');
+                    //Attach PDF doc
+                    $message->attachData($pdf->output(),'vikray_parchi.pdf');
+                });
+            }
+
+            if($seller_info->email)
+            {
+                $data['to_name'] = $seller_info->fname;            
+                $data['email'] = $seller_info->email; 
+
+                //Send Vikray Parchi To Trader or Farmer
+                $send = Mail::send('email.send_vikray_parchi', $data, function($message) use ($data,$pdf){
+                    $message->from('info@apnagodam.com');
+                    $message->to($data['email']);
+                    $message->subject('Vikray Parchi by Apna Godam');
+                    //Attach PDF doc
+                    $message->attachData($pdf->output(),'vikray_parchi.pdf');
+                });
+            }
+
+            $message = 'Mail Sent Successfully.';
+            return redirect('done_deals')->with('status', $message);
+
+        }
+        else
+        {
+            return $pdf->download('vikray_parchi.pdf');
+        }
+
     }
 }
