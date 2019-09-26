@@ -25,7 +25,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-8 apna">
                             <div class="s-content">
                                 <h4 class="centered s-main osLight">Mr. Sitaram agarwal</h4>
-                                <p class="text-justify">63 years old is the promoter of the Company. He has been in the Agriculture  trade since last 40 Years.  The objective behind this venture is to increase the holding capacity of the farmer by providing  Agri warehouses near to farmers at affordable price so that he can realize better value for his Agri produce.</p>
+                                <p class="text-justify">63 years old is the promoter of the Company. He has been in the Agriculture  trade since last 40 Years.  The objective behind this venture is to increase the holding capacity of the Seller by providing  Agri warehouses near to Sellers at affordable price so that he can realize better value for his Agri produce.</p>
                             </div>
                         </div>                    
                     </div>                 

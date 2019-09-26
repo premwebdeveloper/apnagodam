@@ -29,7 +29,7 @@
 
                     @guest
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="{{ route('farmer_login') }}" >Farmer Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="{{ route('farmer_login') }}" >Seller Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-success" href="{{ route('trader_login') }}" >Trader Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>

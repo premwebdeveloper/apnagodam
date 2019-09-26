@@ -73,6 +73,12 @@
                     <span class="nav-label">Today's Price</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('warehouse_rent_rates') }}">
+                    <i class="fa fa-inr"></i>
+                    <span class="nav-label">Warehouse Rent Rates</span>
+                </a>
+            </li>
             @endif
             <li>
                 <a href="{{ route('users') }}">

@@ -114,6 +114,18 @@
                         </div>
                     </div>
                 </div>
+    
+                <div class="row">
+                    <div class="col-md-6" style="margin-bottom: 10px;">
+                        <a href="{{ asset('resources/frontend_assets/reports/Monthly Report (Primary Sales).pdf') }}" target="_blank" class="btn btn-success btn-lg">Monthly Report Primary Sales</a>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 10px;">
+                        <a href="{{ asset('resources/frontend_assets/reports/Monthly Report (Secondary Sales).pdf') }}" target="_blank" class="btn btn-primary btn-lg">Monthly Report Secondary Sales</a>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 10px;">
+                        <a href="{{ asset('resources/frontend_assets/reports/niryat_partivedan.pdf') }}" target="_blank" class="btn btn-warning btn-lg">Niryat Partivedan</a>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-4">

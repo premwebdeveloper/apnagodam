@@ -66,8 +66,11 @@
                                                     Approve
                                                 </a>
                                             @else
-                                                <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id]) !!}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Deal Done">
+                                                <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id, 'email' => 0]) !!}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Deal Done">
                                                     Download PDF
+                                                </a>
+                                                <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id, 'email' => 1]) !!}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Send Pdf">
+                                                    Send Mail
                                                 </a>
                                             @endif
                                         </td>

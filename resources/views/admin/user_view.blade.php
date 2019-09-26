@@ -61,9 +61,9 @@
                                 <tr>
                                     <td><b>Category</b></td>
                                     @if($user->category==1)
-                                    <td>Farmer</td>
+                                    <td>Seller</td>
                                     @elseif($user->category==2)
-                                    <td>Trader</td>
+                                    <td>Buyer</td>
                                     @elseif($user->category==3)
                                     <td>Miller</td>
                                     @endif   
@@ -84,6 +84,20 @@
                                 <tr>
                                     <td><b>District</b></td>
                                     <td>{{ $user->district }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Aadhar Image</b></td>
+                                    <td>
+                                        @if($user->aadhar_image)
+                                            <img alt="image" class="img-responsive" src="{{ asset('resources/frontend_assets/uploads/'.$user->aadhar_image) }}">
+                                        @endif
+                                    </td>
+                                    <td><b>Cheque Image</b></td>
+                                    <td>
+                                        @if($user->cheque_image)
+                                            <img alt="image" class="img-responsive" src="{{ asset('resources/frontend_assets/uploads/'.$user->cheque_image) }}">
+                                        @endif
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

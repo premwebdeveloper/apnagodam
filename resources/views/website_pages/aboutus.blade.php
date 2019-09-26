@@ -16,16 +16,16 @@
             <div class="col-md-12">
                 <h2 class="section-heading text-center">{{ __('About Us') }}</h2>
                 <hr>
-                <h3 class="text-center" style="color: #00ccff;">“An exclusive portal for farmers / village level collectors
+                <h3 class="text-center" style="color: #00ccff;">“An exclusive portal for sellers / village level collectors
 where they can avail Warehousing , Commodity Finance and
 Market linkage all three facilities at one place”</h3>
-                <p>Farmers don’t have access to warehousing facilities and
+                <p>Sellers don’t have access to warehousing facilities and
                 commodity finance since Terminals are situated at far off
                 locations. They sell their commodity immediately post harvest at
                 lower price and don’t get the benefit of price appreciation.</p>
                 <p>We identify closed factories, Old sheds and abandoned buildings
 NEAR production area and convert them into agriculture
-Terminals where the farmers can keep the Agri commodity and
+Terminals where the Sellers can keep the Agri commodity and
 avail commodity loan by pledging the stock. When prices of agri
 produce are better then they can sell the stock to millers on the
 apnagodam portal on “ As is Where is basis”.</p>

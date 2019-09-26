@@ -11,6 +11,7 @@
         margin-left: 20px;
     }
 </style>
+
 <main id="main"> <!-- main body conatiner starts-->
     <header class="">
          <link href="{{ asset('resources/frontend_assets/css/responsive-slider.css') }}" rel="stylesheet">
@@ -78,7 +79,7 @@
     </section> -->
     <section id="featured">
         <h2 class="section-heading text-center">Today's Price (Per Qtl)</h2>
-        <h6 class="section-heading text-center">Last Update Date : <?= date('Y-m-d'); ?></h6>
+        <h6 class="section-heading text-center">Last Update Date : <?= date('d-m-Y'); ?></h6>
         <div class="container-fluid">
             <div class="row pt-4">
                 <div class="col-md-12">
@@ -207,6 +208,60 @@
         </div>
     </section>
 
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                	<a href="{{ asset('resources/frontend_assets/reports/Quality Discount Matrix.pdf') }}" target="_blank" class="btn btn-success btn-lg">Quality Discount Matrix</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+
+                    <h2 class="section-heading">Warehouse Rent Rates</h2>
+                    <hr>
+                </div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                          <th scope="col">Sr. No.</th>
+                          <th scope="col">Address</th>
+                          <th scope="col">Location</th>
+                          <th scope="col">Area</th>
+                          <th scope="col">District</th>
+                          <th scope="col">Area in Sqr. Ft.</th>
+                          <th scope="col">Rent Per Month Per MT</th>
+                          <th scope="col">Capacity in MT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 1; ?>
+                        @foreach($warehouse_rent_rates as $key => $rate)
+                        <tr>
+                            <td>{!! $i !!}.</td>
+                            <td>{!! $rate->address !!}</td>
+                            <td>{!! $rate->location !!}</td>
+                            <td>{!! $rate->area !!}</td>
+                            <td>{!! $rate->district !!}</td>
+                            <td>{!! $rate->area_sqr_ft !!}</td>
+                            <td>{!! $rate->rent_per_month !!}</td>
+                            <td>{!! $rate->capacity_in_mt !!}</td>
+                        </tr>
+                        <?php $i++; ?>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
     <section id="about">
         <div class="container">
             <div class="row">
@@ -215,18 +270,18 @@
 
                 <hr class="margin-unset">
                 <div class="text-justify">
-                    <p class="mb-4"><b>“An exclusive portal for farmers / village level collectors
+                    <p class="mb-4"><b>“An exclusive portal for Sellers / village level collectors
     where they can avail Warehousing , Commodity Finance and
     Market linkage all three facilities at one place”</b></p>
                     <p class="mb-4">
-                    Farmers don’t have access to warehousing facilities and
+                    Sellers don’t have access to warehousing facilities and
                     commodity finance since Terminals are situated at far off
                     locations. They sell their commodity immediately post harvest at
                     lower price and don’t get the benefit of price appreciation.</p>
                     <p class="mb-4">
                     We identify closed factories, Old sheds and abandoned buildings
     NEAR production area and convert them into agriculture
-    Terminals where the farmers can keep the Agri commodity and
+    Terminals where the Sellers can keep the Agri commodity and
     avail commodity loan by pledging the stock. When prices of agri
     produce are better then they can sell the stock to millers on the
     apnagodam portal on “ As is Where is basis”.</p>
@@ -299,7 +354,7 @@
                 <div class="col-md-8 mx-lg-auto text-lg-center">
                     <h2 class="section-heading">Why Apna Godam</h2>
                     <hr class="my-4 mob-left">
-                    <p>We remove inefficiency in the entire supply chain and save cost to the farmers</p>
+                    <p>We remove inefficiency in the entire supply chain and save cost to the Sellers</p>
                 </div>
             </div>
         </div>
@@ -330,7 +385,7 @@
             </div>
             <div class="col-lg-6s col-lg-pull-6s my-auto text-lg-center px-0">
                 <div class="iblock px-5">
-                <h2 class="text-left section-heading">Benefits to Farmers</h2>
+                <h2 class="text-left section-heading">Benefits to Sellers</h2>
 
                 <ul class="text-left">
                     <li>Low transportation cost as the warehouse is nearby</li>
@@ -360,7 +415,7 @@
                 <div id="featured-caro" class="owl-carousel">
                     <div class="item">
                         <p class="pb-2">We are getting better realization of produce by using Agri warehousing facility which is provided at nominal cost and near to us. We get sms on our mobile phone for every transaction.</p>
-                        <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/q1.png') }}"> <span class="iblock bline">&nbsp; Baldev Chaudhary (Farmer)</span>
+                        <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/q1.png') }}"> <span class="iblock bline">&nbsp; Baldev Chaudhary (Seller)</span>
                     </div>
                     <div class="item">
                         <p class="pb-2">This is the first time we used Agri Godam of this company and the experience was wonderful. Specially online CCTV footage access and real time kanta parchi is unique feature of this warehouse.</p>

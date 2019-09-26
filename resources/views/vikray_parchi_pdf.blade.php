@@ -21,30 +21,38 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <b>Buyer Name : </b><span> {{$buyer_name }}</span>&nbsp;&nbsp;&nbsp; <b> Date : </b><span> {{ date('d-m-Y') }}</span>
+                    <b>Buyer Name : </b><span> {{ $buyer_name }}</span>&nbsp;&nbsp;&nbsp; <b> Date : </b><span> {{ date('d-m-Y') }}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <b>Seller Name : </b><span> {{$seller_name }}</span>&nbsp;&nbsp;&nbsp; <b>Bid Date : </b><span> {{ date('d-m-Y', strtotime($updated_at)) }}</span>
+                    <b>Seller Name : </b><span> {{ $seller_name }}</span>&nbsp;&nbsp;&nbsp; <b>Bid Date : </b><span> {{ date('d-m-Y', strtotime($updated_at)) }}</span>
                 </div>
             </div>
         </div>
         <table class="table table-bordered">
             <tr>
                 <td>
-                    <b>Quantity : </b> {{$quantity }}
+                    <b>Quantity : </b> {{$quantity }} Qtl.
                 </td>
                 <td>
-                    <b>Price : </b>{{$price }}
+                    <b>Price : </b>{{$price }} / Qtl.
                 </td>
             </tr>
             <tr>
                 <td>
-                    <b>Category : </b>{{$category }}
+                    <b>Commodity : </b>{{$category }}
                 </td>
                 <td>
                     <b>Warehouse : </b>{{$warehouse }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <?php
+                        $total_price = $quantity * $price;
+                    ?>
+                    <b>Total Amount  : </b>{{$total_price }} Rs.
                 </td>
             </tr>
         </table>

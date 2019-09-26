@@ -131,8 +131,8 @@
                                 <div class="form-group">
                                     <select id="category" name="category" class="form-control {{ $errors->has('category') ? ' is-invalid' : '' }}" required="">
                                         <option value="">Select Category</option>
-                                        <option value="1">Farmer</option>
-                                        <option value="2">Trader</option>
+                                        <option value="1">Seller</option>
+                                        <option value="2">Buyer</option>
                                         <option value="3">Miller</option>
                                     </select>
                                     @if ($errors->has('category'))

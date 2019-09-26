@@ -93,6 +93,12 @@ Route::post('/change_password', 'AdminController@change_password')->name('change
 // Admin dashboard view route
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
+
+//Warehouse Rent Rates
+Route::get('/warehouse_rent_rates', 'AdminController@warehouse_rent_rates')->name('warehouse_rent_rates');
+Route::post('/add_warehouse_rent', 'AdminController@add_warehouse_rent')->name('add_warehouse_rent');
+Route::get('/werehouse_rent_delete/{id}', 'AdminController@werehouse_rent_delete')->name('werehouse_rent_delete');
+
 // User routes
 Route::get('/users', 'AdminController@users')->name('users');
 Route::get('/add_user_view', 'AdminController@add_user_view')->name('add_user_view');
@@ -110,7 +116,7 @@ Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove
 // Admin Dashboard Done Deals and Paymenta
 Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
 Route::get('/payment_accept/{id}', 'AdminController@payment_accept')->name('payment_accept');
-Route::get('/download_vikray_parchi/{id}', 'AdminController@download_vikray_parchi')->name('download_vikray_parchi');
+Route::get('/download_vikray_parchi/{id}/{email}', 'AdminController@download_vikray_parchi')->name('download_vikray_parchi');
 
 // Warehouses Routes
 Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');

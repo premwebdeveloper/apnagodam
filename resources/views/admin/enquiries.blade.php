@@ -63,9 +63,9 @@
                                         <td>{!! $enquiry->fname !!}</td>
                                         <td>{!! $enquiry->father_name !!}</td>
                                         @if($enquiry->category==1)
-                                        <td>Farmer</td>
+                                        <td>Seller</td>
                                         @elseif($enquiry->category==2)
-                                        <td>Trader</td>
+                                        <td>Buyer</td>
                                         @elseif($enquiry->category==3)
                                         <td>Miller</td>
                                         @endif

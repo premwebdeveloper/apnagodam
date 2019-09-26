@@ -27,13 +27,13 @@
                     </h4>
                     <h5 class="section-heading text-center">My selling price - {{ $inventory_info->price }} ( {{ $inventory_info->sell_quantity }} Qtl.)</h5>
                     @php
-                        $begin = date('H:i:s', strtotime('08:00'));
-                        $end = date('H:i:s', strtotime('20:00'));
+                        $begin = date('H:i:s', strtotime('10:00'));
+                        $end = date('H:i:s', strtotime('17:00'));
                         $now = date('H:i:s');
                     @endphp
                     @if($now < $begin)
                         <p class="section-heading text-right">
-                            Bid Accepet Time: 09:00 AM - 01:00 PM
+                            Bid Accepet Time: 05:00 PM - 05:15 PM
                         </p>
                     @elseif($now >= $begin && $now <= $end)
                         @if(count($deal_info) >= 1)
@@ -46,8 +46,8 @@
                     @endif
                 @else
                     @php
-                        $begin = date('H:i:s', strtotime('09:00'));
-                        $end = date('H:i:s', strtotime('18:00'));
+                        $begin = date('H:i:s', strtotime('10:00'));
+                        $end = date('H:i:s', strtotime('17:00'));
                         $now = date('H:i:s');
                         $bid_open = 0;
                     @endphp
@@ -58,7 +58,7 @@
                     <h5 class="section-heading text-center">Seller price - {{ $inventory_info->price }} ( {{ $inventory_info->sell_quantity }} Qtl.)</h5>
                     @if($now < $begin)
                         <p class="section-heading text-right">
-                            Bid Time: 10:00 AM - 12:00 PM
+                            Bid Time: 04:30 PM - 05:00 PM
                         </p>
                     @elseif($now >= $begin && $now <= $end)
                         @php
@@ -87,18 +87,25 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                        $i = 1;
+                        ?>
                         @foreach($deal_info as $key => $d)
                             <tr>
-                                <td>{{ $d->fname }}</td>
+                                <!-- <td>{{ $d->fname }}</td> -->
+                                <td>{{ $i }}</td>
                                 <td>{{ $d->price }}</td>
                             </tr>
+                            <?php
+                            $i++;
+                            ?>
                         @endforeach
                     </tbody>
                 </table>
 
                 <!-- if the logged in user is not seller then user can bid / show bid form to buyer only -->
                 @if($inventory_info->user_id != Auth::user()->id)
-                    @if($bid_open == 1 && count($deal_info) >= 1)
+                    @if($bid_open == 1)
                         {!! Form::open(array('url' => 'seller_bid')) !!}
 
                             {!! Form::hidden('inventory_id', $inventory_info->id) !!}

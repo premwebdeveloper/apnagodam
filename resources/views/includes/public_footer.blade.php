@@ -13,7 +13,7 @@
                    <p>Terminal in Jaipur, Terminal in Sikar, Terminal in Jhunjhunu, Terminal in Bikaner</p>
                 </div>
                 <div class="col-sm-3 px-4 mb-4">
-                   <p><a href="{{ route('about-us') }}">About Us</a>&nbsp; |&nbsp; <a href="{{ route('our-team') }}">Our Team</a> &nbsp;|&nbsp; <a href="{{ route('privacy-policy') }}">Privacy Policy</a><br><a href="{{ route('terms-conditions') }}">Terms & Conditions</a>
+                   <p><a href="{{ route('about-us') }}">About Us</a>&nbsp; |&nbsp; <a href="{{ route('our-team') }}">Our Team</a> <br><a href="{{ route('terms-conditions') }}">Terms & Conditions</a>
                 </div>
 
             </div>
