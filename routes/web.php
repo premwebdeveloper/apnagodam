@@ -56,9 +56,6 @@ Route::post('/user_agree_for_loan/', 'UsersController@user_agree_for_loan')->nam
 
 Route::post('/get_todays_price/', 'HomeController@get_todays_price')->name('get_todays_price');
 
-
-
-
 // user update price
 Route::post('/buy_sell_price_update', 'UsersController@update_price')->name('buy_sell_price_update');
 
@@ -79,7 +76,9 @@ Route::get('/notifications', 'UsersController@notifications')->name('notificatio
 // Ajax functions in Ajax controller
 // OTP verification
 Route::post('/otpVerification', 'AjaxController@otpVerification')->name('otpVerification');
+Route::post('/otpRegisterVerification', 'AjaxController@otpRegisterVerification')->name('otpRegisterVerification');
 Route::post('/otpResend', 'AjaxController@otpResend')->name('otpResend');
+Route::post('/registerOTPResend', 'AjaxController@registerOTPResend')->name('registerOTPResend');
 
 
 /* ********************** Admin routes start here *************************** */
@@ -98,6 +97,13 @@ Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 Route::get('/warehouse_rent_rates', 'AdminController@warehouse_rent_rates')->name('warehouse_rent_rates');
 Route::post('/add_warehouse_rent', 'AdminController@add_warehouse_rent')->name('add_warehouse_rent');
 Route::get('/werehouse_rent_delete/{id}', 'AdminController@werehouse_rent_delete')->name('werehouse_rent_delete');
+
+
+//Facilitiy Master
+Route::get('/facilitiy_master', 'AdminController@facilitiy_master')->name('facilitiy_master');
+Route::post('/add_facility_master', 'AdminController@add_facility_master')->name('add_facility_master');
+Route::get('/facility_master_delete/{id}', 'AdminController@facility_master_delete')->name('facility_master_delete');
+
 
 // User routes
 Route::get('/users', 'AdminController@users')->name('users');
@@ -182,6 +188,7 @@ Route::post('/purchasing', 'BuySellController@purchasing')->name('purchasing');
 Route::get('/privacy-policy', 'HomeController@privacy_policy')->name('privacy-policy');
 Route::get('/terms-conditions', 'HomeController@terms_conditions')->name('terms-conditions');
 Route::get('/about-us', 'HomeController@about_us')->name('about-us');
+Route::get('/terminal_view/{id}', 'HomeController@terminal_view')->name('terminal_view');
 Route::get('/our-team', 'HomeController@our_team')->name('our-team');
 Route::get('/contact-us', 'HomeController@contact_us')->name('contact-us');
 
@@ -189,7 +196,9 @@ Route::get('/contact-us', 'HomeController@contact_us')->name('contact-us');
 // Login Register Registration Farmer
 Route::get('/farmer_login', 'HomeController@farmer_login')->name('farmer_login');
 Route::get('/farmer_register', 'HomeController@farmer_register')->name('farmer_register');
+Route::get('/checkRegisterOTP', 'HomeController@checkRegisterOTP')->name('checkRegisterOTP');
 Route::post('/farmer_registration', 'HomeController@farmer_registration')->name('farmer_registration');
+Route::post('/registerLogin', 'HomeController@registerLogin')->name('registerLogin');
 
 // Login Register Registration Trader
 Route::get('/trader_login', 'HomeController@trader_login')->name('trader_login');

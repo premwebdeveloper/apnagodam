@@ -64,13 +64,112 @@ class AdminController extends Controller
 
     	return view('admin.index', array('users' => $users));
     }
+    // View Facility Master
+    public function facilitiy_master(){
+
+        $facilitiy_masters = DB::table('facilitiy_master')->where('status', 1)->get();
+        return view('admin.facilitiy_master', array('facilitiy_masters' => $facilitiy_masters));
+    }
+
+    // Add Warehouse rent
+    public function add_facility_master(Request $request){
+
+        # Set validation for
+        $this->validate($request, [
+            'name'        => 'required',
+            'description' => 'required'
+        ]);
+        
+        $name        = $request->name;
+        $description = $request->description;
+        $date        = date('Y-m-d H:i:s');
+
+        if($request->hasFile('image')) {
+
+            $file = $request->image;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('facilitiy_master')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('facilitiy_master')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/facilitiy_master/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+                $status = 'Please upload image !';
+                return redirect('facilitiy_master')->with('status', $status);
+        }
+
+        // Create User Details
+        $facilitiy_master = DB::table('facilitiy_master')->insert([
+            'name'        => $name,
+            'description' => $description,
+            'image'       => $img_name,
+            'created_at'  => $date,
+            'updated_at'  => $date,
+            'status'      => 1
+        ]);
+
+        if($facilitiy_master)
+        {
+            $status = 'Facilitiy Master Added successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('facilitiy_master')->with('status', $status);
+    }
+
+    // facility_master Delete
+    public function facility_master_delete(Request $request){
+
+        $id = $request->id;
+
+        // User update in users table
+        $delete = DB::table('facilitiy_master')->where('id', $id)->delete();
+
+        if($delete)
+        {
+            $status = 'Facilitiy Master Deleted successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('facilitiy_master')->with('status', $status);
+    }
 
     // View Warehouse Rent Rates
     public function warehouse_rent_rates(){
 
         $werehouse_rates = DB::table('warehouse_rent_rates')->where('status', 1)->get();
-    	return view('admin.warehouse_rent_rates', array('werehouse_rates' => $werehouse_rates));
+        return view('admin.warehouse_rent_rates', array('werehouse_rates' => $werehouse_rates));
     }
+
     // Add Warehouse rent
     public function add_warehouse_rent(Request $request){
 
@@ -93,6 +192,43 @@ class AdminController extends Controller
         $rent_per_month = $request->rent_per_month;
         $capacity_in_mt = $request->capacity_in_mt;
         $date           = date('Y-m-d H:i:s');
+
+        if($request->hasFile('image')) {
+
+            $file = $request->image;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('warehouse_rent_rates')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('warehouse_rent_rates')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/warehouses/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+                $status = 'Please upload image !';
+                return redirect('warehouse_rent_rates')->with('status', $status);
+        }
 
         // Create User Details
         $warehouse_rent_rates = DB::table('warehouse_rent_rates')->insert([

@@ -105,6 +105,28 @@ class HomeController extends Controller
         }
     }
 
+    //Update OTP after Register
+    public function registerLogin(Request $request)
+    {
+        $date = date('Y-m-d H:i:s');
+        $phone = $request->phone;
+        $role = $request->role;
+
+        $update = DB::table('users')->where('phone', $phone)->update(['register_otp' => null, 'status' => 1, 'updated_at' => $date]);
+
+        $updates = DB::table('user_details')->where('phone', $phone)->update(['status' => 1, 'updated_at' => $date]);
+
+        $status = 'Registration Successful. You can login now.';
+
+        if($role == 5)
+        {
+            $info_msg = 'Congratulations!';
+            return redirect('/farmer_login')->with('info_msg', $info_msg);
+        }else{
+            return redirect('/trader_login')->with('status', $status);
+        }
+    }
+
     // privacy policy
     public function privacy_policy()
     {
@@ -152,150 +174,172 @@ class HomeController extends Controller
     {
         $request->validate([
             'fname' => 'required|string|max:255',
-            //'email' => 'nullable|unique:users',
-            'phone' => 'required|numeric|digits:10|unique:users',
+            'phone' => 'required|numeric|digits:10',
         ]);
 
-        $date = date('Y-m-d H:i:s');
-        $full_name = $request->fname;
+        //Check Phone Number is already exist
         $phone = $request->phone;
-        $role_id = $request->role_id;
-        $father_name = $request->father_name;
-        $aadhar = $request->aadhar;
-        $village = $request->village;
-        $district = $request->district;
-        $bank_name = $request->bank_name;
-        $bank_branch = $request->bank_branch;
-        $bank_acc_no = $request->bank_acc_no;
-        $bank_ifsc_code = $request->bank_ifsc_code;
-        $aadhar_name = '';
-        $cheque_name = '';
+        $check_phone = DB::table('users')->where('phone', $phone)->first();
 
-        # If user profile image uploaded then
-        if($request->hasFile('aadhar_image')) {
+        $otp = null;
 
-            $file = $request->aadhar_image;
+        if(!empty($check_phone->register_otp) && $check_phone->status == 0)
+        {
+            $otp = $check_phone->register_otp;
 
-            $aadhar_name = $file->getClientOriginalName();
+        }else{
+            $request->validate([
+                'phone' => 'unique:users',
+            ]);
 
-            $ext = pathinfo($aadhar_name, PATHINFO_EXTENSION);
+            $otp = rand(100000, 999999);
+            $date = date('Y-m-d H:i:s');
+            $full_name = $request->fname;
+            $role_id = $request->role_id;
+            $father_name = $request->father_name;
+            $aadhar = $request->aadhar;
+            $village = $request->village;
+            $district = $request->district;
+            $bank_name = $request->bank_name;
+            $bank_branch = $request->bank_branch;
+            $bank_acc_no = $request->bank_acc_no;
+            $bank_ifsc_code = $request->bank_ifsc_code;
+            $aadhar_name = '';
+            $cheque_name = '';
 
-            $aadhar_name = substr(md5(microtime()),rand(0,26),6);
+            # If user profile image uploaded then
+            if($request->hasFile('aadhar_image')) {
 
-            $aadhar_name .= '.'.$ext;
+                $file = $request->aadhar_image;
 
-            // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+                $aadhar_name = $file->getClientOriginalName();
 
-            if(! in_array($ext, $extensions))
-            {
-                $status = 'File type is not allowed you have uploaded. Please upload any image !';
-                return redirect('farmer_register')->with('status', $status);
+                $ext = pathinfo($aadhar_name, PATHINFO_EXTENSION);
+
+                $aadhar_name = substr(md5(microtime()),rand(0,26),6);
+
+                $aadhar_name .= '.'.$ext;
+
+                // First check file extension if file is not image then hit error
+                $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+                if(! in_array($ext, $extensions))
+                {
+                    $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                    return redirect('farmer_register')->with('status', $status);
+                }
+
+                $filesize = $file->getClientSize();
+
+                // first check file size if greater than 1mb than hit error
+                if($filesize > 2052030){
+                    $status = 'File size is too large. Please upload file less than 2MB !';
+                    return redirect('farmer_register')->with('status', $status);
+                }
+
+                $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
+                $file->move($destinationPath,$aadhar_name);
+                $filepath = $destinationPath.$aadhar_name;
             }
 
-            $filesize = $file->getClientSize();
+            # If user profile image uploaded then
+            if($request->hasFile('cheque_image')) {
 
-            // first check file size if greater than 1mb than hit error
-            if($filesize > 2052030){
-                $status = 'File size is too large. Please upload file less than 2MB !';
-                return redirect('farmer_register')->with('status', $status);
+                $file = $request->cheque_image;
+
+                $cheque_name = $file->getClientOriginalName();
+
+                $ext = pathinfo($cheque_name, PATHINFO_EXTENSION);
+
+                $cheque_name = substr(md5(microtime()),rand(0,26),6);
+
+                $cheque_name .= '.'.$ext;
+
+                // First check file extension if file is not image then hit error
+                $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+                if(! in_array($ext, $extensions))
+                {
+                    $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                    return redirect('farmer_register')->with('status', $status);
+                }
+
+                $filesize = $file->getClientSize();
+
+                // first check file size if greater than 1mb than hit error
+                if($filesize > 2052030){
+                    $status = 'File size is too large. Please upload file less than 2MB !';
+                    return redirect('farmer_register')->with('status', $status);
+                }
+
+                $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
+                $file->move($destinationPath,$cheque_name);
+                $filepath = $destinationPath.$cheque_name;
             }
 
-            $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
-            $file->move($destinationPath,$aadhar_name);
-            $filepath = $destinationPath.$aadhar_name;
-        }
-
-        # If user profile image uploaded then
-        if($request->hasFile('cheque_image')) {
-
-            $file = $request->cheque_image;
-
-            $cheque_name = $file->getClientOriginalName();
-
-            $ext = pathinfo($cheque_name, PATHINFO_EXTENSION);
-
-            $cheque_name = substr(md5(microtime()),rand(0,26),6);
-
-            $cheque_name .= '.'.$ext;
-
-            // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
-
-            if(! in_array($ext, $extensions))
-            {
-                $status = 'File type is not allowed you have uploaded. Please upload any image !';
-                return redirect('farmer_register')->with('status', $status);
-            }
-
-            $filesize = $file->getClientSize();
-
-            // first check file size if greater than 1mb than hit error
-            if($filesize > 2052030){
-                $status = 'File size is too large. Please upload file less than 2MB !';
-                return redirect('farmer_register')->with('status', $status);
-            }
-
-            $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
-            $file->move($destinationPath,$cheque_name);
-            $filepath = $destinationPath.$cheque_name;
-        }
-
-        $user = User::create([
-            'fname' => $full_name,
-            //'email' => $data['email'],
-            'phone' => $phone,
-            'password' => Hash::make(123456),
-            'status' => 1
-        ]);
-
-        $user_id = $user->id;
-
-        // Create User role
-        $user_role = DB::table('user_roles')->insert(
-            array(
-                'role_id' => $role_id,
-                'user_id' => $user_id,
-                'created_at' => $date,
-                'updated_at' => $date
-            )
-        );
-
-        // Create User Details
-        $user_details = DB::table('user_details')->insert(
-            array(
-                'user_id' => $user_id,
+            $user = User::create([
                 'fname' => $full_name,
+                //'email' => $data['email'],
                 'phone' => $phone,
-                'father_name' => $father_name,
-                'aadhar_no' => $aadhar,
-                'village' => $village,
-                'district' => $district,
-                'bank_name' => $bank_name,
-                'bank_branch' => $bank_branch,
-                'bank_acc_no' => $bank_acc_no,
-                'bank_ifsc_code' => $bank_ifsc_code,
-                'image' => "user.png",
-                'aadhar_image' => $aadhar_name,
-                'cheque_image' => $cheque_name,
-                'power' => 1,
-                'created_at' => $date,
-                'updated_at' => $date,
-                'status' => 1
-            )
-        );
+                'register_otp' => $otp,
+                'password' => Hash::make(123456),
+                'status' => 0
+            ]);
 
-        $admin_phone = DB::table('users')->where('id', 1)->first();
+            $user_id = $user->id;
 
-        //$mobiles = implode(",", $mobilesArr);
-        $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
-        $success = sendsms($admin_phone->phone, $sms);
+            // Create User role
+            $user_role = DB::table('user_roles')->insert(
+                array(
+                    'role_id' => $role_id,
+                    'user_id' => $user_id,
+                    'created_at' => $date,
+                    'updated_at' => $date
+                )
+            );
 
-        //$mobiles = implode(",", $mobilesArr);
-        $sms = 'Apna Godam - Successfully Registered !';
-        $done = sendsms($phone, $sms);
+            // Create User Details
+            $user_details = DB::table('user_details')->insert(
+                array(
+                    'user_id' => $user_id,
+                    'fname' => $full_name,
+                    'phone' => $phone,
+                    'father_name' => $father_name,
+                    'aadhar_no' => $aadhar,
+                    'village' => $village,
+                    'district' => $district,
+                    'bank_name' => $bank_name,
+                    'bank_branch' => $bank_branch,
+                    'bank_acc_no' => $bank_acc_no,
+                    'bank_ifsc_code' => $bank_ifsc_code,
+                    'image' => "user.png",
+                    'aadhar_image' => $aadhar_name,
+                    'cheque_image' => $cheque_name,
+                    'power' => 1,
+                    'created_at' => $date,
+                    'updated_at' => $date,
+                    'status' => 0
+                )
+            );
 
-        return redirect('farmer_login')->with('status', $sms);
+            $admin_phone = DB::table('users')->where('id', 1)->first();
+
+            //$mobiles = implode(",", $mobilesArr);
+            $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
+            $success = sendsms($admin_phone->phone, $sms);
+
+            //$mobiles = implode(",", $mobilesArr);
+            $sms = 'Apna Godam - Successfully Registered !';
+            $done = sendsms($phone, $sms);
+        }
+
+        $sms = 'Verify your mobile to register on ApnaGodam with OTP - '.$otp;
+        // send otp on mobile number using Helper
+        $done = sendotp($phone, $sms, $otp);
+
+        return view('auth.farmer_register_otp', array('otp' => $otp, 'exist_phone' => $phone ));
+
+        //return redirect('farmer_login')->with('status', $sms);
     }
 
     // Trader Register
@@ -310,75 +354,111 @@ class HomeController extends Controller
         return view('auth.trader_login');
     }
 
+    // Trader Login
+    public function terminal_view(Request $request)
+    {
+        $id = $request->id;
+
+        // Get warehouse details by id
+        $warehouse = DB::table('warehouses')->where('id', $id)->first();
+
+
+        $facility_available = '';
+        $facilities = json_decode($warehouse->facility_ids);
+        foreach ($facilities as $key => $facility) {
+
+            $facility_name = DB::table('facilitiy_master')->where('id', $facility)->first();
+            $facility_available .= $facility_name->name.', ';
+        }
+        $warehouse->{'facility_available'} = $facility_available;
+
+        return view('website_pages.warehouse_view', array('terminal' => $warehouse));
+    }
+
     // Trader Registration
     public function trader_registration(Request $request)
     {
-        $request->validate([
-            'fname' => 'required|string|max:255',
-            //'email' => 'nullable|unique:users',
-            'phone' => 'required|numeric|digits:10|unique:users',
-        ]);
-
-        $date = date('Y-m-d H:i:s');
-        $full_name = $request->fname;
+        //Check Phone Number is already exist
         $phone = $request->phone;
-        $role_id = $request->role_id;
-        $firm_name = $request->firm_name;
-        $address = $request->address;
-        $mandi_license = $request->license;
-        $gst = $request->gst;
+        $check_phone = DB::table('users')->where('phone', $phone)->first();
 
-        $user = User::create([
-            'fname' => $full_name,
-            //'email' => $data['email'],
-            'phone' => $phone,
-            'password' => Hash::make(123456),
-            'status' => 1
-        ]);
+        $otp = null;
 
-        $user_id = $user->id;
+        if(!empty($check_phone->register_otp) && $check_phone->status == 0)
+        {
+            $otp = $check_phone->register_otp;
 
-        // Create User role
-        $user_role = DB::table('user_roles')->insert(
-            array(
-                'role_id' => $role_id,
-                'user_id' => $user_id,
-                'created_at' => $date,
-                'updated_at' => $date
-            )
-        );
+        }else{
+            $request->validate([
+                'phone' => 'unique:users',
+            ]);
 
-        // Create User Details
-        $user_details = DB::table('user_details')->insert(
-            array(
-                'user_id' => $user_id,
+            $otp = rand(100000, 999999);
+            $date = date('Y-m-d H:i:s');
+            $full_name = $request->fname;
+            $phone = $request->phone;
+            $role_id = $request->role_id;
+            $firm_name = $request->firm_name;
+            $address = $request->address;
+            $mandi_license = $request->license;
+            $gst = $request->gst;
+
+            $user = User::create([
                 'fname' => $full_name,
+                //'email' => $data['email'],
                 'phone' => $phone,
-                'firm_name' => $firm_name,
-                'address' => $address,
-                'mandi_license' => $mandi_license,
-                'gst_number' => $gst,
-                'image' => "user.png",
-                'power' => 1,
-                'created_at' => $date,
-                'updated_at' => $date,
-                'status' => 1
-            )
-        );
+                'register_otp' => $otp,
+                'password' => Hash::make(123456),
+                'status' => 0
+            ]);
 
-        $admin_phone = DB::table('users')->where('id', 1)->first();
+            $user_id = $user->id;
 
-        // send otp on mobile number using curl
-        $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-        //$mobiles = implode(",", $mobilesArr);
-        $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
-        $success = sendsms($admin_phone->phone, $sms);
+            // Create User role
+            $user_role = DB::table('user_roles')->insert(
+                array(
+                    'role_id' => $role_id,
+                    'user_id' => $user_id,
+                    'created_at' => $date,
+                    'updated_at' => $date
+                )
+            );
 
-        //Send to User
-        $sms1 = 'Apna Godam - Successfully Registered !';
-        $done = sendsms($phone, $sms1);
+            // Create User Details
+            $user_details = DB::table('user_details')->insert(
+                array(
+                    'user_id' => $user_id,
+                    'fname' => $full_name,
+                    'phone' => $phone,
+                    'firm_name' => $firm_name,
+                    'address' => $address,
+                    'mandi_license' => $mandi_license,
+                    'gst_number' => $gst,
+                    'image' => "user.png",
+                    'power' => 1,
+                    'created_at' => $date,
+                    'updated_at' => $date,
+                    'status' => 0
+                )
+            );
 
-        return redirect('trader_login')->with('status', $sms1);
+            $admin_phone = DB::table('users')->where('id', 1)->first();
+
+            //$mobiles = implode(",", $mobilesArr);
+            $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
+            $success = sendsms($admin_phone->phone, $sms);
+
+            //Send to User
+            $sms1 = 'Apna Godam - Successfully Registered !';
+            $done = sendsms($phone, $sms1);
+         }
+
+        $sms = 'Verify your mobile to register on ApnaGodam with OTP - '.$otp;
+        // send otp on mobile number using Helper
+        $done = sendotp($phone, $sms, $otp);
+
+        return view('auth.trader_register_otp', array('otp' => $otp, 'exist_phone' => $phone ));
+            //return redirect('trader_login')->with('status', $sms1);
     }
 
 }

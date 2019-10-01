@@ -102,11 +102,18 @@
             </li>
 
             <li>
+                <a href="{{ route('facilitiy_master') }}">
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">Facilitiy Master</span>
+                </a>
+            </li>
+
+            <!-- <li>
                 <a href="{{ route('facility') }}">
                     <i class="fa fa-users"></i>
                     <span class="nav-label">Facilities</span>
                 </a>
-            </li>
+            </li> -->
 
             <li>
                 <a href="{{ route('inventory') }}">
@@ -142,6 +149,8 @@
                     <span class="nav-label">Deals</span>
                 </a>
             </li>
+
+            
 
 		</ul>
 	</div>

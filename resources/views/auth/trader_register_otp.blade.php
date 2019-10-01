@@ -21,7 +21,7 @@ $(document).ready(function(){
 
             $.ajax({
                 method : 'post',
-                url: "{{ route('otpVerification') }}",
+                url: "{{ route('otpRegisterVerification') }}",
                 async : true,
                 data : {"_token": "{{ csrf_token() }}", 'otp' : otp, 'exist_phone' : exist_phone},
                 success:function(response){
@@ -61,10 +61,9 @@ $(document).ready(function(){
     //Resend OTP
     $(document).on('click', '#resendotp', function(){
         var exist_phone = $('#exist_phone').val();
-        alert(exist_phone);
         $.ajax({
             method : 'post',
-            url: "{{ route('otpResend') }}",
+            url: "{{ route('registerOTPResend') }}",
             async : true,
             data : {"_token": "{{ csrf_token() }}", 'exist_phone' : exist_phone},
             success:function(response){
@@ -82,13 +81,6 @@ $(document).ready(function(){
 </script>
 
 <header class="masthead text-white d-flex masthalf"></header>
-@if(session('info_msg'))
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#myModal').modal('show');
-        });
-    </script>
-@endif
 <section id="about">
 
     <div class="container">
@@ -102,7 +94,7 @@ $(document).ready(function(){
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2 class="section-heading text-center">{{ __('Seller Login') }}</h2>
+                <h2 class="section-heading text-center">{{ __('Buyer Registration') }}</h2>
                 <hr>
 
                 @if($errors->any())
@@ -120,11 +112,11 @@ $(document).ready(function(){
 
                             <div class="alert alert-warning" style="display: none;" id="otpMatched">Enter 6 digit OTP !</div>
 
-                            <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                            <form method="POST" action="{{ route('registerLogin') }}" aria-label="{{ __('Login') }}">
                                 @csrf
 
                                 <div class="form-group row">
-                                    <h6 id="resuend_otp_msg" style="display:block;color: green;">
+                                    <h6 id="resuend_otp_msg" style="display:none;color: green;">
                                         OTP Resend Sucessfully.
                                     </h6>
 
@@ -145,11 +137,12 @@ $(document).ready(function(){
                                 </div>
 
                                 <input id="exist_phone" type="hidden" value="{{ $exist_phone }}" name="phone" required>
+                                <input type="hidden" name="role" value="6">
                                 <input id="password" type="hidden" value="123456" name="password" required>
 
                                 <div class="form-group row mb-0">
                                     <div class="col-md-8 offset-md-4">
-                                        <a class="btn btn-warning" id="resend_otp">
+                                        <a class="btn btn-warning" id="resendotp">
                                             Resend OTP
                                         </a>
                                         <button type="submit" class="btn btn-primary" id="verifyButton">
@@ -159,38 +152,6 @@ $(document).ready(function(){
                                 </div>
 
                             </form>
-
-                        @else
-
-                            <form method="POST" action="{{ route('verifyOtp') }}" aria-label="{{ __('Login') }}">
-                                @csrf
-
-                                <div class="form-group row">
-                                    <label for="phone" class="col-sm-4 col-form-label text-md-right">{{ __('Phone') }}</label>
-
-                                    <div class="col-md-6">
-                                        <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" placeholder="Mobile Number" value="{{ old('phone') }}" required autofocus>
-
-                                        @if ($errors->has('phone'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('phone') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group row mb-0">
-                                    <div class="col-md-8 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            {{ __('Login') }}
-                                        </button>
-
-                                        <a class="btn btn-link" href="{{ route('farmer_register') }}">
-                                            New User? Register Here.
-                                        </a>
-                                    </div>
-                                </div>
-                            </form>
                         @endif
                     </div>
                 </div>
@@ -198,31 +159,4 @@ $(document).ready(function(){
         </div>
     </div>
 </section>
-
-<!-- The Modal -->
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <!-- Modal body -->
-      <div class="modal-body text-center" style="padding: 20px;">
-            <img src="{{ asset('resources/frontend_assets/img/check.png') }}" style="max-height: 120px;"><br/><br/>
-            <h3>बधाई हो !!</h3><br/>
-            <p>आपका 10 लाख का कमोडिटी लोन स्वीकृत हो गया है ,अपने नजदीकी गोदाम में माल भेज कर लोन राशि खाते में प्राप्त करे !</p>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer text-center">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-<style type="text/css">
-    
-.modal-content {
-    background: #fff!important; 
-}
-</style>
 @endsection

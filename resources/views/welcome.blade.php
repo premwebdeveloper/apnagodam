@@ -62,21 +62,44 @@
                     </li>
                 </ul>
             </div>
-           <!-- <a class="slider-control left" href="#" data-jump="prev">Prev</a>
-            <a class="slider-control right" href="#" data-jump="next">Next</a>-->
         </div>
         <script src="{{ asset('resources/frontend_assets/js/jquery.event.move.js') }}"></script>
         <script src="{{ asset('resources/frontend_assets/js/responsive-slider.js') }}"></script>
     </header>
-<!--
-    <section id="cta">
-    <a style="margin-top:-125px" href="javascript:;" class="big-cta text-white">
-        <div class="iblock">Enquire Now</div>
-        <div class="iblock pl-4">
-            <img src="{{ asset('resources/frontend_assets/img/right-arrow.png') }}">
+        <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-heading">Services We Provide</h2>
+                    <hr class="my-4">
+                    <p>Through our experienced operations team we can handle various kind of supply chain operations and services</p>
+                </div>
+            </div>
         </div>
-    </a>
-    </section> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="service-box mt-5 mx-auto">
+                        <i class="fa fa-warehouse"></i>
+                        <h4 class="mb-2">Warehousing Services</h4>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="service-box mt-5 mx-auto" style="background: #012b72;">
+                        <i class="fa fa-rupee-sign" style="color:#fff"></i>
+                        <h4 class="mb-2" style="color:#fff">Financing</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="service-box mt-5 mx-auto">
+                        <i class="fab fa-buysellads"></i>
+                        <h4 class="mb-2">Buy and Sell</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section id="featured">
         <h2 class="section-heading text-center">Today's Price (Per Qtl)</h2>
         <h6 class="section-heading text-center">Last Update Date : <?= date('d-m-Y'); ?></h6>
@@ -124,22 +147,10 @@
 
                     <div class="col-md-12">
                         <form>
-                            <!-- <input type="text" name="commodity_wise" disabled="disabled" value="Commodity Wise" style="font-weight: bold;"> -->
                             <span style="font-weight: bold;background-color: grey;padding: 2px 10px;">
                                 <a href="">Commodity Wise</a>
                             </span>
-                            <!-- <select name="mandi" id="mandi">
-                                <option value="">Mandi Wise</option>
-                                @foreach($mandies as $key => $mandi)
-                                    <option value="{!! $mandi->id !!}">{!! $mandi->mandi_name !!}</option>
-                                @endforeach
-                            </select> -->
-                            <!-- <select name="commodity" id="commodity" required="">
-                                <option value="">Commodity Wise</option>
-                                @foreach($commodities as $key => $commodity)
-                                    <option value="{!! $commodity->id !!}">{!! $commodity->commodity !!}</option>
-                                @endforeach
-                            </select> -->
+                            
                         </form>
                     </div>
 
@@ -208,60 +219,6 @@
         </div>
     </section>
 
-
-    <section id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                	<a href="{{ asset('resources/frontend_assets/reports/Quality Discount Matrix.pdf') }}" target="_blank" class="btn btn-success btn-lg">Quality Discount Matrix</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-
-                    <h2 class="section-heading">Warehouse Rent Rates</h2>
-                    <hr>
-                </div>
-
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                          <th scope="col">Sr. No.</th>
-                          <th scope="col">Address</th>
-                          <th scope="col">Location</th>
-                          <th scope="col">Area</th>
-                          <th scope="col">District</th>
-                          <th scope="col">Area in Sqr. Ft.</th>
-                          <th scope="col">Rent Per Month Per MT</th>
-                          <th scope="col">Capacity in MT</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1; ?>
-                        @foreach($warehouse_rent_rates as $key => $rate)
-                        <tr>
-                            <td>{!! $i !!}.</td>
-                            <td>{!! $rate->address !!}</td>
-                            <td>{!! $rate->location !!}</td>
-                            <td>{!! $rate->area !!}</td>
-                            <td>{!! $rate->district !!}</td>
-                            <td>{!! $rate->area_sqr_ft !!}</td>
-                            <td>{!! $rate->rent_per_month !!}</td>
-                            <td>{!! $rate->capacity_in_mt !!}</td>
-                        </tr>
-                        <?php $i++; ?>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
     <section id="about">
         <div class="container">
             <div class="row">
@@ -293,60 +250,6 @@
             </div>
         </div>
     </section>
-    <section id="services">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="section-heading">Services We Provide</h2>
-                    <hr class="my-4">
-                    <p>Through our experienced operations team we can handle various kind of supply chain operations and services</p>
-                </div>
-            </div>
-        </div>
-      <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto">
-                        <i class="fa fa-warehouse"></i>
-                        <h4 class="mb-2">Warehousing Services</h4>
-                        <!-- <p class="mb-4"><a href="{{ route('register') }}">Click Here</a></p> -->
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto" style="background: #012b72;">
-                        <i class="fa fa-rupee-sign" style="color:#fff"></i>
-                        <h4 class="mb-2" style="color:#fff">Financing</h4>
-                        <!-- <p class="mb-4"><a href="{{ route('user_finance_view') }}" style="color:#fff">Click Here</a></p> -->
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto">
-                        <i class="fab fa-buysellads"></i>
-                        <h4 class="mb-2">Buy and Sell</h4>
-                        <!-- <p class="mb-4"><a href="{{ route('buy_sell') }}">Click Here</a></p> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-<!--     <section id="clients">
-      <div class="container">
-        <div class="row">
-            <div class="col-lg-4 my-auto">
-            <h2 class="section-heading">Terminals Across <br>India</h2>
-
-            <hr class="margin-unset">
-            <p class="mb-4">We have dedicated and shared warehousing facilities in all the key Metro hubs across Pan-India - Mumbai, Pune, Bangalore, Delhi-NCR, Kolkata, Chennai, Hyderabad, Lucknow. Apart from these, we have partner warehouse space in Tier-2 and Tier-3 cities to provide a wider reach of logistics to our clients.</p>
-            </div>
-
-            <div class="col-lg-8 text-center text-lg-right">
-                <img class="max-100" src="{{ asset('resources/frontend_assets/img/map.png') }}">
-            </div>
-        </div>
-      </div>
-    </section> -->
 
     <section id="why-us">
         <div class="container">
@@ -435,28 +338,6 @@
         </div>
     </div>
 </section>
-
-<!--     <section id="counter">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <p class="weight400 text-main text-big">Space (Sq.ft) we have available across pan-india</p>
-                    <h1 class="text-primary text-huge timer count-title count-number"><span id="count" class="counter">5,34,700</span>+</h1>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="cta-bg">
-        <div class="container">
-            <div class="row py-5">
-                <div class="col-lg-5 mx-auto text-white text-center py-3 my-3 py-lg-5 my-lg-5">
-                    <p class="text-big pb-4">Are you a manufaturer retailer or E&#8209;Commerce Company.</p>
-                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="javascript:;">Enquire Now</a>
-                </div>
-            </div>
-        </div>
-    </section>   -->
 </main>
 <!-- Page Content Ends -->
 

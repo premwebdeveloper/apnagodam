@@ -30,24 +30,16 @@ class WarehouseController extends Controller
     // Add warehouse page view
     public function add_warehouse_view(){
 
-        // All Items
-        $all_items = DB::table('items')->where('status', 1)->get();
-        $items = [];
-
-        foreach ($all_items as $key => $item) {
-            $items[$item->id] = $item->item;
-        }
-
-
         // All facilities
-        $all_facilities = DB::table('facilities')->where('status', 1)->get();
-        $facilities = [];
+        $facilities = DB::table('facilitiy_master')->where('status', 1)->get();
 
-       foreach ($all_facilities as $key => $facility) {
-            $facilities[$facility->id] = $facility->facility;
+        $all_facilities = [];
+        foreach ($facilities as $row)
+        {
+            $all_facilities[$row->id] = $row->name;
         }
 
-        return view('warehouse.add_warehouse', ['items' => $items, 'facilities' => $facilities]);
+        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities]);
     }
 
     // Add Warehouse
@@ -63,12 +55,47 @@ class WarehouseController extends Controller
         $name = $request->name;
         $village = $request->village;
         $capacity = $request->capacity;
-        $items = $request->items;
         $facilities = $request->facilities;
         $date = date('Y-m-d H:i:s');
 
+        if($request->hasFile('image')) {
+
+            $file = $request->image;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('add_warehouse')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('add_warehouse')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/warehouses/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+                $status = 'Please upload image !';
+                return redirect('add_warehouse')->with('status', $status);
+        }
+
         // Array convert into json format
-        $items = json_encode($items);
         $facilities = json_encode($facilities);
 
         // Create Warehouses
@@ -76,8 +103,8 @@ class WarehouseController extends Controller
             'name' => $name,
             'village' => $village,
             'capacity' => $capacity,
-            'items' => $items,
-            'facilities' => $facilities,
+            'facility_ids' => $facilities,
+            'image' => $img_name,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date
@@ -128,25 +155,14 @@ class WarehouseController extends Controller
         // Get warehouse details by id
         $warehouse = DB::table('warehouses')->where('id', $id)->first();
 
-        // Get items name
-        $items = json_decode($warehouse->items);
-
-        $item_available = '';
-        foreach ($items as $key => $item) {
-
-            $item_name = DB::table('items')->where('id', $item)->first();
-            $item_available .= $item_name->item.', ';
-        }
 
         $facility_available = '';
-        $facilities = json_decode($warehouse->facilities);
+        $facilities = json_decode($warehouse->facility_ids);
         foreach ($facilities as $key => $facility) {
 
-            $facility_name = DB::table('facilities')->where('id', $facility)->first();
-            $facility_available .= $facility_name->facility.', ';
+            $facility_name = DB::table('facilitiy_master')->where('id', $facility)->first();
+            $facility_available .= $facility_name->name.', ';
         }
-
-        $warehouse->{'item_available'} = $item_available;
         $warehouse->{'facility_available'} = $facility_available;
 
         return view('warehouse.warehouse_view', array('warehouse' => $warehouse));
@@ -163,21 +179,25 @@ class WarehouseController extends Controller
             $items[$item->id] = $item->item;
         }
 
-
+//        echo "<pre>";
         // All facilities
-        $all_facilities = DB::table('facilities')->where('status', 1)->get();
-        $facilities = [];
+        $facilities = DB::table('facilitiy_master')->where('status', 1)->get();
 
-       foreach ($all_facilities as $key => $facility) {
-            $facilities[$facility->id] = $facility->facility;
+        $all_facilities = [];
+        foreach ($facilities as $row)
+        {
+            $all_facilities[$row->id] = $row->name;
         }
-
+        
         $id = $request->id;
 
         // Get warehouse details by id
         $warehouse = DB::table('warehouses')->where('id', $id)->first();
 
-        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'items' => $items, 'facilities' => $facilities));
+ /*       print_r($warehouse);
+        die;*/
+
+        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'items' => $items, 'all_facilities' => $all_facilities));
     }
 
     // Edit warehouse
@@ -194,12 +214,11 @@ class WarehouseController extends Controller
         $name = $request->name;
         $village = $request->village;
         $capacity = $request->capacity;
-        $items = $request->items;
         $facilities = $request->facilities;
         $date = date('Y-m-d H:i:s');
 
         // Array convert into json format
-        $items = json_encode($items);
+        //$items = json_encode($items);
         $facilities = json_encode($facilities);
 
         // Create Warehouses
@@ -207,8 +226,7 @@ class WarehouseController extends Controller
             'name' => $name,
             'village' => $village,
             'capacity' => $capacity,
-            'items' => $items,
-            'facilities' => $facilities,
+            'facility_ids' => $facilities,
             'updated_at' => $date
         ]);
 

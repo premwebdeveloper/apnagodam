@@ -1,9 +1,19 @@
   <body>
 
+<?php
+    $terminals = DB::table('warehouses')
+            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+            ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area',  'warehouse_rent_rates.district',  'warehouse_rent_rates.area_sqr_ft',  'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt')
+            ->where('warehouses.status', 1)
+            ->get();
+?>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: rgba(0,0,0,.4);">
+    <marquee class="b-clr">
+        <img class="blink-image" src="{{ asset('resources/frontend_assets/img/apna-godam-top-img.png') }}">
+    </marquee>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav" style="/*background-color: rgba(0,0,0,.4)*/background-color: #00C0F5;padding:0px;margin-top: -6px;">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="{{ url('/')}}">
+            <a class="navbar-brand js-scroll-trigger" style="padding:0px; " href="{{ url('/')}}">
                 <img class="head-logo" src="{{ asset('resources/frontend_assets/img/apna-godam-logo-1.png') }}" style="width: 100px;">
             </a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,10 +39,10 @@
 
                     @guest
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="{{ route('farmer_login') }}" >Seller Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-secondary" href="{{ route('farmer_login') }}" >Seller Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-success" href="{{ route('trader_login') }}" >Trader Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        <a class="btn btn-success" href="{{ route('trader_login') }}" >Buyer Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-danger" href="{{ route('login') }}" >Admin Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
@@ -85,9 +95,90 @@
 
                     @endif
                     <li class="nav-item">
-                        <a class="tel-icon nav-link js-scroll-trigger" href="tel:+91-9314142089" style="background: none;">+91-9314142089</a>
+                        <a class="tel-icon nav-link js-scroll-trigger" href="tel:+91-9314142089" style="background: none;color:#000!important">+91-9314142089</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>  <!-- naivigation ends -->
+    <nav style="height: 50px; background:#f3f5f7;text-align: center" class="navbar navbar-expand-lg navbar-light bottom-navbar">
+        <ul class="navbar-nav">
+            @foreach($terminals as $terminal)
+                <li class="nav-item">
+                    <a class="nav-link" href="{!! route('terminal_view', ['id' => $terminal->id]) !!}"><?= $terminal->address; ?></a>
+                </li>
+            @endforeach
+        </ul>
+    </nav>
+    <style type="text/css">
+        .bottom-navbar .nav-item{
+            padding: 0px 0px;
+            font-size: 13px;
+            font-weight: 500;
+            border-right: 2px solid lightgray;
+        }
+        .bottom-navbar .nav-item a{
+            color: #000!important;
+        }
+        /* Firefox old*/
+        @-moz-keyframes blink {
+            0% {
+                opacity:1;
+            }
+            50% {
+                opacity:0;
+            }
+            100% {
+                opacity:1;
+            }
+        } 
+
+        @-webkit-keyframes blink {
+            0% {
+                opacity:1;
+            }
+            50% {
+                opacity:0;
+            }
+            100% {
+                opacity:1;
+            }
+        }
+        /* IE */
+        @-ms-keyframes blink {
+            0% {
+                opacity:1;
+            }
+            50% {
+                opacity:0;
+            }
+            100% {
+                opacity:1;
+            }
+        } 
+        /* Opera and prob css3 final iteration */
+        @keyframes blink {
+            0% {
+                opacity:1;
+            }
+            50% {
+                opacity:0;
+            }
+            100% {
+                opacity:1;
+            }
+        } 
+        .blink-image {
+            -moz-animation: blink normal 0.2s infinite ease-in-out; /* Firefox */
+            -webkit-animation: blink normal 0.2s infinite ease-in-out; /* Webkit */
+            -ms-animation: blink normal 0.2s infinite ease-in-out; /* IE */
+            animation: blink normal 0.2s infinite ease-in-out; /* Opera and prob css3 final iteration */
+            height: 25px;
+        }
+        .b-clr{
+            background-color: #efefef;
+        }
+        li.nav-item {
+            text-align: center;
+        }
+    </style>

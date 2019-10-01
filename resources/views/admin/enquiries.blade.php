@@ -46,7 +46,7 @@
 	                            <tr>
                                     <th>Phone</th>
                                     <th>Name</th>
-                                    <th>Father Name</th>
+                                    <th>Seller Name</th>
                                     <th>Category</th>
                                     <th>Khasra Number</th>
                                     <th>GST Number</th>

@@ -37,7 +37,7 @@
 
                             {{ Form::hidden('warehouse_id', $warehouse->id) }}
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('name', 'Name') !!}
                                     {!! Form::text('name', $warehouse->name, ['class' => 'form-control', 'id' => 'name', 'placeholder' => 'Terminal Name']) !!}
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('village', 'Village') !!}
                                     {!! Form::text('village', $warehouse->village, ['class' => 'form-control', 'id' => 'village', 'placeholder' => 'Village']) !!}
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('capacity', 'Capacity') !!}
                                     {!! Form::text('capacity', $warehouse->capacity, ['class' => 'form-control', 'id' => 'capacity', 'placeholder' => 'Capacity']) !!}
@@ -79,75 +79,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    <?php
-                                    $selected_items = json_decode($warehouse->items);
-                                    if(!empty($selected_items)){
-
-                                        foreach($selected_items as $key => $selected){
-                                            ?>
-                                            <script type="text/javascript">
-                                                $(document).ready(function(){
-                                                    $('input.items[value="<?= $selected; ?>"]').prop('checked', true);
-                                                });
-                                            </script>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-
-                                    {!! Form::label('items', 'Items') !!}<br />
-                                    @foreach ($items as $i => $item)
-
-                                        <!-- {!! Form::checkbox('items[]', $item, '!in_array($items[$i], $items)', ['class' => 'md-check', 'id' => $item] ) !!}
-                                        {!! Form::label($item,  $item) !!} -->
-
-                                        {!! Form::checkbox('items[]', $i, '', ['class' => 'md-check items', 'id' => $item] ) !!}
-
-                                        {!! $item !!}
-
-                                    @endforeach
-
-                                    @if($errors->has('items'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('items') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <?php
-                                    $selected_facilities = json_decode($warehouse->facilities);
-                                    if(!empty($selected_facilities)){
-
-                                        foreach($selected_facilities as $key => $selected){
-                                            ?>
-                                            <script type="text/javascript">
-                                                $(document).ready(function(){
-                                                    $('input.facilities[value="<?= $selected; ?>"]').prop('checked', true);
-                                                });
-                                            </script>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-
                                     {!! Form::label('facilities', 'Facilities') !!}<br />
-                                    @foreach ($facilities as $f => $facility)
-
-                                        {!! Form::checkbox('facilities[]', $f, '', ['class' => 'md-check facilities', 'id' => $facility] ) !!}
+                                    @foreach ($all_facilities as $f => $facility)
+                                        {!! Form::checkbox('facilities[]', $f, json_decode($warehouse->facility_ids), ['class' => 'md-check facilities', 'id' => $f] ) !!}
 
                                         {!! $facility !!}
 
                                     @endforeach
 
-                                    @if($errors->has('facilities'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('facilities') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
 

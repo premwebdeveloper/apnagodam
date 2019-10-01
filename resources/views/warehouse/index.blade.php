@@ -48,6 +48,7 @@
 	                            <tr>
                                     <th>Terminal Name</th>
                                     <th>Village</th>
+                                    <th>Image</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
@@ -56,6 +57,11 @@
 	                                <tr class="gradeX">
                                         <td>{!! $warehouse->name !!}</td>
                                         <td>{!! $warehouse->village !!}</td>
+                                        <td>
+                                            @if($warehouse->image)
+                                                <img alt="image" class="img-responsive" src="{{ asset('resources/assets/upload/warehouses/'.$warehouse->image) }}" style="height:50px;">
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{!! route('warehouse_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>

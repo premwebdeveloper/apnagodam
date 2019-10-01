@@ -33,21 +33,21 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td>Name</td>
-                                    <td>Village</td>
-                                    <td>Capacity</td>
-                                    <td>Items</td>
-                                    <td>Facilities</td>
+                                    <td><b>Name</b></td>
+                                    <td><b>Village</b></td>
+                                    <td><b>Capacity</b></td>
+                                    <td><b>Facilities</b></td>
+                                    <td><b>Image</b></td>
                                 </tr>
                                 <tr>
                                     <td>{{ $warehouse->name }}</td>
                                     <td>{{ $warehouse->village }}</td>
                                     <td>{{ $warehouse->capacity }}</td>
                                     <td>
-                                        {{ rtrim($warehouse->item_available, ', ') }}
+                                        {{ rtrim($warehouse->facility_available, ', ') }}
                                     </td>
                                     <td>
-                                        {{ rtrim($warehouse->facility_available, ', ') }}
+                                        <img alt="image" class="img-responsive" src="{{ asset('resources/assets/upload/warehouses/'.$warehouse->image) }}" style="height:50px;">
                                     </td>
                                 </tr>
                             </tbody>

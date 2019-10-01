@@ -77,43 +77,22 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    {!! Form::label('items', 'Items') !!}<br />
-                                    @foreach ($items as $i => $item)
+                                    {!! Form::label('facilities', 'Facilities') !!}<br />
+                                    @foreach ($all_facilities as $f => $facility)
+                                        {!! Form::checkbox('facilities[]', $f,'', ['class' => 'md-check facilities', 'id' => $f] ) !!}
 
-                                        <!-- {!! Form::checkbox('items[]', $item, '!in_array($items[$i], $items)', ['class' => 'md-check', 'id' => $item] ) !!}
-                                        {!! Form::label($item,  $item) !!} -->
-
-                                        {!! Form::checkbox('items[]', $i, '', ['class' => 'md-check items', 'id' => $item] ) !!}
-
-                                        {!! $item !!}
+                                        {!! $facility !!}
 
                                     @endforeach
 
-                                    @if($errors->has('items'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('items') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
 
-                                    {!! Form::label('facilities', 'Facilities') !!}<br />
-                                    @foreach ($facilities as $f => $facility)
-
-                                        {!! Form::checkbox('facilities[]', $f, '', ['class' => 'md-check facilities', 'id' => $facility] ) !!}
-
-                                        {!! $facility !!}
-
-                                    @endforeach
-
-                                    @if($errors->has('facilities'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('facilities') }}</strong>
-                                        </span>
-                                    @endif
+                                    {!! Form::label('image', 'Image') !!}<br />
+                                    {{ Form::file('image', ['class' => 'form-control']) }}
                                 </div>
                             </div>
 

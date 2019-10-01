@@ -95,7 +95,7 @@ $(document).ready(function(){
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h2 class="section-heading text-center">{{ __('Trader Login') }}</h2>
+                <h2 class="section-heading text-center">{{ __('Buyer Login') }}</h2>
                 <hr>
 
                 @if($errors->any())

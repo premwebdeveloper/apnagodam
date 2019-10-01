@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <h2 class="section-heading text-center">{{ __('Registration Form') }}</h2>
+                <h2 class="section-heading text-center">{{ __('Buyer Registration Form') }}</h2>
                 <hr>
                 <div class="card">
                     <div class="card-body">
