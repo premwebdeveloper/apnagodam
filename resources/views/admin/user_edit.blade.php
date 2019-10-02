@@ -217,6 +217,19 @@
                                     @endif
                                 </div>
                             </div>
+                            
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('transfer_amount', 'Transfer Amount') !!}
+                                    {!! Form::text('transfer_amount', $user->transfer_amount, ['class' => 'form-control', 'id' => 'transfer_amount', 'placeholder' => 'Transfer Amount']) !!}
+
+                                    @if($errors->has('transfer_amount'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('transfer_amount') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">

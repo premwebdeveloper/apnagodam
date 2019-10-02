@@ -33,19 +33,49 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td><b>Name</b></td>
-                                    <td><b>Village</b></td>
-                                    <td><b>Capacity</b></td>
-                                    <td><b>Facilities</b></td>
-                                    <td><b>Image</b></td>
+                                    <td><b>Name</b></td><td>{{ $warehouse->name }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ $warehouse->name }}</td>
-                                    <td>{{ $warehouse->village }}</td>
-                                    <td>{{ $warehouse->capacity }}</td>
+                                    <td><b>Address</b></td><td>{{ $warehouse->address }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Location</b></td><td>{{ $warehouse->location }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Area</b></td><td>{{ $warehouse->area }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>District</b></td><td>{{ $warehouse->district }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Area (SQ. FT.)</b></td><td>{{ $warehouse->area_sqr_ft }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Rent</b></td><td>{{ $warehouse->rent_per_month }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Capacity (MT )</b></td><td>{{ $warehouse->capacity_in_mt }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>NearBy Transporter Info </b></td>
+                                    <td>
+                                        {{ $warehouse->nearby_transporter_info }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>NearBy Mandi Info </b></td><td>{{ $warehouse->nearby_mandi_info }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>NearBy Crop Info </b></td><td>{{ $warehouse->nearby_crop_info }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Facilities</b></td>
                                     <td>
                                         {{ rtrim($warehouse->facility_available, ', ') }}
-                                    </td>
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td><b>Image</b></td>
                                     <td>
                                         <img alt="image" class="img-responsive" src="{{ asset('resources/assets/upload/warehouses/'.$warehouse->image) }}" style="height:50px;">
                                     </td>

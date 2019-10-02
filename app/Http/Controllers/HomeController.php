@@ -199,6 +199,7 @@ class HomeController extends Controller
             $father_name = $request->father_name;
             $aadhar = $request->aadhar;
             $village = $request->village;
+            $address = $request->address;
             $district = $request->district;
             $bank_name = $request->bank_name;
             $bank_branch = $request->bank_branch;
@@ -306,6 +307,7 @@ class HomeController extends Controller
                     'phone' => $phone,
                     'father_name' => $father_name,
                     'aadhar_no' => $aadhar,
+                    'address' => $address,
                     'village' => $village,
                     'district' => $district,
                     'bank_name' => $bank_name,

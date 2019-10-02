@@ -60,7 +60,16 @@ class AdminController extends Controller
     // Show all users
     public function users(){
 
-        $users = DB::table('user_details')->where('status', 1)->get();
+        $users = DB::table('user_details')
+                ->join('user_roles', 'user_roles.user_id', '=', 'user_details.user_id')
+                ->select('user_details.*', 'user_roles.role_id')
+                ->where('status', 1)
+                ->where('user_details.user_id', '!=', 1)
+                ->get();
+
+        // echo '<pre>';
+        // print_r($users);
+        // exit;
 
     	return view('admin.index', array('users' => $users));
     }
@@ -164,14 +173,14 @@ class AdminController extends Controller
     }
 
     // View Warehouse Rent Rates
-    public function warehouse_rent_rates(){
+    /*public function warehouse_rent_rates(){
 
         $werehouse_rates = DB::table('warehouse_rent_rates')->where('status', 1)->get();
         return view('admin.warehouse_rent_rates', array('werehouse_rates' => $werehouse_rates));
-    }
+    }*/
 
     // Add Warehouse rent
-    public function add_warehouse_rent(Request $request){
+    /*public function add_warehouse_rent(Request $request){
 
         # Set validation for
         $this->validate($request, [
@@ -254,10 +263,10 @@ class AdminController extends Controller
         }
 
         return redirect('warehouse_rent_rates')->with('status', $status);
-    }
+    }*/
 
     // User Delete
-    public function werehouse_rent_delete(Request $request){
+    /*public function werehouse_rent_delete(Request $request){
 
         $id = $request->id;
 
@@ -274,7 +283,7 @@ class AdminController extends Controller
         }
 
         return redirect('warehouse_rent_rates')->with('status', $status);
-    }
+    }*/
 
     // Add user page view
     public function add_user_view(){
@@ -447,6 +456,7 @@ class AdminController extends Controller
         $khasra_no = $request->khasra;
         $gst_number = $request->gst;
         $power = $request->power;
+        $transfer_amount = $request->transfer_amount;
         $date = date('Y-m-d H:i:s');
 
         // First get users data from user details table
@@ -513,6 +523,7 @@ class AdminController extends Controller
             'gst_number' => $gst_number,
             'image' => $filename,
             'power' => $power,
+            'transfer_amount' => $transfer_amount,
             'updated_at' => $date
         ]);
 

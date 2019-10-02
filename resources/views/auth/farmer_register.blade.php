@@ -62,14 +62,29 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="aadhar" class="col-md-4 col-form-label text-md-right">{{ __('Aadhar No.') }}</label>
+                                <label for="aadhar" class="col-md-4 col-form-label text-md-right">
+                                    <span class="red">*</span>{{ __('Aadhar No.') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="aadhar" type="number" class="form-control{{ $errors->has('aadhar') ? ' is-invalid' : '' }}" name="aadhar" value="{{ old('aadhar') }}" placeholder="Aadhar No.">
+                                    <input id="aadhar" type="number" class="form-control{{ $errors->has('aadhar') ? ' is-invalid' : '' }}" name="aadhar" value="{{ old('aadhar') }}" placeholder="Aadhar No." required="required">
 
                                     @if ($errors->has('aadhar'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('aadhar') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" placeholder="Address">
+
+                                    @if ($errors->has('address'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('address') }}</strong>
                                         </span>
                                     @endif
                                 </div>

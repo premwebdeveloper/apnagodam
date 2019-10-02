@@ -94,9 +94,9 @@ Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 
 
 //Warehouse Rent Rates
-Route::get('/warehouse_rent_rates', 'AdminController@warehouse_rent_rates')->name('warehouse_rent_rates');
-Route::post('/add_warehouse_rent', 'AdminController@add_warehouse_rent')->name('add_warehouse_rent');
-Route::get('/werehouse_rent_delete/{id}', 'AdminController@werehouse_rent_delete')->name('werehouse_rent_delete');
+// Route::get('/warehouse_rent_rates', 'AdminController@warehouse_rent_rates')->name('warehouse_rent_rates');
+// Route::post('/add_warehouse_rent', 'AdminController@add_warehouse_rent')->name('add_warehouse_rent');
+// Route::get('/werehouse_rent_delete/{id}', 'AdminController@werehouse_rent_delete')->name('werehouse_rent_delete');
 
 
 //Facilitiy Master

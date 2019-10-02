@@ -22,7 +22,11 @@ class WarehouseController extends Controller
     public function index(){
 
         // Get all warehouses
-        $warehouses = DB::table('warehouses')->where('status', 1)->get();
+        $warehouses = DB::table('warehouses')
+                        ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->where('warehouses.status', 1)
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt')
+                        ->get();
 
         return view('warehouse.index', array('warehouses' => $warehouses));
     }
@@ -48,15 +52,28 @@ class WarehouseController extends Controller
         # Set validation for
         $this->validate($request, [
             'name' => 'required',
-            'village' => 'required',
-            'capacity' => 'required',
+            'address' => 'required',
+            'area' => 'required',
+            'district' => 'required',
+            'area_sqr_ft' => 'required',
+            'rent_per_month' => 'required',
+            'capacity_in_mt' => 'required',
         ]);
 
         $name = $request->name;
-        $village = $request->village;
-        $capacity = $request->capacity;
+        $address = $request->address;
+        $location = $request->location;
+        $area = $request->area;
+        $district = $request->district;
+        $area_sqr_ft = $request->area_sqr_ft;
+        $rent_per_month = $request->rent_per_month;
+        $capacity_in_mt = $request->capacity_in_mt;
         $facilities = $request->facilities;
         $date = date('Y-m-d H:i:s');
+
+        $transporter_info = $request->transporter_info;
+        $mandi_info = $request->mandi_info;
+        $crop_info = $request->crop_info;
 
         if($request->hasFile('image')) {
 
@@ -90,19 +107,18 @@ class WarehouseController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/warehouses/';
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
-        }else{
-                $status = 'Please upload image !';
-                return redirect('add_warehouse')->with('status', $status);
+        }
+        else{
+            $status = 'Please upload image !';
+            return redirect('add_warehouse')->with('status', $status);
         }
 
         // Array convert into json format
         $facilities = json_encode($facilities);
 
         // Create Warehouses
-        $warehouse = DB::table('warehouses')->insert([
+        $warehouse_id = DB::table('warehouses')->insertGetId([
             'name' => $name,
-            'village' => $village,
-            'capacity' => $capacity,
             'facility_ids' => $facilities,
             'image' => $img_name,
             'status' => 1,
@@ -110,7 +126,25 @@ class WarehouseController extends Controller
             'updated_at' => $date
         ]);
 
-        if($warehouse)
+        // create warehouse features
+        $warehouse_features = DB::table('warehouse_rent_rates')->insert([
+            'warehouse_id' => $warehouse_id,
+            'address' => $address,
+            'location' => $location,
+            'area' => $area,
+            'district' => $district,
+            'area_sqr_ft' => $area_sqr_ft,
+            'rent_per_month' => $rent_per_month,
+            'capacity_in_mt' => $capacity_in_mt,
+            'nearby_transporter_info' => $transporter_info,
+            'nearby_mandi_info' => $mandi_info,
+            'nearby_crop_info' => $crop_info,
+            'status' => 1,
+            'created_at' => $date,
+            'updated_at' => $date
+        ]);
+
+        if($warehouse_features)
         {
             $status = 'Terminal Added successfully.';
         }
@@ -153,8 +187,12 @@ class WarehouseController extends Controller
         $id = $request->id;
 
         // Get warehouse details by id
-        $warehouse = DB::table('warehouses')->where('id', $id)->first();
-
+        $warehouse = DB::table('warehouses')
+                        ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->where('warehouses.status', 1)
+                        ->where('warehouses.id', $id)
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
+                        ->first();
 
         $facility_available = '';
         $facilities = json_decode($warehouse->facility_ids);
@@ -171,15 +209,7 @@ class WarehouseController extends Controller
     // Warehouse Edit view
     public function warehouse_edit_view(Request $request){
 
-        // All Items
-        $all_items = DB::table('items')->where('status', 1)->get();
-        $items = [];
-
-        foreach ($all_items as $key => $item) {
-            $items[$item->id] = $item->item;
-        }
-
-//        echo "<pre>";
+        $id = $request->id;
         // All facilities
         $facilities = DB::table('facilitiy_master')->where('status', 1)->get();
 
@@ -189,15 +219,15 @@ class WarehouseController extends Controller
             $all_facilities[$row->id] = $row->name;
         }
         
-        $id = $request->id;
-
         // Get warehouse details by id
-        $warehouse = DB::table('warehouses')->where('id', $id)->first();
+        $warehouse = DB::table('warehouses')
+                        ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->where('warehouses.status', 1)
+                        ->where('warehouses.id', $id)
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
+                        ->first();
 
- /*       print_r($warehouse);
-        die;*/
-
-        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'items' => $items, 'all_facilities' => $all_facilities));
+        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities));
     }
 
     // Edit warehouse
@@ -206,31 +236,101 @@ class WarehouseController extends Controller
         # Set validation for
         $this->validate($request, [
             'name' => 'required',
-            'village' => 'required',
-            'capacity' => 'required',
+            'address' => 'required',
+            'area' => 'required',
+            'district' => 'required',
+            'area_sqr_ft' => 'required',
+            'rent_per_month' => 'required',
+            'capacity_in_mt' => 'required',
         ]);
 
         $warehouse_id = $request->warehouse_id;
         $name = $request->name;
-        $village = $request->village;
-        $capacity = $request->capacity;
+        $address = $request->address;
+        $location = $request->location;
+        $area = $request->area;
+        $district = $request->district;
+        $area_sqr_ft = $request->area_sqr_ft;
+        $rent_per_month = $request->rent_per_month;
+        $capacity_in_mt = $request->capacity_in_mt;
         $facilities = $request->facilities;
         $date = date('Y-m-d H:i:s');
 
+        $transporter_info = $request->transporter_info;
+        $mandi_info = $request->mandi_info;
+        $crop_info = $request->crop_info;
+
+        $warehouse = DB::table('warehouses')
+                        ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->where('warehouses.status', 1)
+                        ->where('warehouses.id', $warehouse_id)
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt')
+                        ->first();
+
+        if($request->hasFile('image')) {
+
+            $file = $request->image;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('add_warehouse')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('add_warehouse')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/warehouses/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }
+        else{
+            $img_name = $warehouse->image;
+        }
+
         // Array convert into json format
-        //$items = json_encode($items);
         $facilities = json_encode($facilities);
 
         // Create Warehouses
         $update = DB::table('warehouses')->where('id', $warehouse_id)->update([
             'name' => $name,
-            'village' => $village,
-            'capacity' => $capacity,
             'facility_ids' => $facilities,
+            'image' => $img_name,
             'updated_at' => $date
         ]);
 
-        if($update)
+        // update warehouse features
+        $update_features = DB::table('warehouse_rent_rates')->where('warehouse_id', $warehouse_id)->update([
+            'address' => $address,
+            'location' => $location,
+            'area' => $area,
+            'district' => $district,
+            'area_sqr_ft' => $area_sqr_ft,
+            'rent_per_month' => $rent_per_month,
+            'capacity_in_mt' => $capacity_in_mt,
+            'nearby_transporter_info' => $transporter_info,
+            'nearby_mandi_info' => $mandi_info,
+            'nearby_crop_info' => $crop_info,
+            'updated_at' => $date
+        ]);
+
+        if($update_features)
         {
             $status = 'Terminal updated successfully.';
         }

@@ -8,7 +8,7 @@
             ->get();
 ?>
     <!-- Navigation -->
-    <marquee class="b-clr">
+    <marquee class="b-clr" scrollamount="3">
         <img class="blink-image" src="{{ asset('resources/frontend_assets/img/apna-godam-top-img.png') }}">
     </marquee>
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav" style="/*background-color: rgba(0,0,0,.4)*/background-color: #00C0F5;padding:0px;margin-top: -6px;">
@@ -173,7 +173,7 @@
             -webkit-animation: blink normal 0.2s infinite ease-in-out; /* Webkit */
             -ms-animation: blink normal 0.2s infinite ease-in-out; /* IE */
             animation: blink normal 0.2s infinite ease-in-out; /* Opera and prob css3 final iteration */
-            height: 25px;
+            height: 40px;
         }
         .b-clr{
             background-color: #efefef;

@@ -47,7 +47,9 @@
 	                        <thead>
 	                            <tr>
                                     <th>Name</th>
+                                    <th>Role</th>
                                     <th>Phone</th>
+                                    <th>Transfer Amount</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
@@ -55,7 +57,20 @@
                                 @foreach($users as $key => $user)
 	                                <tr class="gradeX">
                                         <td>{!! $user->fname . $user->lname !!}</td>
+                                        <td>
+                                            @if($user->role_id == 2)
+                                                User
+                                            @elseif($user->role_id == 4)
+                                                Government User
+                                            @elseif($user->role_id == 5)
+                                                Seller
+                                            @elseif($user->role_id == 6)
+                                                Buyer
+                                            @endif
+
+                                        </td>
                                         <td>{!! $user->phone !!}</td>
+                                        <td>{!! $user->transfer_amount !!}</td>
                                         <td>
                                             <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>

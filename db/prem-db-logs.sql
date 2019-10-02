@@ -285,3 +285,13 @@ ALTER TABLE `inventories` ADD `quality_category` VARCHAR(5) NULL AFTER `gate_pas
 -- ------------------- ALTER TABLE `inventories` at 14-02-2019 ------
 ALTER TABLE `buy_sells` CHANGE `status` `status` TINYINT(1) NOT NULL COMMENT 'status 1 active bid and 0 for complete bid / deal done 3 for pdf send and payment accept';
 ALTER TABLE `buy_sells` CHANGE `status` `status` TINYINT(1) NOT NULL COMMENT 'status 1 active bid and 2 for deal done 3 for pdf send and payment accept';
+
+-- ------------------- ALTER TABLE `inventories` at 01-10-2019 ------
+ALTER TABLE `warehouses`
+  DROP `village`,
+  DROP `capacity`,
+  DROP `items`;
+
+ALTER TABLE `warehouse_rent_rates` ADD `nearby_transporter_info` TEXT NULL AFTER `capacity_in_mt`, ADD `nearby_mandi_info` TEXT NULL AFTER `nearby_transporter_info`, ADD `nearby_crop_info` TEXT NULL AFTER `nearby_mandi_info`;
+
+ALTER TABLE `user_details` ADD `transfer_amount` VARCHAR(191) NULL AFTER `longitude`;

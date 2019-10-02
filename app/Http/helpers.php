@@ -11,7 +11,7 @@ function sendsms($numbers, $message)
 {
     // Textlocal account details
     $username = urlencode('s1542');
-    $password = urlencode('sky844');
+    $password = urlencode('723377837');
 
     // Message details
     $numbers = urlencode($numbers);
