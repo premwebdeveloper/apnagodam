@@ -127,6 +127,41 @@ class HomeController extends Controller
         }
     }
 
+    //Warehouse Enquiry
+    public function warehouse_enquiry(Request $request)
+    {
+        $request->validate([
+            'commodity' => 'required',
+            'quantity' => 'required',
+            'mobile' => 'required',
+            'commitment' => 'required',
+        ]);
+
+        $date         = date('Y-m-d H:i:s');
+        $commodity    = $request->commodity;
+        $quantity     = $request->quantity;
+        $mobile       = $request->mobile;
+        $commitment   = $request->commitment;
+        $warehouse_id = $request->warehouse_id;
+
+        // Create Warehouse Enquiry
+        $insert_enquiry = DB::table('warehouse_enquirers')->insert(
+            array(
+                'warehouse_id' => $warehouse_id,
+                'commodity'    => $commodity,
+                'quantity'     => $quantity,
+                'mobile'       => $mobile,
+                'commitment'   => $commitment,
+                'status'       => 1,
+                'created_at'   => $date,
+                'updated_at'   => $date
+            )
+        );
+
+        $status = 'Enquiry submmitted Successfully';
+        return redirect('terminal_view/'.$warehouse_id)->with('status', $status);
+    }
+
     // privacy policy
     public function privacy_policy()
     {
@@ -362,15 +397,23 @@ class HomeController extends Controller
         $id = $request->id;
 
         // Get warehouse details by id
-        $warehouse = DB::table('warehouses')->where('id', $id)->first();
-
+        // Get warehouse details by id
+        $warehouse = DB::table('warehouses')
+                        ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->where('warehouses.status', 1)
+                        ->where('warehouses.id', $id)
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
+                        ->first();
 
         $facility_available = '';
-        $facilities = json_decode($warehouse->facility_ids);
-        foreach ($facilities as $key => $facility) {
+        if($warehouse->facility_ids)
+        {
+            $facilities = json_decode($warehouse->facility_ids);
+            foreach ($facilities as $key => $facility) {
 
-            $facility_name = DB::table('facilitiy_master')->where('id', $facility)->first();
-            $facility_available .= $facility_name->name.', ';
+                $facility_name = DB::table('facilitiy_master')->where('id', $facility)->first();
+                $facility_available .= $facility_name->name.', ';
+            }
         }
         $warehouse->{'facility_available'} = $facility_available;
 

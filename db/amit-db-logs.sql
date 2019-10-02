@@ -34,3 +34,23 @@ ALTER TABLE `warehouses` CHANGE `created_at` `created_at` DATETIME NULL DEFAULT 
 ALTER TABLE `warehouses` CHANGE `facility_id` `facility_ids` TEXT NULL DEFAULT NULL;
 ALTER TABLE `warehouses` CHANGE `items` `items` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 ALTER TABLE `warehouses` ADD `image` TEXT NULL AFTER `facility_ids`;
+
+
+-- ------------------- ALTER TABLE `warehouses` at 02-10-2018 ------------------
+CREATE TABLE `warehouse_enquirers` (
+  `id` int(11) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
+  `commodity` varchar(255) DEFAULT NULL,
+  `quantity` varchar(50) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
+  `commitment` varchar(20) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `warehouse_enquirers`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `warehouse_enquirers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;

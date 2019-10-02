@@ -79,6 +79,7 @@ Route::post('/otpVerification', 'AjaxController@otpVerification')->name('otpVeri
 Route::post('/otpRegisterVerification', 'AjaxController@otpRegisterVerification')->name('otpRegisterVerification');
 Route::post('/otpResend', 'AjaxController@otpResend')->name('otpResend');
 Route::post('/registerOTPResend', 'AjaxController@registerOTPResend')->name('registerOTPResend');
+Route::post('/getWarehouseDistance', 'AjaxController@getWarehouseDistance')->name('getWarehouseDistance');
 
 
 /* ********************** Admin routes start here *************************** */
@@ -126,6 +127,7 @@ Route::get('/download_vikray_parchi/{id}/{email}', 'AdminController@download_vik
 
 // Warehouses Routes
 Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');
+Route::get('/terminal_enquires', 'WarehouseController@terminal_enquires')->name('terminal_enquires');
 Route::get('/add_warehouse_view', 'WarehouseController@add_warehouse_view')->name('add_warehouse_view');
 Route::post('/add_warehouse', 'WarehouseController@add_warehouse')->name('add_warehouse');
 Route::get('/warehouse_edit_view/{id}', 'WarehouseController@warehouse_edit_view')->name('warehouse_edit_view');
@@ -191,6 +193,7 @@ Route::get('/about-us', 'HomeController@about_us')->name('about-us');
 Route::get('/terminal_view/{id}', 'HomeController@terminal_view')->name('terminal_view');
 Route::get('/our-team', 'HomeController@our_team')->name('our-team');
 Route::get('/contact-us', 'HomeController@contact_us')->name('contact-us');
+Route::post('/warehouse_enquiry', 'HomeController@warehouse_enquiry')->name('warehouse_enquiry');
 
 
 // Login Register Registration Farmer

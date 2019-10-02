@@ -31,6 +31,19 @@ class WarehouseController extends Controller
         return view('warehouse.index', array('warehouses' => $warehouses));
     }
 
+    // Show all warehouses
+    public function terminal_enquires(){
+
+        // Get all terminal_enquires
+        $warehouses = DB::table('warehouse_enquirers')
+                        ->join('warehouses','warehouses.id', '=', 'warehouse_enquirers.warehouse_id')
+                        ->where('warehouse_enquirers.status', 1)
+                        ->select('warehouse_enquirers.*', 'warehouses.name')
+                        ->get();
+
+        return view('warehouse.warehouse_enquiry', array('warehouses' => $warehouses));
+    }
+
     // Add warehouse page view
     public function add_warehouse_view(){
 

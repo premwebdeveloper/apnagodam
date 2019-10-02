@@ -2,10 +2,10 @@
 
 <?php
     $terminals = DB::table('warehouses')
-            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-            ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area',  'warehouse_rent_rates.district',  'warehouse_rent_rates.area_sqr_ft',  'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt')
-            ->where('warehouses.status', 1)
-            ->get();
+                        ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->where('warehouses.status', 1)
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location')
+                        ->get();
 ?>
     <!-- Navigation -->
     <marquee class="b-clr" scrollamount="3">
@@ -101,11 +101,11 @@
             </div>
         </div>
     </nav>  <!-- naivigation ends -->
-    <nav style="height: 50px; background:#f3f5f7;text-align: center" class="navbar navbar-expand-lg navbar-light bottom-navbar">
+    <nav style="min-height: 50px; background:#f3f5f7;text-align: center" class="navbar navbar-expand-lg navbar-light bottom-navbar">
         <ul class="navbar-nav">
             @foreach($terminals as $terminal)
                 <li class="nav-item">
-                    <a class="nav-link" href="{!! route('terminal_view', ['id' => $terminal->id]) !!}"><?= $terminal->address; ?></a>
+                    <a class="nav-link" href="{!! route('terminal_view', ['id' => $terminal->id]) !!}">{!! $terminal->name !!} ({!! $terminal->location !!})</a>
                 </li>
             @endforeach
         </ul>
@@ -113,7 +113,7 @@
     <style type="text/css">
         .bottom-navbar .nav-item{
             padding: 0px 0px;
-            font-size: 13px;
+            font-size: 10px;
             font-weight: 500;
             border-right: 2px solid lightgray;
         }

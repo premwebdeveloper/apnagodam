@@ -40,6 +40,9 @@
 
     <link href="{{ asset('resources/frontend_assets/css/carousel.min.css') }}" rel="stylesheet" type="text/css" media="all" />
 
+    <!-- Custom CSS -->
+    <link href="{{ asset('resources/frontend_assets/css/custom.css') }}" rel="stylesheet" type="text/css" media="all" />
+
     <script src="{{ asset('resources/frontend_assets/js/jquery.min.js') }}"> </script>
     <style>
         .service-box>img{

@@ -79,6 +79,18 @@
                     <span class="nav-label">Terminals</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('facilitiy_master') }}">
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">Facilities Master</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('terminal_enquires') }}">
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">Terminal Enquiries</span>
+                </a>
+            </li>
             <!-- @endif -->
             <li>
                 <a href="{{ route('users') }}">
@@ -91,20 +103,6 @@
                 <a href="{{ route('category') }}">
                     <i class="fa fa-users"></i>
                     <span class="nav-label">Cateogry</span>
-                </a>
-            </li>
-
-            <!-- <li>
-                <a href="{{ route('items') }}">
-                    <i class="fa fa-users"></i>
-                    <span class="nav-label">Items</span>
-                </a>
-            </li> -->
-
-            <li>
-                <a href="{{ route('facilitiy_master') }}">
-                    <i class="fa fa-users"></i>
-                    <span class="nav-label">Facilities Master</span>
                 </a>
             </li>
 
