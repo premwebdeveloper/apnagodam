@@ -172,7 +172,7 @@ if(isset($output['results'][0]))
     <input type="hidden" value="" id="current_address" name="">
 </section>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD12UaZxo_4B0ScJAkuwx7PgkUeV6DsFE&libraries=places&callback=initMap"></script>
+<script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCD12UaZxo_4B0ScJAkuwx7PgkUeV6DsFE&libraries=places&callback=initMap"></script>
 <script>
 
   function initMap() {
@@ -197,75 +197,75 @@ if(isset($output['results'][0]))
 <script type="text/javascript" charset="utf-8">
 
 jQuery(document).ready(function() {
-var currgeocoder;
+    var currgeocoder;
 
-//Set geo location lat and long
+    //Set geo location lat and long
 
-navigator.geolocation.getCurrentPosition(function(position, html5Error) {
+    navigator.geolocation.getCurrentPosition(function(position, html5Error) {
 
-geo_loc = processGeolocationResult(position);
-currLatLong = geo_loc.split(",");
-initializeCurrent(currLatLong[0], currLatLong[1]);
+        geo_loc = processGeolocationResult(position);
+        currLatLong = geo_loc.split(",");
+        initializeCurrent(currLatLong[0], currLatLong[1]);
 
-});
-
-//Get geo location result
-
-function processGeolocationResult(position) {
-html5Lat = position.coords.latitude; //Get latitude
-html5Lon = position.coords.longitude; //Get longitude
-html5TimeStamp = position.timestamp; //Get timestamp
-html5Accuracy = position.coords.accuracy; //Get accuracy in meters
-return (html5Lat).toFixed(8) + ", " + (html5Lon).toFixed(8);
-}
-
-//Check value is present or not & call google api function
-
-function initializeCurrent(latcurr, longcurr) {
-currgeocoder = new google.maps.Geocoder();
-//console.log(latcurr + "-- ######## --" + longcurr);
-
-if (latcurr != '' && longcurr != '') {
-var myLatlng = new google.maps.LatLng(latcurr, longcurr);
-return getCurrentAddress(myLatlng);
-}
-}
-
- function getCurrentAddress(location) {
-      currgeocoder.geocode({
-          'location': location
-
-    }, function(results, status) {
-   
-        var current_location = null;
-        if (status == google.maps.GeocoderStatus.OK) {
-            //console.log(results[0]);
-            $("#address").html(results[0].formatted_address);
-            current_location = results[0].formatted_address;
-        } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
-
-        var address = '<?php echo $address; ?>';
-        to_address = address.replace(/,/g, '-');
-        current_location = current_location.replace(/,/g, '-');
-
-        // Get Distance From Current location to Werehouse
-        $.ajax({
-            method : 'post',
-            url: "{{ route('getWarehouseDistance') }}",
-            async : true,
-            data : {"_token": "{{ csrf_token() }}", 'current_location' : current_location, 'to_address' : to_address},
-            success:function(response){
-                console.log(response);
-                $('#km').html(response);
-            },
-            error: function(data){
-                //console.log(data);
-            },
-        });
     });
- }
+
+    //Get geo location result
+
+    function processGeolocationResult(position) {
+        html5Lat = position.coords.latitude; //Get latitude
+        html5Lon = position.coords.longitude; //Get longitude
+        html5TimeStamp = position.timestamp; //Get timestamp
+        html5Accuracy = position.coords.accuracy; //Get accuracy in meters
+        return (html5Lat).toFixed(8) + ", " + (html5Lon).toFixed(8);
+    }
+
+    //Check value is present or not & call google api function
+
+    function initializeCurrent(latcurr, longcurr) {
+        currgeocoder = new google.maps.Geocoder();
+        //console.log(latcurr + "-- ######## --" + longcurr);
+
+        if (latcurr != '' && longcurr != '') {
+            var myLatlng = new google.maps.LatLng(latcurr, longcurr);
+            return getCurrentAddress(myLatlng);
+        }
+    }
+
+     function getCurrentAddress(location) {
+          currgeocoder.geocode({
+              'location': location
+
+        }, function(results, status) {
+       
+            var current_location = null;
+            if (status == google.maps.GeocoderStatus.OK) {
+                console.log(results[0]);
+                $("#address").html(results[0].formatted_address);
+                current_location = results[0].formatted_address;
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+
+            var address = '<?php echo $address; ?>';
+            to_address = address.replace(/,/g, '-');
+            current_location = current_location.replace(/,/g, '-');
+
+            // Get Distance From Current location to Werehouse
+            $.ajax({
+                method : 'post',
+                url: "{{ route('getWarehouseDistance') }}",
+                async : true,
+                data : {"_token": "{{ csrf_token() }}", 'current_location' : current_location, 'to_address' : to_address},
+                success:function(response){
+                    console.log(response);
+                    $('#km').html(response);
+                },
+                error: function(data){
+                    console.log(data);
+                },
+            });
+        });
+     }
 
 });
 

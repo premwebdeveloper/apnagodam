@@ -51,8 +51,9 @@ class UsersController extends Controller
 
         $inventories = DB::table('inventories')
                         ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                        ->join('warehouse_rent_rates', 'warehouses.id', '=', 'warehouse_rent_rates.warehouse_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                        ->select('inventories.*', 'categories.category as cat_name', 'warehouses.name', 'warehouses.village')
+                        ->select('inventories.*', 'categories.category as cat_name', 'warehouses.name', 'warehouses.warehouse_code', 'warehouse_rent_rates.location')
                         ->where(['inventories.status' => 1, 'inventories.user_id' => $currentuserid])
                         ->get();
 

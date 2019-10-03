@@ -54,3 +54,7 @@ ALTER TABLE `warehouse_enquirers`
 
 ALTER TABLE `warehouse_enquirers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+
+-- ------------------- ALTER TABLE `warehouses` at 03-10-2018 ------------------
+ALTER TABLE `warehouses` ADD `warehouse_code` VARCHAR(25) NULL AFTER `id`;

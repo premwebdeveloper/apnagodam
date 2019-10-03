@@ -60,7 +60,7 @@
                                 </a>
                                 <div class="dropdown-content">
                                     <!-- <a href="{{ route('user_dashboard') }}">Dashboard</a> -->
-                                    <a href="{{ route('profile') }}">Profile</a>
+                                    <a href="{{ route('profile') }}">My Account</a>
                                     <a href="{{ route('inventories') }}">My Commodity</a>
                                     @php
                                         $user = DB::table('user_roles')->where('user_id', Auth::user()->id)->first();
@@ -68,6 +68,8 @@
 
                                         if($role_id == 5):
                                     @endphp
+                                        <a href="javascript:;">My Bill</a>
+                                        <a href="javascript:;">My Loan</a>
                                         <a href="{{ route('deals') }}">My Sell</a>
                                     @php
                                         elseif($role_id == 6):

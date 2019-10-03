@@ -47,8 +47,8 @@
                         @if($inventory->quantity > 0)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $inventory->name }}</td>
-                                <td>{{ $inventory->village }}</td>
+                                <td>{{ $inventory->name }} ({{ $inventory->warehouse_code }})</td>
+                                <td>{{ $inventory->location }}</td>
                                 <td>{{ $inventory->cat_name }}</td>
                                 <td>{{ $inventory->quantity }}</td>
                                 <td>

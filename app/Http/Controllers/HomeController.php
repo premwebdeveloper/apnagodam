@@ -118,6 +118,16 @@ class HomeController extends Controller
 
         $status = 'Registration Successful. You can login now.';
 
+        $admin_phone = DB::table('users')->where('id', 1)->first();
+
+        //$mobiles = implode(",", $mobilesArr);
+        $sms = 'Apna Godam - Recevied New Enquiry';
+        $success = sendsms($admin_phone->phone, $sms);
+
+        //$mobiles = implode(",", $mobilesArr);
+        $sms = 'Apna Godam - Successfully Registered !';
+        $done = sendsms($phone, $sms);
+
         if($role == 5)
         {
             $info_msg = 'Congratulations!';
@@ -360,14 +370,6 @@ class HomeController extends Controller
             );
 
             $admin_phone = DB::table('users')->where('id', 1)->first();
-
-            //$mobiles = implode(",", $mobilesArr);
-            $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
-            $success = sendsms($admin_phone->phone, $sms);
-
-            //$mobiles = implode(",", $mobilesArr);
-            $sms = 'Apna Godam - Successfully Registered !';
-            $done = sendsms($phone, $sms);
         }
 
         $sms = 'Verify your mobile to register on ApnaGodam with OTP - '.$otp;
@@ -406,7 +408,7 @@ class HomeController extends Controller
                         ->first();
 
         $facility_available = '';
-        if($warehouse->facility_ids)
+        if(!empty($warehouse->facility_ids))
         {
             $facilities = json_decode($warehouse->facility_ids);
             foreach ($facilities as $key => $facility) {
@@ -486,16 +488,6 @@ class HomeController extends Controller
                     'status' => 0
                 )
             );
-
-            $admin_phone = DB::table('users')->where('id', 1)->first();
-
-            //$mobiles = implode(",", $mobilesArr);
-            $sms = 'Apna Godam - Recevied New Enquiry - '.$full_name;
-            $success = sendsms($admin_phone->phone, $sms);
-
-            //Send to User
-            $sms1 = 'Apna Godam - Successfully Registered !';
-            $done = sendsms($phone, $sms1);
          }
 
         $sms = 'Verify your mobile to register on ApnaGodam with OTP - '.$otp;

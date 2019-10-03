@@ -129,8 +129,16 @@ class WarehouseController extends Controller
         // Array convert into json format
         $facilities = json_encode($facilities);
 
+        //Get Last Record
+        $last_record = DB::table('warehouses')->orderBy('id', 'desc')->first();
+        $temp = 'TL001';
+        if($last_record)
+        {
+            $temp = ++$last_record->warehouse_code;
+        }
         // Create Warehouses
         $warehouse_id = DB::table('warehouses')->insertGetId([
+            'warehouse_code' => $temp,
             'name' => $name,
             'facility_ids' => $facilities,
             'image' => $img_name,

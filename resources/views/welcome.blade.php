@@ -1,6 +1,7 @@
 @extends('layouts.public_app')
 
 @section('content')
+
 <style type="text/css">
     .amit{
         display: inline-flex;
@@ -80,8 +81,10 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 text-center">
                     <div class="service-box mt-5 mx-auto">
-                        <i class="fa fa-warehouse"></i>
-                        <h4 class="mb-2">Warehousing Services</h4>
+                        <a href="{{ route('inventories') }}">
+                            <i class="fa fa-warehouse"></i>
+                            <h4 class="mb-2">Warehousing Services</h4><br />
+                        </a>
                     </div>
                 </div>
 
