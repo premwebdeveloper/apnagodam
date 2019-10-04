@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
+    <div class="col-lg-8">
         <h2>Inventory</h2>
         <ol class="breadcrumb">
             <li>
@@ -13,10 +13,9 @@
             </li>
         </ol>
     </div>
-	<div class="col-lg-2 text-right">
-        <h2>
-            <a href="{{ route('create_inventory') }}" class="btn btn-info">Add Inventory</a>
-        </h2>
+	<div class="col-lg-4 text-right" style="padding-top: 30px;">
+        <a href="javascript:;" class="btn btn-info btn-sm import_csv">Import Inventories</a>
+        <a href="{{ route('create_inventory') }}" class="btn btn-info btn-sm">Add Inventory</a>
     </div>
 </div>
 
@@ -38,7 +37,7 @@
                     @if(session('status'))
                         <div class="alert alert-success alert-dismissible">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            {{ session('status') }}
+                            {!! session('status') !!}
                         </div>
                     @endif
 
@@ -46,26 +45,22 @@
 	                    <table id="inventory_table" class="table table-striped table-bordered table-hover">
 	                        <thead>
 	                            <tr>
-                                    <th>User</th>
-                                    <th>Phone</th>
+                                    <th>Seller</th>
+                                    <th>Terminal</th>
+                                    <th>Gate Pass / WR No.</th>
                                     <th>Commodity</th>
                                     <th>Quantity</th>
-                                    <th>Gate Pass / WR No.</th>
-                                    <th>Quality Category</th>
-                                    <th>Price</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
                                 @foreach($inventories as $key => $inventory)
 	                                <tr class="gradeX">
-                                        <td>{!! $inventory->fname !!}</td>
-                                        <td>{!! $inventory->phone !!}</td>
+                                        <td>{!! $inventory->fname !!} {!! $inventory->lname !!} ({!! $inventory->phone !!})</td>
+                                        <td>{!! $inventory->warehouse !!} ({!! $inventory->warehouse_code !!})</td>
+                                        <td>{!! $inventory->gate_pass_wr !!}</td>
                                         <td>{!! $inventory->category !!}</td>
                                         <td>{!! $inventory->quantity !!}</td>
-                                        <td>{!! $inventory->gate_pass_wr !!}</td>
-                                        <td>{!! $inventory->quality_category !!}</td>
-                                        <td>{!! $inventory->price !!}</td>
                                         <td>
                                             <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
@@ -91,10 +86,46 @@
     </div>
 </div>
 
+
+<!-- Import Contact Modal -->
+<div class="modal fade bs-example-modal-center" id="import_contact" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title mt-0">Import Inventory</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-4 col-sm-6"> 
+                        {!! Form::open(array('url' => 'upload_inventory', 'files' => true)) !!}                   
+                            <div class="form-group">
+                                {!! Form::file('file', ['class' => 'form-control', 'id' => 'file', 'requried' => 'requried']) !!}
+                            </div>
+                            {!! Form::submit('Import CSV', ['class' => 'btn btn-primary btn-block waves-effect waves-light']) !!}
+                        {!! Form::close() !!}
+                        <div class="download-sample text-center">
+                            <a download class="btn btn-link" href="uploads/sample/sampleinventries.csv">Download Sample CSV</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
 <script type="text/javascript">
     $(document).ready(function(){
         $("#inventory_table").dataTable({
             "order": [[ 3, "desc" ]]
+        });
+
+
+        //Inventory Import Modal
+        $('.import_csv').on('click', function(){
+            $('#import_contact').modal('show');
         });
     });
 </script>

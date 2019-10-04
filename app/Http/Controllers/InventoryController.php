@@ -24,7 +24,7 @@ class InventoryController extends Controller
                         ->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
          		       	->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-         		       	->select('user_details.fname', 'user_details.phone', 'inventories.*', 'categories.category', 'warehouses.name as warehouse')
+         		       	->select('user_details.fname', 'user_details.lname', 'user_details.phone', 'inventories.*', 'categories.category', 'warehouses.warehouse_code', 'warehouses.name as warehouse')
 						->where('inventories.status', 1)
 						->get();
 
@@ -35,9 +35,12 @@ class InventoryController extends Controller
 	public function create(){
 
 		// Get all users
-		$users = DB::table('user_details')->where('status', 1)->get();
+		$users = DB::table('user_details')
+                ->join('user_roles', 'user_roles.user_id', '=', 'user_details.user_id')
+                ->select('user_details.*')
+                ->where(array('user_details.status' => 1, 'user_roles.role_id' => 5))->get();
 
-        $all_users[''] = 'Select User';
+        $all_users[''] = 'Select Seller';
         foreach ($users as $key => $user) {
             $all_users[$user->user_id] = $user->fname;
         }
@@ -64,24 +67,34 @@ class InventoryController extends Controller
 
 		# Set validation for
         $this->validate($request, [
-            'user' => 'required',
-            'commodity' => 'required',
-            'warehouse' => 'required',
-            'quantity' => 'required',
-            'price' => 'required',
-            'gate_pass_wr' => 'required',
+            'user'             => 'required',
+            'commodity'        => 'required',
+            'gate_pass_wr'     => 'required | unique:inventories',
+            'warehouse'        => 'required',
+            'weight_bridge_no' => 'required',
+            'truck_no'         => 'required',
+            'stack_no'         => 'required',
+            'lot_no'           => 'required',
+            'net_weight'       => 'required',
+            'quantity'         => 'required',
+            'price'            => 'required',
             'quality_category' => 'required',
-            'file' => 'required | mimes:pdf| max:2000',
+            'file'             => 'required | mimes:pdf| max:2000',
         ]);
 
-        $user_id = $request->user;
-        $commodity = $request->commodity;
-        $warehouse = $request->warehouse;
-        $quantity = $request->quantity;
-        $price = $request->price;
+        $user_id          = $request->user;
+        $commodity        = $request->commodity;
+        $warehouse        = $request->warehouse;
+        $weight_bridge_no = $request->weight_bridge_no;
+        $truck_no         = $request->truck_no;
+        $stack_no         = $request->stack_no;
+        $lot_no           = $request->lot_no;
+        $net_weight       = $request->net_weight;
+        $quantity         = $request->quantity;
+        $price            = $request->price;
         $quality_category = $request->quality_category;
-        $gate_pass_wr = $request->gate_pass_wr;
-        $date = date('Y-m-d H:i:s');
+        $gate_pass_wr     = $request->gate_pass_wr;
+        $date             = date('Y-m-d H:i:s');
 
         # If user profile image uploaded then
         if($request->hasFile('file')) {
@@ -120,18 +133,23 @@ class InventoryController extends Controller
 
         // Add Inventory
         $inventory = DB::table('inventories')->insert([
-            'user_id' => $user_id,
-            'warehouse_id' => $warehouse,
-            'commodity' => $commodity,
-            'type' => null,
-            'quantity' => $quantity,
-            'price' => $price,
-            'gate_pass_wr' => $gate_pass_wr,
+            'user_id'          => $user_id,
+            'warehouse_id'     => $warehouse,
+            'commodity'        => $commodity,
+            'weight_bridge_no' => $weight_bridge_no,
+            'truck_no'         => $truck_no,
+            'stack_no'         => $stack_no,
+            'lot_no'           => $lot_no,
+            'net_weight'       => $net_weight,
+            'type'             => null,
+            'quantity'         => $quantity,
+            'price'            => $price,
+            'gate_pass_wr'     => $gate_pass_wr,
             'quality_category' => $quality_category,
-            'image' => $filename,
-            'status' => 1,
-            'created_at' => $date,
-            'updated_at' => $date
+            'image'            => $filename,
+            'status'           => 1,
+            'created_at'       => $date,
+            'updated_at'       => $date
         ]);
 
         if($inventory)
@@ -145,6 +163,109 @@ class InventoryController extends Controller
 
         return redirect('inventory')->with('status', $status);
 	}
+
+    // Upload inventory
+    public function upload_inventory(Request $request){
+        if ($request->hasFile('file'))
+        {
+            $path = $request->file('file')->getRealPath();
+            $data = \Excel::load($path)->get();
+            $msg = '';
+
+            if ($data->count())
+            {
+                $temp = 1;
+                foreach ($data as $key => $value) {
+                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_name) && !empty($value->commodity) && !empty($value->quantity_bags) && !empty($value->price) && !empty($value->quality_category))
+                    {
+                        //CHeck this is number is active or not
+                        $check_number = DB::table('users')->where('phone', $value->seller_mobile_no)->first();
+                        if(!empty($check_number))
+                        {
+                            //Check Gate No is already exist or not
+                            $check_gate_pass = DB::table('inventories')->where('gate_pass_wr', $value->gate_pass_wr_no)->first();
+                            if(empty($check_gate_pass))
+                            {
+                                // Check Werehouse is exist or not
+                                $check_warehouse = DB::table('warehouses')->where('name', $value->terminal_name)->first();
+                                if(!empty($check_warehouse))
+                                {
+                                    //Check Commodity 
+                                    $check_commodity = DB::table('commodity_name')->where('commodity', $value->commodity)->first();
+                                    if(!empty($check_commodity))
+                                    {
+                                        $user_id             =  $check_number->id;
+                                        $gate_pass_wr        =  $value->gate_pass_wr_no;
+                                        $weight_bridge_sr_no =  $value->weight_bridge_sr_no;
+                                        $truck_no            =  $value->truck_no;
+                                        $stack_no            =  $value->stack_no;
+                                        $lot_no              =  $value->lot_no;
+                                        $net_weight          =  $value->net_weight;
+                                        $terminal_name       =  $value->terminal_name;
+                                        $commodity           =  $value->commodity;
+                                        $quantity            =  $value->quantity_bags;
+                                        $price               =  $value->price;
+                                        $quality_category    =  $value->quality_category;
+                                        $date             = date('Y-m-d H:i:s');
+
+                                        //Insert In DB
+                                        $inventory = DB::table('inventories')->insert([
+                                            'user_id'          => $user_id,
+                                            'warehouse_id'     => $check_warehouse->id,
+                                            'commodity'        => $check_commodity->id,
+                                            'weight_bridge_no' => $weight_bridge_sr_no,
+                                            'truck_no'         => $truck_no,
+                                            'stack_no'         => $stack_no,
+                                            'lot_no'           => $lot_no,
+                                            'net_weight'       => $net_weight,
+                                            'type'             => null,
+                                            'quantity'         => $quantity,
+                                            'price'            => $price,
+                                            'gate_pass_wr'     => $gate_pass_wr,
+                                            'quality_category' => $quality_category,
+                                            'image'            => null,
+                                            'status'           => 1,
+                                            'created_at'       => $date,
+                                            'updated_at'       => $date
+                                        ]);
+
+                                        if($inventory)
+                                        {
+                                            $msg .= 'Inventory Imported successfully.'."<br />";
+                                        }
+                                        else
+                                        {
+                                            $msg .= 'Something went wrong ! <br />';
+                                        }
+
+                                    }else{
+                                        $msg .= 'Commodity Name is wrong in row no. '.$temp."<br />";
+                                        break;
+                                    }
+                                }else{
+                                    $msg .= 'Terminal Name is wrong in row no. '.$temp."<br />";
+                                    break;
+                                }
+
+                            }else{
+                                $msg .= 'Gate Number is already exists in row no. '.$temp."<br />";
+                                break;
+                            }
+                        }else{
+                            $msg .= 'Mobile Number is wrong in row no. '.$temp."<br />";
+                            break;
+                        }
+                    }else{
+                        $msg .= 'Please fill all required fields in row no. '.$temp."<br />";
+                        break;
+                    }
+                    $temp++;
+                }
+            }
+
+            return redirect('inventory')->with('status', $msg);
+        }
+    }
 
 	// Delete inventory
 	public function delete(Request $request){
@@ -181,7 +302,7 @@ class InventoryController extends Controller
          		       	->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
                         ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-         		       	->select('user_details.fname', 'inventories.*', 'categories.category', 'warehouses.name as warehouse')
+         		       	->select('user_details.fname', 'inventories.*', 'categories.category', 'warehouses.warehouse_code', 'warehouses.name as warehouse')
 						->where(['inventories.id' => $id, 'inventories.status' => 1])
 						->first();
 
@@ -233,25 +354,35 @@ class InventoryController extends Controller
 
 		# Set validation for
         $this->validate($request, [
-            'user' => 'required',
-            'warehouse' => 'required',
-            'commodity' => 'required',
-            'quantity' => 'required',
-            'price' => 'required',
-            'gate_pass_wr' => 'required',
+            'user'             => 'required',
+            'warehouse'        => 'required',
+            'commodity'        => 'required',
+            'weight_bridge_no' => 'required',
+            'truck_no'         => 'required',
+            'stack_no'         => 'required',
+            'lot_no'           => 'required',
+            'net_weight'       => 'required',
+            'quantity'         => 'required',
+            'price'            => 'required',
+            'gate_pass_wr'     => 'required',
             'quality_category' => 'required',
             //'image' => 'mimes:pdf| max:1000',
         ]);
 
-        $id = $request->inventory_id;
-        $user_id = $request->user;
-        $warehouse = $request->warehouse;
-        $commodity = $request->commodity;
-        $quantity = $request->quantity;
-        $price = $request->price;
+        $id               = $request->inventory_id;
+        $user_id          = $request->user;
+        $warehouse        = $request->warehouse;
+        $commodity        = $request->commodity;
+        $weight_bridge_no = $request->weight_bridge_no;
+        $truck_no         = $request->truck_no;
+        $stack_no         = $request->stack_no;
+        $lot_no           = $request->lot_no;
+        $net_weight       = $request->net_weight;
+        $quantity         = $request->quantity;
+        $price            = $request->price;
         $quality_category = $request->quality_category;
-        $gate_pass_wr = $request->gate_pass_wr;
-        $date = date('Y-m-d H:i:s');
+        $gate_pass_wr     = $request->gate_pass_wr;
+        $date             = date('Y-m-d H:i:s');
 
         $inventory = DB::table('inventories')
          		       	->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
@@ -298,15 +429,20 @@ class InventoryController extends Controller
 
         // Edit Inventory
         $edit = DB::table('inventories')->where('id', $id)->update([
-            'user_id' => $user_id,
-            'warehouse_id' => $warehouse,
-            'commodity' => $commodity,
-            'quantity' => $quantity,
+            'user_id'          => $user_id,
+            'warehouse_id'     => $warehouse,
+            'commodity'        => $commodity,
+            'weight_bridge_no' => $weight_bridge_no,
+            'truck_no'         => $truck_no,
+            'stack_no'         => $stack_no,
+            'lot_no'           => $lot_no,
+            'net_weight'       => $net_weight,
+            'quantity'         => $quantity,
             'quality_category' => $quality_category,
-            'gate_pass_wr' => $gate_pass_wr,
-            'price' => $price,
-            'image' => $filename,
-            'updated_at' => $date
+            'gate_pass_wr'     => $gate_pass_wr,
+            'price'            => $price,
+            'image'            => $filename,
+            'updated_at'       => $date
         ]);
 
         if($edit)

@@ -46,14 +46,32 @@
 
                 <div class="ibox-content">
                     <div class="feed-activity-list">
+                        <h4><b>Gate Pass / WR No.</b> : {{ $inventory->gate_pass_wr }}</h4>
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
+                                    <td><b>Seller</b></td>
+                                    <td>{{ $inventory->fname }}</td>
+                                    <td><b>Weight Bridge Sr. No.</b></td>
+                                    <td>{{ $inventory->weight_bridge_no }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Truck No.</b></td>
+                                    <td>{{ $inventory->truck_no }}</td>
+                                    <td><b>Stack No.</b></td>
+                                    <td>{{ $inventory->stack_no }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Lot No.</b></td>
+                                    <td>{{ $inventory->lot_no }}</td>
+                                    <td><b>Net Weight</b></td>
+                                    <td>{{ $inventory->net_weight }}</td>
+                                </tr>
+                                <tr>
                                     <td><b>Commodity</b></td>
                                     <td>{{ $inventory->category }}</td>
-                                    <td><b>Quantity</b></td>
+                                    <td><b>Quantity (Bags)</b></td>
                                     <td>{{ $inventory->quantity }}</td>
-
                                 </tr>
                                 <tr>
                                     <td><b>Price</b></td>
@@ -66,10 +84,6 @@
                                     <td>{{ $inventory->warehouse }}</td>
                                     <td><b>Quality Category</b></td>
                                     <td>{{ $inventory->quality_category }}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Gate Pass / WR No.</b></td>
-                                    <td>{{ $inventory->gate_pass_wr }}</td>
                                 </tr>
                             </tbody>
                         </table>

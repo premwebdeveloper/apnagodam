@@ -58,3 +58,6 @@ ALTER TABLE `warehouse_enquirers`
 
 -- ------------------- ALTER TABLE `warehouses` at 03-10-2018 ------------------
 ALTER TABLE `warehouses` ADD `warehouse_code` VARCHAR(25) NULL AFTER `id`;
+
+-- ------------------- ALTER TABLE `inventories` at 03-10-2018 ------------------
+ALTER TABLE `inventories` ADD `weight_bridge_no` VARCHAR(50) NULL AFTER `commodity`, ADD `truck_no` VARCHAR(50) NULL AFTER `weight_bridge_no`, ADD `stack_no` VARCHAR(50) NULL AFTER `truck_no`, ADD `lot_no` VARCHAR(50) NULL AFTER `stack_no`, ADD `net_weight` VARCHAR(50) NULL AFTER `lot_no`;

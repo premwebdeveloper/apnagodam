@@ -32,10 +32,12 @@
                 <thead>
                     <tr>
                       <th scope="col">#</th>
+                      <th scope="col">Gate Pass</th>
+                      <th scope="col">Truck No.</th>
                       <th scope="col">Terminal</th>
                       <th scope="col">Location</th>
                       <th scope="col">Commodity</th>
-                      <th scope="col">Quantity</th>
+                      <th scope="col">Quantity(Bags)</th>
                       <th scope="col">Quality Category</th>
                       <th scope="col">Create Date</th>
                       <th scope="col">Action</th>
@@ -47,7 +49,9 @@
                         @if($inventory->quantity > 0)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $inventory->name }} ({{ $inventory->warehouse_code }})</td>
+                                <td>{{ $inventory->gate_pass_wr }}</td>
+                                <td>{{ $inventory->truck_no }}</td>
+                                <td>{{ $inventory->name }}</td>
                                 <td>{{ $inventory->location }}</td>
                                 <td>{{ $inventory->cat_name }}</td>
                                 <td>{{ $inventory->quantity }}</td>
