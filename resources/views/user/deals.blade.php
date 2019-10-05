@@ -43,7 +43,7 @@
                             @foreach($sells as $key => $sell)
                                     <tr>
                                         <td>{{ $sell->name }}</td>
-                                        <td>{{ $sell->village }}</td>
+                                        <td>{{ $sell->location }}</td>
                                         <td>{{ $sell->fname }}</td>
                                         <td>{{ $sell->category }}</td>
                                         <td>{{ $sell->quantity }}</td>
@@ -81,7 +81,7 @@
                                 @if($buy->status == 2)
                                     <tr>
                                         <td>{{ $buy->name }}</td>
-                                        <td>{{ $buy->village }}</td>
+                                        <td>{{ $buy->location }}</td>
                                         <td>{{ $buy->category }}</td>
                                         <td>{{ $buy->quantity }}</td>
                                         <td>{{ $buy->quality_category }}</td>

@@ -692,8 +692,9 @@ class AdminController extends Controller
     }
 
     // Done Deals
-    public function done_deals(){
-        $done_deals =   DB::table('buy_sells')
+    public function done_deals()
+    {
+        $done_deals = DB::table('buy_sells')
                         ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
                         ->join('users','users.id', '=', 'buy_sells.seller_id')
                         ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
@@ -716,9 +717,11 @@ class AdminController extends Controller
             ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
             ->join('categories', 'categories.id', '=', 'inv.commodity')
             ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse', 'warehouses.warehouse_code', 'warehouse_rent_rates.location')
             ->first();
+            
         $inventory_id = $done_deals->seller_cat_id;
         $quantity = $done_deals->quantity;
         $buyer_id = $done_deals->buyer_id;
@@ -816,8 +819,9 @@ class AdminController extends Controller
             ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
             ->join('categories', 'categories.id', '=', 'inv.commodity')
             ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse', 'warehouses.warehouse_code', 'warehouse_rent_rates.location')
             ->first();
 
         $data = json_decode(json_encode($done_deals),true);

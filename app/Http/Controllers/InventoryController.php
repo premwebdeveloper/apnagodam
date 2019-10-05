@@ -191,7 +191,7 @@ class InventoryController extends Controller
                                 if(!empty($check_warehouse))
                                 {
                                     //Check Commodity 
-                                    $check_commodity = DB::table('commodity_name')->where('commodity', $value->commodity)->first();
+                                    $check_commodity = DB::table('categories')->where('category', $value->commodity)->first();
                                     if(!empty($check_commodity))
                                     {
                                         $user_id             =  $check_number->id;

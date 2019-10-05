@@ -117,10 +117,18 @@
     
                 <div class="row">
                     <div class="col-md-6" style="margin-bottom: 10px;">
-                        <a href="{{ asset('resources/frontend_assets/reports/Monthly Report (Primary Sales).pdf') }}" target="_blank" class="btn btn-success btn-lg">Monthly Report Primary Sales</a>
+                        <label>From Date</label>
+                        <input type="date" name="from_date" placeholder="From Date" class="form-control">
                     </div>
                     <div class="col-md-6" style="margin-bottom: 10px;">
-                        <a href="{{ asset('resources/frontend_assets/reports/Monthly Report (Secondary Sales).pdf') }}" target="_blank" class="btn btn-primary btn-lg">Monthly Report Secondary Sales</a>
+                        <label>To Date</label>
+                        <input type="date" name="to_date" placeholder="To Date" class="form-control">
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 10px;">
+                        <a href="{{ asset('resources/frontend_assets/reports/Monthly Report (Primary Sales).pdf') }}" target="_blank" class="btn btn-success btn-lg" style="width: 100%">Monthly Report Primary Sales</a>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 10px;">
+                        <a href="{{ asset('resources/frontend_assets/reports/Monthly Report (Secondary Sales).pdf') }}" target="_blank" class="btn btn-primary btn-lg" style="width: 100%">Monthly Report Secondary Sales</a>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 10px;">
                         <a href="{{ asset('resources/frontend_assets/reports/niryat_partivedan.pdf') }}" target="_blank" class="btn btn-warning btn-lg">Niryat Partivedan</a>

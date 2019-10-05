@@ -63,9 +63,9 @@
                                 <div class="form-group">
                                     {!! Form::label('commodity', 'Commodity Name') !!}
                                     <select name="commodity" class="form-control" required="">
-                                        <option value="">Select Commodity Name</option>
+                                        <option value="">Select Commodity</option>
                                         @foreach($commodities as $key => $commodity)
-                                            <option value="{!! $commodity->id !!}">{!! $commodity->commodity !!}</option>
+                                            <option value="{!! $commodity->id !!}">{!! $commodity->category !!}</option>
                                         @endforeach
                                     </select>
 

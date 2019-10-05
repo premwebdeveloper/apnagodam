@@ -61,12 +61,12 @@
                     <span class="nav-label">Mandi Place Name</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="{{ route('commodity_name') }}">
                     <i class="fa fa-code"></i>
                     <span class="nav-label">Commodity Name</span>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="{{ route('today_price') }}">
                     <i class="fa fa-inr"></i>
@@ -102,7 +102,7 @@
             <li>
                 <a href="{{ route('category') }}">
                     <i class="fa fa-users"></i>
-                    <span class="nav-label">Cateogry</span>
+                    <span class="nav-label">Cateogry / Commodity</span>
                 </a>
             </li>
 

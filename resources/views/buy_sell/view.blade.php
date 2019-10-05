@@ -92,9 +92,9 @@
                                 <th scope="col">Terminal</th>
                                 <th scope="col">Location</th>
                                 <th scope="col">Seller</th>
-                                <th scope="col">Quantity (Qtl.)</th>
+                                <th scope="col">Quantity (Bags)</th>
                                 <th scope="col">Quality Category</th>
-                                <th scope="col">Price (<i class="fa fa-inr"></i>/Qtl.)</th>
+                                <th scope="col">Price (<i class="fa fa-inr"></i>/Bag)</th>
                                 <th scope="col">Lab Report</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -107,7 +107,7 @@
                                         <td>{{ $inventory->warehouse }}</td>
                                         <td>{{ $inventory->warehouse_location }}</td>
                                         <td>{{ $inventory->farmer_name }}</td>
-                                        <td>{{ $inventory->quantity }}</td>
+                                        <td>{{ $inventory->sell_quantity }}</td>
                                         <td>{{ $inventory->quality_category }}</td>
 
                                         <input type="hidden" value="{{ $inventory->user_id }}" id="userid_{{ $inventory->id }}" class="this_seller_id">

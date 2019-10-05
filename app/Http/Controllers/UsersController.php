@@ -443,19 +443,21 @@ class UsersController extends Controller
         $sells = DB::table('buy_sells')
                 ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
                 ->join('user_details', 'user_details.user_id', '=', 'buy_sells.buyer_id')
                 ->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '3'])
-                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouses.village','user_details.fname')
+                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location','user_details.fname')
                 ->get();
 
         // Get all buy products
         $buys = DB::table('buy_sells')
                 ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
                 ->where(['buy_sells.buyer_id' => $currentuserid, 'buy_sells.status' => '2'])
-                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouses.village')
+                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location')
                 ->get();
 
         return view("user.deals", array('sells' => $sells, 'buys' => $buys));

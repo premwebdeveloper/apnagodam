@@ -29,18 +29,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $commodities = DB::table('commodity_name')->where('status', 1)->get();
+        $commodities = DB::table('categories')->where('status', 1)->get();
 
         $mandies = DB::table('mandi_name')->where('status', 1)->get();
         $warehouse_rent_rates = DB::table('warehouse_rent_rates')->where('status', 1)->get();
 
         $today_price = DB::table('today_prices')
-                        ->join('commodity_name', 'commodity_name.id', '=', 'today_prices.commodity_id')
                         ->join('mandi_name', 'mandi_name.id', '=', 'today_prices.mandi_id')
-                        ->select('today_prices.*', 'commodity_name.commodity as commodity', 'commodity_name.image', 'mandi_name.mandi_name as mandi_name')
+                        ->leftjoin('categories', 'categories.id', '=', 'today_prices.commodity_id')
+                        ->select('today_prices.*', 'categories.category as commodity', 'categories.image', 'mandi_name.mandi_name as mandi_name')
                         ->where('today_prices.status', 1)
                         ->get();
-
+       
         return view('welcome', array('today_prices' => $today_price, 'commodities' => $commodities, 'mandies' => $mandies, 'warehouse_rent_rates' => $warehouse_rent_rates));
     }
 
@@ -51,9 +51,9 @@ class HomeController extends Controller
 
         # Get todays price according to mandi
         $today_prices = DB::table('today_prices')
-                        ->join('commodity_name', 'commodity_name.id', '=', 'today_prices.commodity_id')
+                        ->join('categories', 'categories.id', '=', 'today_prices.commodity_id')
                         ->join('mandi_name', 'mandi_name.id', '=', 'today_prices.mandi_id')
-                        ->select('today_prices.*', 'commodity_name.commodity as commodity', 'commodity_name.image', 'mandi_name.mandi_name as mandi_name')
+                        ->select('today_prices.*', 'categories.category as commodity', 'categories.image', 'mandi_name.mandi_name as mandi_name')
                         ->where(['today_prices.status' => 1, 'today_prices.mandi_id' => $mandi])
                         ->get();
 
@@ -82,8 +82,7 @@ class HomeController extends Controller
             if(!empty($exist)){
                 $otp = rand(100000, 999999);
 
-                if(is_null($exist->login_otp)){
-
+                if(is_null($exist->login_otp) || empty($exist->login_otp)){
                     $date = date('Y-m-d H:i:s');
 
                     $send_otp = DB::table('users')->where('phone', $request->phone)->update(['login_otp' => $otp, 'updated_at' => $date]);

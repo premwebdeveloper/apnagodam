@@ -326,9 +326,9 @@ class CommodityController extends Controller
     // Today's Price
     public function today_price(){
         $today_price = DB::table('today_prices')
-                        ->join('commodity_name', 'commodity_name.id', '=', 'today_prices.commodity_id')
+                        ->join('categories', 'categories.id', '=', 'today_prices.commodity_id')
                         ->join('mandi_name', 'mandi_name.id', '=', 'today_prices.mandi_id')
-                        ->select('today_prices.*', 'commodity_name.commodity as commodity', 'mandi_name.mandi_name as mandi_name')
+                        ->select('today_prices.*', 'categories.category as commodity', 'mandi_name.mandi_name as mandi_name')
                         ->where('today_prices.status', 1)
                         ->get();
         return view('today.index', array('today_prices' => $today_price));
@@ -339,7 +339,7 @@ class CommodityController extends Controller
 
         $id = $request->id;
         
-        $commodities = DB::table('commodity_name')->where('status', 1)->get();
+        $commodities = DB::table('categories')->where('status', 1)->get();
 
         $mandies = DB::table('mandi_name')->where('status', 1)->get();
 
@@ -351,7 +351,7 @@ class CommodityController extends Controller
     // Today's Price Edit View
     public function create_today(){
 
-        $commodities = DB::table('commodity_name')->where('status', 1)->get();
+        $commodities = DB::table('categories')->where('status', 1)->get();
 
         $mandies = DB::table('mandi_name')->where('status', 1)->get();
 

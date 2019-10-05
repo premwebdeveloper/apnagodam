@@ -129,15 +129,6 @@
                                             console.log(response);
 
                                             $('#featured-caro').html(response);
-                                            /*if(response == 1)
-                                            {
-                                                // Show error message in pop
-                                                showErrorMessage('<i class="fa fa-check"></i>Friend  Request Cancelled Successfully.');
-                                            }
-
-                                            setTimeout(function(){
-                                                window.location.reload();
-                                            }, 1000);*/
                                         },
                                         error: function(data) { // What to do if we fail
                                             console.log(data);
@@ -207,7 +198,7 @@
                                             {!! $today_price->min !!}&nbsp;₹
                                         </td>
                                     </tr>
-                                    <tr><td colspan="4" class="text-center" style="font-weight: bold;background-color: gray;">{{ $today_price->mandi_name }}</td></tr>
+                                    <tr><td colspan="4" class="text-center" style="font-weight: 700;background-color: gray;color:#fff;padding: 2px 0px;font-size: 18px;">{{ $today_price->mandi_name }}</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -217,6 +208,25 @@
                         <a class="btn prev"><i class="fa fa-chevron-left"></i></a>
                         <a class="btn next"><i class="fa fa-chevron-right"></i></a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3>Bid Time</h3>
+                </div>
+                <div class="col-md-4 text-right">
+                    <h4><b>Bid Time : </b><b class="red"> 08:00AM - 03:00PM</b></h4>
+                </div>
+                <div class="col-md-4 text-center">
+                    <h4><b>Bid Close Time : </b><b class="red"> 03:00PM - 03:30PM</b></h4>
+                </div>
+                <div class="col-md-4">
+                    <h4><b>Deal Close Time : </b><b class="red"> 03:30PM - 04:30PM</b></h4>
                 </div>
             </div>
         </div>

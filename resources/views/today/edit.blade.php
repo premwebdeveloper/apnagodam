@@ -75,7 +75,7 @@
                                     <select name="commodity" id="commodity" class="form-control" required="">
                                         <option value="">Select Commodity Name</option>
                                         @foreach($commodities as $key => $commodity)
-                                            <option value="{!! $commodity->id !!}">{!! $commodity->commodity !!}</option>
+                                            <option value="{!! $commodity->id !!}">{!! $commodity->category !!}</option>
                                         @endforeach
                                     </select>
 

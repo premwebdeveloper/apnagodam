@@ -74,7 +74,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('weight_bridge_no', 'Weight Bridge Sr. No.') !!}
-                                    {!! Form::text('weight_bridge_no', '', ['class' => 'form-control', 'id' => 'weight_bridge_no', 'placeholder' => 'Weight Bridge Sr. No.']) !!}
+                                    {!! Form::text('weight_bridge_no', $inventory->weight_bridge_no, ['class' => 'form-control', 'id' => 'weight_bridge_no', 'placeholder' => 'Weight Bridge Sr. No.']) !!}
 
                                     @if($errors->has('weight_bridge_no'))
                                         <span class="help-block red">
@@ -87,7 +87,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('truck_no', 'Truck No.') !!}
-                                    {!! Form::text('truck_no', '', ['class' => 'form-control', 'id' => 'truck_no', 'placeholder' => 'Truck No.']) !!}
+                                    {!! Form::text('truck_no', $inventory->truck_no, ['class' => 'form-control', 'id' => 'truck_no', 'placeholder' => 'Truck No.']) !!}
 
                                     @if($errors->has('truck_no'))
                                         <span class="help-block red">
@@ -100,7 +100,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('stack_no', 'Stack No.') !!}
-                                    {!! Form::text('stack_no', '', ['class' => 'form-control', 'id' => 'stack_no', 'placeholder' => 'Stack No.']) !!}
+                                    {!! Form::text('stack_no', $inventory->stack_no, ['class' => 'form-control', 'id' => 'stack_no', 'placeholder' => 'Stack No.']) !!}
 
                                     @if($errors->has('stack_no'))
                                         <span class="help-block red">
@@ -113,7 +113,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('lot_no', 'Lot No.') !!}
-                                    {!! Form::text('lot_no', '', ['class' => 'form-control', 'id' => 'lot_no', 'placeholder' => 'Lot No.']) !!}
+                                    {!! Form::text('lot_no', $inventory->lot_no, ['class' => 'form-control', 'id' => 'lot_no', 'placeholder' => 'Lot No.']) !!}
 
                                     @if($errors->has('lot_no'))
                                         <span class="help-block red">
@@ -126,7 +126,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('net_weight', 'Net Weight') !!}
-                                    {!! Form::text('net_weight', '', ['class' => 'form-control', 'id' => 'net_weight', 'placeholder' => 'Net Weight']) !!}
+                                    {!! Form::text('net_weight', $inventory->net_weight, ['class' => 'form-control', 'id' => 'net_weight', 'placeholder' => 'Net Weight']) !!}
 
                                     @if($errors->has('net_weight'))
                                         <span class="help-block red">
