@@ -185,7 +185,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
 
                                     {!! Form::label('facilities', 'Facilities') !!}<br />
@@ -193,6 +193,20 @@
                                         {!! Form::checkbox('facilities[]', $f,'', ['class' => 'md-check facilities', 'id' => $f] ) !!}
 
                                         {!! $facility !!}
+
+                                    @endforeach
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                    {!! Form::label('banks', 'Banks (For Loan)') !!}<br />
+                                    @foreach ($banks as $b => $bank)
+                                        {!! Form::checkbox('banks[]', $b,'', ['class' => 'md-check banks', 'id' => $b] ) !!}
+
+                                        {!! $bank !!}
 
                                     @endforeach
 

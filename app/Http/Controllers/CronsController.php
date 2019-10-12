@@ -35,7 +35,7 @@ class CronsController extends Controller
     	}
 
     	// remove all pending deals which are not completed yet
-    	$remove_deals = DB::table('buy_sells')->where('status', '!=', '2')->delete();
+    	$remove_deals = DB::table('buy_sells')->where('status', '=', '1')->delete();
     }
 
     //Crons for Expire Login OTP

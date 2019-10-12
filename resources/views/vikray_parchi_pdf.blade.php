@@ -59,6 +59,20 @@
                     ?>
                     <b>Total Amount  : </b>{{$total_price }} Rs.
                 </td>
+                <td>
+                    <?php
+                        $total_price = $quantity * $price;
+                    ?>
+                    <b>Mandi Fees  : </b>
+                    @if($sales_status == 1) 
+                        <?php
+                        echo $mandi_fee = ($total_price * $mandi_fees) / 100;
+                        ?>
+                    @else
+                        N/A
+                    @endif
+                    Rs.
+                </td>
             </tr>
         </table>
         <div class="page-break"></div>

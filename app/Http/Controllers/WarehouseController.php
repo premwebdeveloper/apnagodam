@@ -56,7 +56,16 @@ class WarehouseController extends Controller
             $all_facilities[$row->id] = $row->name;
         }
 
-        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities]);
+        // All Banks
+        $bank_master = DB::table('bank_master')->where('status', 1)->get();
+
+        $banks = [];
+        foreach ($bank_master as $row)
+        {
+            $banks[$row->id] = $row->bank_name;
+        }
+
+        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities, 'banks' => $banks]);
     }
 
     // Add Warehouse
@@ -82,6 +91,7 @@ class WarehouseController extends Controller
         $rent_per_month = $request->rent_per_month;
         $capacity_in_mt = $request->capacity_in_mt;
         $facilities = $request->facilities;
+        $banks = $request->banks;
         $date = date('Y-m-d H:i:s');
 
         $transporter_info = $request->transporter_info;
@@ -128,6 +138,7 @@ class WarehouseController extends Controller
 
         // Array convert into json format
         $facilities = json_encode($facilities);
+        $banks = json_encode($banks);
 
         //Get Last Record
         $last_record = DB::table('warehouses')->orderBy('id', 'desc')->first();
@@ -141,6 +152,7 @@ class WarehouseController extends Controller
             'warehouse_code' => $temp,
             'name' => $name,
             'facility_ids' => $facilities,
+            'bank_ids' => $banks,
             'image' => $img_name,
             'status' => 1,
             'created_at' => $date,
@@ -216,13 +228,30 @@ class WarehouseController extends Controller
                         ->first();
 
         $facility_available = '';
-        $facilities = json_decode($warehouse->facility_ids);
-        foreach ($facilities as $key => $facility) {
 
-            $facility_name = DB::table('facilitiy_master')->where('id', $facility)->first();
-            $facility_available .= $facility_name->name.', ';
+        $facilities = json_decode($warehouse->facility_ids);
+        if($facilities)
+        {
+            foreach ($facilities as $key => $facility) {
+
+                $facility_name = DB::table('facilitiy_master')->where('id', $facility)->first();
+                $facility_available .= $facility_name->name.', ';
+            }
         }
         $warehouse->{'facility_available'} = $facility_available;
+
+         $bank_provide_loan = '';
+
+        $banks = json_decode($warehouse->bank_ids);
+        if($banks)
+        {
+            foreach ($banks as $key => $bank) {
+
+                $bank_name = DB::table('bank_master')->where('id', $bank)->first();
+                $bank_provide_loan .= $bank_name->bank_name.', ';
+            }
+        }
+        $warehouse->{'bank_provide_loan'} = $bank_provide_loan;
 
         return view('warehouse.warehouse_view', array('warehouse' => $warehouse));
     }
@@ -239,6 +268,15 @@ class WarehouseController extends Controller
         {
             $all_facilities[$row->id] = $row->name;
         }
+
+        // All Banks
+        $bank_master = DB::table('bank_master')->where('status', 1)->get();
+
+        $banks = [];
+        foreach ($bank_master as $row)
+        {
+            $banks[$row->id] = $row->bank_name;
+        }
         
         // Get warehouse details by id
         $warehouse = DB::table('warehouses')
@@ -248,7 +286,7 @@ class WarehouseController extends Controller
                         ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
                         ->first();
 
-        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities));
+        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities, 'banks' => $banks));
     }
 
     // Edit warehouse
@@ -275,6 +313,7 @@ class WarehouseController extends Controller
         $rent_per_month = $request->rent_per_month;
         $capacity_in_mt = $request->capacity_in_mt;
         $facilities = $request->facilities;
+        $banks = $request->banks;
         $date = date('Y-m-d H:i:s');
 
         $transporter_info = $request->transporter_info;
@@ -327,11 +366,13 @@ class WarehouseController extends Controller
 
         // Array convert into json format
         $facilities = json_encode($facilities);
+        $banks = json_encode($banks);
 
         // Create Warehouses
         $update = DB::table('warehouses')->where('id', $warehouse_id)->update([
             'name' => $name,
             'facility_ids' => $facilities,
+            'bank_ids' => $banks,
             'image' => $img_name,
             'updated_at' => $date
         ]);

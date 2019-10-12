@@ -54,11 +54,10 @@
                     <span class="nav-label">Dashboard</span>
                 </a>
             </li>
-            <!-- @if(Auth::user()->id == 1) -->
             <li>
                 <a href="{{ route('mandi_place_name') }}">
                     <i class="fa fa-map-marker"></i>
-                    <span class="nav-label">Mandi Place Name</span>
+                    <span class="nav-label">Mandi Database</span>
                 </a>
             </li>
             <!-- <li>
@@ -75,23 +74,22 @@
             </li>
             <li>
                 <a href="{{ route('warehouses') }}">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-building"></i>
                     <span class="nav-label">Terminals</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('facilitiy_master') }}">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-home"></i>
                     <span class="nav-label">Facilities Master</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('terminal_enquires') }}">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-envelope"></i>
                     <span class="nav-label">Terminal Enquiries</span>
                 </a>
             </li>
-            <!-- @endif -->
             <li>
                 <a href="{{ route('users') }}">
                     <i class="fa fa-users"></i>
@@ -101,26 +99,30 @@
 
             <li>
                 <a href="{{ route('category') }}">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-shopping-cart"></i>
                     <span class="nav-label">Cateogry / Commodity</span>
                 </a>
             </li>
 
             <li>
                 <a href="{{ route('inventory') }}">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-houzz"></i>
                     <span class="nav-label">Inventory</span>
                 </a>
             </li>
 
-            <!-- @if(Auth::user()->id == 1) -->
             <li>
                 <a href="{{ route('finance') }}">
-                    <i class="fa fa-users"></i>
-                    <span class="nav-label">Finance</span>
+                    <i class="fa fa-money"></i>
+                    <span class="nav-label">Finance / Loan</span>
                 </a>
             </li>
-            <!-- @endif -->
+            <li>
+                <a href="{{ route('bank_master') }}">
+                    <i class="fa fa-building"></i>
+                    <span class="nav-label">Bank Master</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ route('enquiries') }}">
                     <i class="fa fa-users"></i>
@@ -130,7 +132,7 @@
 
             <li>
                 <a href="{{ route('done_deals') }}">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-flag"></i>
                     <span class="nav-label">Deals</span>
                 </a>
             </li>

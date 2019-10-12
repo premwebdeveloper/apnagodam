@@ -111,9 +111,12 @@ class HomeController extends Controller
         $phone = $request->phone;
         $role = $request->role;
 
+        //Generate Referral Code
+        $referral_code = 'R'.strtoupper(substr(md5(time()), 0, 5));
+
         $update = DB::table('users')->where('phone', $phone)->update(['register_otp' => null, 'status' => 1, 'updated_at' => $date]);
 
-        $updates = DB::table('user_details')->where('phone', $phone)->update(['status' => 1, 'updated_at' => $date]);
+        $updates = DB::table('user_details')->where('phone', $phone)->update(['status' => 1, 'referral_code' => $referral_code, 'updated_at' => $date]);
 
         $status = 'Registration Successful. You can login now.';
 
@@ -127,7 +130,7 @@ class HomeController extends Controller
         $sms = 'Apna Godam - Successfully Registered !';
         $done = sendsms($phone, $sms);
 
-        if($role == 5)
+        if($role == 2)
         {
             $info_msg = 'Congratulations!';
             return redirect('/farmer_login')->with('info_msg', $info_msg);
@@ -249,8 +252,21 @@ class HomeController extends Controller
             $bank_branch = $request->bank_branch;
             $bank_acc_no = $request->bank_acc_no;
             $bank_ifsc_code = $request->bank_ifsc_code;
+            $ref_referral_code = $request->ref_referral_code;
             $aadhar_name = '';
             $cheque_name = '';
+
+            if(!empty($ref_referral_code))
+            {
+                //Check Referral Code Is Exist or not
+                $check_referral_code = DB::table('user_details')->where('referral_code', $ref_referral_code)->first();
+
+                if(!$check_referral_code)
+                {
+                    $error = 'Referral Code is wrong! enter valid Referral Code';
+                    return redirect('farmer_register')->with('error', $error);
+                }
+            }
 
             # If user profile image uploaded then
             if($request->hasFile('aadhar_image')) {
@@ -336,7 +352,7 @@ class HomeController extends Controller
             // Create User role
             $user_role = DB::table('user_roles')->insert(
                 array(
-                    'role_id' => $role_id,
+                    'role_id' => 2,
                     'user_id' => $user_id,
                     'created_at' => $date,
                     'updated_at' => $date
@@ -361,13 +377,13 @@ class HomeController extends Controller
                     'image' => "user.png",
                     'aadhar_image' => $aadhar_name,
                     'cheque_image' => $cheque_name,
+                    'referral_by' => $ref_referral_code,
                     'power' => 1,
                     'created_at' => $date,
                     'updated_at' => $date,
                     'status' => 0
                 )
             );
-
             $admin_phone = DB::table('users')->where('id', 1)->first();
         }
 
@@ -410,13 +426,31 @@ class HomeController extends Controller
         if(!empty($warehouse->facility_ids))
         {
             $facilities = json_decode($warehouse->facility_ids);
-            foreach ($facilities as $key => $facility) {
+            if($facilities)
+            {
+                foreach ($facilities as $key => $facility) {
 
-                $facility_name = DB::table('facilitiy_master')->where('id', $facility)->first();
-                $facility_available .= $facility_name->name.', ';
+                    $facility_name = DB::table('facilitiy_master')->where('id', $facility)->first();
+                    $facility_available .= $facility_name->name.', ';
+                }
             }
         }
         $warehouse->{'facility_available'} = $facility_available;
+
+        $bank_provide_loan = '';
+        if(!empty($warehouse->bank_ids))
+        {
+            $banks = json_decode($warehouse->bank_ids);
+            if($banks)
+            {
+                foreach ($banks as $key => $bank) {
+
+                    $bank_name = DB::table('bank_master')->where('id', $bank)->first();
+                    $bank_provide_loan .= $bank_name->bank_name.', ';
+                }
+            }
+        }
+        $warehouse->{'bank_provide_loan'} = $bank_provide_loan;
 
         return view('website_pages.warehouse_view', array('terminal' => $warehouse));
     }
@@ -448,6 +482,20 @@ class HomeController extends Controller
             $address = $request->address;
             $mandi_license = $request->license;
             $gst = $request->gst;
+            $ref_referral_code = $request->ref_referral_code;
+
+            if(!empty($ref_referral_code))
+            {
+                //Check Referral Code Is Exist or not
+                $check_referral_code = DB::table('user_details')->where('referral_code', $ref_referral_code)->first();
+
+                if(!$check_referral_code)
+                {
+                    $error = 'Referral Code is wrong! enter valid Referral Code';
+                    return redirect('farmer_register')->with('error', $error);
+                }
+            }
+
 
             $user = User::create([
                 'fname' => $full_name,
@@ -463,7 +511,7 @@ class HomeController extends Controller
             // Create User role
             $user_role = DB::table('user_roles')->insert(
                 array(
-                    'role_id' => $role_id,
+                    'role_id' => 2,
                     'user_id' => $user_id,
                     'created_at' => $date,
                     'updated_at' => $date
@@ -481,6 +529,7 @@ class HomeController extends Controller
                     'mandi_license' => $mandi_license,
                     'gst_number' => $gst,
                     'image' => "user.png",
+                    'referral_by' => $ref_referral_code,
                     'power' => 1,
                     'created_at' => $date,
                     'updated_at' => $date,

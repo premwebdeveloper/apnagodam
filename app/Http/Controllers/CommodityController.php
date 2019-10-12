@@ -38,15 +38,18 @@ class CommodityController extends Controller
         # Set validation for
         $this->validate($request, [
             'mandi' => 'required',
+            'mandi_tax_fees' => 'required',
         ]);
 
         $mandi = $request->mandi;
+        $mandi_tax_fees = $request->mandi_tax_fees;
 
         $date = date('Y-m-d H:i:s');
 
         // Add Item
         $mandi = DB::table('mandi_name')->insert([
             'mandi_name' => $mandi,
+            'mandi_tax_fees' => $mandi_tax_fees,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date
@@ -54,7 +57,7 @@ class CommodityController extends Controller
 
         if($mandi)
         {
-            $status = 'Mandi Name Added successfully.';
+            $status = 'Mandi Added successfully.';
         }
         else
         {
@@ -82,16 +85,19 @@ class CommodityController extends Controller
         # Set validation for
         $this->validate($request, [
             'mandi' => 'required',
+            'mandi_tax_fees' => 'required',
         ]);
 
         $id = $request->id;
         $mandi = $request->mandi;
+        $mandi_tax_fees = $request->mandi_tax_fees;
 
         $date = date('Y-m-d H:i:s');
 
         // Add Item
         $mandi = DB::table('mandi_name')->where('id', $id)->update([
             'mandi_name' => $mandi,
+            'mandi_tax_fees' => $mandi_tax_fees,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date
@@ -99,7 +105,7 @@ class CommodityController extends Controller
 
         if($mandi)
         {
-            $status = 'Mandi Name Update successfully.';
+            $status = 'Mandi Update successfully.';
         }
         else
         {

@@ -151,7 +151,7 @@
                     <div id="featured-caro" class="owl-carousel">
                         @foreach($today_prices as $key => $today_price)
                         <div class="item">
-                            <img class="iblock bline" src="{{ asset('resources/assets/upload/commodity/'.$today_price->image) }}"> <br>
+                            <img class="iblock bline" style="height: 220px;" src="{{ asset('resources/assets/upload/category/'.$today_price->image) }}"> <br>
                             <span class="iblock bline">&nbsp; {!! $today_price->commodity !!}</span>
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tbody>

@@ -37,22 +37,24 @@ class CategoryController extends Controller
        
         # Set validation for
         $this->validate($request, [
-            'category' => 'required',
-            'gst' => 'required',
-            'commossion' => 'required',
-            'mandi_fees' => 'required',
-            'loading' => 'required',
-            'bardana' => 'required',
-            'freight' => 'required',
+            'category'       => 'required',
+            'gst'            => 'required',
+            'commossion'     => 'required',
+            'mandi_fees'     => 'required',
+            'loading'        => 'required',
+            'bardana'        => 'required',
+            'commodity_type' => 'required',
+            'freight'        => 'required',
         ]);
 
-        $category = $request->category;
-        $gst = $request->gst;
-        $commossion = $request->commossion;
-        $mandi_fees = $request->mandi_fees;
-        $loading = $request->loading;
-        $bardana = $request->bardana;
-        $freight = $request->freight;
+        $category       = $request->category;
+        $gst            = $request->gst;
+        $commossion     = $request->commossion;
+        $mandi_fees     = $request->mandi_fees;
+        $loading        = $request->loading;
+        $bardana        = $request->bardana;
+        $commodity_type = $request->commodity_type;
+        $freight        = $request->freight;
 
         $date = date('Y-m-d H:i:s');
 
@@ -93,22 +95,115 @@ class CategoryController extends Controller
 
         // Add Category
         $category = DB::table('categories')->insert([
-            'category' => $category,
-            'gst' => $gst,
-            'commossion' => $commossion,
-            'mandi_fees' => $mandi_fees,
-            'loading' => $loading,
-            'bardana' => $bardana,
-            'freight' => $freight,
-            'image' => $filename,
-            'status' => 1,
-            'created_at' => $date,
-            'updated_at' => $date
+            'category'       => $category,
+            'gst'            => $gst,
+            'commossion'     => $commossion,
+            'mandi_fees'     => $mandi_fees,
+            'loading'        => $loading,
+            'bardana'        => $bardana,
+            'commodity_type' => $commodity_type,
+            'freight'        => $freight,
+            'image'          => $filename,
+            'status'         => 1,
+            'created_at'     => $date,
+            'updated_at'     => $date
         ]);
 
         if($category)
         {
             $status = 'Category Added successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('category')->with('status', $status);
+    }
+
+    // Edit category
+    public function edit_category(Request $request)
+    {
+       
+        # Set validation for
+        $this->validate($request, [
+            'category'       => 'required',
+            'gst'            => 'required',
+            'commossion'     => 'required',
+            'mandi_fees'     => 'required',
+            'loading'        => 'required',
+            'bardana'        => 'required',
+            'commodity_type' => 'required',
+            'freight'        => 'required',
+        ]);
+
+        $category       = $request->category;
+        $gst            = $request->gst;
+        $commossion     = $request->commossion;
+        $mandi_fees     = $request->mandi_fees;
+        $loading        = $request->loading;
+        $bardana        = $request->bardana;
+        $commodity_type = $request->commodity_type;
+        $freight        = $request->freight;
+
+        $date = date('Y-m-d H:i:s');
+
+        # If user category image uploaded then
+        if($request->hasFile('image')) {
+
+            $file = $request->image;
+
+            $filename = $file->getClientOriginalName();
+
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            $filename = substr(md5(microtime()),rand(0,26),6);
+
+            $filename .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('create_inventory')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 1052030){
+                $status = 'File size is too large. Please upload file less than 1MB !';
+                return redirect('create_inventory')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/category/';
+            $file->move($destinationPath,$filename);
+            $filepath = $destinationPath.$filename;            
+        }else{
+            $filename = $request->img;
+        }
+
+        $id = $request->id;
+
+        // Add Category
+        $category = DB::table('categories')->where('id', $id)->update([
+            'category'       => $category,
+            'gst'            => $gst,
+            'commossion'     => $commossion,
+            'mandi_fees'     => $mandi_fees,
+            'loading'        => $loading,
+            'bardana'        => $bardana,
+            'commodity_type' => $commodity_type,
+            'freight'        => $freight,
+            'image'          => $filename,
+            'updated_at'     => $date
+        ]);
+
+        if($category)
+        {
+            $status = 'Category Updated successfully.';
         }
         else
         {

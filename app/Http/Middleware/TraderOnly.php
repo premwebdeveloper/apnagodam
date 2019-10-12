@@ -26,7 +26,7 @@ class TraderOnly
         # User Role id
         $role_id = $user->role_id;
 
-        if($role_id == 6)
+        if($role_id == 2)
         {
             return $next($request);
         }

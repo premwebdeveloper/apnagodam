@@ -118,20 +118,20 @@
                 <div class="row">
                     <div class="col-md-6" style="margin-bottom: 10px;">
                         <label>From Date</label>
-                        <input type="date" name="from_date" placeholder="From Date" class="form-control">
+                        <input type="date" id="from_date" value="" name="from_date" placeholder="From Date" class="form-control">
                     </div>
                     <div class="col-md-6" style="margin-bottom: 10px;">
                         <label>To Date</label>
-                        <input type="date" name="to_date" placeholder="To Date" class="form-control">
+                        <input type="date" id="to_date" value="" name="to_date" placeholder="To Date" class="form-control">
                     </div>
                     <div class="col-md-6" style="margin-bottom: 10px;">
-                        <a href="{{ asset('resources/frontend_assets/reports/Monthly Report (Primary Sales).pdf') }}" target="_blank" class="btn btn-success btn-lg" style="width: 100%">Monthly Report Primary Sales</a>
+                        <a href="javascript:;" id="1" class="sales_reocrd btn btn-success btn-md" style="width: 100%">Monthly Report Primary Sales</a>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 10px;">
-                        <a href="{{ asset('resources/frontend_assets/reports/Monthly Report (Secondary Sales).pdf') }}" target="_blank" class="btn btn-primary btn-lg" style="width: 100%">Monthly Report Secondary Sales</a>
+                        <a href="javascript:;" id="2" class="sales_reocrd btn btn-primary btn-md" style="width: 100%">Monthly Report Secondary Sales</a>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 10px;">
-                        <a href="{{ asset('resources/frontend_assets/reports/niryat_partivedan.pdf') }}" target="_blank" class="btn btn-warning btn-lg">Niryat Partivedan</a>
+                        <a href="{{ asset('resources/frontend_assets/reports/niryat_partivedan.pdf') }}" target="_blank" class="btn btn-warning btn-md">Niryat Partivedan</a>
                     </div>
                 </div>
             </div>
@@ -200,57 +200,8 @@
         <div class="row">
 	        <div class="col-lg-12">
 		        <div class="ibox float-e-margins">
-			        <div class="ibox-title">
-			            <h5>Custom responsive table </h5>
-			            <div class="ibox-tools">
-			                <a class="collapse-link">
-			                    <i class="fa fa-chevron-up"></i>
-			                </a>
-			                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-			                    <i class="fa fa-wrench"></i>
-			                </a>
-			                <ul class="dropdown-menu dropdown-user">
-			                    <li><a href="#">Config option 1</a>
-			                    </li>
-			                    <li><a href="#">Config option 2</a>
-			                    </li>
-			                </ul>
-			                <a class="close-link">
-			                    <i class="fa fa-times"></i>
-			                </a>
-			            </div>
-			        </div>
 		        	<div class="ibox-content">
-			            <div class="table-responsive">
-			                <table class="table table-striped">
-			                    <thead>
-			                    <tr>
-			                        <th>#</th>
-			                        <th>Project </th>
-			                        <th>Name </th>
-			                        <th>Phone </th>
-			                        <th>Company </th>
-			                        <th>Completed </th>
-			                        <th>Task</th>
-			                        <th>Date</th>
-			                        <th>Action</th>
-			                    </tr>
-			                    </thead>
-			                    <tbody>
-			                    <tr>
-			                        <td>1</td>
-			                        <td>Project <small>This is example of project</small></td>
-			                        <td>Patrick Smith</td>
-			                        <td>0800 051213</td>
-			                        <td>Inceptos Hymenaeos Ltd</td>
-			                        <td><span class="pie">0.52/1.561</span></td>
-			                        <td>20%</td>
-			                        <td>Jul 14, 2013</td>
-			                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-			                    </tr>
-
-			                    </tbody>
-			                </table>
+			            <div class="table-responsive sales_result">
 			            </div>
 		        	</div>
 		        </div>
@@ -260,5 +211,29 @@
 
 	<div class="row">
 	<div class="col-lg-12">
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.sales_reocrd').on('click', function(){
+            var status    = $(this).attr('id');
+            var from_date = $('#from_date').val();
+            var to_date   = $('#to_date').val();
 
+            $.ajax({
+                method : 'post',
+                url: "{{ route('getSalesCSV') }}",
+                async : true,
+                data : {"_token": "{{ csrf_token() }}", 'status' : status, 'from_date' : from_date, 'to_date' : to_date},
+                success:function(response)
+                {
+                    console.log(response);
+                    $('.sales_result').html(response);
+                },
+                error: function(data)
+                {
+                    console.log(data);
+                },
+            });
+        });
+    });
+</script>
 @endsection

@@ -75,6 +75,12 @@
                                     </td>                                    
                                 </tr>
                                 <tr>
+                                    <td><b>Banks</b></td>
+                                    <td>
+                                        {{ rtrim($warehouse->bank_provide_loan, ', ') }}
+                                    </td>                                    
+                                </tr>
+                                <tr>
                                     <td><b>Image</b></td>
                                     <td>
                                         <img alt="image" class="img-responsive" src="{{ asset('resources/assets/upload/warehouses/'.$warehouse->image) }}" style="height:50px;">

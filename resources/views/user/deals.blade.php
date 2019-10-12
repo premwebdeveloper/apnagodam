@@ -16,15 +16,8 @@
         <div class="row">
 
             <div class="col-lg-12">
-
-                @php
-                    $user = DB::table('user_roles')->where('user_id', Auth::user()->id)->first();
-                    $role_id = $user->role_id;
-                @endphp
-
-                @if($role_id == 5)
+                @if($status == 'sell')
                     <h2 class="section-heading text-center">My Sell</h2><hr>
-
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -59,8 +52,7 @@
                             @endforeach
                         </tbody>
                     </table>
-
-                @elseif($role_id == 6)
+                @else
                     <h2 class="section-heading text-center">My Purchase</h2><hr>
 
                     <table class="table table-bordered">

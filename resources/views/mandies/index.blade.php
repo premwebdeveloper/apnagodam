@@ -48,6 +48,7 @@
                                 <tr>
                                     <th>S.No.</th>
                                     <th>Mandi Name</th>
+                                    <th>Mandi Tax Fees (%)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -56,6 +57,7 @@
                                     <tr class="gradeX">
                                         <td>{!! $key + 1 !!}</td>
                                         <td>{!! $mandi->mandi_name !!}</td>
+                                        <td>{!! $mandi->mandi_tax_fees !!}</td>
                                         <td>
                                             @if(Auth::user()->id == 1)
                                             <a href="{!! route('mandi_edit_view', ['id' => $mandi->id]) !!}" class="btn btn-info btn-sm" title="Edit">

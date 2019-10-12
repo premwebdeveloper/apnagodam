@@ -44,6 +44,8 @@ class BuySellController extends Controller
                         ->where('inventories.commodity', '=', $cat_id)
                         ->where('inventories.quantity', '>', 0)
                         ->where('inventories.quantity', '!=', null)
+                        ->where('inventories.sell_quantity', '!=', null)
+                        ->where('inventories.sell_quantity', '>', 0)
                         ->get();
 
         return view('buy_sell.view', array('categories' => $categories, 'inventories' => $inventories, 'cat' => $cat));
@@ -119,36 +121,7 @@ class BuySellController extends Controller
 
             //seller sms
             $seller_sms = 'Deal Done Successfully! RS - '.$deal_price;
-
-            // sms in array
-            $smsArr = array($admin_sms,$buyer_sms,$seller_sms);*/
-
-            // send otp on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
-            //$mobiles = implode(",", $mobilesArr);
-            $mobiles = implode(",", $mobilesArr);
-
-            //$sms = implode(",", $smsArr);
-            //$sms = implode(",", $smsArr);
-            $sms = "Deal Done Successfully!";
-            $params = array(
-                        "user" => "apnagodam",
-                        "password" => "45cfd8bb21XX",
-                        "senderid" => "apnago",
-                        "mobiles" => $mobiles,
-                        "sms" => $sms
-                        );
-
-            $params = http_build_query($params);
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
+*/
 
         }else{
             $buy_sell_status = 1;
@@ -232,30 +205,10 @@ class BuySellController extends Controller
                 // the request price for seller
                 $seller_phone = DB::table('users')->where('id', $seller_id)->first();
 
-                // send otp on mobile number using curl
-                $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
                 $sms = 'Request - RS '.$price.' for - '.$commodity_name->category.' Commodity';
 
                 $mobiles = $seller_phone->phone;
 
-                $params = array(
-                            "user" => "apnagodam",
-                            "password" => "45cfd8bb21XX",
-                            "senderid" => "apnago",
-                            "mobiles" => $mobiles,
-                            "sms" => $sms
-                            );
-
-                $params = http_build_query($params);
-
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $result = curl_exec($ch);
 
                 $status = 'Request submitted successfully.';
             }

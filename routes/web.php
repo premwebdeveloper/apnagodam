@@ -47,7 +47,6 @@ Route::get('/user_finance_view', 'UsersController@user_finance_view')->name('use
 
 Route::get('/request_for_loan/{id}', 'UsersController@request_for_loan')->name('request_for_loan');
 
-Route::get('/requested_for_loan/{finance_id}/{id}', 'UsersController@requested_for_loan')->name('requested_for_loan');
 Route::post('/loan_request', 'UsersController@loan_request')->name('loan_request');
 Route::get('/loan_approved/{id}', 'UsersController@loan_approved')->name('loan_approved');
 Route::post('/user_agree_for_loan/', 'UsersController@user_agree_for_loan')->name('user_agree_for_loan');
@@ -60,7 +59,7 @@ Route::post('/get_todays_price/', 'HomeController@get_todays_price')->name('get_
 Route::post('/buy_sell_price_update', 'UsersController@update_price')->name('buy_sell_price_update');
 
 Route::get('/notifications', 'UsersController@notifications')->name('notifications');
-Route::get('/deals', 'UsersController@deals')->name('deals');
+Route::get('/deals/{status}', 'UsersController@deals')->name('deals');
 Route::get('/bidding/{inventory_id}', 'UsersController@bidding')->name('bidding');
 
 // Seller self bid submit
@@ -72,8 +71,11 @@ Route::get('/deal_done/{inventory_id}', 'UsersController@deal_done')->name('deal
 // show all notification
 Route::get('/notifications', 'UsersController@notifications')->name('notifications');
 
-/* ********************************************************************************************* */
+
+/* ***************************************************** */
 // Ajax functions in Ajax controller
+/* ***************************************************** */
+
 // OTP verification
 Route::post('/otpVerification', 'AjaxController@otpVerification')->name('otpVerification');
 Route::post('/otpRegisterVerification', 'AjaxController@otpRegisterVerification')->name('otpRegisterVerification');
@@ -89,21 +91,20 @@ Route::post('/getWarehouseDistance', 'AjaxController@getWarehouseDistance')->nam
 Route::get('/change_password_view', 'AdminController@change_password_view')->name('change_password_view');
 Route::post('/change_password', 'AdminController@change_password')->name('change_password');
 
-
 // Admin dashboard view route
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
-
-
-//Warehouse Rent Rates
-// Route::get('/warehouse_rent_rates', 'AdminController@warehouse_rent_rates')->name('warehouse_rent_rates');
-// Route::post('/add_warehouse_rent', 'AdminController@add_warehouse_rent')->name('add_warehouse_rent');
-// Route::get('/werehouse_rent_delete/{id}', 'AdminController@werehouse_rent_delete')->name('werehouse_rent_delete');
-
+Route::post('/getSalesCSV', 'DashboardController@getSalesCSV')->name('getSalesCSV');
 
 //Facilitiy Master
 Route::get('/facilitiy_master', 'AdminController@facilitiy_master')->name('facilitiy_master');
 Route::post('/add_facility_master', 'AdminController@add_facility_master')->name('add_facility_master');
 Route::get('/facility_master_delete/{id}', 'AdminController@facility_master_delete')->name('facility_master_delete');
+
+// Bank Master
+Route::get('/bank_master', 'FinanceController@bank_master')->name('bank_master');
+Route::post('/add_bank_master', 'FinanceController@add_bank_master')->name('add_bank_master');
+Route::any('/edit_bank_master', 'FinanceController@edit_bank_master')->name('edit_bank_master');
+Route::get('/bank_master_delete/{id}', 'FinanceController@bank_master_delete')->name('bank_master_delete');
 
 
 // User routes
@@ -114,6 +115,9 @@ Route::get('/user_view/{user_id}', 'AdminController@user_view')->name('user_view
 Route::get('/user_edit_view/{user_id}', 'AdminController@user_edit_view')->name('user_edit_view');
 Route::post('/user_edit', 'AdminController@user_edit')->name('user_edit');
 Route::get('/user_delete/{user_id}', 'AdminController@user_delete')->name('user_delete');
+Route::post('/create_user_group', 'AdminController@create_user_group')->name('create_user_group');
+Route::get('/user_groups', 'AdminController@user_groups')->name('user_groups');
+Route::post('/getReferredByUser', 'AdminController@getReferredByUser')->name('getReferredByUser');
 
 // Enquiries Routes
 Route::get('/enquiries', 'AdminController@enquiries')->name('enquiries');
@@ -122,7 +126,8 @@ Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove
 
 // Admin Dashboard Done Deals and Paymenta
 Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
-Route::get('/payment_accept/{id}', 'AdminController@payment_accept')->name('payment_accept');
+Route::any('/add_payment_ref', 'AdminController@add_payment_ref')->name('add_payment_ref');
+Route::any('/payment_accept', 'AdminController@payment_accept')->name('payment_accept');
 Route::get('/download_vikray_parchi/{id}/{email}', 'AdminController@download_vikray_parchi')->name('download_vikray_parchi');
 
 // Warehouses Routes
@@ -141,7 +146,9 @@ Route::get('/finance', 'FinanceController@index')->name('finance');
 Route::get('/request_view/{id}', 'FinanceController@request_view')->name('request_view');
 Route::get('/request_response/{id}', 'FinanceController@request_response')->name('request_response');
 Route::post('/request_responded', 'FinanceController@request_responded')->name('request_responded');
-
+Route::post('/edit_loan_amount', 'FinanceController@edit_loan_amount')->name('edit_loan_amount');
+Route::post('/updateRemainingAmount', 'FinanceController@updateRemainingAmount')->name('updateRemainingAmount');
+Route::post('/updateMaxLoanAmount', 'FinanceController@updateMaxLoanAmount')->name('updateMaxLoanAmount');
 
 
 // Inventory routes
@@ -178,7 +185,7 @@ Route::get('/category', 'CategoryController@index')->name('category');
 Route::get('/create_category', 'CategoryController@create_category')->name('create_category');
 Route::post('/add_category', 'CategoryController@add_category')->name('add_category');
 Route::get('/category_edit_view/{id}', 'CategoryController@view')->name('category_edit_view');
-Route::post('/category_edit', 'CategoryController@edit')->name('category_edit');
+Route::post('/edit_category', 'CategoryController@edit_category')->name('edit_category');
 Route::get('/category_delete/{id}', 'CategoryController@delete')->name('category_delete');
 
 

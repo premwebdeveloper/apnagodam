@@ -22,14 +22,16 @@ class FinanceController extends Controller
 
         // Get all users request for loan on their commodity
         $requests =  DB::table('finances')
-                        ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
-                        ->join('user_details as user','user.user_id', '=', 'finances.user_id')
-                        ->join('categories', 'categories.id', '=', 'inv.commodity')
-                        ->select('finances.*', 'inv.commodity', 'inv.quantity as qty', 'user.fname', 'categories.category')
+                        ->join('inventories', 'inventories.id', '=', 'finances.commodity_id')
+                        ->join('user_details','user_details.user_id', '=', 'finances.user_id')
+                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                        ->join('bank_master', 'bank_master.id', '=', 'finances.bank_id')
+                        ->select('finances.*', 'inventories.net_weight','inventories.price', 'inventories.gate_pass_wr', 'categories.category', 'user_details.fname', 'warehouses.name','bank_master.bank_name','bank_master.interest_rate','bank_master.loan_pass_days')
                         ->get();
+        $loan_max_value = DB::table('loan_max_value')->first();
 
-
-        return view('finance.index', array('requests' => $requests));
+        return view('finance.index', array('requests' => $requests, 'loan_max_value' => $loan_max_value));
     }
 
     // View page for this finance request
@@ -76,44 +78,12 @@ class FinanceController extends Controller
     public function request_responded(Request $request){
 
         $finance_id = $request->finance_id;
-        $request_status = $request->request_status;
-
-        // If request status is approved then mendatory all other fields
-        if($request_status == 1){
-
-            # Set validation for
-            $this->validate($request, [
-                'request_status' => 'required',
-                'bank_name' => 'required',
-                'amount' => 'required',
-                'interest' => 'required',
-            ]);
-
-            $bank_name = $request->bank_name;
-            $amount = $request->amount;
-            $interest = $request->interest;
-
-        }else{
-
-            // If request status is unapproved
-            # Set validation for
-            $this->validate($request, [
-                'request_status' => 'required',
-            ]);
-
-            $bank_name = null;
-            $amount = null;
-            $interest = null;
-        }
+        $request_status = $request->status;
 
         $date = date('Y-m-d H:i:s');
-
+        
         // Update this request status for this finance
         $respond = DB::table('finance_responses')->where('finance_id', $finance_id)->update([
-
-            'bank_name' => $bank_name,
-            'amount' => $amount,
-            'interest' => $interest,
             'updated_at' => $date,
             'status' => $request_status,
         ]);
@@ -141,9 +111,6 @@ class FinanceController extends Controller
             $sms = 'Apna Godam - Your loan request unapproved by Admin.';
             $success = sendsms($user_info->phone, $sms);
 
-
-            $approved = '-1';
-
             $delete_finance_responses = DB::table('finance_responses')->where('finance_id', $finance_id)->delete();
 
             $delete_finances = DB::table('finances')->where('id', $finance_id)->delete();
@@ -151,8 +118,6 @@ class FinanceController extends Controller
         }else{
 
             // send sms on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
             $sms = 'Apna Godam - You have approved '.$user_info->fname.' loan request';
             $success = sendsms($admin_phone->phone, $sms);
 
@@ -162,8 +127,7 @@ class FinanceController extends Controller
 
             // Update finance as approved / unapproved in finances table
             $update = DB::table('finances')->where('id', $finance_id)->update([
-
-                'status' => $approved,
+                'status' => $request_status,
                 'updated_at' => $date,
             ]);
         }
@@ -180,4 +144,220 @@ class FinanceController extends Controller
 
     }
 
+
+        // View Facility Master
+    public function bank_master(){
+
+        $bank_masters = DB::table('bank_master')->where('status', 1)->get();
+        return view('admin.bank_master', array('bank_masters' => $bank_masters));
+    }
+
+    // Add Bank
+    public function add_bank_master(Request $request){
+
+        # Set validation for
+        $this->validate($request, [
+            'bank_name'      => 'required',
+            'interest_rate'  => 'required',
+            'processing_fee'  => 'required',
+            'loan_pass_days' => 'required'
+        ]);
+        
+        $bank_name      = $request->bank_name;
+        $interest_rate  = $request->interest_rate;
+        $processing_fee = $request->processing_fee;
+        $loan_pass_days = $request->loan_pass_days;
+        $date           = date('Y-m-d H:i:s');
+
+
+        // Create User Details
+        $bank_master = DB::table('bank_master')->insert([
+            'bank_name'      => $bank_name,
+            'interest_rate'  => $interest_rate,
+            'processing_fee' => $processing_fee,
+            'loan_pass_days' => $loan_pass_days,
+            'created_at'     => $date,
+            'updated_at'     => $date,
+            'status'         => 1
+        ]);
+
+        if($bank_master)
+        {
+            $status = 'Bank Master Added successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('bank_master')->with('status', $status);
+    }
+
+    // Edit Bank
+    public function edit_bank_master(Request $request){
+
+        # Set validation for
+        $this->validate($request, [
+            'bank_name'      => 'required',
+            'interest_rate'  => 'required',
+            'processing_fee'  => 'required',
+            'loan_pass_days' => 'required'
+        ]);
+        
+        $bank_master_id = $request->bank_master_id;
+        $bank_name      = $request->bank_name;
+        $interest_rate  = $request->interest_rate;
+        $processing_fee = $request->processing_fee;
+        $loan_pass_days = $request->loan_pass_days;
+        $date           = date('Y-m-d H:i:s');
+
+
+        // Create User Details
+        $bank_master = DB::table('bank_master')
+            ->where('id', $bank_master_id)
+            ->update([
+                'bank_name'      => $bank_name,
+                'interest_rate'  => $interest_rate,
+                'processing_fee' => $processing_fee,
+                'loan_pass_days' => $loan_pass_days,
+                'updated_at'     => $date,
+            ]);
+
+        if($bank_master)
+        {
+            $status = 'Bank Master Updated successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('bank_master')->with('status', $status);
+    }
+
+    // facility_master Delete
+    public function edit_loan_amount(Request $request){
+
+        $id = $request->f_id;
+        $amount = $request->loan_amount;
+        $date = date('Y-m-d H:i:s');
+
+        // User update in users table
+        $update = DB::table('finances')->where('id', $id)->update([
+            'amount' => $amount,
+            'updated_at' => $date
+        ]);
+
+        if($update)
+        {
+            $status = 'Loan Amount Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('finance')->with('status', $status);
+    }
+
+    // facility_master Delete
+    public function bank_master_delete(Request $request){
+
+        $id = $request->id;
+
+        // User update in users table
+        $delete = DB::table('bank_master')->where('id', $id)->delete();
+
+        if($delete)
+        {
+            $status = 'Bank Master Deleted Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('bank_master')->with('status', $status);
+    }
+
+    //Update Remaining Amount using CSV
+    public function updateRemainingAmount(Request $request){
+        if ($request->hasFile('file'))
+        {
+            $path = $request->file('file')->getRealPath();
+            $data = \Excel::load($path)->get();
+            $msg = '';
+
+            if ($data->count())
+            {
+                $temp = 1;
+                foreach ($data as $key => $value) {
+                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->loan_amount) && !empty($value->remaining_amount))
+                    {
+                        //Check this is number is active or not
+                        $check_number = DB::table('users')->where('phone', $value->seller_mobile_no)->first();
+                        if(!empty($check_number))
+                        {
+                            //Check Gate No is already exist or not
+                            $check_gate_pass = DB::table('inventories')->where('gate_pass_wr', $value->gate_pass_wr_no)->first();
+
+                            if(!empty($check_gate_pass))
+                            {
+                                //Check Record is Available or Not
+                                $requests =  DB::table('finances')
+                                ->join('inventories', 'inventories.id', '=', 'finances.commodity_id')
+                                ->where('inventories.gate_pass_wr', $value->gate_pass_wr_no)
+                                ->where('finances.user_id', $check_number->id)
+                                ->where('finances.amount', $value->loan_amount)
+                                ->select('finances.*')
+                                ->first();
+
+                                if($requests)
+                                {
+                                    $loan_id          =  $requests->id;
+                                    $remaining_amount =  $value->remaining_amount;
+                                    $date             = date('Y-m-d H:i:s');
+
+                                    //Insert In DB
+                                    $loan = DB::table('finances')->where('id', $loan_id)->update([ 'remaining_amount' => $remaining_amount, 'updated_at' => $date ]);
+                                    
+                                    if($loan)
+                                    {
+                                        $msg .= 'Loan Amount updated successfully.'."<br />";
+                                    }
+                                    else
+                                    {
+                                        $msg .= 'Something went wrong ! <br />';
+                                    }
+                                }else{
+                                    $msg .= 'Loan does not exist on row no. '.$temp."<br />";
+                                    break;
+                                }
+                            }else{
+                                $msg .= 'Gate Number is not exists in row no. '.$temp."<br />";
+                                break;
+                            }
+                        }else{
+                            $msg .= 'Mobile Number is wrong in row no. '.$temp."<br />";
+                            break;
+                        }
+                    }else{
+                        $msg .= 'Please fill all required fields in row no. '.$temp."<br />";
+                        break;
+                    }
+                    $temp++;
+                }
+            }
+
+            return redirect('finance')->with('status', $msg);
+        }
+    }
+
+    //Update Max Loan Amount Percentage
+    public function updateMaxLoanAmount(Request $request)
+    {
+        $value = $request->max_loan_amount;
+        $update = DB::table('loan_max_value')->where('id', 1)->update(['loan_value' => $value]);
+        return redirect('finance')->with('status', 'Loan Max Amount updated Successfully.');
+    }
 }

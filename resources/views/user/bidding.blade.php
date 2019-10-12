@@ -27,13 +27,13 @@
                     </h4>
                     <h5 class="section-heading text-center">My selling price - {{ $inventory_info->price }} ( {{ $inventory_info->sell_quantity }} Qtl.)</h5>
                     @php
-                        $begin = date('H:i:s', strtotime('10:00'));
-                        $end = date('H:i:s', strtotime('23:59'));
+                        $begin = date('H:i:s', strtotime('12:30'));
+                        $end = date('H:i:s', strtotime('18:00'));
                         $now = date('H:i:s');
                     @endphp
                     @if($now < $begin)
                         <p class="section-heading text-right">
-                            Bid Accepet Time: 05:00 PM - 05:15 PM
+                            Bid Accepet Time: 12:30 PM - 13:00 PM
                         </p>
                     @elseif($now >= $begin && $now <= $end)
                         @if(count($deal_info) >= 1)
@@ -46,8 +46,8 @@
                     @endif
                 @else
                     @php
-                        $begin = date('H:i:s', strtotime('10:00'));
-                        $end = date('H:i:s', strtotime('23:59'));
+                        $begin = date('H:i:s', strtotime('08:00'));
+                        $end = date('H:i:s', strtotime('16:30'));
                         $now = date('H:i:s');
                         $bid_open = 0;
                     @endphp
@@ -58,7 +58,7 @@
                     <h5 class="section-heading text-center">Seller price - {{ $inventory_info->price }} ( {{ $inventory_info->sell_quantity }} Qtl.)</h5>
                     @if($now < $begin)
                         <p class="section-heading text-right">
-                            Bid Time: 04:30 PM - 05:00 PM
+                            Bid Time: 08:00 AM - 12:30 PM
                         </p>
                     @elseif($now >= $begin && $now <= $end)
                         @php

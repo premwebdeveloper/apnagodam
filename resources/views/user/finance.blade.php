@@ -18,7 +18,7 @@
 		<div class="row">
 
 			<div class="col-lg-12 text-center">
-				<h2 class="section-heading">Finance</h2>
+				<h2 class="section-heading">Finance / Loan</h2>
 				<hr>
 
 				@if(session('status'))
@@ -35,49 +35,47 @@
 						<th scope="col">#</th>
 						<th scope="col">Terminal</th>
 						<th scope="col">Commodity</th>
-						<th scope="col">Quantity (Bags)</th>
-						<th scope="col">Price (Rs/Bag) </th>
-						<th scope="col">Date Of Deposit</th>
+						<th scope="col">Bank Name</th>
+						<th scope="col">Interest Rate</th>
+						<th scope="col">Loan Pass Days</th>
+						<th scope="col">Loan Amount</th>
+						<th scope="col">Request Quantity</th>
+						<th scope="col">Request Date</th>
 						<th scope="col">Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($inventories as $key => $inventory)
+					@foreach($finances as $key => $finance)
 						<tr>
 							<th scope="row">{!! $key+1 !!}</th>
-							<td>{!! $inventory->name !!}</td>
-							<td>{!! $inventory->category !!}</td>
-							<td>{!! $inventory->quantity !!}</td>
-							<td>{!! $inventory->price !!}</td>
-
-							<td>{!! $inventory->created_at !!}</td>
-
+							<td>{!! $finance->name !!}</td>
+							<td>{!! $finance->category !!}</td>
+							<td>{!! $finance->bank_name !!}</td>
+							<td>{!! $finance->interest_rate !!}</td>
+							<td>{!! $finance->loan_pass_days !!}</td>
+							<td>{!! $finance->amount !!}</td>
+							<td>{!! $finance->quantity !!}</td>
+							<td>{!! date('d M Y', strtotime($finance->created_at)) !!}</td>
 							<td>
 
-								@if(!empty($inventory->finance_status) && $inventory->finance_status == '1')
+								@if(!empty($finance->status) && $finance->status == '1')
 
 									<!-- Requested for loan -->
-									<a href="{!! route('requested_for_loan', ['finance_id' => $inventory->finance_id, 'id' => $inventory->id]) !!}" class="btn btn-warning" title="Requested"> Requested / Wait For Response</a>
+									<a href="javascript:;" class="btn btn-warning" title="Requested"> Requested / Wait For Response</a>
 
-								@elseif(!empty($inventory->finance_status) && $inventory->finance_status == '2')
-
+								@elseif(!empty($finance->status) && $finance->status == '2')
 									<!-- Request approve for loan -->
-									<a href="{!! route('loan_approved', ['id' => $inventory->finance_id]) !!}" class="btn btn-info" title="Approved"> Approved </a>
+									<a href="javascript:;" class="btn btn-success" title="Approved"> Approved </a>
 
-								@elseif(!empty($inventory->finance_status) && $inventory->finance_status == '-1')
-
-									<!-- Request Reject for loan -->
-									<a href="{!! route('request_for_loan', ['id' => $inventory->id]) !!}" class="btn btn-danger" title="Rejected"> Rejected / Request Again</a>
-
-								@elseif(!empty($inventory->finance_status) && $inventory->finance_status == '3')
+								@elseif(!empty($finance->status) && $finance->status == '0')
 
 									<!-- Request Reject for loan -->
-									<a href="javascript:;" class="btn btn-success" title="Rejected"> Done</a>
+									<a href="{!! route('request_for_loan', ['id' => $finance->id]) !!}" class="btn btn-danger" title="Rejected"> Rejected / Request Again</a>
 
 								@else
+									<a href="{!! route('request_for_loan', ['id' => $finance->id]) !!}" class="btn btn-primary" title="Request For Loan"> Request For Loan </a>
 
 									<!-- Request for loan -->
-									<a href="{!! route('request_for_loan', ['id' => $inventory->id]) !!}" class="btn btn-primary" title="Request For Loan"> Request For Loan </a>
 								@endif
 
 							</td>

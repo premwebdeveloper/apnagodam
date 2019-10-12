@@ -67,10 +67,6 @@ class AdminController extends Controller
                 ->where('user_details.user_id', '!=', 1)
                 ->get();
 
-        // echo '<pre>';
-        // print_r($users);
-        // exit;
-
     	return view('admin.index', array('users' => $users));
     }
     // View Facility Master
@@ -171,119 +167,6 @@ class AdminController extends Controller
 
         return redirect('facilitiy_master')->with('status', $status);
     }
-
-    // View Warehouse Rent Rates
-    /*public function warehouse_rent_rates(){
-
-        $werehouse_rates = DB::table('warehouse_rent_rates')->where('status', 1)->get();
-        return view('admin.warehouse_rent_rates', array('werehouse_rates' => $werehouse_rates));
-    }*/
-
-    // Add Warehouse rent
-    /*public function add_warehouse_rent(Request $request){
-
-        # Set validation for
-        $this->validate($request, [
-            'address'        => 'required',
-            'location'       => 'required',
-            'area'           => 'required',
-            'district'       => 'required',
-            'area_sqr_ft'    => 'required',
-            'rent_per_month' => 'required',
-            'capacity_in_mt' => 'required',
-        ]);
-
-        $address        = $request->address;
-        $location       = $request->location;
-        $area           = $request->area;
-        $district       = $request->district;
-        $area_sqr_ft    = $request->area_sqr_ft;
-        $rent_per_month = $request->rent_per_month;
-        $capacity_in_mt = $request->capacity_in_mt;
-        $date           = date('Y-m-d H:i:s');
-
-        if($request->hasFile('image')) {
-
-            $file = $request->image;
-
-            $img_name = $file->getClientOriginalName();
-
-            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
-
-            $img_name = substr(md5(microtime()),rand(0,26),6);
-
-            $img_name .= '.'.$ext;
-
-            // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
-
-            if(! in_array($ext, $extensions))
-            {
-                $status = 'File type is not allowed you have uploaded. Please upload any image !';
-                return redirect('warehouse_rent_rates')->with('status', $status);
-            }
-
-            $filesize = $file->getClientSize();
-
-            // first check file size if greater than 1mb than hit error
-            if($filesize > 2052030){
-                $status = 'File size is too large. Please upload file less than 2MB !';
-                return redirect('warehouse_rent_rates')->with('status', $status);
-            }
-
-            $destinationPath = base_path() . '/resources/assets/upload/warehouses/';
-            $file->move($destinationPath,$img_name);
-            $filepath = $destinationPath.$img_name;
-        }else{
-                $status = 'Please upload image !';
-                return redirect('warehouse_rent_rates')->with('status', $status);
-        }
-
-        // Create User Details
-        $warehouse_rent_rates = DB::table('warehouse_rent_rates')->insert([
-            'address'        => $address,
-            'location'       => $location,
-            'area'           => $area,
-            'district'       => $district,
-            'area_sqr_ft'    => $area_sqr_ft,
-            'rent_per_month' => $rent_per_month,
-            'capacity_in_mt' => $capacity_in_mt,
-            'created_at'     => $date,
-            'updated_at'     => $date,
-            'status'         => 1
-        ]);
-
-        if($warehouse_rent_rates)
-        {
-            $status = 'Wahrehouse rent Added successfully.';
-        }
-        else
-        {
-            $status = 'Something went wrong !';
-        }
-
-        return redirect('warehouse_rent_rates')->with('status', $status);
-    }*/
-
-    // User Delete
-    /*public function werehouse_rent_delete(Request $request){
-
-        $id = $request->id;
-
-        // User update in users table
-        $delete = DB::table('warehouse_rent_rates')->where('id', $id)->delete();
-
-        if($delete)
-        {
-            $status = 'Wahrehouse rent Deleted successfully.';
-        }
-        else
-        {
-            $status = 'Something went wrong !';
-        }
-
-        return redirect('warehouse_rent_rates')->with('status', $status);
-    }*/
 
     // Add user page view
     public function add_user_view(){
@@ -433,10 +316,6 @@ class AdminController extends Controller
         # Set validation for
         $this->validate($request, [
             'fname' => 'required',
-            //'lname' => 'required',
-            //'email' => 'required|email|unique:users',
-            //'password' => 'required|min:6|confirmed',
-            //'password_confirmation' => 'required|min:6',
             'phone' => 'required|numeric|digits:10',
             'power' => 'required|numeric',
         ]);
@@ -608,28 +487,8 @@ class AdminController extends Controller
         {
             $status = 'Enquiry approved successfully.';
 
-            // send otp on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-            //$mobiles = implode(",", $mobilesArr);
             $sms = 'Apna Godam - Enquiry approved by Admin.';
 
-            $params = array(
-                        "user" => "apnagodam",
-                        "password" => "45cfd8bb21XX",
-                        "senderid" => "apnago",
-                        "mobiles" => $user->phone,
-                        "sms" => $sms
-                        );
-
-            $params = http_build_query($params);
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
         }
         else
         {
@@ -660,28 +519,7 @@ class AdminController extends Controller
         {
             $status = 'Enquiry unapproved by Admin.';
 
-            // send otp on mobile number using curl
-            $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-            //$mobiles = implode(",", $mobilesArr);
             $sms = 'Apna Godam - Enquiry unapproved successfully.';
-
-            $params = array(
-                        "user" => "apnagodam",
-                        "password" => "45cfd8bb21XX",
-                        "senderid" => "apnago",
-                        "mobiles" => $user->phone,
-                        "sms" => $sms
-                        );
-
-            $params = http_build_query($params);
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
         }
         else
         {
@@ -700,7 +538,7 @@ class AdminController extends Controller
                         ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
                         ->join('categories', 'categories.id', '=', 'inv.commodity')
                         ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
-                        ->select('buy_sells.*', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
+                        ->select('buy_sells.*', 'inv.gate_pass_wr','user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
                         ->get();
 
         return view('admin.done_deals', array('done_deals' => $done_deals));
@@ -710,35 +548,32 @@ class AdminController extends Controller
     public function payment_accept(Request $request){
 
         $deal_id = $request->id;
+        $gate_pass = $request->gate_pass;
 
         $done_deals = DB::table('buy_sells')
-            ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
-            ->join('users','users.id', '=', 'buy_sells.seller_id')
-            ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
-            ->join('categories', 'categories.id', '=', 'inv.commodity')
-            ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
-            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-            ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse', 'warehouses.warehouse_code', 'warehouse_rent_rates.location')
-            ->first();
+                ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+                ->join('users','users.id', '=', 'buy_sells.seller_id')
+                ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+                ->join('categories', 'categories.id', '=', 'inv.commodity')
+                ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                ->where('buy_sells.id', $deal_id)
+                ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'categories.mandi_fees', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.gate_pass_wr', 'inv.image')
+                ->first();
             
         $inventory_id = $done_deals->seller_cat_id;
         $quantity = $done_deals->quantity;
         $buyer_id = $done_deals->buyer_id;
+        $seller_id = $done_deals->seller_id;
+        $warehouse_id = $done_deals->warehouse_id;
+        $price = $done_deals->price;
+        $quality_category = $done_deals->quality_category;
 
         // get old sell quantity of this inventory
         $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
 
         $remaining_quantity = $inventory_info->quantity - $quantity;
         $date = date('Y-m-d H:i:s');
-
-        // update inventory / qauantity of farmaer
-        $update_sell_quantity = DB::table('inventories')->where('id', $inventory_info->id)->update([
-
-            'quantity' => $remaining_quantity,
-            'sell_quantity' => $quantity,
-            'updated_at' => $date,
-        ]);
 
         $trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
 
@@ -748,23 +583,51 @@ class AdminController extends Controller
             $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
 
                 'quantity' => $trader_inventory->quantity + $quantity,
+                'sales_status' => 2,
                 'updated_at' => $date,
             ]);
 
         }else{
 
             // If trader do not have this commodity already then insert this commodity with this teader
-            $insert_commodity = DB::table('inventories')->insert([
+            $insert_id = DB::table('inventories')->insertGetId([
 
-                'user_id' => $buyer_id,
-                'warehouse_id' => $inventory_info->warehouse_id,
-                'commodity' => $inventory_info->commodity,
-                'quantity' => $quantity,
-                'status' => 1,
-                'created_at' => $date,
-                'updated_at' => $date,
+                'user_id'          => $buyer_id,
+                'warehouse_id'     => $inventory_info->warehouse_id,
+                'commodity'        => $inventory_info->commodity,
+                'quantity'         => $quantity,
+                'gate_pass_wr'     => $gate_pass,
+                'price'            => $price,
+                'quality_category' => $quality_category,
+                'sales_status'     => 2,
+                'image'            => $done_deals->image,
+                'status'           => 1,
+                'created_at'       => $date,
+                'updated_at'       => $date,
             ]);
         }
+
+        //Get Remainning Inverntry From Farmer
+        $inventory_info_seller = DB::table('inventories')->where(['user_id' => $seller_id, 'warehouse_id' => $warehouse_id, 'commodity' => $inventory_info->commodity])->first();
+
+        if($inventory_info_seller->quantity == 0)
+        {
+            $data = array(
+                'quantity' => $remaining_quantity,
+                'sell_quantity' => null,
+                'updated_at'    => $date,
+                'status'        => 0,
+            );
+        }else{
+            $data = array(                
+                'quantity'      => $remaining_quantity,
+                'sell_quantity' => null,
+                'updated_at'    => $date,
+            );
+        }
+
+        // update inventory / qauantity of farmaer
+        $update_sell_quantity = DB::table('inventories')->where('id', $inventory_info_seller->id)->update($data);
 
         //If Send pdf to email
         $data = json_decode(json_encode($done_deals),true);
@@ -772,11 +635,6 @@ class AdminController extends Controller
         $pdf = PDF::loadView('vikray_parchi_pdf', $data);
 
         $pdf->download('vikray_parchi.pdf');
-
-        $price = $done_deals->price;
-        $buyer_id = $done_deals->buyer_id;
-        $seller_id  = $done_deals->seller_id ;
-        $quantity = $done_deals->quantity;
 
         //Get User Old Power
         $user = DB::table('user_details')->where('user_id', $buyer_id)->first();
@@ -821,7 +679,7 @@ class AdminController extends Controller
             ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
             ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse', 'warehouses.warehouse_code', 'warehouse_rent_rates.location')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'categories.mandi_fees', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status')
             ->first();
 
         $data = json_decode(json_encode($done_deals),true);
@@ -879,5 +737,83 @@ class AdminController extends Controller
             return $pdf->download('vikray_parchi.pdf');
         }
 
+    }
+
+    //Add Payment Ref
+    public function add_payment_ref(Request $request)
+    {
+        $id = $request->id;
+        $payment_ref_no = $request->payment_ref_no;
+        $date = date('Y-m-d H:i:s');
+
+        $update_buy_sells = DB::table('buy_sells')->where('id', $id)->update([
+            'payment_ref_no' => $payment_ref_no,
+            'updated_at' => $date,
+        ]);
+
+        $message = 'Payment Referance Number Added Successfully.';
+        return redirect('done_deals')->with('status', $message);
+    }
+
+    //Add Payment Ref
+    public function create_user_group(Request $request)
+    {
+        $this->validate($request, [
+            'user_ids' => 'required'
+        ]);
+
+        $user_ids = $request->user_ids;
+        //Check User is already Added or not         
+        foreach($user_ids as $id)
+        {
+            $users_group = DB::table('user_groups')->where('user_ids', 'like', '%"'.$id.'"%')->get();
+            if(!$users_group->isEmpty())
+            {
+                $user = DB::table('user_details')->where('user_id', $id)->first();
+                $message = $user->fname.' user aready Exist.';
+                return redirect('users')->with('error', $message); 
+            }
+        }
+
+        $date = date('Y-m-d H:i:s');
+
+        $group_id = 'AG'.mt_rand(1000, 9999).$user_ids[0];
+
+        $insert_id = DB::table('user_groups')->insert([
+            'group_id'   => $group_id,
+            'user_ids'   => json_encode($user_ids),
+            'status'     => 1,
+            'created_at' => $date,
+            'updated_at' => $date
+        ]);
+
+        $message = 'Group Created Successfully.';
+        return redirect('users')->with('status', $message);
+    }
+
+    //Get All Users 
+    public function user_groups()
+    {
+        $users = DB::table('user_groups')->where('status', 1)->get();
+
+        return view('admin.user_groups', array('users' => $users));
+    }
+
+    //Get Referaal By User 
+    public function getReferredByUser(Request $request)
+    {
+        $referaal_no = $request->referral_id;
+        $user_code = DB::table('user_details')->where('referral_by', $referaal_no)->get();
+        $codes = '<tr><th>Users</th></tr>';
+        if(!empty($user_code))
+        {
+            foreach($user_code as $code){
+                $codes .= "<tr><td><b>".$code->phone."</b></td></tr>";
+            }
+        }else{
+            $codes .= "<tr><td>No Contacts</td></tr>";
+        }
+        echo $codes;
+        die;
     }
 }

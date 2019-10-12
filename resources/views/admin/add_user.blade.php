@@ -150,7 +150,6 @@
                                         <option value="">Select Category</option>
                                         <option value="1">Seller</option>
                                         <option value="2">Buyer</option>
-                                        <option value="3">Miller</option>
                                     </select>
                                     @if ($errors->has('category'))
                                         <span class="help-block red" role="alert">

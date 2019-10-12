@@ -19,21 +19,22 @@
 
             <div class="col-md-12">
 
-                <h2 class="section-heading">You requested for loan against {!! $inventories->category !!} commodity with {!! $inventories->quantity !!} Bags.Your loan has been approved. If you want to have this then approve this.</h2>
+                <h2 class="section-heading">You requested for loan against {!! $inventories->category !!} commodity with {!! $inventories->quantity !!} Qty. Your loan has been approved. If you want to have this then approve this.</h2>
                 <br>
 
-                <h4>Bank Name - {{ $inventories->res_bank_name }}</h4>
-                <h4>Loan Amount - {{ $inventories->res_amount }} Rs.</h4>
-                <h4>Interest - {{ $inventories->res_interest }} %</h4>
+                <div class="col-md-12 text-center">
+                    <h3 style="font-size: 20px;">Bank Name - <i class="text-info">{{ $inventories->bank_name }}</i></h3>
+                    <h3 style="font-size: 20px;">Loan Amount - <i class="text-info">₹ {{ $inventories->amount }}</i> </h3>
+                    <h3 style="font-size: 20px;">Interest Rate - <i class="text-info">{{ $inventories->interest_rate }} </i></h3><br />
+                </div>
                     
                 {!! Form::open(array('url' => 'user_agree_for_loan', 'files' => true)) !!}
                     
                     {!! Form::hidden('finance_id', $finance_id) !!}
                     
-                    <div class="col-md-3">
+                    <div class="col-md-4 offset-4 text-center">
                         <div class="form-group">
-                            {!! Form::label('agree', 'Agree') !!}
-                            
+                            {!! Form::label('agree', 'Are you Agree') !!}
                             {!! Form::select('agree', $agree, '', ['class' => 'form-control', 'id' => 'agree']) !!} 
 
                             @if($errors->has('agree'))
@@ -44,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4 offset-4 text-center">
                         <div class="form-group">
                             {!! Form::submit('Agree / Disagree', ['class' => 'btn btn-info btn btn-block']) !!}
                         </div>

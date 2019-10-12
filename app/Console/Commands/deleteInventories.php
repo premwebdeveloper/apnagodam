@@ -39,7 +39,7 @@ class deleteInventories extends Command
     public function handle()
     {
         $date = date('Y-m-d H:i:s');
-        $expire_time = date("H:i:s", strtotime("20:00:00"));
+        $expire_time = date("H:i:s", strtotime("01:00:00"));
         $current_time = date("H:i:s");
         if($current_time > $expire_time){
             // First get all incomplete deal's bid
@@ -48,12 +48,15 @@ class deleteInventories extends Command
                     ->select('buy_sells.*')
                     ->get();
 
-            foreach ($bids as $key => $bid) {
+            foreach ($bids as $key => $bid) 
+            {
                 // remove all bids which deal is not completed yet
                 $remove_bids = DB::table('buy_sell_conversations')->where('buy_sell_id', $bid->id)->delete();
             }
+
             // remove all pending deals which are not completed yet
             $remove_deals = DB::table('buy_sells')->where('status', '=', '1')->delete();
+
         }
     }
 }

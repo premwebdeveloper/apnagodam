@@ -27,9 +27,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inventories:truncate')
-                  ->dailyAt('17:01');
-
         $schedule->command('expire:otp')
                   ->everyMinute();
 

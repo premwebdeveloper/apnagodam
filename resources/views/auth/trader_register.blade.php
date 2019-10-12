@@ -13,6 +13,12 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('trader_registration') }}" aria-label="{{ __('Register') }}">
                             @csrf
+                            @if(session('error'))
+                                <div class="alert alert-danger alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                             <input type="hidden" name="role_id" value="6">
                             <div class="form-group row">
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Mobile No.') }}</label>
@@ -95,6 +101,14 @@
                                             <strong>{{ $errors->first('gst') }}</strong>
                                         </span>
                                     @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right"><span class="red"></span> {{ __('Referred By') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="ref_referral_code" type="text" class="form-control" name="ref_referral_code" value="{{ old('ref_referral_code') }}" placeholder="Reference Referral Code" maxlength="6" minlength="6">
                                 </div>
                             </div>
 

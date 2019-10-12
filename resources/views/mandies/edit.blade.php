@@ -45,7 +45,7 @@
                             
                             {{ Form::hidden('id', $mandi->id) }}
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('mandi', 'Mandi Name') !!}
                                     {!! Form::text('mandi', $mandi->mandi_name, ['class' => 'form-control', 'id' => 'mandi', 'placeholder' => 'Mandi Name']) !!}
@@ -57,8 +57,20 @@
                                     @endif
                                 </div>
                             </div>  
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('mandi_tax_fees', 'Mandi Tax Fees (%)') !!}
+                                    {!! Form::text('mandi_tax_fees', $mandi->mandi_tax_fees, ['class' => 'form-control', 'id' => 'mandi_tax_fees', 'placeholder' => 'Enter Mandi Tax Fees (%)']) !!}
 
-                            <div class="col-md-6">
+                                    @if($errors->has('mandi_tax_fees'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('mandi_tax_fees') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>  
+
+                            <div class="col-md-4">
                                 <label>&nbsp;</label>
                                 <div class="form-group">
                                     {!! Form::submit('Edit Mandi Name', ['class' => 'btn btn-info btn btn-block']) !!}

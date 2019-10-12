@@ -48,12 +48,12 @@ class cronJobs extends Command
         ]);
 
         // remove all pending deals which are not completed yet
-        $remove_deals = DB::table('buy_sells')->where('status', '!=', '2')->delete();
+        $remove_deals = DB::table('buy_sells')->where('status', '=', '1')->delete();
 
         // First get all incomplete deal's bid
         $bids = DB::table('buy_sell_conversations')
                 ->join('buy_sells', 'buy_sells.id', '=', 'buy_sell_conversations.buy_sell_id')
-                ->where('buy_sells.status', '!=', '2')
+                ->where('buy_sells.status', '=', '1')
                 ->select('buy_sell_conversations.*')
                 ->get();
 

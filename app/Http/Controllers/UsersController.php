@@ -49,6 +49,11 @@ class UsersController extends Controller
 
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
 
+        //Get All Bank Master
+        $banks_master = DB::table('bank_master')->where('status', 1)->get();
+
+        $loan_max_value = DB::table('loan_max_value')->first();
+
         $inventories = DB::table('inventories')
                         ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                         ->join('warehouse_rent_rates', 'warehouses.id', '=', 'warehouse_rent_rates.warehouse_id')
@@ -57,7 +62,7 @@ class UsersController extends Controller
                         ->where(['inventories.status' => 1, 'inventories.user_id' => $currentuserid])
                         ->get();
 
-        return view("user.inventory", array('user' => $user, 'inventories' => $inventories));
+        return view("user.inventory", array('user' => $user, 'banks_master' => $banks_master, 'inventories' => $inventories, 'loan_max_value' => $loan_max_value));
     }
 
     // User profile view
@@ -76,15 +81,16 @@ class UsersController extends Controller
         $currentuserid = Auth::user()->id;
 
         // Get user inventory
-        $inventories =  DB::table('inventories')
-                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+        $finances =  DB::table('finances')
+                        ->join('inventories', 'inventories.id', '=', 'finances.commodity_id')
                         ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                        ->leftjoin('finances as fin','fin.commodity_id', '=', 'inventories.id')
-                        ->where('inventories.user_id', $currentuserid)
-                        ->select('fin.status as finance_status', 'fin.id as finance_id', 'inventories.*', 'categories.category', 'warehouses.name')
+                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                        ->join('bank_master', 'bank_master.id', '=', 'finances.bank_id')
+                        ->where('finances.user_id', $currentuserid)
+                        ->select('finances.*', 'inventories.net_weight','inventories.price', 'categories.category', 'warehouses.name','bank_master.bank_name','bank_master.interest_rate','bank_master.loan_pass_days')
                         ->get();
 
-        return view("user.finance", array('inventories' => $inventories));
+        return view("user.finance", array('finances' => $finances));
     }
 
     // Request for loan
@@ -132,22 +138,14 @@ class UsersController extends Controller
 
         # Set validation for
         $this->validate($request, [
-            'account_number' => 'required',
-            'bank_name' => 'required',
-            'account_number' => 'required',
-            'ifsc_code' => 'required',
-            'branch_name' => 'required',
-            'pan_card' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',
-            'aadhar_card' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',
-            'balance_sheet' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',
-            'bank_statement' => 'required | mimes:jpeg,jpg,png,gif,bmp | max:1000',
+            'amount'              => 'required',
+            'apply_for_loan_bank' => 'required',
+            'inventory_id'        => 'required',
+            'quantity'            => 'required',
         ]);
 
-        $commodity_id = $request->commodity_id;
-        $bank_name = $request->bank_name;
-        $account_number = $request->account_number;
-        $ifsc_code = $request->ifsc_code;
-        $branch_name = $request->branch_name;
+        $commodity_id = $request->inventory_id;
+        $bank_id = $request->apply_for_loan_bank;
         $quantity = $request->quantity;
         $amount = $request->amount;
         $date = date('Y-m-d H:i:s');
@@ -155,96 +153,20 @@ class UsersController extends Controller
         // First get commodity informatioon
         $commodity_info = DB::table('inventories')->where('id', $commodity_id)->first();
 
-        if($commodity_info->quantity < $quantity):
+        if($commodity_info->net_weight < $quantity):
 
             $status = 'You can not apply for loan on more than quantity you have !';
-            return redirect('request_for_loan/'.$commodity_id)->with('status', $status);
+            return redirect('inventories/'.$commodity_id)->with('status', $status);
 
         endif;
-
-        # Pan Card Upload
-        if($request->hasFile('pan_card')) {
-
-            $file = $request->pan_card;
-
-            $pan_card = $file->getClientOriginalName();
-
-            $ext = pathinfo($pan_card, PATHINFO_EXTENSION);
-
-            $pan_card = substr(md5(microtime()),rand(0,26),6);
-
-            $pan_card .= '.'.$ext;
-
-            $destinationPath = base_path() . '/resources/assets/upload/pancards/'.$currentuserid.'/';
-            $file->move($destinationPath,$pan_card);
-            $filepath = $destinationPath.$pan_card;
-        }
-
-        # Aadhar Card Upload
-        if($request->hasFile('aadhar_card')) {
-
-            $file = $request->aadhar_card;
-
-            $aadhar_card = $file->getClientOriginalName();
-
-            $ext = pathinfo($aadhar_card, PATHINFO_EXTENSION);
-
-            $aadhar_card = substr(md5(microtime()),rand(0,26),6);
-
-            $aadhar_card .= '.'.$ext;
-
-            $destinationPath = base_path() . '/resources/assets/upload/aadharcards/'.$currentuserid.'/';
-            $file->move($destinationPath,$aadhar_card);
-            $filepath = $destinationPath.$aadhar_card;
-        }
-
-        # Balance Sheet Upload
-        if($request->hasFile('balance_sheet')) {
-
-            $file = $request->balance_sheet;
-
-            $balance_sheet = $file->getClientOriginalName();
-
-            $ext = pathinfo($balance_sheet, PATHINFO_EXTENSION);
-
-            $balance_sheet = substr(md5(microtime()),rand(0,26),6);
-
-            $balance_sheet .= '.'.$ext;
-
-            $destinationPath = base_path() . '/resources/assets/upload/balancesheets/'.$currentuserid.'/';
-            $file->move($destinationPath,$balance_sheet);
-            $filepath = $destinationPath.$balance_sheet;
-        }
-
-        # Bank Statement Upload
-        if($request->hasFile('bank_statement')) {
-
-            $file = $request->bank_statement;
-
-            $bank_statement = $file->getClientOriginalName();
-
-            $ext = pathinfo($bank_statement, PATHINFO_EXTENSION);
-
-            $bank_statement = substr(md5(microtime()),rand(0,26),6);
-
-            $bank_statement .= '.'.$ext;
-
-            $destinationPath = base_path() . '/resources/assets/upload/bankstatements/'.$currentuserid.'/';
-            $file->move($destinationPath,$bank_statement);
-            $filepath = $destinationPath.$bank_statement;
-        }
 
         // Insert entry with all required fields
         $last_id = DB::table('finances')->insertGetId([
             'user_id' => $currentuserid,
-            'bank_name' => $bank_name,
-            'branch_name' => $branch_name,
-            'acc_number' => $account_number,
-            'ifsc' => $ifsc_code,
-            'pan' => $pan_card,
-            'aadhar' => $aadhar_card,
-            'balance_sheet' => $balance_sheet,
-            'bank_statement' => $bank_statement,
+            'bank_id' => $bank_id,
+            'pan' => null,
+            'balance_sheet' => null,
+            'bank_statement' => null,
             'commodity_id' => $commodity_id,
             'quantity' => $quantity,
             'amount' => $amount,
@@ -267,11 +189,11 @@ class UsersController extends Controller
 
             $sms = 'Apna Godam - '.$user_info->fname.' requested for loan.';
             // send sms on mobile number using curl
-            $done = sendsms($admin_phone->phone, $sms);
+            //$done = sendsms($admin_phone->phone, $sms);
 
             $sms = 'Apna Godam - You have requested for loan successfully.';
             // send sms to user for loan request
-            $success = sendsms($user_info->phone, $sms);
+            //$success = sendsms($user_info->phone, $sms);
 
             $status = 'Request submitted successfully.';
         }else{
@@ -293,13 +215,14 @@ class UsersController extends Controller
                         ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
                         ->join('categories', 'categories.id', '=', 'inv.commodity')
                         ->join('finance_responses as fin_res','fin_res.finance_id', '=', 'finances.id')
+                        ->join('bank_master', 'bank_master.id', '=', 'finances.bank_id')
                         ->where('finances.id', $finance_id)
-                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'fin_res.bank_name as res_bank_name', 'fin_res.amount as res_amount', 'fin_res.interest as res_interest', 'categories.category')
+                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'categories.category', 'bank_master.bank_name','bank_master.interest_rate','bank_master.loan_pass_days')
                         ->first();
 
         $agree = [];
-        $agree['1'] = 'yes';
-        $agree['0'] = 'no';
+        $agree['1'] = 'Yes';
+        $agree['0'] = 'No';
 
         return view("user.requested_loan", array('finance_id' => $finance_id, 'inventories' => $inventories, 'agree' => $agree));
     }
@@ -435,20 +358,22 @@ class UsersController extends Controller
     }
 
     // User notification
-    public function deals(){
+    public function deals(Request $request){
 
         $currentuserid = Auth::user()->id;
 
+        $status = $request->status;
+
         // Get all sell products
         $sells = DB::table('buy_sells')
-                ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
-                ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-                ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                ->join('user_details', 'user_details.user_id', '=', 'buy_sells.buyer_id')
-                ->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '3'])
-                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location','user_details.fname')
-                ->get();
+            ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+            ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+            ->join('categories', 'categories.id', '=', 'inventories.commodity')
+            ->join('user_details', 'user_details.user_id', '=', 'buy_sells.buyer_id')
+            ->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '3'])
+            ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location','user_details.fname')
+            ->get();
 
         // Get all buy products
         $buys = DB::table('buy_sells')
@@ -460,7 +385,7 @@ class UsersController extends Controller
                 ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location')
                 ->get();
 
-        return view("user.deals", array('sells' => $sells, 'buys' => $buys));
+        return view("user.deals", array('status' => $status, 'sells' => $sells, 'buys' => $buys));
     }
 
     // Bidding on deal
@@ -513,22 +438,14 @@ class UsersController extends Controller
                 ->orderBy('buy_sell_conversations.updated_at', 'desc')
                 ->select('buy_sells.*', 'buy_sell_conversations.price')
                 ->first();
-
-        /*if(!empty($last_bid)){
-
-            if($last_bid->price >= $my_bid){
-
-                return redirect('bidding/'.$inventory_id)->with('status', 'You can not bid less than last bid price !');
+        if(!empty($last_bid))
+        {
+            if($last_bid->status == 2)
+            {
+                $status = 'Bid closed by Seller.';
+                return redirect('buy_sell')->with('status', $status);
             }
-
-        }else{
-
-            // If user bid amount is less than commodity price than hit error
-            if($inventory_info->price >= $my_bid){
-
-                return redirect('bidding/'.$inventory_id)->with('status', 'You can not bid less than commodity price !');
-            }
-        }*/
+        }
 
         $all_bid_users = DB::table('buy_sells')
                 ->join('buy_sell_conversations', 'buy_sell_conversations.buy_sell_id', '=', 'buy_sells.id')
@@ -536,7 +453,6 @@ class UsersController extends Controller
                 ->orderBy('buy_sell_conversations.updated_at', 'desc')
                 ->select('buy_sell_conversations.user_id')
                 ->get();
-
 
         // first check buyer power / buyer can puchase or not
         $buyer_info = DB::table('user_details')->where('user_id', $currentuserid)->first();
@@ -621,159 +537,6 @@ class UsersController extends Controller
             }
         }
 
-        /*if($bid){
-
-            if(!empty($last_dealer_bid)){
-
-                // if seller and buyers last bid is same then deal done
-                if($last_dealer_bid->price == $my_bid){
-
-                    // If my bid and dealer bid is same then deal done
-                    $done = DB::table('buy_sells')->where('id', $deal_id)->update([
-
-                        'price' => $my_bid,
-                        'status' => 2,
-                        'updated_at' => $date
-                    ]);
-
-                    // deal done after get seller and buyer id
-                    $seller_buyer_id = DB::table('buy_sells')->where('seller_cat_id', $last_dealer_bid->seller_cat_id)->first();
-
-                    // get old total and sell quantity of this inventory
-                    $sell_quantity = DB::table('inventories')->where('id', $last_dealer_bid->seller_cat_id)->first();
-
-                    // remaining total and sell quantity
-                    $total_quantity = $sell_quantity->quantity - $deal_quantity;
-                    $remaining_sell_quantity = $sell_quantity->sell_quantity - $deal_quantity;
-
-                    // If deal done then update sell quantity and total quantity
-                    $update_sell_quantity = DB::table('inventories')->where('id', $sell_quantity->id)->update([
-
-                        'quantity' => $total_quantity,
-                        'sell_quantity' => $remaining_sell_quantity,
-                        'updated_at' => $date,
-                    ]);
-
-                    // update buyer commodity in inventories table if not exist this commodity of this buyer then insert this commodity to this buyer
-                    // First check if this buyer have this commodity or not
-                    $check_commodity = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $last_dealer_bid->commodity, 'warehouse_id' => $last_dealer_bid->warehouse_id])->first();
-
-                    // If the same commodity is exist in the same warehouse of this buyer then update quantity
-                    if(!empty($check_commodity)){
-
-                        // update quantity
-                        $update_commodity = DB::table('inventories')->where('id', $check_commodity->id)->update([
-
-                            'quantity' => $deal_quantity + $check_commodity->quantity,
-                        ]);
-
-                    }else{
-
-                        // if this commodity is not exist in this warehouse then insert this commodity
-                        // insert quantity
-                        $insert_commodity = DB::table('inventories')->insert([
-
-                            'user_id' => $buyer_id,
-                            'warehouse_id' => $last_dealer_bid->warehouse_id,
-                            'commodity' => $last_dealer_bid->commodity,
-                            'quantity' => $deal_quantity,
-                            'price' => 0,
-                            'status' => 1,
-                            'created_at' => $date,
-                            'updated_at' => $date
-                        ]);
-                    }
-
-                    // update power of this buyer on deal done
-                    $power_update = DB::table('user_details')->where('user_id', $buyer_info->user_id)->update([
-
-                        'power' => $buyer_info->power - $last_dealer_bid->quantity*$my_bid,
-                        'updated_at' => $date
-                    ]);
-
-                    // then request price and seller price is equal send msg (buyer, seller and admin)
-                    $admin = DB::table('users')->where('id', 1)->first();
-
-                    $buyer_phone = DB::table('users')->where('id', $seller_buyer_id->buyer_id)->first();
-
-                    $seller_phone = DB::table('users')->where('id', $seller_buyer_id->seller_id)->first();
-
-                    // mobile no array
-                    $mobilesArr = array($admin->phone,$buyer_phone->phone,$seller_phone->phone);
-
-                    // send otp on mobile number using curl
-                    $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-                    //$mobiles = implode(",", $mobilesArr);
-                    $sms = 'Deal Done Successfully';
-
-                    $mobiles = implode(",", $mobilesArr);
-
-                    $params = array(
-                                "user" => "apnagodam",
-                                "password" => "45cfd8bb21XX",
-                                "senderid" => "apnago",
-                                "mobiles" => $mobiles,
-                                "sms" => $sms
-                                );
-
-                    $params = http_build_query($params);
-
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    $result = curl_exec($ch);
-
-                    $status = 'Deal done successfully.';
-
-                    // redirect to the deals page
-                    return redirect('deals/')->with('status', $status);
-                }
-                else{
-
-                    // buyer - seller phone info
-                    $buyer_phone_info = DB::table('user_details')->where('user_id', $last_dealer_bid->user_id)->first();
-
-                    // Bid sms for buyer and seller
-                    $url = "http://bulksms.dexusmedia.com/sendsms.jsp";
-
-                    $sms = 'Request - RS '.$my_bid;
-
-                    $mobiles = $buyer_phone_info->phone;
-
-                    $params = array(
-                                "user" => "apnagodam",
-                                "password" => "45cfd8bb21XX",
-                                "senderid" => "apnago",
-                                "mobiles" => $mobiles,
-                                "sms" => $sms
-                                );
-
-                    $params = http_build_query($params);
-
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    $result = curl_exec($ch);
-
-                    $status = 'Bid submitted successfully.';
-                }
-            }
-            else{
-
-                $status = 'Bid submitted successfully.';
-            }
-
-        }else{
-
-            $status = 'Something went wrong !';
-        }*/
-
         $status = 'Bid submitted successfully.';
 
         return redirect('bidding/'.$inventory_id)->with('status', $status);
@@ -843,56 +606,6 @@ class UsersController extends Controller
                 $sms = 'Congratulations. Your Bid accepted by seller amount by '.$max_bid." RS.";
                 $done = sendsms($user->phone, $sms);
             }
-
-            // get old sell quantity of this inventory
-            // $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
-
-            // $remaining_quantity = $inventory_info->quantity - $inventory_info->sell_quantity;
-
-            // // update inventory / qauantity of farmaer
-            // $update_sell_quantity = DB::table('inventories')->where('id', $inventory_info->id)->update([
-
-            //     'quantity' => $remaining_quantity,
-            //     'sell_quantity' => 0,
-            //     'updated_at' => $date,
-            // ]);
-
-            // // update inventory / quantity of trader
-            // $trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
-
-            // If trader have this commodity already then update quantity
-            // if(!empty($trader_inventory)){
-
-            //     $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
-
-            //         'quantity' => $trader_inventory->quantity + $inventory_info->sell_quantity,
-            //         'updated_at' => $date,
-            //     ]);
-
-            // }else{
-
-            //     // If trader do not have this commodity already then insert this commodity with this teader
-            //     $insert_commodity = DB::table('inventories')->insert([
-
-            //         'user_id' => $buyer_id,
-            //         'warehouse_id' => $inventory_info->warehouse_id,
-            //         'commodity' => $inventory_info->commodity,
-            //         'quantity' => $inventory_info->sell_quantity,
-            //         'status' => 1,
-            //         'created_at' => $date,
-            //         'updated_at' => $date,
-            //     ]);
-            // }
-
-            // Update power in users details table
-            // first get power
-            //$buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
-
-            // $update_buyers_power = DB::table('user_details')->where('user_id', $buyer_id)->update([
-
-            //     'power' => $buyer_info->power - ($inventory_info->sell_quantity * $max_bid),
-            //     'updated_at' => $date,
-            // ]);
 
             $status = 'Deal Done.';
         }else{

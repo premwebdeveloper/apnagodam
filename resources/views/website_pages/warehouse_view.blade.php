@@ -36,20 +36,43 @@ if(isset($output['results'][0]))
                 <h2 class="p-l-30">{!! $terminal->name !!}</h2>
                 <p class="p-l-30">{!! $terminal->address !!}, {!! $terminal->location !!}, {!! $terminal->area !!}, {!! $terminal->district !!}</p>
                 <div class="row p-l-30">
-                    <div class="col-md-6 p-l-30">
+                    <div class="col-md-4 p-l-30">
                         <h4 class="p-t-20"><b>Facilities</b></h4>
                         <ul>
                             <?php
                             $fclty = explode(', ', rtrim($terminal->facility_available, ", "));
-                            foreach ($fclty as $key => $value) {
-                                ?>
-                                <li>{!! $value !!}</li>
-                                <?php
+                            if($fclty[0] != '')
+                            {
+                                foreach ($fclty as $key => $value) {
+                                    ?>
+                                    <li>{!! $value !!}</li>
+                                    <?php
+                                }
+                            }else{
+                                echo "No Facilities Here.";
                             }
                             ?>
                         </ul>
                     </div>
-                    <div class="col-md-6 p-l-30">
+                    <div class="col-md-4 p-l-30">
+                        <h4 class="p-t-20"><b>Banks (Provide Loan)</b></h4>
+                        <ul>
+                            <?php
+                            $banks = explode(', ', rtrim($terminal->bank_provide_loan, ", "));
+                            if($banks[0] != '')
+                            {
+                                foreach ($banks as $key => $value) {
+                                    ?>
+                                    <li>{!! $value !!}</li>
+                                    <?php
+                                }
+                            }else{
+                                echo "No Banks Provide Loan";
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 p-l-30">
                         <h4 class="p-t-20"><b>Distance from Current Location</b></h4>
                         <p id="km"></p>
                     </div>

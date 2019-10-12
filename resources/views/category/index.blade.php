@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>Category</h2>
+    <div class="col-lg-8">
+        <h2>Category / Commodity</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
@@ -13,9 +13,9 @@
             </li>
         </ol>
     </div>
-    <div class="col-lg-2 text-right">
+    <div class="col-lg-4 text-right">
         <h2>
-            <a href="{{ route('create_category') }}" class="btn btn-info">Add Category</a>
+            <a href="{{ route('create_category') }}" class="btn btn-info">Add Category / Commodity</a>
         </h2>
     </div>
 </div>
@@ -26,7 +26,7 @@
             <div class="ibox float-e-margins">
 
                 <div class="ibox-title">
-                    <h5>Category</h5>
+                    <h5>Category / Commodity</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -48,12 +48,10 @@
                                 <tr>
                                     <th>S.No.</th>
                                     <th>Category Name</th>
-                                    <th>GST</th>
-                                    <th>Commossion</th>
-                                    <th>Mandi Fees</th>
-                                    <th>Loading</th>
-                                    <th>Bardana</th>
-                                    <th>Freight</th>
+                                    <th>Commodity Type</th>
+                                    <th>GST (%)</th>
+                                    <th>Commossion(%)</th>
+                                    <th>Mandi Fees(%)</th>
                                     <th>Image</th>
                                     <th>Action</th>
                                 </tr>
@@ -63,12 +61,10 @@
                                     <tr class="gradeX">
                                         <td>{!! $key + 1 !!}</td>
                                         <td>{!! $category->category !!}</td>
+                                        <td>{!! $category->commodity_type !!}</td>
                                         <td>{!! $category->gst !!}</td>
                                         <td>{!! $category->commossion !!}</td>
                                         <td>{!! $category->mandi_fees !!}</td>
-                                        <td>{!! $category->loading !!}</td>
-                                        <td>{!! $category->bardana !!}</td>
-                                        <td>{!! $category->freight !!}</td>
                                         <td><img src="{{ asset('resources/assets/upload/category/'.$category->image) }}" class="img-responsive" width="100" height="100"></td>
                                         <td>
                                             @if(Auth::user()->id == 1)

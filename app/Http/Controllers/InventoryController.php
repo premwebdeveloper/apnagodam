@@ -38,7 +38,7 @@ class InventoryController extends Controller
 		$users = DB::table('user_details')
                 ->join('user_roles', 'user_roles.user_id', '=', 'user_details.user_id')
                 ->select('user_details.*')
-                ->where(array('user_details.status' => 1, 'user_roles.role_id' => 5))->get();
+                ->where(array('user_details.status' => 1, 'user_roles.role_id' => 2))->get();
 
         $all_users[''] = 'Select Seller';
         foreach ($users as $key => $user) {
@@ -49,7 +49,7 @@ class InventoryController extends Controller
         $categories = DB::table('categories')->where('status', 1)->get();
 		$all_categories[''] = 'Select Commodity';
 		foreach ($categories as $key => $category) {
-			$all_categories[$category->id] = $category->category;
+			$all_categories[$category->id] = $category->category." (".$category->commodity_type.")";
 		}
 
         // Get all warehouses
@@ -82,6 +82,16 @@ class InventoryController extends Controller
             'file'             => 'required | mimes:pdf| max:2000',
         ]);
 
+        //Get Commodity Type
+        $categories = DB::table('categories')->where(['id' => $request->commodity,'status' => 1])->first();
+
+        if($categories->commodity_type == 'Paid')
+        {
+            $sales_status = 2;
+        }else{
+            $sales_status = 1;
+        }
+
         $user_id          = $request->user;
         $commodity        = $request->commodity;
         $warehouse        = $request->warehouse;
@@ -94,6 +104,7 @@ class InventoryController extends Controller
         $price            = $request->price;
         $quality_category = $request->quality_category;
         $gate_pass_wr     = $request->gate_pass_wr;
+        $sales_status     = $request->sales_status;
         $date             = date('Y-m-d H:i:s');
 
         # If user profile image uploaded then
@@ -176,7 +187,7 @@ class InventoryController extends Controller
             {
                 $temp = 1;
                 foreach ($data as $key => $value) {
-                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_name) && !empty($value->commodity) && !empty($value->quantity_bags) && !empty($value->price) && !empty($value->quality_category))
+                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_name) && !empty($value->commodity) && !empty($value->quantity_bags) && !empty($value->price) && !empty($value->quality_category) && !empty($value->paid_payable))
                     {
                         //CHeck this is number is active or not
                         $check_number = DB::table('users')->where('phone', $value->seller_mobile_no)->first();
@@ -191,7 +202,15 @@ class InventoryController extends Controller
                                 if(!empty($check_warehouse))
                                 {
                                     //Check Commodity 
-                                    $check_commodity = DB::table('categories')->where('category', $value->commodity)->first();
+                                    $check_commodity = DB::table('categories')->where(['category' => $value->commodity, 'commodity_type' => $value->paid_payable])->first();
+
+                                    if($value->paid_payable == 'Paid')
+                                    {
+                                        $sales_status = 2;
+                                    }else{
+                                        $sales_status = 1;
+                                    }
+
                                     if(!empty($check_commodity))
                                     {
                                         $user_id             =  $check_number->id;
@@ -223,6 +242,7 @@ class InventoryController extends Controller
                                             'price'            => $price,
                                             'gate_pass_wr'     => $gate_pass_wr,
                                             'quality_category' => $quality_category,
+                                            'sales_status'     => $sales_status,
                                             'image'            => null,
                                             'status'           => 1,
                                             'created_at'       => $date,

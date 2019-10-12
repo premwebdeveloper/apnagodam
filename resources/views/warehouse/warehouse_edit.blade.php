@@ -190,8 +190,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
     
-                                    <?php 
+                                    <?php
                                     $fclts = json_decode($warehouse->facility_ids);
+                                    if($fclts == null)
+                                    {
+                                      $fclts = array();
+                                    }
                                     ?>
                                     {!! Form::label('facilities', 'Facilities') !!}<br />
                                     @foreach ($all_facilities as $f => $facility)
@@ -199,6 +203,29 @@
                                         {!! Form::checkbox('facilities[]', $f, in_array($f, $fclts), ['class' => 'md-check facilities', 'id' => $f] ) !!}
 
                                         {!! $facility !!}
+
+                                    @endforeach
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+    
+                                    <?php 
+                                    $bank_id = json_decode($warehouse->bank_ids);
+                                    if($bank_id == null)
+                                    {
+                                      $bank_id = array();
+                                    }
+                                    ?>
+                                    {!! Form::label('banks', 'Banks (For Loan)') !!}<br />
+                                    @foreach ($banks as $b => $bank)
+
+                                        {!! Form::checkbox('banks[]', $b, in_array($b, $bank_id), ['class' => 'md-check banks', 'id' => $b] ) !!}
+
+                                        {!! $bank !!}
 
                                     @endforeach
 
