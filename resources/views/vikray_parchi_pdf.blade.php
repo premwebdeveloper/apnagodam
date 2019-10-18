@@ -63,12 +63,13 @@
                     <?php
                         $total_price = $quantity * $price;
                     ?>
-                    <b>Mandi Fees  : </b>
                     @if($sales_status == 1) 
+                        <b>Mandi Fees ({!! $mandi_fees !!}%) : </b>
                         <?php
                         echo $mandi_fee = ($total_price * $mandi_fees) / 100;
                         ?>
                     @else
+                        <b>Mandi Fees : </b>
                         N/A
                     @endif
                     Rs.

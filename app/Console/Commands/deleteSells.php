@@ -39,7 +39,7 @@ class deleteSells extends Command
     public function handle()
     {
         $date = date('Y-m-d H:i:s');
-        $expire_time = date("H:i:s", strtotime("13:30:00"));
+        $expire_time = date("H:i:s", strtotime("17:00:00"));
         $current_time = date("H:i:s");
 
         if($current_time > $expire_time)
@@ -85,7 +85,6 @@ class deleteSells extends Command
                     $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
 
                         'quantity' => $trader_inventory->quantity + $quantity,
-                        'sales_status' => 2,
                         'updated_at' => $date,
                     ]);
 

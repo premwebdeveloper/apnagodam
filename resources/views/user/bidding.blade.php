@@ -28,7 +28,7 @@
                     <h5 class="section-heading text-center">My selling price - {{ $inventory_info->price }} ( {{ $inventory_info->sell_quantity }} Qtl.)</h5>
                     @php
                         $begin = date('H:i:s', strtotime('12:30'));
-                        $end = date('H:i:s', strtotime('18:00'));
+                        $end = date('H:i:s', strtotime('13:00'));
                         $now = date('H:i:s');
                     @endphp
                     @if($now < $begin)
@@ -47,7 +47,7 @@
                 @else
                     @php
                         $begin = date('H:i:s', strtotime('08:00'));
-                        $end = date('H:i:s', strtotime('16:30'));
+                        $end = date('H:i:s', strtotime('12:30'));
                         $now = date('H:i:s');
                         $bid_open = 0;
                     @endphp

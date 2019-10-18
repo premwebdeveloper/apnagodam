@@ -187,7 +187,7 @@ class InventoryController extends Controller
             {
                 $temp = 1;
                 foreach ($data as $key => $value) {
-                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_name) && !empty($value->commodity) && !empty($value->quantity_bags) && !empty($value->price) && !empty($value->quality_category) && !empty($value->paid_payable))
+                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_name) && !empty($value->commodity) && !empty($value->quantity_bags) && !empty($value->price) && !empty($value->quality_category) && !empty($value->commodity_type))
                     {
                         //CHeck this is number is active or not
                         $check_number = DB::table('users')->where('phone', $value->seller_mobile_no)->first();
@@ -202,9 +202,9 @@ class InventoryController extends Controller
                                 if(!empty($check_warehouse))
                                 {
                                     //Check Commodity 
-                                    $check_commodity = DB::table('categories')->where(['category' => $value->commodity, 'commodity_type' => $value->paid_payable])->first();
+                                    $check_commodity = DB::table('categories')->where(['category' => $value->commodity, 'commodity_type' => $value->commodity_type])->first();
 
-                                    if($value->paid_payable == 'Paid')
+                                    if($value->commodity_type == 'Paid')
                                     {
                                         $sales_status = 2;
                                     }else{

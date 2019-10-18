@@ -452,7 +452,10 @@ class HomeController extends Controller
         }
         $warehouse->{'bank_provide_loan'} = $bank_provide_loan;
 
-        return view('website_pages.warehouse_view', array('terminal' => $warehouse));
+        //Get All Commodity
+        $commodities = DB::table('categories')->where('status', 1)->get();
+
+        return view('website_pages.warehouse_view', array('terminal' => $warehouse, 'commodities' => $commodities));
     }
 
     // Trader Registration

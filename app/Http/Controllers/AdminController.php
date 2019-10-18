@@ -583,7 +583,6 @@ class AdminController extends Controller
             $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
 
                 'quantity' => $trader_inventory->quantity + $quantity,
-                'sales_status' => 2,
                 'updated_at' => $date,
             ]);
 

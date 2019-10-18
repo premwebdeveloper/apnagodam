@@ -141,7 +141,12 @@ if(isset($output['results'][0]))
                             </div>
                             <div class="col-md-6 p-b-20 p-t-10">
                                 {!! Form::label('Commodity', 'Commodity') !!}
-                                {!! Form::text('commodity', '', ['class' => 'form-control', 'id' => 'commodity', 'required' => 'required']) !!}
+                                <select class="form-control" name="commodity" id="commodity" required="required">
+                                    <option value="">Select Commodity</option>
+                                    @foreach($commodities as $commodity)
+                                    <option value="{!! $commodity->id !!}">{!! $commodity->category !!}({!! $commodity->commodity_type !!})</option>
+                                    @endforeach
+                                </select>
 
                                 @if($errors->has('commodity'))
                                     <span class="help-block red">
@@ -151,7 +156,7 @@ if(isset($output['results'][0]))
                             </div>
                             <div class="col-md-6 p-b-20 p-t-10">
                                 {!! Form::label('Quantity', 'Quantity') !!}
-                                {!! Form::text('quantity', '', ['class' => 'form-control', 'id' => 'quantity', 'required' => 'required', 'placeholder' => 'Enter Quantity (Ton)']) !!}
+                                {!! Form::number('quantity', '', ['class' => 'form-control', 'id' => 'quantity', 'required' => 'required', 'placeholder' => 'Enter Quantity (Ton)']) !!}
 
                                 @if($errors->has('quantity'))
                                     <span class="help-block red">
@@ -161,7 +166,7 @@ if(isset($output['results'][0]))
                             </div>
                             <div class="col-md-6 p-b-20">
                                 {!! Form::label('Mobile', 'Mobile') !!}
-                                {!! Form::text('mobile', '', ['class' => 'form-control', 'id' => 'mobile', 'required' => 'required']) !!}
+                                {!! Form::number('mobile', '', ['class' => 'form-control', 'maxlength' => '10', 'minlength' => '10', 'id' => 'mobile', 'required' => 'required']) !!}
 
                                 @if($errors->has('mobile'))
                                     <span class="help-block red">
@@ -171,8 +176,8 @@ if(isset($output['results'][0]))
                                 
                             </div>
                             <div class="col-md-6 p-b-20">
-                                {!! Form::label('Commitment (Time Period)', 'Commitment (Time Period)') !!}
-                                {!! Form::text('commitment', '', ['class' => 'form-control', 'id' => 'commitment', 'required' => 'required']) !!}
+                                {!! Form::label('Commitment (Time Period in Months)', 'Commitment (Time Period)') !!}
+                                {!! Form::number('commitment', '', ['class' => 'form-control', 'id' => 'commitment', 'required' => 'required']) !!}
 
                                 @if($errors->has('commitment'))
                                     <span class="help-block red">
