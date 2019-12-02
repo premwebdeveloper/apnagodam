@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 09, 2018 at 02:57 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Host: localhost:3306
+-- Generation Time: Dec 02, 2019 at 04:52 AM
+-- Server version: 5.6.44-cll-lve
+-- PHP Version: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,8 +19,35 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `apnagodam`
+-- Database: `apnagodam_admin`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bank_master`
+--
+
+CREATE TABLE `bank_master` (
+  `id` int(11) NOT NULL,
+  `bank_name` varchar(100) DEFAULT NULL,
+  `interest_rate` varchar(10) DEFAULT NULL,
+  `loan_pass_days` varchar(10) DEFAULT NULL,
+  `processing_fee` varchar(10) DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bank_master`
+--
+
+INSERT INTO `bank_master` (`id`, `bank_name`, `interest_rate`, `loan_pass_days`, `processing_fee`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Apnagodam', '10', '10', '1', 1, '2019-10-08 01:00:17', '2019-10-08 12:06:31'),
+(2, 'HDFC', '10', '10', '1', 1, '2019-10-06 00:43:29', '2019-10-08 12:06:45'),
+(3, 'SBI', '10', '10', '1', 1, '2019-10-06 00:43:06', '2019-10-08 12:07:01'),
+(4, 'ICICI', '10', '20', '1', 1, '2019-10-14 17:24:11', '2019-10-14 17:24:11');
 
 -- --------------------------------------------------------
 
@@ -30,12 +57,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `buy_sells` (
   `id` int(10) UNSIGNED NOT NULL,
-  `buyer_id` int(11) NOT NULL,
+  `buyer_id` int(11) DEFAULT NULL,
   `seller_id` int(11) NOT NULL,
   `seller_cat_id` int(11) NOT NULL,
+  `payment_ref_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `quantity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'final price after bidding between seller and buyer',
-  `status` tinyint(1) NOT NULL,
+  `status` tinyint(1) NOT NULL COMMENT 'status 1 active bid and 2 for complete bid / deal done 3 for pdf send and payment accept',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -44,10 +72,9 @@ CREATE TABLE `buy_sells` (
 -- Dumping data for table `buy_sells`
 --
 
-INSERT INTO `buy_sells` (`id`, `buyer_id`, `seller_id`, `seller_cat_id`, `quantity`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(1, 7, 3, 18, '5', '5000', 2, '2018-10-08 06:42:58', '2018-10-08 06:42:58'),
-(3, 7, 3, 18, '10', '4500', 2, '2018-10-08 07:37:01', '2018-10-08 07:37:45'),
-(4, 7, 3, 18, '4', '4300', 2, '2018-10-08 07:40:40', '2018-10-08 07:46:57');
+INSERT INTO `buy_sells` (`id`, `buyer_id`, `seller_id`, `seller_cat_id`, `payment_ref_no`, `quantity`, `price`, `status`, `created_at`, `updated_at`) VALUES
+(8, 11, 3, 15, '122121212121', '25', '1760', 3, '2019-12-02 21:10:17', '2019-12-02 21:29:12'),
+(9, 3, 11, 16, '515348', '25', '1890', 3, '2019-12-02 21:48:49', '2019-12-02 21:59:18');
 
 -- --------------------------------------------------------
 
@@ -65,21 +92,6 @@ CREATE TABLE `buy_sell_conversations` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `buy_sell_conversations`
---
-
-INSERT INTO `buy_sell_conversations` (`id`, `buy_sell_id`, `user_id`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 7, '5000', 1, '2018-10-08 06:42:58', '2018-10-08 06:42:58'),
-(8, 3, 7, '4000', 1, '2018-10-08 07:37:01', '2018-10-08 07:37:01'),
-(9, 3, 3, '4800', 1, '2018-10-08 07:37:31', '2018-10-08 07:37:31'),
-(10, 3, 7, '4500', 1, '2018-10-08 07:37:38', '2018-10-08 07:37:38'),
-(11, 3, 3, '4500', 1, '2018-10-08 07:37:45', '2018-10-08 07:37:45'),
-(12, 4, 7, '4000', 1, '2018-10-08 07:40:40', '2018-10-08 07:40:40'),
-(13, 4, 3, '4500', 1, '2018-10-08 07:41:27', '2018-10-08 07:41:27'),
-(16, 4, 7, '4300', 1, '2018-10-08 07:46:50', '2018-10-08 07:46:50'),
-(17, 4, 3, '4300', 1, '2018-10-08 07:46:57', '2018-10-08 07:46:57');
-
 -- --------------------------------------------------------
 
 --
@@ -89,6 +101,7 @@ INSERT INTO `buy_sell_conversations` (`id`, `buy_sell_id`, `user_id`, `price`, `
 CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
   `category` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `commodity_type` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `gst` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `commossion` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mandi_fees` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -105,11 +118,55 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `category`, `gst`, `commossion`, `mandi_fees`, `loading`, `bardana`, `freight`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'wheat', '5', '5', '5', '5', '5', '5', 'ff59de.jpg', 1, '2018-09-27 06:27:08', '2018-09-27 06:27:08'),
-(2, 'Chana', '5', '5', '5', '5', '5', '5', '4fc77c.jpg', 1, '2018-09-27 06:27:30', '2018-09-27 06:27:30'),
-(3, 'Peanut', '2', '200', '150', '100', '25', '75', '10fa78.jpg', 1, '2018-10-05 02:22:07', '2018-10-05 02:22:07'),
-(4, 'Almond', '5', '500', '250', '125', '400', '200', 'd3a32f.jpg', 1, '2018-10-05 02:22:37', '2018-10-05 02:22:37');
+INSERT INTO `categories` (`id`, `category`, `commodity_type`, `gst`, `commossion`, `mandi_fees`, `loading`, `bardana`, `freight`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(3, 'Makka', 'Paid', '0', '0', '0.5', '0', '0', '0', '8309de.jpeg', 1, '2019-01-19 10:13:13', '2019-10-15 00:48:07'),
+(8, 'Barley', 'Payable', '0', '0', '1.6', '0', '0', '0', 'a75d91.jpg', 1, '2019-10-08 15:05:56', '2019-10-08 15:05:56'),
+(9, 'Makka', 'Payable', '0', '0', '0', '0', '0', '0', '447770.jpeg', 1, '2019-10-08 15:28:44', '2019-10-08 15:30:08'),
+(10, 'Barley', 'Paid', '0', '0', '0', '0', '0', '0', '36a667.jpg', 1, '2019-10-08 15:29:15', '2019-10-08 15:29:15'),
+(11, 'Bajra', 'Payable', '0', '0', '0.5', '0', '0', '0', '1d43dc.jpg', 1, '2019-10-08 15:31:02', '2019-10-08 15:31:02'),
+(12, 'Bajra', 'Paid', '0', '0', '0', '0', '0', '0', '005768.jpg', 1, '2019-10-08 15:31:21', '2019-10-08 15:31:21'),
+(13, 'Jvaar', 'Payable', '0', '0', '0.5', '0', '0', '0', '07d784.jpg', 1, '2019-10-08 15:33:50', '2019-10-08 15:33:50'),
+(14, 'Jvaar', 'Paid', '0', '0', '0', '0', '0', '0', '1daf3d.jpg', 1, '2019-10-08 15:34:07', '2019-10-08 15:34:07'),
+(15, 'Wheat', 'Payable', '0', '0', '1.6', '0', '0', '0', 'a349d1.jpg', 1, '2019-10-08 15:36:23', '2019-10-08 15:36:23'),
+(16, 'Wheat', 'Paid', '0', '0', '0', '0', '0', '0', '47af99.jpg', 1, '2019-10-08 15:36:39', '2019-10-08 15:36:39'),
+(17, 'Gram', 'Payable', '0', '0', '1.6', '0', '0', '0', '46cab5.jpg', 1, '2019-10-08 15:38:54', '2019-10-08 15:38:54'),
+(18, 'Mung', 'Payable', '0', '0', '1.6', '0', '0', '0', 'bcbf93.jpg', 1, '2019-10-08 15:42:25', '2019-10-08 15:42:25'),
+(19, 'Mung', 'Paid', '0', '0', '0', '0', '0', '0', '519818.jpg', 1, '2019-10-08 15:42:46', '2019-10-08 15:42:46'),
+(20, 'Moth', 'Payable', '0', '0', '1.6', '0', '0', '0', '3cf4e0.jpg', 1, '2019-10-08 15:45:25', '2019-10-08 15:45:25'),
+(21, 'Moth', 'Paid', '0', '0', '0', '0', '0', '0', '0cd7cf.jpg', 1, '2019-10-08 15:45:50', '2019-10-08 15:45:50'),
+(22, 'Mustard', 'Payable', '0', '0', '1', '0', '0', '0', 'fe45a4.jpg', 1, '2019-10-08 15:47:03', '2019-10-08 15:47:03'),
+(23, 'Mustard', 'Paid', '0', '0', '0', '0', '0', '0', 'b17f0f.jpg', 1, '2019-10-08 15:47:27', '2019-10-08 15:47:27'),
+(24, 'Soybean', 'Payable', '0', '0', '1', '0', '0', '0', 'ea88da.jpg', 1, '2019-10-08 15:49:08', '2019-10-08 15:49:08'),
+(25, 'Soybean', 'Paid', '0', '0', '0', '0', '0', '0', '96f235.jpg', 1, '2019-10-08 15:49:26', '2019-10-08 15:49:26'),
+(26, 'Groundnut', 'Payable', '0', '0', '1', '0', '0', '0', 'e0c305.jpg', 1, '2019-10-08 15:50:19', '2019-10-08 15:50:19'),
+(27, 'Groundnut', 'Paid', '0', '0', '0', '0', '0', '0', '84bbd1.jpg', 1, '2019-10-08 15:50:57', '2019-10-08 15:50:57'),
+(28, 'Gram', 'Paid', '0', '0', '0', '0', '0', '0', '570f2e.jpg', 1, '2019-10-08 15:51:51', '2019-10-08 15:51:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `commodity_name`
+--
+
+CREATE TABLE `commodity_name` (
+  `id` int(11) NOT NULL,
+  `commodity` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `commodity_name`
+--
+
+INSERT INTO `commodity_name` (`id`, `commodity`, `image`, `created_at`, `updated_at`, `status`) VALUES
+(1, 'Barley', 'b2e369.jpg', '2019-04-18 12:05:47', '2019-04-18 12:05:47', 1),
+(2, 'Bajra', '83bc6a.jpg', '2019-01-18 19:55:09', '2019-01-18 19:55:09', 1),
+(3, 'Ground nutt', 'd642ee.jpg', '2019-01-18 19:55:28', '2019-01-18 19:55:28', 1),
+(4, 'Guar', 'bf2ddd.jpg', '2019-01-18 19:55:50', '2019-01-18 19:55:50', 1),
+(5, 'chola', '43566a.jpg', '2019-01-18 19:56:03', '2019-01-18 19:56:03', 1);
 
 -- --------------------------------------------------------
 
@@ -125,13 +182,32 @@ CREATE TABLE `facilities` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `facilities`
+-- Table structure for table `facilitiy_master`
 --
 
-INSERT INTO `facilities` (`id`, `facility`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Dharm Kanta', 1, '2018-09-26 12:02:01', '2018-09-26 12:02:01'),
-(2, 'CCTV', 1, '2018-09-26 12:02:01', '2018-09-26 12:02:01');
+CREATE TABLE `facilitiy_master` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `description` text,
+  `image` text,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `facilitiy_master`
+--
+
+INSERT INTO `facilitiy_master` (`id`, `name`, `description`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(2, 'Dharam Kanta', 'Dharam Kanta', 'a78808.png', 1, '2019-09-28 01:33:55', '2019-09-28 01:33:55'),
+(3, 'Fumigation', 'fumigation', '7dee41.png', 1, '2019-09-28 01:34:23', '2019-09-28 01:34:23'),
+(4, 'CCTC Camera', 'CCTC Camera', 'b88e25.png', 1, '2019-09-28 01:34:48', '2019-09-28 01:34:48'),
+(5, 'Fire Equipment', 'fire equipment', '559e17.png', 1, '2019-09-28 01:36:39', '2019-09-28 01:36:39'),
+(7, 'E-Mandi Only', 'E-Mandi Only', 'd24d1b.png', 1, '2019-10-04 20:23:19', '2019-10-04 20:23:19');
 
 -- --------------------------------------------------------
 
@@ -142,17 +218,14 @@ INSERT INTO `facilities` (`id`, `facility`, `status`, `created_at`, `updated_at`
 CREATE TABLE `finances` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(11) NOT NULL,
-  `bank_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `branch_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `acc_number` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ifsc` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pan` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `aadhar` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `balance_sheet` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_statement` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank_id` int(11) NOT NULL,
+  `pan` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `balance_sheet` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_statement` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `commodity_id` int(11) NOT NULL,
   `quantity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `amount` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remaining_amount` int(11) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -162,8 +235,16 @@ CREATE TABLE `finances` (
 -- Dumping data for table `finances`
 --
 
-INSERT INTO `finances` (`id`, `user_id`, `bank_name`, `branch_name`, `acc_number`, `ifsc`, `pan`, `aadhar`, `balance_sheet`, `bank_statement`, `commodity_id`, `quantity`, `amount`, `status`, `created_at`, `updated_at`) VALUES
-(2, 3, 'Bank Of Baroda', 'Singhana', '61148299568', 'SBIN0031155', 'd9b4e7.jpg', '8bf51c.jpg', '78bf51.jpg', 'd397a7.jpg', 18, NULL, '10000', 1, '2018-10-05 04:22:02', '2018-10-05 04:22:02');
+INSERT INTO `finances` (`id`, `user_id`, `bank_id`, `pan`, `balance_sheet`, `bank_statement`, `commodity_id`, `quantity`, `amount`, `remaining_amount`, `status`, `created_at`, `updated_at`) VALUES
+(1, 3, 2, NULL, NULL, NULL, 6, '25', '500000', 300000, 2, '2019-10-15 23:45:39', '2019-10-16 01:00:13'),
+(2, 3, 2, NULL, NULL, NULL, 3, '10', '10000', NULL, 1, '2019-10-16 00:10:45', '2019-10-16 00:10:45'),
+(3, 3, 2, NULL, NULL, NULL, 6, '50', '500000', NULL, 1, '2019-10-16 00:12:55', '2019-10-16 00:12:55'),
+(4, 3, 4, NULL, NULL, NULL, 6, '50', '500000', NULL, 1, '2019-10-16 00:13:36', '2019-10-16 00:13:36'),
+(5, 3, 3, NULL, NULL, NULL, 6, '50', '500000', NULL, 1, '2019-10-16 00:13:58', '2019-10-16 00:13:58'),
+(6, 3, 1, NULL, NULL, NULL, 6, '10', '35000', NULL, 1, '2019-10-16 00:15:38', '2019-10-16 00:16:08'),
+(7, 13, 4, NULL, NULL, NULL, 9, '100', '15000', NULL, 2, '2019-11-30 22:15:12', '2019-11-30 22:15:54'),
+(9, 3, 4, NULL, NULL, NULL, 15, '15', '15000', 10000, 2, '2019-12-02 22:41:33', '2019-12-02 22:43:50'),
+(10, 3, 1, NULL, NULL, NULL, 17, '25', '33000', NULL, 2, '2019-12-02 23:22:36', '2019-12-02 23:25:07');
 
 -- --------------------------------------------------------
 
@@ -187,7 +268,15 @@ CREATE TABLE `finance_responses` (
 --
 
 INSERT INTO `finance_responses` (`id`, `finance_id`, `bank_name`, `amount`, `interest`, `status`, `created_at`, `updated_at`) VALUES
-(2, 2, NULL, NULL, NULL, NULL, '2018-10-05 04:22:02', '2018-10-05 04:22:02');
+(1, 1, NULL, NULL, NULL, 2, '2019-10-15 23:45:39', '2019-10-15 23:46:51'),
+(2, 2, NULL, NULL, NULL, NULL, '2019-10-16 00:10:45', '2019-10-16 00:10:45'),
+(3, 3, NULL, NULL, NULL, NULL, '2019-10-16 00:12:55', '2019-10-16 00:12:55'),
+(4, 4, NULL, NULL, NULL, NULL, '2019-10-16 00:13:36', '2019-10-16 00:13:36'),
+(5, 5, NULL, NULL, NULL, NULL, '2019-10-16 00:13:58', '2019-10-16 00:13:58'),
+(6, 6, NULL, NULL, NULL, NULL, '2019-10-16 00:15:38', '2019-10-16 00:15:38'),
+(7, 7, NULL, NULL, NULL, 2, '2019-11-30 22:15:12', '2019-11-30 22:15:54'),
+(9, 9, NULL, NULL, NULL, 2, '2019-12-02 22:41:33', '2019-12-02 22:42:11'),
+(10, 10, NULL, NULL, NULL, 2, '2019-12-02 23:22:36', '2019-12-02 23:25:07');
 
 -- --------------------------------------------------------
 
@@ -200,11 +289,19 @@ CREATE TABLE `inventories` (
   `user_id` int(11) NOT NULL,
   `warehouse_id` int(11) NOT NULL,
   `commodity` int(11) NOT NULL,
+  `weight_bridge_no` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `truck_no` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `stack_no` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lot_no` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `net_weight` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   `quantity` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sell_quantity` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gate_pass_wr` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `quality_category` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sales_status` int(11) DEFAULT '1' COMMENT '1 For Primary 2 For Secondary Sales',
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -214,15 +311,10 @@ CREATE TABLE `inventories` (
 -- Dumping data for table `inventories`
 --
 
-INSERT INTO `inventories` (`id`, `user_id`, `warehouse_id`, `commodity`, `type`, `quantity`, `sell_quantity`, `price`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(17, 2, 4, 1, NULL, '100', '20', '20', '222ba7.pdf', 1, '2018-10-05 02:31:05', '2018-10-07 05:36:08'),
-(18, 3, 2, 4, NULL, '181', '51', '5000', '30e148.pdf', 1, '2018-10-05 02:31:24', '2018-10-08 07:46:57'),
-(19, 2, 4, 3, NULL, '150', '80', '2500', 'e74ac3.pdf', 1, '2018-10-05 02:31:40', '2018-10-08 06:41:15'),
-(20, 4, 1, 2, NULL, '500', '400', '3500', 'bcb772.pdf', 1, '2018-10-05 02:31:58', '2018-10-05 02:31:58'),
-(21, 6, 4, 3, NULL, '100', '100', '1500', '162c9a.pdf', 1, '2018-10-05 02:32:23', '2018-10-05 02:32:23'),
-(22, 7, 1, 1, NULL, '100', '0', '0', '2ffffe.pdf', 1, '2018-10-05 03:40:31', '2018-10-07 05:31:54'),
-(23, 7, 4, 3, NULL, '50', NULL, '0', NULL, 1, '2018-10-07 06:46:54', '2018-10-07 06:46:54'),
-(24, 7, 2, 4, NULL, '19', NULL, '0', NULL, 1, '2018-10-08 06:42:58', '2018-10-08 06:42:58');
+INSERT INTO `inventories` (`id`, `user_id`, `warehouse_id`, `commodity`, `weight_bridge_no`, `truck_no`, `stack_no`, `lot_no`, `net_weight`, `type`, `quantity`, `sell_quantity`, `price`, `gate_pass_wr`, `quality_category`, `image`, `sales_status`, `status`, `created_at`, `updated_at`) VALUES
+(15, 3, 2, 11, '5678', '1234', '12', '12', '20', NULL, '15', NULL, '1700', '1234', 'A', NULL, 1, 1, '2019-12-02 20:39:31', '2019-12-02 21:29:08'),
+(16, 11, 2, 12, NULL, NULL, NULL, NULL, NULL, NULL, '0', NULL, '1800', '1234', 'A', NULL, 2, 0, '2019-12-02 21:29:08', '2019-12-02 21:58:28'),
+(17, 3, 2, 12, NULL, NULL, NULL, NULL, NULL, NULL, '25', '25', '1800', '1234', 'A', NULL, 2, 1, '2019-12-02 21:58:10', '2019-12-02 23:26:29');
 
 -- --------------------------------------------------------
 
@@ -243,8 +335,51 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `item`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Item A', 1, '2018-09-26 12:02:30', '2018-09-26 12:02:30'),
-(2, 'Item B', 1, '2018-09-26 12:02:30', '2018-09-26 12:02:30');
+(1, 'Barley', 0, '2019-01-19 02:56:55', '2019-01-21 16:48:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loan_max_value`
+--
+
+CREATE TABLE `loan_max_value` (
+  `id` int(11) NOT NULL,
+  `loan_value` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `loan_max_value`
+--
+
+INSERT INTO `loan_max_value` (`id`, `loan_value`) VALUES
+(1, 70);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mandi_name`
+--
+
+CREATE TABLE `mandi_name` (
+  `id` int(11) NOT NULL,
+  `mandi_name` varchar(255) NOT NULL,
+  `mandi_tax_fees` varchar(25) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `mandi_name`
+--
+
+INSERT INTO `mandi_name` (`id`, `mandi_name`, `mandi_tax_fees`, `created_at`, `updated_at`, `status`) VALUES
+(1, 'Sikar', NULL, '2019-01-18 20:00:09', '2019-01-18 20:00:09', 1),
+(2, 'Jhunjhunu', NULL, '2019-01-18 20:00:21', '2019-01-18 20:00:21', 1),
+(3, 'Jaipur', NULL, '2019-01-18 20:00:33', '2019-01-18 20:00:33', 1),
+(4, 'Shrimadhopur', NULL, '2019-01-18 20:00:45', '2019-01-18 20:00:45', 1),
+(5, 'Chomu', NULL, '2019-01-18 20:00:55', '2019-01-18 20:00:55', 1);
 
 -- --------------------------------------------------------
 
@@ -264,19 +399,7 @@ CREATE TABLE `migrations` (
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(4, '2018_09_06_125124_create_roles_table', 2),
-(5, '2018_09_06_125445_create_user_roles_table', 3),
-(7, '2018_09_06_130518_create_user_details_table', 4),
-(8, '2018_09_13_114238_create_warehouses_table', 5),
-(9, '2018_09_17_120058_create_inventories_table', 6),
-(10, '2018_09_17_120618_create_finances_table', 7),
-(11, '2018_09_17_124005_create_items_table', 8),
-(12, '2018_09_17_124037_create_facilities_table', 8),
-(13, '2018_09_22_122228_create_finance_responses_table', 9),
-(14, '2018_09_26_123235_create_categories_table', 10),
-(15, '2018_09_27_115959_create_buy_sells_table', 11),
-(16, '2018_09_27_120032_create_buy_sell_conversations_table', 11);
+(2, '2014_10_12_100000_create_password_resets_table', 1);
 
 -- --------------------------------------------------------
 
@@ -308,8 +431,63 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '2018-09-06 13:57:26', '2018-09-06 13:57:26'),
-(2, 'user', '2018-09-06 13:57:26', '2018-09-06 13:57:26');
+(1, 'admin', '2018-09-06 08:27:26', '2018-09-06 08:27:26'),
+(2, 'user', '2018-09-06 08:27:26', '2018-09-06 08:27:26'),
+(4, 'govt_user', '2019-01-05 13:17:45', '2019-01-05 13:17:45'),
+(5, 'farmer', '2019-01-13 07:25:38', '2019-01-13 07:25:38'),
+(6, 'trader', '2019-01-13 07:29:03', '2019-01-13 07:29:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_hash_key`
+--
+
+CREATE TABLE `sms_hash_key` (
+  `id` int(11) NOT NULL,
+  `hash` varchar(191) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sms_hash_key`
+--
+
+INSERT INTO `sms_hash_key` (`id`, `hash`) VALUES
+(1, 'BycE+CkOSN/');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `today_prices`
+--
+
+CREATE TABLE `today_prices` (
+  `id` int(11) NOT NULL,
+  `modal` varchar(191) DEFAULT NULL,
+  `max` varchar(191) DEFAULT NULL,
+  `min` varchar(191) DEFAULT NULL,
+  `commodity_id` int(11) NOT NULL,
+  `mandi_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `today_prices`
+--
+
+INSERT INTO `today_prices` (`id`, `modal`, `max`, `min`, `commodity_id`, `mandi_id`, `created_at`, `updated_at`, `status`) VALUES
+(1, '1900', '1905', '1891', 1, 1, '2019-01-21 09:37:10', '2019-08-21 18:20:22', 1),
+(2, '1885', '1900', '1860', 1, 2, '2019-01-21 09:37:41', '2019-08-21 18:20:48', 1),
+(3, '4500', '5000', '4000', 3, 3, '2019-01-21 09:39:20', '2019-10-07 09:20:34', 1),
+(4, '4450', '4600', '4400', 4, 4, '2019-01-21 09:39:54', '2019-01-21 09:39:54', 1),
+(5, '1650', '1700', '1600', 7, 5, '2019-01-21 09:40:23', '2019-10-07 09:21:31', 1),
+(6, '1925', '1950', '1900', 1, 5, '2019-01-21 09:41:47', '2019-08-21 18:21:34', 1),
+(7, '4500', '4600', '4400', 4, 3, '2019-01-21 09:42:22', '2019-01-21 09:42:22', 1),
+(8, '3750', '3800', '3650', 5, 2, '2019-01-21 09:43:03', '2019-10-07 09:20:17', 1),
+(9, '4500', '5000', '4000', 3, 4, '2019-01-21 09:43:57', '2019-10-07 09:21:11', 1),
+(10, '3700', '3800', '3600', 5, 3, '2019-01-21 09:44:30', '2019-10-07 09:20:52', 1);
 
 -- --------------------------------------------------------
 
@@ -319,12 +497,13 @@ INSERT INTO `roles` (`id`, `role`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
-  `fname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fname` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `lname` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `login_otp` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `register_otp` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -335,13 +514,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `phone`, `login_otp`, `remember_token`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', '', 'admin@admin.com', '$2y$10$8tXr4/YWabiDDW2AfnMZC.TuF0tMtetSx9Pe/yvlNON2hLlymmqeK', '7014957469', NULL, 'sA72wUSZWjqO46uzH3KZd4rK9pXpdrYBTGQqBbBNSDoWcdDSJbLLzY0HunMU', 1, '2018-09-01 08:17:09', '2018-09-17 08:03:32'),
-(2, 'Amit Sharma', NULL, NULL, '$2y$10$6JzKUBsDb0hmrFa2xx9/d.U6Thwphdsrjhq20tQspzBshV9befJuG', '9314142089', NULL, 'BQAm6qJg6aSRiX7GucU5hs6B8k84sKoAG4ahDzNFpdZnrxXv6S1poewy8hd3', 1, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
-(3, 'Prem Saini', NULL, 'premsaini9602@gmail.com', '$2y$10$eT3lvbBhSxZDazizdE4V/ONbBq/2U5rp/ATlHElFCDksKreTMZE4e', '9602947878', NULL, '3XW2aHX5NTHv2inq4vQWWauUCBcWhHnpzqzM5TK3HzQKk8PD8AQ9m6UpxKG6', 1, '2018-10-05 02:25:33', '2018-10-05 02:25:33'),
-(4, 'Ravi Kumar', NULL, NULL, '$2y$10$qjEhOP9qJVX/V4VIt4JeK.7.MdB6kgjxN6Z.QvNF9ZH5OTwhI/vRu', '9509201120', NULL, NULL, 1, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(6, 'Kumar Prem', NULL, NULL, '$2y$10$50G6l0BAYE65sHdPtvpGS.SAM0RW2bRQKaPAluJrUSwOY6abRlfTi', '8005609866', NULL, NULL, 1, '2018-10-05 02:27:45', '2018-10-05 02:27:55'),
-(7, 'Ani Modi', NULL, NULL, '$2y$10$tjwUzPXS5/bzc4X6Tfv6oOtBW/Y9X3t7VdmHeufl456a3lq83UxV6', '9602047010', NULL, NULL, 1, '2018-10-05 03:37:52', '2018-10-05 03:39:05');
+INSERT INTO `users` (`id`, `fname`, `lname`, `email`, `password`, `phone`, `login_otp`, `register_otp`, `remember_token`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', '', 'admin@admin.com', '$2y$10$JCJ6HuLpoDYa0obD88w0buwVOYjjK5/M59CxfPM/UDqtJHLb2uK5O', '9314142089', NULL, NULL, 'cfQINe4XqLxOZn5SHvn44LQmjs42y6Ndb2XwSe73beWotJ1X7SsEKcd2BWHw', 1, '2018-09-01 08:17:09', '2019-12-02 20:33:02'),
+(2, 'Super Admin', '', 'ravikumawat4949@gmail.com', '$2y$10$JCJ6HuLpoDYa0obD88w0buwVOYjjK5/M59CxfPM/UDqtJHLb2uK5O', '9549494175', NULL, NULL, 'BQYnypaZmD0V3rvtMFdbPp8dzwOKo7VkArXZMD86OXBXmpq5NnJmciqfMKNK', 1, '2018-09-01 08:17:09', '2019-12-02 20:33:02'),
+(3, 'Pooja', 'Pooja', NULL, '$2y$10$Y6ki2B/9P/SbKQAWklCftulY29KNFX4a1ly8JMGD47TGPNOCbkS8C', '8955895493', NULL, '', NULL, 1, '2019-10-15 19:11:27', '2019-12-02 22:24:52'),
+(11, 'Ravi Kumawat', NULL, NULL, '$2y$10$8/BDfmPxgHRdxPHE7aYWS.N1V2hn59jd/C4eO16..2jYAqX9NYKX2', '7014432414', NULL, NULL, 'uMRs82RN0kjh2LzwKVxbEsoNsvqcBqWDV4SRNfSw1RonMkM0SlyQPcWV67gK', 1, '2019-11-28 07:34:48', '2019-12-02 21:24:47'),
+(14, 'Rekha Agarwal Test', NULL, NULL, '$2y$10$8vuzYWl5TfXqW4o9xri0hesMP8/p7uQlhDA.DaESYp3i4PtLrSoVe', '8005731068', NULL, NULL, NULL, 1, '2019-12-02 20:26:41', '2019-12-02 20:27:12');
 
 -- --------------------------------------------------------
 
@@ -356,6 +534,8 @@ CREATE TABLE `user_details` (
   `lname` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `referral_code` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `referral_by` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `father_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `category` int(11) DEFAULT NULL,
   `gst_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -365,6 +545,20 @@ CREATE TABLE `user_details` (
   `district` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `power` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `aadhar_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_branch` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_acc_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_ifsc_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `profile_image` text COLLATE utf8mb4_unicode_ci,
+  `aadhar_image` text COLLATE utf8mb4_unicode_ci,
+  `cheque_image` text COLLATE utf8mb4_unicode_ci,
+  `firm_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` longtext COLLATE utf8mb4_unicode_ci,
+  `mandi_license` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `transfer_amount` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -374,12 +568,32 @@ CREATE TABLE `user_details` (
 -- Dumping data for table `user_details`
 --
 
-INSERT INTO `user_details` (`id`, `user_id`, `fname`, `lname`, `email`, `phone`, `father_name`, `category`, `gst_number`, `khasra_no`, `village`, `tehsil`, `district`, `image`, `power`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Amit Sharma', NULL, NULL, '8003947560', 'FAther', 1, NULL, '12345', 'singhana', 'Buhana', 'jhunjhunu', 'c9e0c7.jpg', '1', 1, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
-(2, 3, 'Prem Saini', NULL, 'premsaini9602@gmail.com', '9602947878', 'Father', 2, '98765', NULL, 'singhana', 'Buhana', 'jhunjhunu', 'b571e4.jpg', '1', 1, '2018-10-05 02:25:33', '2018-10-05 02:25:33'),
-(3, 4, 'Ravi Kumar', NULL, NULL, '9509201120', 'Father', 3, '123456789', NULL, 'Shastri Nagar', 'Vidhyadhar Nagar', 'Jaipur', '462df1.jpg', '1', 1, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(5, 6, 'Kumar Prem', NULL, NULL, '8005609866', 'Father', 1, NULL, '1234', 'vidhyadhar nagar', 'jaipur', 'jaipur', 'user.png', '500000', 1, '2018-10-05 02:27:44', '2018-10-05 02:27:55'),
-(6, 7, 'Ani Modi', NULL, NULL, '9602047010', 'Father NAme', 1, NULL, '12345', 'vidhyadhar nagar', 'jaipur', 'jaipur', 'user.png', '2800', 1, '2018-10-05 03:37:51', '2018-10-08 07:46:57');
+INSERT INTO `user_details` (`id`, `user_id`, `fname`, `lname`, `email`, `phone`, `referral_code`, `referral_by`, `father_name`, `category`, `gst_number`, `khasra_no`, `village`, `tehsil`, `district`, `image`, `power`, `aadhar_no`, `bank_name`, `bank_branch`, `bank_acc_no`, `bank_ifsc_code`, `profile_image`, `aadhar_image`, `cheque_image`, `firm_name`, `address`, `mandi_license`, `latitude`, `longitude`, `transfer_amount`, `status`, `created_at`, `updated_at`) VALUES
+(7, 3, 'pooja', 'Pooja', '', '8955895493', 'R772ED', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'user.png', '9211250', '123445694789', NULL, NULL, NULL, NULL, NULL, '4a5960.png', 'dd5f7f.png', NULL, 'p.no 16 sector 9, opposite vidhyadhar nagar jaipur', NULL, NULL, NULL, NULL, 1, '2019-10-15 00:06:00', '2019-12-02 21:59:18'),
+(10, 11, 'Ravi Kumawat', NULL, NULL, '7014432414', 'RA710B', NULL, NULL, NULL, 'GSTIN1215254589653254', NULL, NULL, NULL, NULL, 'user.png', '261000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Hastag Soft', 'F-125, Unnati Tower, Central Spine,, Vidhyadhar Nagar Jaipur', 'REF./157411', NULL, NULL, NULL, 1, '2019-11-28 07:34:48', '2019-12-02 21:29:12'),
+(13, 14, 'Rekha Agarwal Test', NULL, NULL, '8005731068', 'RDA384', NULL, 'Girdhari Lal', NULL, NULL, NULL, 'Jaipur', NULL, 'Jaipur', 'user.png', '1000000', '963852741012', 'SBI', 'VDN', '963963963963', 'SBIN0031211', NULL, '70e1f2.jpg', '334ced.jpg', NULL, 'Vidhyadhar Nagar, Jaipur', NULL, NULL, NULL, NULL, 1, '2019-12-02 20:26:40', '2019-12-02 20:27:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_groups`
+--
+
+CREATE TABLE `user_groups` (
+  `id` int(11) NOT NULL,
+  `group_id` varchar(10) NOT NULL,
+  `user_ids` text NOT NULL,
+  `status` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_groups`
+--
+
+INSERT INTO `user_groups` (`id`, `group_id`, `user_ids`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'AG96883', '[\"3\",\"11\"]', 1, '2019-12-02 15:50:56', '2019-12-02 15:50:56');
 
 -- --------------------------------------------------------
 
@@ -400,13 +614,22 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2018-09-06 13:56:31', '2018-09-06 13:56:31'),
-(12, 2, 2, '2018-10-05 02:24:51', '2018-10-05 02:24:51'),
-(13, 3, 2, '2018-10-05 02:25:33', '2018-10-05 02:25:33'),
-(14, 4, 2, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(15, 5, 2, '2018-10-05 02:26:30', '2018-10-05 02:26:30'),
-(16, 6, 2, '2018-10-05 02:27:44', '2018-10-05 02:27:44'),
-(17, 7, 2, '2018-10-05 03:37:51', '2018-10-05 03:37:51');
+(1, 1, 1, '2018-09-06 08:26:31', '2018-09-06 08:26:31'),
+(2, 2, 1, '2018-09-06 08:26:31', '2018-09-06 08:26:31'),
+(3, 3, 2, '2019-10-12 19:15:49', '2019-10-12 19:15:49'),
+(4, 4, 2, '2019-10-12 19:19:43', '2019-10-12 19:19:43'),
+(5, 5, 2, '2019-10-12 21:40:09', '2019-10-12 21:40:09'),
+(6, 8, 2, '2019-10-14 21:11:07', '2019-10-14 21:11:07'),
+(7, 9, 2, '2019-10-15 00:06:00', '2019-10-15 00:06:00'),
+(8, 10, 5, '2019-10-15 00:47:03', '2019-10-15 00:47:03'),
+(9, 10, 5, '2019-10-15 00:47:03', '2019-10-15 00:47:03'),
+(10, 8, 2, '2019-10-15 23:21:51', '2019-10-15 23:21:51'),
+(11, 9, 5, '2019-10-16 00:32:22', '2019-10-16 00:32:22'),
+(12, 10, 2, '2019-11-24 20:29:30', '2019-11-24 20:29:30'),
+(13, 11, 2, '2019-11-28 07:34:48', '2019-11-28 07:34:48'),
+(14, 12, 2, '2019-11-28 07:51:34', '2019-11-28 07:51:34'),
+(15, 13, 2, '2019-11-30 21:55:33', '2019-11-30 21:55:33'),
+(16, 14, 2, '2019-12-02 20:26:40', '2019-12-02 20:26:40');
 
 -- --------------------------------------------------------
 
@@ -416,29 +639,115 @@ INSERT INTO `user_roles` (`id`, `user_id`, `role_id`, `created_at`, `updated_at`
 
 CREATE TABLE `warehouses` (
   `id` int(10) UNSIGNED NOT NULL,
+  `warehouse_code` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `village` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `capacity` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `items` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `facilities` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `facility_ids` text COLLATE utf8mb4_unicode_ci,
+  `bank_ids` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` text COLLATE utf8mb4_unicode_ci,
   `status` tinyint(1) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `warehouses`
 --
 
-INSERT INTO `warehouses` (`id`, `name`, `village`, `capacity`, `items`, `facilities`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'warehouse palsana', 'palsana', '200 ton', '[\"1\",\"3\"]', '[\"1\",\"2\",\"4\"]', 1, '2018-09-13 07:28:27', '2018-09-14 06:09:19'),
-(2, 'warehouse jaipur', 'chomu', '1000 ton', '[\"1\",\"3\"]', '[\"1\",\"4\"]', 1, '2018-09-13 07:31:05', '2018-09-14 06:09:45'),
-(3, 'warehouse jhunjhunu', 'singhana', '500 ton', '[\"2\"]', '[\"3\",\"4\"]', 2, '2018-09-13 08:00:38', '2018-09-14 06:18:35'),
-(4, 'vidhyadhar nagar warehouse', 'vidhyadhar nagar', '10000', '[\"1\",\"2\"]', '[\"1\",\"2\"]', 1, '2018-10-03 08:47:13', '2018-10-03 09:01:24');
+INSERT INTO `warehouses` (`id`, `warehouse_code`, `name`, `facility_ids`, `bank_ids`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'TL001', 'Greenwings Innovative', '[\"2\",\"4\",\"5\"]', NULL, '0e3da0.jpg', 1, '2019-01-18 19:52:09', '2019-10-04 20:21:34'),
+(2, 'TL002', 'Sharda Devi', '[\"2\",\"3\",\"4\"]', NULL, NULL, 1, '2019-01-18 19:52:31', '2019-10-07 09:24:01'),
+(3, 'TL003', 'Chiraag Logistics', '[\"2\",\"4\",\"5\"]', NULL, 'f454a1.jpg', 1, '2019-01-18 19:53:02', '2019-10-03 01:17:03'),
+(4, 'TL004', 'R K Warehouse', '[\"2\",\"3\",\"4\"]', NULL, NULL, 1, '2019-01-18 19:53:39', '2019-01-18 19:53:39'),
+(5, 'TL005', 'Maharshi Export', '[\"2\",\"4\",\"5\"]', NULL, '198162.jpg', 1, '2019-01-18 19:54:01', '2019-10-03 01:17:44'),
+(6, 'TL006', 'Giriraj Dharan Industries', '[\"4\",\"5\"]', NULL, '54d544.jpg', 1, '2019-04-06 16:13:54', '2019-10-03 01:17:31'),
+(7, 'TL007', 'National Industries', '[\"2\",\"3\",\"5\"]', NULL, 'd0c70b.jpg', 1, '2019-04-17 16:45:47', '2019-10-03 01:17:57'),
+(8, 'TL008', 'Raka Tripathi', '[\"2\",\"3\",\"5\"]', NULL, NULL, 1, '2019-04-17 16:45:47', '2019-04-17 16:45:47'),
+(9, 'TL009', 'Agarwal Industries', '[\"2\",\"3\",\"4\",\"5\",\"7\"]', '[\"1\",\"2\",\"4\"]', '2ea85b.jpg', 1, '2019-01-18 19:53:02', '2019-10-14 17:43:53'),
+(10, 'TL010', 'Shah Industries', '[\"2\",\"4\",\"5\"]', NULL, NULL, 1, '2019-04-06 16:13:54', '2019-04-06 16:13:54'),
+(11, 'TL011', 'Savita Devi', '[\"2\",\"4\",\"5\"]', NULL, NULL, 1, '2019-01-18 19:54:01', '2019-01-18 19:54:01'),
+(12, 'TL012', 'Nature Fresh Agro Industries', '[\"4\",\"5\"]', NULL, NULL, 1, '2019-01-18 19:54:01', '2019-01-18 19:54:01'),
+(13, 'TL013', 'abc', 'null', 'null', '6752da.png', 2, '2019-10-14 17:42:53', '2019-10-14 17:43:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `warehouse_enquirers`
+--
+
+CREATE TABLE `warehouse_enquirers` (
+  `id` int(11) NOT NULL,
+  `warehouse_id` int(11) NOT NULL,
+  `commodity` varchar(255) DEFAULT NULL,
+  `quantity` varchar(50) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
+  `commitment` varchar(20) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `warehouse_enquirers`
+--
+
+INSERT INTO `warehouse_enquirers` (`id`, `warehouse_id`, `commodity`, `quantity`, `mobile`, `commitment`, `status`, `created_at`, `updated_at`) VALUES
+(7, 9, '9', '10', '9602947878', '6', 1, '2019-10-15 13:48:30', '2019-10-15 13:48:30'),
+(9, 9, '10', '10', '9639639639', '58', 1, '2019-10-15 14:18:25', '2019-10-15 14:18:25'),
+(10, 3, '13', '12', '1234567890', '12', 1, '2019-10-17 16:11:03', '2019-10-17 16:11:03'),
+(11, 1, '11', '1', '1', '2', 1, '2019-10-17 16:51:03', '2019-10-17 16:51:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `warehouse_rent_rates`
+--
+
+CREATE TABLE `warehouse_rent_rates` (
+  `id` int(11) NOT NULL,
+  `warehouse_id` int(11) DEFAULT NULL,
+  `address` text,
+  `location` varchar(100) DEFAULT NULL,
+  `area` varchar(100) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
+  `area_sqr_ft` varchar(10) DEFAULT NULL,
+  `rent_per_month` varchar(10) DEFAULT NULL,
+  `capacity_in_mt` varchar(10) DEFAULT NULL,
+  `nearby_transporter_info` text,
+  `nearby_mandi_info` text,
+  `nearby_crop_info` text,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `warehouse_rent_rates`
+--
+
+INSERT INTO `warehouse_rent_rates` (`id`, `warehouse_id`, `address`, `location`, `area`, `district`, `area_sqr_ft`, `rent_per_month`, `capacity_in_mt`, `nearby_transporter_info`, `nearby_mandi_info`, `nearby_crop_info`, `status`, `created_at`, `updated_at`) VALUES
+(2, 1, 'Greenwings Innovative', 'Keshwana', 'Kotputli', 'Jaipur', '42000', '94', '7560', NULL, NULL, NULL, 1, '2019-09-11 15:58:52', '2019-10-04 20:21:34'),
+(3, 2, 'morija', 'Morija', 'Chomu', 'Jaipur', '20000', '100', '3600', NULL, NULL, NULL, 1, '2019-09-11 15:59:29', '2019-10-07 09:24:01'),
+(4, 3, 'Chiraag Logistics', 'Manda', 'Khatushyam', 'Sikar', '20000', '100', '3600', 'RK Transports || Maharishi Transports', 'Muhana Mandi || Chommu Mandi', 'Bajara || Barley || Ground Nutt', 1, '2019-09-11 16:00:02', '2019-10-03 01:17:03'),
+(5, 4, 'R K Warehouse', 'Manda', 'Khatushyam', 'Sikar', '16000', '100', '2880', NULL, NULL, NULL, 1, '2019-09-11 16:00:51', '2019-09-11 16:00:51'),
+(6, 5, 'Maharshi Export', 'Palsana', 'Palsana', 'Sikar', '13000', '90', '2340', NULL, NULL, NULL, 1, '2019-09-11 16:06:47', '2019-10-03 01:17:44'),
+(7, 6, 'Giriraj Dharan Industries', 'Ajeetgarh', 'Ajeetgarh', 'Sikar', '10000', '100', '1800', NULL, NULL, NULL, 1, '2019-09-11 16:07:17', '2019-10-03 01:17:31'),
+(8, 7, 'National Industries', 'Reengas', 'Reengas', 'Sikar', '6000', '90', '1080', NULL, NULL, NULL, 1, '2019-09-11 16:17:37', '2019-10-03 01:17:57'),
+(9, 8, 'Raka Tripathi', 'Jhunjhunu', 'Jhunjhunu', 'Jhunjhunu', '4500', '100', '810', NULL, NULL, NULL, 1, '2019-09-11 16:18:05', '2019-09-11 16:18:05'),
+(10, 9, 'Agarwal Industries', 'Palsana', 'Palsana', 'Sikar', '4200', '90', '756', 'Nature Fresh Agro Industries || Agarwal Caters', 'Muhana Mandi', 'Bajra || Makka', 1, '2019-09-11 16:18:38', '2019-10-14 17:43:53'),
+(11, 10, 'Shah Industries', 'Palsana', 'Palsana', 'Sikar', '4200', '90', '756', NULL, NULL, NULL, 1, '2019-09-11 16:19:19', '2019-09-11 16:19:19'),
+(12, 11, 'Savita Devi', 'Rampura', 'Jaipur', 'Jaipur', '3000', '80', '540', NULL, NULL, NULL, 1, '2019-09-11 16:19:55', '2019-09-11 16:19:55'),
+(13, 12, 'Nature Fresh Agro Industries', 'Muhana', 'Muhana', 'Jaipur', '20000', '150', '2000', NULL, NULL, NULL, 1, '2019-09-17 19:45:54', '2019-09-17 19:45:54'),
+(14, 13, 'xyz', 'jaipur', 'rajasthan', 'jaipur', '25000', '17500', '1110', NULL, NULL, NULL, 1, '2019-10-14 17:42:53', '2019-10-14 17:42:53');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `bank_master`
+--
+ALTER TABLE `bank_master`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `buy_sells`
@@ -459,9 +768,21 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `commodity_name`
+--
+ALTER TABLE `commodity_name`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `facilities`
 --
 ALTER TABLE `facilities`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `facilitiy_master`
+--
+ALTER TABLE `facilitiy_master`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -489,6 +810,18 @@ ALTER TABLE `items`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `loan_max_value`
+--
+ALTER TABLE `loan_max_value`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `mandi_name`
+--
+ALTER TABLE `mandi_name`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -507,6 +840,18 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sms_hash_key`
+--
+ALTER TABLE `sms_hash_key`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `today_prices`
+--
+ALTER TABLE `today_prices`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -517,6 +862,12 @@ ALTER TABLE `users`
 -- Indexes for table `user_details`
 --
 ALTER TABLE `user_details`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_groups`
+--
+ALTER TABLE `user_groups`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -532,92 +883,164 @@ ALTER TABLE `warehouses`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `warehouse_enquirers`
+--
+ALTER TABLE `warehouse_enquirers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `warehouse_rent_rates`
+--
+ALTER TABLE `warehouse_rent_rates`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `bank_master`
+--
+ALTER TABLE `bank_master`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `buy_sells`
 --
 ALTER TABLE `buy_sells`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `buy_sell_conversations`
 --
 ALTER TABLE `buy_sell_conversations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `commodity_name`
+--
+ALTER TABLE `commodity_name`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `facilities`
 --
 ALTER TABLE `facilities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `facilitiy_master`
+--
+ALTER TABLE `facilitiy_master`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `finances`
 --
 ALTER TABLE `finances`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `finance_responses`
 --
 ALTER TABLE `finance_responses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `loan_max_value`
+--
+ALTER TABLE `loan_max_value`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `mandi_name`
+--
+ALTER TABLE `mandi_name`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `sms_hash_key`
+--
+ALTER TABLE `sms_hash_key`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `today_prices`
+--
+ALTER TABLE `today_prices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user_details`
 --
 ALTER TABLE `user_details`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `user_groups`
+--
+ALTER TABLE `user_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `warehouses`
 --
 ALTER TABLE `warehouses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `warehouse_enquirers`
+--
+ALTER TABLE `warehouse_enquirers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `warehouse_rent_rates`
+--
+ALTER TABLE `warehouse_rent_rates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
