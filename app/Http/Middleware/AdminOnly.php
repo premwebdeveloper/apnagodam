@@ -20,7 +20,6 @@ class AdminOnly
 
         # Get user id
         $currentuserid = Auth::user()->id;
-        
 
         # Get User role
         $user = DB::table('user_roles')->where('user_id', $currentuserid)->first();

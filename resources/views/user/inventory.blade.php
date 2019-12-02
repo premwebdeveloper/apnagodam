@@ -37,7 +37,7 @@
                       <th scope="col">Terminal</th>
                       <th scope="col">Location</th>
                       <th scope="col">Commodity</th>
-                      <th scope="col">Quantity</th>
+                      <th scope="col">Net Weight (Qtl.)</th>
                       <th scope="col">Quality Category</th>
                       <th scope="col">Create Date</th>
                       <th scope="col">Action</th>
@@ -74,9 +74,11 @@
                                             My Bids
                                         </a>
                                     @endif
-                                    <a href="javascript:;" id="{!! $inventory->id !!}__{!! $inventory->price !!}__{!! $inventory->net_weight !!}" class="apply_for_load btn btn-success form-control btn-sm" title="Edit Price">
-                                        Apply For Loan
-                                    </a>
+                                    @if(!in_array($inventory->id, $alll_loan))
+                                        <a href="javascript:;" id="{!! $inventory->id !!}__{!! $inventory->price !!}__{!! $inventory->net_weight !!}__{!! $inventory->quantity !!}" class="apply_for_loan btn btn-success form-control btn-sm" title="Edit Price">
+                                            Apply For Loan
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endif
@@ -96,16 +98,19 @@
 
             $("#invetory_id").val(temp[0]);
             $("#sell_quantity").val(temp[1]);
+            $("#sell_quantity").attr('max', temp[1]);
+
             $("#edit_price").modal('show');
         });
 
-        $('.apply_for_load').on('click', function(){
+        $('.apply_for_loan').on('click', function(){
             var data = $(this).attr('id');
             var temp = data.split('__');
-            var amount =  temp[1] * temp[2];
+            var amount =  temp[1] * temp[3];
             var max_amount_val = '<?php echo $loan_max_value->loan_value ?>';
             var max_amount = (amount * max_amount_val) / 100;
-            $("#amount").attr('max', max_amount);
+            $("#loan_amount").attr('max', max_amount);
+            $("#quantity").attr('max', temp[3]);
             $("#seller_inventory_id").val(temp[0]);
             $('#apply_for_loan_modal').modal('show');
         });
@@ -128,13 +133,13 @@
                     <input type="hidden" name="invetory_id" id="invetory_id">
 
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right">Your Price</label>
+                        <label data-error="wrong" data-success="right">Your Price (per Qtl.)</label>
 
                         <input id="update_price" type="number" class="form-control" name="price" required autofocus placeholder="Price">
                     </div>
 
                     <div class="md-form mb-5">
-                        <label data-error="wrong" data-success="right">Quantity</label>
+                        <label data-error="wrong" data-success="right">Net Weight (Qtl.)</label>
 
                         <input id="sell_quantity" type="number" class="form-control" name="sell_quantity" required autofocus placeholder="quantity">
                     </div>
@@ -175,7 +180,11 @@
                             @foreach($banks_master as $bank_master)
                                 <tr>
                                     <th>
-                                        {!! Form::radio('apply_for_loan_bank', $bank_master->id, ['class' => 'form-check-input', 'id' => 'apply_for_loan_bank', 'required' => 'required']) !!}
+                                        @if($bank_master->id == 1)
+                                            {!! Form::radio('apply_for_loan_bank',  $bank_master->id, ['class' => 'form-check-input', 'id' => 'apply_for_loan_bank', 'checked' => 'true', 'required' => 'required']) !!}
+                                        @else
+                                            {!! Form::radio('apply_for_loan_bank',  $bank_master->id, ['class' => 'form-check-input', 'id' => 'apply_for_loan_bank', 'checked' => 'false', 'required' => 'required']) !!}
+                                        @endif
                                     </th>
                                     <th>{!! $bank_master->bank_name !!}</th>
                                     <th>{!! $bank_master->interest_rate !!}</th>
@@ -191,8 +200,8 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <span class="red">*</span><b>{!! Form::label('quantity', 'Quantity', ['class' => '']) !!}</b>
-                            {!! Form::text('quantity', '', ['class' => 'form-control', 'id' => 'quantity', 'required' => 'required', 'placeholder' => 'Enter Quantity']) !!}
+                            <span class="red">*</span><b>{!! Form::label('quantity', 'Net Weight (Qtl.)', ['class' => '']) !!}</b>
+                            {!! Form::number('quantity', '', ['class' => 'form-control', 'id' => 'quantity', 'required' => 'required', 'placeholder' => 'Enter Net Weight (Qtl.)']) !!}
 
                             @if($errors->has('quantity'))
                                 <span class="help-block red">
@@ -203,8 +212,8 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <span class="red">*</span><b>{!! Form::label('amount', 'Amount', ['class' => '']) !!}</b>
-                            {!! Form::number('amount', '', ['class' => 'form-control', 'id' => 'amount', 'required' => 'required', 'placeholder' => 'Enter Loan Amount']) !!}
+                            <span class="red">*</span><b>{!! Form::label('amount', 'Loan Amount', ['class' => '']) !!}</b>
+                            {!! Form::number('amount', '', ['class' => 'form-control', 'id' => 'loan_amount', 'required' => 'required', 'placeholder' => 'Enter Loan Amount']) !!}
 
                             @if($errors->has('amount'))
                                 <span class="help-block red">
@@ -212,6 +221,9 @@
                                 </span>
                             @endif
                         </div>
+                    </div>
+                    <div class="col-md-12">
+                        <h6 class="red">You can apply for loan less then {!! $loan_max_value->loan_value !!}% of Total Amount</h6>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">

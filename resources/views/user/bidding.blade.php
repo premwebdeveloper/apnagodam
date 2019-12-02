@@ -25,10 +25,10 @@
                     <h4 class="section-heading text-center">
                         Someone want to buy your commodity [{{ $inventory_info->category }}] placed in [{{ $inventory_info->name }}]
                     </h4>
-                    <h5 class="section-heading text-center">My selling price - {{ $inventory_info->price }} ( {{ $inventory_info->sell_quantity }} Qtl.)</h5>
+                    <h5 class="section-heading text-center">My selling Price : {{ $inventory_info->price }}  - Net Weight : {{ $inventory_info->sell_quantity }} Qtl.</h5>
                     @php
-                        $begin = date('H:i:s', strtotime('12:30'));
-                        $end = date('H:i:s', strtotime('13:00'));
+                        $begin = date('H:i:s', strtotime('00:30'));
+                        $end = date('H:i:s', strtotime('20:00'));
                         $now = date('H:i:s');
                     @endphp
                     @if($now < $begin)
@@ -46,8 +46,8 @@
                     @endif
                 @else
                     @php
-                        $begin = date('H:i:s', strtotime('08:00'));
-                        $end = date('H:i:s', strtotime('12:30'));
+                        $begin = date('H:i:s', strtotime('      00:00'));
+                        $end = date('H:i:s', strtotime('20:30'));
                         $now = date('H:i:s');
                         $bid_open = 0;
                     @endphp

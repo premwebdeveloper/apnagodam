@@ -133,7 +133,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <span> Name of Buying Member <b> {{ $seller_name }}</b></span>
+                    <span> Name of Buying Member <b> {{ $buyer_name }}</b></span>
                 </div>
             </div>
             <div class="row">

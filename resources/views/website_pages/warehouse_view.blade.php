@@ -176,7 +176,7 @@ if(isset($output['results'][0]))
                                 
                             </div>
                             <div class="col-md-6 p-b-20">
-                                {!! Form::label('Commitment (Time Period in Months)', 'Commitment (Time Period)') !!}
+                                {!! Form::label('Commitment (Time Period in Months)', 'Commitment (Time Period in Months)') !!}
                                 {!! Form::number('commitment', '', ['class' => 'form-control', 'id' => 'commitment', 'required' => 'required']) !!}
 
                                 @if($errors->has('commitment'))

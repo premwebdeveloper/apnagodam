@@ -92,9 +92,9 @@
                                 <th scope="col">Terminal</th>
                                 <th scope="col">Location</th>
                                 <th scope="col">Seller</th>
-                                <th scope="col">Quantity (Bags)</th>
+                                <th scope="col">Net Weight (Qtl)</th>
                                 <th scope="col">Quality Category</th>
-                                <th scope="col">Price (<i class="fa fa-inr"></i>/Bag)</th>
+                                <th scope="col">Price (<i class="fa fa-inr"></i>/Qtl.)</th>
                                 <th scope="col">Lab Report</th>
                                 <th scope="col">Action</th>
                             </tr>

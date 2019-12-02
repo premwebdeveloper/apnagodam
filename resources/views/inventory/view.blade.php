@@ -65,13 +65,13 @@
                                     <td><b>Lot No.</b></td>
                                     <td>{{ $inventory->lot_no }}</td>
                                     <td><b>Net Weight</b></td>
-                                    <td>{{ $inventory->net_weight }}</td>
+                                    <td>{{ $inventory->quantity }}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Commodity</b></td>
                                     <td>{{ $inventory->category }}</td>
                                     <td><b>Quantity (Bags)</b></td>
-                                    <td>{{ $inventory->quantity }}</td>
+                                    <td>{{ $inventory->net_weight }}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Price</b></td>

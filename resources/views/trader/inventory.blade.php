@@ -33,7 +33,7 @@
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Commodity</th>
-                      <th scope="col">Seller</th>
+                      <th scope="col">Farmer</th>
                       <th scope="col">Quantity</th>
                       <th scope="col">Sell</th>
                       <th scope="col">Quality</th>

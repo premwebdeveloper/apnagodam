@@ -25,7 +25,7 @@
                                 <th scope="col">Location</th>
                                 <th scope="col">Buyer</th>
                                 <th scope="col">Commodity</th>
-                                <th scope="col">Quantity (Qtl.)</th>
+                                <th scope="col">Net Weight (Qtl.)</th>
                                 <th scope="col">Quality Categgory</th>
                                 <th scope="col">Price (Rs/Qtl.)</th>
                                 <th scope="col">Date</th>
@@ -61,27 +61,25 @@
                                 <th scope="col">Terminal</th>
                                 <th scope="col">Location</th>
                                 <th scope="col">Commodity</th>
-                                <th scope="col">Quantity (Qtl.)</th>
+                                <th scope="col">Net Weight(Qtl.)</th>
                                 <th scope="col">Quality Categgory</th>
-                                <th scope="col">Price (Rs/Qtl.)</th>
+                                <th scope="col">Bid Amount(Price)</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($buys as $key => $buy)
-                                @if($buy->status == 2)
-                                    <tr>
-                                        <td>{{ $buy->name }}</td>
-                                        <td>{{ $buy->location }}</td>
-                                        <td>{{ $buy->category }}</td>
-                                        <td>{{ $buy->quantity }}</td>
-                                        <td>{{ $buy->quality_category }}</td>
-                                        <td>{{ $buy->price }}</td>
-                                        <td>{{ $buy->created_at }}</td>
-                                        <td><b class="red">Pending With Admin</b></td>
-                                    </tr>
-                                @endif
+                                <tr>
+                                    <td>{{ $buy->name }}</td>
+                                    <td>{{ $buy->location }}</td>
+                                    <td>{{ $buy->category }}</td>
+                                    <td>{{ $buy->quantity }}</td>
+                                    <td>{{ $buy->quality_category }}</td>
+                                    <td>{{ $buy->price }}</td>
+                                    <td>{{ $buy->created_at }}</td>
+                                    <td><strong style="color:green;">Success</strong></td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

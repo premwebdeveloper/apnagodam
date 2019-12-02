@@ -77,10 +77,10 @@ class deleteSells extends Command
                 $remaining_quantity = $inventory_info->quantity - $quantity;
                 $date = date('Y-m-d H:i:s');
 
-                $trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
+                //$trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
 
                 // If trader have this commodity already then update quantity
-                if(!empty($trader_inventory)){
+                /*if(!empty($trader_inventory)){
 
                     $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
 
@@ -89,15 +89,20 @@ class deleteSells extends Command
                     ]);
 
                 }else{
+*/
+                    // If trader do not have this commodity already then insert this commodity with this teader
+                    $cate = DB::table('categories')->where('id', $inventory_info->commodity)->first();
+                    $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Paid'])->first();
+
 
                     // If trader do not have this commodity already then insert this commodity with this teader
                     $insert_id = DB::table('inventories')->insertGetId([
 
                         'user_id'          => $buyer_id,
                         'warehouse_id'     => $inventory_info->warehouse_id,
-                        'commodity'        => $inventory_info->commodity,
+                        'commodity'        => $new_cate->id,
                         'quantity'         => $quantity,
-                        'gate_pass_wr'     => $done_deals->gate_pass_wr."-A",
+                        'gate_pass_wr'     => $gate_pass,
                         'price'            => $price,
                         'quality_category' => $quality_category,
                         'sales_status'     => 2,
@@ -106,7 +111,7 @@ class deleteSells extends Command
                         'created_at'       => $date,
                         'updated_at'       => $date,
                     ]);
-                }
+                /*}*/
 
                 //Get Remainning Inverntry From Farmer
                 $inventory_info_seller = DB::table('inventories')->where(['user_id' => $seller_id, 'warehouse_id' => $warehouse_id, 'commodity' => $inventory_info->commodity])->first();

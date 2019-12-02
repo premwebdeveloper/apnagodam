@@ -454,7 +454,12 @@ class AdminController extends Controller
     public function enquiries(){
 
         // Get users with status 0
-        $enquiries = DB::table('user_details')->where('status', 0)->get();
+        $enquiries = DB::table('warehouse_enquirers')
+        ->join('warehouses', 'warehouses.id', '=', 'warehouse_enquirers.warehouse_id')
+        ->join('categories', 'categories.id', '=', 'warehouse_enquirers.commodity')
+        ->where('warehouse_enquirers.status', 1)
+        ->select('warehouse_enquirers.*', 'warehouses.name', 'categories.category as category_name')
+        ->get();
 
         return view('admin.enquiries', array('enquiries' => $enquiries));
     }
@@ -501,23 +506,14 @@ class AdminController extends Controller
     // Unapprove enquiry
     public function unapprove(Request $request){
 
-        $user_id = $request->user_id;
-
-        // unapprove by admin
-        $user = DB::table('users')->where('id', $user_id)->first();
-
-        // User delete in users table
-        $user_unapprove = DB::table('users')->where('id', $user_id)->delete();
-
-        // User delete in user roles table
-        $userrole_unapprove = DB::table('user_roles')->where('user_id', $user_id)->delete();
+        $id = $request->user_id;
 
         // User details update in user details table
-        $unapprove = DB::table('user_details')->where('user_id', $user_id)->delete();
+        $unapprove = DB::table('warehouse_enquirers')->where('id', $id)->delete();
 
         if($unapprove)
         {
-            $status = 'Enquiry unapproved by Admin.';
+            $status = 'Enquiry deleted Successfully.';
 
             $sms = 'Apna Godam - Enquiry unapproved successfully.';
         }
@@ -575,10 +571,10 @@ class AdminController extends Controller
         $remaining_quantity = $inventory_info->quantity - $quantity;
         $date = date('Y-m-d H:i:s');
 
-        $trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
+        //$trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
 
         // If trader have this commodity already then update quantity
-        if(!empty($trader_inventory)){
+        /*if(!empty($trader_inventory)){
 
             $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
 
@@ -586,14 +582,22 @@ class AdminController extends Controller
                 'updated_at' => $date,
             ]);
 
-        }else{
+
+
+        }else{*/
+
+            //Get Comodity Details
+
+            $cate = DB::table('categories')->where('id', $inventory_info->commodity)->first();
+            $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Paid'])->first();
+
 
             // If trader do not have this commodity already then insert this commodity with this teader
             $insert_id = DB::table('inventories')->insertGetId([
 
                 'user_id'          => $buyer_id,
                 'warehouse_id'     => $inventory_info->warehouse_id,
-                'commodity'        => $inventory_info->commodity,
+                'commodity'        => $new_cate->id,
                 'quantity'         => $quantity,
                 'gate_pass_wr'     => $gate_pass,
                 'price'            => $price,
@@ -604,7 +608,7 @@ class AdminController extends Controller
                 'created_at'       => $date,
                 'updated_at'       => $date,
             ]);
-        }
+        /*}*/
 
         //Get Remainning Inverntry From Farmer
         $inventory_info_seller = DB::table('inventories')->where(['user_id' => $seller_id, 'warehouse_id' => $warehouse_id, 'commodity' => $inventory_info->commodity])->first();

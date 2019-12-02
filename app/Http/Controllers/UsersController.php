@@ -26,6 +26,9 @@ class UsersController extends Controller
 
         $currentuserid = Auth::user()->id;
 
+         # empty otp for this user if successfully logged iN
+        $user = DB::table('users')->where('id', $currentuserid)->update(['login_otp' => null]);
+
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
 
         return view("user.dashboard", array('user' => $user));
@@ -55,14 +58,24 @@ class UsersController extends Controller
         $loan_max_value = DB::table('loan_max_value')->first();
 
         $inventories = DB::table('inventories')
-                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-                        ->join('warehouse_rent_rates', 'warehouses.id', '=', 'warehouse_rent_rates.warehouse_id')
-                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                        ->leftJoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                        ->leftJoin('warehouse_rent_rates', 'warehouses.id', '=', 'warehouse_rent_rates.warehouse_id')
+                        ->leftJoin('categories', 'categories.id', '=', 'inventories.commodity')
                         ->select('inventories.*', 'categories.category as cat_name', 'warehouses.name', 'warehouses.warehouse_code', 'warehouse_rent_rates.location')
                         ->where(['inventories.status' => 1, 'inventories.user_id' => $currentuserid])
                         ->get();
 
-        return view("user.inventory", array('user' => $user, 'banks_master' => $banks_master, 'inventories' => $inventories, 'loan_max_value' => $loan_max_value));
+        //Get All Loan for Single User
+        $alll_loan =  DB::table('finances')
+                        ->where('user_id', $currentuserid)
+                        ->select('commodity_id')
+                        ->get();
+        $ids = array();
+        foreach ($alll_loan as $key => $loan) {
+            $ids[$key] = $loan->commodity_id;
+        }
+
+        return view("user.inventory", array('user' => $user, 'banks_master' => $banks_master, 'inventories' => $inventories, 'loan_max_value' => $loan_max_value, 'alll_loan' => $ids));
     }
 
     // User profile view
@@ -153,7 +166,7 @@ class UsersController extends Controller
         // First get commodity informatioon
         $commodity_info = DB::table('inventories')->where('id', $commodity_id)->first();
 
-        if($commodity_info->net_weight < $quantity):
+        if($commodity_info->quantity < $quantity):
 
             $status = 'You can not apply for loan on more than quantity you have !';
             return redirect('inventories/'.$commodity_id)->with('status', $status);
@@ -366,22 +379,22 @@ class UsersController extends Controller
 
         // Get all sell products
         $sells = DB::table('buy_sells')
-            ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
-            ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-            ->join('categories', 'categories.id', '=', 'inventories.commodity')
-            ->join('user_details', 'user_details.user_id', '=', 'buy_sells.buyer_id')
+            ->leftjoin('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+            ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+            ->leftjoin('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+            ->leftjoin('categories', 'categories.id', '=', 'inventories.commodity')
+            ->leftjoin('user_details', 'user_details.user_id', '=', 'buy_sells.buyer_id')
             ->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '3'])
             ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location','user_details.fname')
             ->get();
 
         // Get all buy products
         $buys = DB::table('buy_sells')
-                ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
-                ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-                ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                ->where(['buy_sells.buyer_id' => $currentuserid, 'buy_sells.status' => '2'])
+                ->leftjoin('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+                ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                ->leftjoin('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                ->leftjoin('categories', 'categories.id', '=', 'inventories.commodity')
+                ->where(['buy_sells.buyer_id' => $currentuserid, 'buy_sells.status' => '3'])
                 ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location')
                 ->get();
 
@@ -456,7 +469,7 @@ class UsersController extends Controller
 
         // first check buyer power / buyer can puchase or not
         $buyer_info = DB::table('user_details')->where('user_id', $currentuserid)->first();
-
+        
         // If the buyer so not have enough power then hit error
         if($buyer_info->power < $inventory_info->sell_quantity * $my_bid){
 
@@ -522,6 +535,7 @@ class UsersController extends Controller
 
         //Send Message to another buyer and farmer
         $user = DB::table('users')->where('id', $inventory_info->user_id)->first();
+
         $sms = "Buyer Bid ".$my_bid. " RS. on your inventory." ;
         $done = sendsms($user->phone, $sms);
 
@@ -631,8 +645,8 @@ class UsersController extends Controller
 
         $notifications = array();
 
-        echo '<pre>';
-        print_r($deals);
+       /* echo '<pre>';
+        print_r($deals);*/
 
 
         foreach ($deals as $key => $deal) {

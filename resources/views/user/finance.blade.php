@@ -39,6 +39,7 @@
 						<th scope="col">Interest Rate</th>
 						<th scope="col">Loan Pass Days</th>
 						<th scope="col">Loan Amount</th>
+						<th scope="col">Remaining Loan Amount</th>
 						<th scope="col">Request Quantity</th>
 						<th scope="col">Request Date</th>
 						<th scope="col">Action</th>
@@ -54,6 +55,13 @@
 							<td>{!! $finance->interest_rate !!}</td>
 							<td>{!! $finance->loan_pass_days !!}</td>
 							<td>{!! $finance->amount !!}</td>
+							<td>
+								@if($finance->remaining_amount)
+									{!! $finance->remaining_amount !!}
+								@else
+									{!! $finance->amount !!}
+								@endif
+							</td>
 							<td>{!! $finance->quantity !!}</td>
 							<td>{!! date('d M Y', strtotime($finance->created_at)) !!}</td>
 							<td>

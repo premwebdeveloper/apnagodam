@@ -27,6 +27,10 @@ function sendsms($numbers, $message)
     $response = curl_exec($ch);
     curl_close($ch);
 
+    /*echo "<pre>";
+    print_r($response);
+    die;*/
+
     // Process your response here
     return $response;
 
@@ -36,7 +40,7 @@ function sendotp($numbers, $message, $otp)
     // Textlocal account details
     // Message details
     $numbers = urlencode($numbers);
-    $sender_id = urlencode('611332');
+    $sender_id = urlencode('Apnago');
     $message = urlencode($message);
 
     // Prepare data for POST request

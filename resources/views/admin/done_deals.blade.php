@@ -45,7 +45,7 @@
                                     <th>Payment Ref. No.</th>
                                     <th>Terminal</th>
                                     <th>Commodity</th>
-                                    <th>Quantity</th>
+                                    <th>Net Weight (Qtl.)</th>
                                     <th>Price</th>
                                     <th>Done Date</th>
                                     <th>Action</th>

@@ -56,7 +56,7 @@ class DashboardController extends Controller
             lengthMenu: [[25, 50, 100, -1], [25, 50, 100, "All"]],
             responsive: true, dom: \'<"html5buttons"B>lTfgitp\',
             buttons: [ {extend: "csv"}, {extend: "excel", title: "Sales Report"},{extend: "pdf", title: "Sales Report"},  {extend: "print",
-                 customize: function (win){  $(win.document.body).addClass("white-bg"); $(win.document.body).css("font-size", "10px"); $(win.document.body).find("table") .addClass("compact") .css("font-size", "inherit"); } } ] }); });</script><table class="table table-striped table-bordered table-hover" id="datatable"><thead><tr>  <th>Buyer Name</th> <th>Seller Name</th>  <th>Gate Pass</th> <th>Terminal</th> <th>Commodity</th><th>Quantity</th> <th>Price</th><th>Done Date</th></tr></thead><tbody>';
+                 customize: function (win){  $(win.document.body).addClass("white-bg"); $(win.document.body).css("font-size", "10px"); $(win.document.body).find("table") .addClass("compact") .css("font-size", "inherit"); } } ] }); });</script><table class="table table-striped table-bordered table-hover" id="datatable"><thead><tr>  <th>Buyer Name</th> <th>Seller Name</th>  <th>Gate Pass</th>  <th>Payment Ref. No.</th> <th>Terminal</th> <th>Commodity</th><th>Quantity</th> <th>Price</th><th>Done Date</th></tr></thead><tbody>';
 
         foreach($result as $key => $done_deal)
         {

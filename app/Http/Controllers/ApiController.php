@@ -43,8 +43,8 @@ class ApiController extends Controller
                 $otp = $exist->register_otp;        
                 $sms = "<#> Apnagodam : Your OTP is ".$otp;
                 $sms .= ". XxPnhAUM7Co"; // dev key
-                //$sms .= '. '.$sms_key->hash; // prod key
-                
+				//$sms .= '. '.$sms_key->hash; // prod key
+				
                 $data = sendotp($phone, $sms, $otp);
                 $result = json_decode($data);
 
@@ -69,7 +69,7 @@ class ApiController extends Controller
         $otp = rand(100000, 999999);        
         $sms = "<#> Apnagodam : Your OTP is ".$otp;
         $sms .= ". XxPnhAUM7Co"; // dev key
-        //$sms .= '. '.$sms_key->hash; // prod key
+		//$sms .= '. '.$sms_key->hash; // prod key
 
         $data = sendotp($phone, $sms, $otp);
         $result = json_decode($data);
@@ -118,7 +118,7 @@ class ApiController extends Controller
             $otp = $exist->register_otp;
             $sms = "<#> Apnagodam : Your OTP is ".$otp;
             $sms .= ". XxPnhAUM7Co"; // dev key
-            //$sms .= '. '.$sms_key->hash; // prod key 
+			//$sms .= '. '.$sms_key->hash; // prod key 
 
             $data = sendotp($phone, $sms, $otp);
             $result = json_decode($data);
@@ -250,43 +250,43 @@ class ApiController extends Controller
         if(!empty($exist)){
 
             // Profile image
-            if($request->hasFile('TestImage01')) {
+        	if($request->hasFile('TestImage01')) {
 
-                $file = $request->file('TestImage01');
+	            $file = $request->file('TestImage01');
 
-                //Display File Name
-                $profile_image = $file->getClientOriginalName();
+	            //Display File Name
+	            $profile_image = $file->getClientOriginalName();
 
-                //Display File Extension
-                $extension = $file->getClientOriginalExtension();
+	            //Display File Extension
+	            $extension = $file->getClientOriginalExtension();
 
                 $extensions = ['gif', 'png', 'jpg', 'jpeg'];
 
-                //Check Image format is valid or not
-                if(!in_array($extension, $extensions))
-                {
-                    $response = ['error' => "1", 'message' => 'Image type is not allowed !'];
-                    echo json_encode($response);
+	            //Check Image format is valid or not
+	            if(!in_array($extension, $extensions))
+	            {
+	                $response = ['error' => "1", 'message' => 'Image type is not allowed !'];
+	                echo json_encode($response);
                     exit;
-                }
+	            }
 
-                $profile_image = substr(md5(microtime()),rand(0,26),8);
+	            $profile_image = substr(md5(microtime()),rand(0,26),8);
 
-                $profile_image .= '.'.$extension;
+	            $profile_image .= '.'.$extension;
 
-                //Display File Real Path
-                $file_real_path = $file->getRealPath();
+	            //Display File Real Path
+	            $file_real_path = $file->getRealPath();
 
-                //Display File Size
-                $file_size = $file->getSize();
+	            //Display File Size
+	            $file_size = $file->getSize();
 
-                $destinationPath = base_path() . '/resources/assets/documents/profile_images/';
+	            $destinationPath = base_path() . '/resources/assets/documents/profile_images/';
 
-                //Move Uploaded File
-                $file->move($destinationPath,$profile_image);
+	            //Move Uploaded File
+	            $file->move($destinationPath,$profile_image);
 
-                $filepath = $destinationPath.$profile_image;
-            }
+	            $filepath = $destinationPath.$profile_image;
+	        }
 
             // Aadhar image
             if($request->hasFile('TestImage02')) {
@@ -406,8 +406,8 @@ class ApiController extends Controller
                 )
             );
 
-            // $sms = "अपने दोस्तों को मोबाइल ऐप्प का इन्वाइट भेजे और २५ रुपये प्रति रेफरल का पुरस्कार प्राप्त करें !";
-            // $done = sendsms($phone, $sms);
+            $sms = "Send app link and  invite your friends and get a reward of Rs 25 per referral.";
+            $done = sendsms($phone, $sms);
 
             $response = ['error' => "0", 'message' => 'बधाई हो !! आपका 10 लाख का कमोडिटी लोन स्वीकृत हो गया है ,अपने नजदीकी गोदाम में माल भेज कर लोन राशि खाते में प्राप्त करे !'];
             echo json_encode($response);
@@ -424,26 +424,26 @@ class ApiController extends Controller
     // update sms hash key
     public function apna_sms_hash_key(Request $request){
 
-        $hash = $request->hash;
+    	$hash = $request->hash;
 
-        $sms_key = DB::table('sms_hash_key')->where('id', 1)->first();
+    	$sms_key = DB::table('sms_hash_key')->where('id', 1)->first();
 
-        // update sms hash key
-        $update = DB::table('sms_hash_key')->where('id', 1)->update([
+    	// update sms hash key
+    	$update = DB::table('sms_hash_key')->where('id', 1)->update([
             'hash' => $hash
         ]);
 
-        if($update){
+    	if($update){
 
-            $response = ['error' => "0"];
+	        $response = ['error' => "0"];
+	        echo json_encode($response);
+	        exit;
+    	}else{
+
+    		$response = ['error' => "1", 'message' => 'Something went wrong! Please try again.'];
             echo json_encode($response);
             exit;
-        }else{
-
-            $response = ['error' => "1", 'message' => 'Something went wrong! Please try again.'];
-            echo json_encode($response);
-            exit;
-        }
+    	}
     }
 
 }
