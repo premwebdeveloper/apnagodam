@@ -47,7 +47,7 @@
                             <thead>
                                 <tr>
                                     <th>S.No.</th>
-                                    <th>Mandi Name</th>
+                                    <th>Terminal</th>
                                     <th>Commodity Name</th>
                                     <th>Modal(per qtl)</th>
                                     <th>Max(per qtl)</th>
@@ -59,7 +59,7 @@
                                 @foreach($today_prices as $key => $today_price)
                                     <tr class="gradeX">
                                         <td>{!! $key + 1 !!}</td>
-                                        <td>{!! $today_price->mandi_name !!}</td>
+                                        <td>{!! $today_price->terminal_name !!}</td>
                                         <td>{!! $today_price->commodity !!}</td>
                                         <td>{!! $today_price->modal !!}</td>
                                         <td>{!! $today_price->max !!}</td>

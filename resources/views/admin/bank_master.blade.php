@@ -51,6 +51,7 @@
                                     <th>Interest Rate (%)</th>
                                     <th>Processing Fees (%)</th>
                                     <th>Loan Pass Days</th>
+                                    <th>Loan Per Total Amount(%)</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
@@ -63,9 +64,10 @@
                                         <td>{!! $bank_master->interest_rate !!}</td>
                                         <td>{!! $bank_master->processing_fee !!}</td>
                                         <td>{!! $bank_master->loan_pass_days !!}</td>
+                                        <td>{!! $bank_master->loan_per_total_amount !!}</td>
                                         <td>
                                             @if(Auth::user()->id == 1)
-                                                <a href="javascript:;" class="edit_bank btn btn-info btn-xs" id="{!! $bank_master->id !!}_{!! $bank_master->bank_name !!}_{!! $bank_master->interest_rate !!}_{!! $bank_master->processing_fee !!}_{!! $bank_master->loan_pass_days !!}" title="Edit">
+                                                <a href="javascript:;" class="edit_bank btn btn-info btn-xs" id="{!! $bank_master->id !!}_{!! $bank_master->bank_name !!}_{!! $bank_master->interest_rate !!}_{!! $bank_master->processing_fee !!}_{!! $bank_master->loan_pass_days !!}_{!! $bank_master->loan_per_total_amount !!}" title="Edit">
                                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                                 </a>
                                                 @if($bank_master->id != 1)
@@ -105,7 +107,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {!! Form::label('bank_name', 'Bank Name') !!}
-                            {!! Form::text('bank_name', '', ['class' => 'form-control', 'id' => 'bank_name', 'placeholder' => 'Bank Name']) !!}
+                            {!! Form::text('bank_name', '', ['class' => 'form-control', 'id' => 'bank_name', 'placeholder' => 'Bank Name', 'required' => 'required']) !!}
 
                             @if($errors->has('bank_name'))
                                 <span class="help-block red">
@@ -117,7 +119,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {!! Form::label('interest_rate', 'Interest Rate (%)') !!}
-                            {!! Form::number('interest_rate', '', ['class' => 'form-control', 'id' => 'interest_rate', 'placeholder' => 'Interest Rate', 'step' => '0.01']) !!}
+                            {!! Form::number('interest_rate', '', ['class' => 'form-control', 'id' => 'interest_rate', 'placeholder' => 'Interest Rate', 'step' => '0.01', 'required' => 'required']) !!}
 
                             @if($errors->has('interest_rate'))
                                 <span class="help-block red">
@@ -129,7 +131,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {!! Form::label('processing_fee', 'Processing Fees (%)') !!}
-                            {!! Form::number('processing_fee', '', ['class' => 'form-control', 'id' => 'processing_fee', 'placeholder' => 'Processing Fee', 'step' => '0.01']) !!}
+                            {!! Form::number('processing_fee', '', ['class' => 'form-control', 'id' => 'processing_fee', 'placeholder' => 'Processing Fee', 'step' => '0.01', 'required' => 'required']) !!}
 
                             @if($errors->has('processing_fee'))
                                 <span class="help-block red">
@@ -141,11 +143,23 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {!! Form::label('loan_pass_days', 'Loan Pass Days') !!}
-                            {!! Form::number('loan_pass_days', '', ['class' => 'form-control', 'id' => 'loan_pass_days', 'placeholder' => 'Loan Pass Days']) !!}
+                            {!! Form::number('loan_pass_days', '', ['class' => 'form-control', 'id' => 'loan_pass_days', 'placeholder' => 'Loan Pass Days', 'required' => 'required']) !!}
 
                             @if($errors->has('loan_pass_days'))
                                 <span class="help-block red">
                                     <strong>{{ $errors->first('loan_pass_days') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('loan_per_total_amount', 'Loan Per Total Amount(%)') !!}
+                            {!! Form::number('loan_per_total_amount', '', ['class' => 'form-control', 'placeholder' => 'Loan Per Total Amount', 'required' => 'required']) !!}
+
+                            @if($errors->has('loan_per_total_amount'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('loan_per_total_amount') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -228,6 +242,18 @@
                             @endif
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('loan_per_total_amount', 'Loan Per Total Amount(%)') !!}
+                            {!! Form::number('loan_per_total_amount', '', ['class' => 'form-control', 'id' => 'loan_per_t_amount', 'placeholder' => 'Loan Per Total Amount', 'required' => 'required']) !!}
+
+                            @if($errors->has('loan_per_total_amount'))
+                                <span class="help-block red">
+                                    <strong>{{ $errors->first('loan_per_total_amount') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
                     
                     <div class="col-md-12">
                         <div class="form-group">
@@ -252,11 +278,13 @@
         $('.edit_bank').on('click', function(){
             var temp = $(this).attr('id');
             var data = temp.split('_');
+
             $('#edit_bank_master_id').val(data[0]);
             $('#edit_bank_name').val(data[1]);
             $('#edit_interest_rate').val(data[2]);
             $('#edit_processing_fee').val(data[3]);
             $('#edit_loan_pass_days').val(data[4]);
+            $('#loan_per_t_amount').val(data[5]);
             $('#edit_rent_modal').modal('show');
         });
     });

@@ -132,7 +132,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('commodity_type', 'Commodity / Category Type') !!}
-                                    {!! Form::select('commodity_type', ['Paid' => 'Paid', 'Payable' => 'Payable'], '',['class' => 'form-control', 'id' => 'commodity_type']) !!}
+                                    {!! Form::select('commodity_type', ['Paid' => 'Paid', 'Payable' => 'Payable'], $category->commodity_type,['class' => 'form-control', 'id' => 'commodity_type', 'required' => 'required']) !!}
 
                                     @if($errors->has('commodity_type'))
                                         <span class="help-block red">

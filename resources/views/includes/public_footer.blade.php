@@ -24,7 +24,7 @@
                    <p>&copy; 2018 Apna Godam All Rights Reserved</p>
                 </div>
                 <div class="col-sm-6 px-4 mb-4 text-right">
-                    <p>Designed by <a href="http://dexusmedia.com/" target="_blank" style="color:#00c0f5!important;"><b>Dexus Media</b></p>
+                    <p>Designed by <a href="https://www.hastagsoft.com/" target="_blank" style="color:#00c0f5!important;"><b>Hastag Soft</b></p>
                 </div>
 
             </div>

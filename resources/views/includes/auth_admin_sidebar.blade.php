@@ -73,6 +73,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('mandi_samiti') }}">
+                    <i class="fa fa-building"></i>
+                    <span class="nav-label">Mandi Samiti</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('warehouses') }}">
                     <i class="fa fa-building"></i>
                     <span class="nav-label">Terminals</span>
@@ -129,11 +135,16 @@
                     <span class="nav-label">Enquiries</span>
                 </a>
             </li>
-
             <li>
                 <a href="{{ route('done_deals') }}">
                     <i class="fa fa-flag"></i>
                     <span class="nav-label">Deals</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('users_otp') }}">
+                    <i class="fa fa-flag"></i>
+                    <span class="nav-label">User's OTP</span>
                 </a>
             </li>
 

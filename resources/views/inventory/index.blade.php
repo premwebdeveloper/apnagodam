@@ -50,6 +50,7 @@
                                     <th>Gate Pass / WR No.</th>
                                     <th>Commodity</th>
                                     <th>Net Weight (Qtl.)</th>
+                                    <th>Quantity (Bags)</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
@@ -60,12 +61,13 @@
                                         <td>{!! $inventory->warehouse !!} ({!! $inventory->warehouse_code !!})</td>
                                         <td>{!! $inventory->gate_pass_wr !!}</td>
                                         <td>{!! $inventory->category !!}</td>
+                                        <td>{!! $inventory->net_weight !!}</td>
                                         <td>{!! $inventory->quantity !!}</td>
                                         <td>
                                             <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                            @if(Auth::user()->id == 1)
+                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2)
                                             <a href="{!! route('inventory_edit_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>

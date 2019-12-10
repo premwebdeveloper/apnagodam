@@ -33,6 +33,9 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
+                                    <td><b>Mandi Samiti</b></td><td>{{ $warehouse->mandi_samiti_name }}</td>
+                                </tr>
+                                <tr>
                                     <td><b>Name</b></td><td>{{ $warehouse->name }}</td>
                                 </tr>
                                 <tr>

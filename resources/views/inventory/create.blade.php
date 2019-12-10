@@ -123,7 +123,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('net_weight', 'Net Weight') !!}
+                                    {!! Form::label('net_weight', 'Net Weight (Qtl.)') !!}
                                     {!! Form::text('net_weight', '', ['class' => 'form-control', 'id' => 'net_weight', 'placeholder' => 'Net Weight']) !!}
 
                                     @if($errors->has('net_weight'))

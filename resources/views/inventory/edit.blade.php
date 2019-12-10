@@ -125,7 +125,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('net_weight', 'Net Weight') !!}
+                                    {!! Form::label('net_weight', 'Net Weight (Qtl.)') !!}
                                     {!! Form::text('net_weight', $inventory->net_weight, ['class' => 'form-control', 'id' => 'net_weight', 'placeholder' => 'Net Weight']) !!}
 
                                     @if($errors->has('net_weight'))
@@ -164,7 +164,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('quantity', 'Quantity') !!}
+                                    {!! Form::label('quantity', 'Quantity (Bags)') !!}
                                     {!! Form::number('quantity', $inventory->quantity, ['class' => 'form-control', 'id' => 'quantity', 'placeholder' => 'Quantity']) !!}
 
                                     @if($errors->has('quantity'))

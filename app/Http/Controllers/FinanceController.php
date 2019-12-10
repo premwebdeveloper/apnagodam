@@ -29,9 +29,8 @@ class FinanceController extends Controller
                         ->join('bank_master', 'bank_master.id', '=', 'finances.bank_id')
                         ->select('finances.*', 'inventories.net_weight','inventories.price', 'inventories.gate_pass_wr', 'categories.category', 'user_details.fname', 'warehouses.name','bank_master.bank_name','bank_master.interest_rate','bank_master.loan_pass_days')
                         ->get();
-        $loan_max_value = DB::table('loan_max_value')->first();
-
-        return view('finance.index', array('requests' => $requests, 'loan_max_value' => $loan_max_value));
+        
+        return view('finance.index', array('requests' => $requests));
     }
 
     // View page for this finance request
@@ -160,22 +159,24 @@ class FinanceController extends Controller
             'bank_name'      => 'required',
             'interest_rate'  => 'required',
             'processing_fee'  => 'required',
-            'loan_pass_days' => 'required'
+            'loan_pass_days' => 'required',
+            'loan_per_total_amount' => 'required'
         ]);
         
         $bank_name      = $request->bank_name;
         $interest_rate  = $request->interest_rate;
         $processing_fee = $request->processing_fee;
         $loan_pass_days = $request->loan_pass_days;
+        $loan_per_total_amount = $request->loan_per_total_amount;
         $date           = date('Y-m-d H:i:s');
-
 
         // Create User Details
         $bank_master = DB::table('bank_master')->insert([
             'bank_name'      => $bank_name,
             'interest_rate'  => $interest_rate,
-            'processing_fee' => $processing_fee,
             'loan_pass_days' => $loan_pass_days,
+            'processing_fee' => $processing_fee,
+            'loan_per_total_amount' => $loan_per_total_amount,
             'created_at'     => $date,
             'updated_at'     => $date,
             'status'         => 1
@@ -201,7 +202,8 @@ class FinanceController extends Controller
             'bank_name'      => 'required',
             'interest_rate'  => 'required',
             'processing_fee'  => 'required',
-            'loan_pass_days' => 'required'
+            'loan_pass_days' => 'required',
+            'loan_per_total_amount' => 'required'
         ]);
         
         $bank_master_id = $request->bank_master_id;
@@ -209,6 +211,7 @@ class FinanceController extends Controller
         $interest_rate  = $request->interest_rate;
         $processing_fee = $request->processing_fee;
         $loan_pass_days = $request->loan_pass_days;
+        $loan_per_total_amount = $request->loan_per_total_amount;
         $date           = date('Y-m-d H:i:s');
 
 
@@ -220,6 +223,7 @@ class FinanceController extends Controller
                 'interest_rate'  => $interest_rate,
                 'processing_fee' => $processing_fee,
                 'loan_pass_days' => $loan_pass_days,
+                'loan_per_total_amount' => $loan_per_total_amount,
                 'updated_at'     => $date,
             ]);
 

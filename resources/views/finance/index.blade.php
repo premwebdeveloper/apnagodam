@@ -14,7 +14,6 @@
         </ol>
     </div>
 	<div class="col-lg-6 p-t-30 text-right">
-        <a href="javascript:;" class="btn btn-sm btn-warning edit_max_loan">Max Loan Amount : {!! $loan_max_value->loan_value !!}%</a>
         <a href="javascript:;" class="btn btn-sm btn-primary upload_remain_amount">Upload Remaining Amount</a>
     </div>
 </div>
@@ -142,24 +141,24 @@
       <div class="modal-body">
         <div class="row">
 
-                {!! Form::open(array('url' => 'edit_loan_amount', 'files' => true)) !!}
-                    <input type="hidden" name="status" value="2">
-                    <input type="hidden" id="f_id" name="f_id">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            {!! Form::label('loan_amount','Enter Loan Amount') !!}
-                            {!! Form::number('loan_amount', '', ['class' => 'form-control', 'id' => 'loan_amount']) !!}
-                        </div>
+            {!! Form::open(array('url' => 'edit_loan_amount', 'files' => true)) !!}
+                <input type="hidden" name="status" value="2">
+                <input type="hidden" id="f_id" name="f_id">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {!! Form::label('loan_amount','Enter Loan Amount') !!}
+                        {!! Form::number('loan_amount', '', ['class' => 'form-control', 'id' => 'loan_amount']) !!}
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            {!! Form::submit('Update Amount', ['class' => 'btn btn-primary btn btn-block']) !!}
-                        </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {!! Form::submit('Update Amount', ['class' => 'btn btn-primary btn btn-block']) !!}
                     </div>
+                </div>
 
-                {!! Form::close() !!}
+            {!! Form::close() !!}
 
-            </div>   
+        </div>   
       </div>
     </div>
 
@@ -193,31 +192,6 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- Loan Max Value Modal -->
-<div class="modal fade" id="upload_max_amount_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title mt-0">Max Loan Amount </h3>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12 col-md-4 col-sm-6"> 
-                        {!! Form::open(array('url' => 'updateMaxLoanAmount', 'files' => true)) !!}                   
-                            <div class="form-group">
-                                {!! Form::number('max_loan_amount', $loan_max_value->loan_value, ['class' => 'form-control', 'id' => 'max_loan_amount', 'max' => 100,'requried' => 'requried']) !!}
-                            </div>
-                            {!! Form::submit('Update Max Loan Amount', ['class' => 'btn btn-primary btn-block waves-effect waves-light']) !!}
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
 <script type="text/javascript">
     $(document).ready(function(){
         $('.request_response').on('click', function(){
@@ -232,9 +206,9 @@
         });
 
         //Update Remaining Amount
-        $('.edit_max_loan').on('click', function(){
-            $('#upload_max_amount_modal').modal('show');
-        });
+        // $('.edit_max_loan').on('click', function(){
+        //     $('#upload_max_amount_modal').modal('show');
+        // });
 
         $('.edit_loan_amount').on('click', function(){
             var temp = $(this).attr('id');

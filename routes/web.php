@@ -39,6 +39,11 @@ Route::get('/profile', 'UsersController@profile')->name('profile');
 
 Route::get('/inventories', 'UsersController@inventories')->name('inventories');
 
+Route::post('/get_total_loan_amount', 'UsersController@get_total_loan_amount')->name('get_total_loan_amount');
+
+// Get todays price of this commodity
+Route::post('/get_todays_price_by_inventory', 'UsersController@get_todays_price_by_inventory')->name('get_todays_price_by_inventory');
+
 Route::get('/user_dashboard', 'UsersController@user_dashboard')->name('user_dashboard');
 
 Route::get('/change_password', 'UsersController@change_password')->name('change_password');
@@ -133,6 +138,9 @@ Route::get('/download_vikray_parchi/{id}/{email}', 'AdminController@download_vik
 // Warehouses Routes
 Route::get('/warehouses', 'WarehouseController@index')->name('warehouses');
 Route::get('/terminal_enquires', 'WarehouseController@terminal_enquires')->name('terminal_enquires');
+// Delete terminal enquiry
+Route::get('/delete_terminal_enquiry/{enquiry_id}', 'WarehouseController@delete_terminal_enquiry')->name('delete_terminal_enquiry');
+
 Route::get('/add_warehouse_view', 'WarehouseController@add_warehouse_view')->name('add_warehouse_view');
 Route::post('/add_warehouse', 'WarehouseController@add_warehouse')->name('add_warehouse');
 Route::get('/warehouse_edit_view/{id}', 'WarehouseController@warehouse_edit_view')->name('warehouse_edit_view');
@@ -239,3 +247,18 @@ Route::post('/add_today', 'CommodityController@add_today')->name('add_today');
 Route::get('/today_price_edit_view/{id}', 'CommodityController@today_view')->name('today_price_edit_view');
 Route::post('/today_price_edit/', 'CommodityController@today_edit')->name('today_price_edit');
 Route::get('/today_price_delete/{id}', 'CommodityController@today_delete')->name('today_price_delete');
+
+// Users otp page
+Route::get('/users_otp', 'AdminController@users_otp')->name('users_otp');
+
+// Mandi samitis view
+Route::get('/mandi_samiti', 'AdminController@mandi_samiti')->name('mandi_samiti');
+
+// Add mandi samiti page
+Route::get('/add_mandi_samiti', 'AdminController@add_mandi_samiti')->name('add_mandi_samiti');
+
+// Add new mandi samiti
+Route::post('/create_mandi_samiti', 'AdminController@create_mandi_samiti')->name('create_mandi_samiti');
+
+// Delete mandi samiti
+Route::get('/delete_mandi_samiti/{id}', 'AdminController@delete_mandi_samiti')->name('delete_mandi_samiti');

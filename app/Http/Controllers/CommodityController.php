@@ -333,8 +333,8 @@ class CommodityController extends Controller
     public function today_price(){
         $today_price = DB::table('today_prices')
                         ->join('categories', 'categories.id', '=', 'today_prices.commodity_id')
-                        ->join('mandi_name', 'mandi_name.id', '=', 'today_prices.mandi_id')
-                        ->select('today_prices.*', 'categories.category as commodity', 'mandi_name.mandi_name as mandi_name')
+                        ->join('warehouses', 'warehouses.id', '=', 'today_prices.terminal_id')
+                        ->select('today_prices.*', 'categories.category as commodity', 'warehouses.name as terminal_name')
                         ->where('today_prices.status', 1)
                         ->get();
         return view('today.index', array('today_prices' => $today_price));
@@ -361,18 +361,21 @@ class CommodityController extends Controller
 
         $mandies = DB::table('mandi_name')->where('status', 1)->get();
 
-        return view('today.create', array('commodities' => $commodities, 'mandies' => $mandies));
+        // Get all warehouses
+        $warehouses = DB::table('warehouses')->where('status', 1)->get();
+
+        return view('today.create', array('commodities' => $commodities, 'warehouses' => $warehouses, 'mandies' => $mandies));
     }
 
     public function add_today(Request $request){
 
         # Set validation for
         $this->validate($request, [
-            'mandi' => 'required',
+            'warehouse' => 'required',
             'commodity' => 'required',
         ]);
 
-        $mandi = $request->mandi;
+        $warehouse = $request->warehouse;
         $commodity = $request->commodity;
         $modal = $request->modal;
         $max = $request->max;
@@ -381,8 +384,8 @@ class CommodityController extends Controller
         $date = date('Y-m-d H:i:s');
 
         // Add Price
-        $mandi = DB::table('today_prices')->insert([
-            'mandi_id' => $mandi,
+        $create = DB::table('today_prices')->insert([
+            'terminal_id' => $warehouse,
             'commodity_id' => $commodity,
             'modal' => $modal,
             'max' => $max,
@@ -392,7 +395,7 @@ class CommodityController extends Controller
             'updated_at' => $date
         ]);
 
-        if($mandi)
+        if($create)
         {
             $status = 'Add Today Price successfully.';
         }

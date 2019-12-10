@@ -37,6 +37,26 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    {!! Form::label('mandi samiti', 'Mandi Samiti *') !!}
+                                    <select name="mandi_samiti" id="mandi_samiti" class="form-control" required="required">
+                                        <option value="">Select Mandi Samiti</option>
+
+                                        @foreach($mandi_samiti as $m_key => $samiti)
+
+                                            <option value="{!! $samiti->id !!}">{!! $samiti->name !!}</option>
+                                        @endforeach
+                                    </select>
+
+                                    @if($errors->has('mandi_samiti'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('mandi_samiti') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     {!! Form::label('name', 'Name *') !!}
                                     {!! Form::text('name', '', ['class' => 'form-control', 'id' => 'name', 'placeholder' => 'Terminal Name']) !!}
 

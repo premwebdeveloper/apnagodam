@@ -285,3 +285,32 @@ ALTER TABLE `inventories` ADD `quality_category` VARCHAR(5) NULL AFTER `gate_pas
 -- ------------------- ALTER TABLE `inventories` at 14-02-2019 ------
 ALTER TABLE `buy_sells` CHANGE `status` `status` TINYINT(1) NOT NULL COMMENT 'status 1 active bid and 0 for complete bid / deal done 3 for pdf send and payment accept';
 ALTER TABLE `buy_sells` CHANGE `status` `status` TINYINT(1) NOT NULL COMMENT 'status 1 active bid and 2 for deal done 3 for pdf send and payment accept';
+
+-- ------------------- CREATE TABLE `mandi_samitis` at 02-12-2019 ------
+CREATE TABLE `mandi_samitis` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci,
+  `district` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `mandi_samitis`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `mandi_samitis`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+-- ------------------- ALTER TABLE `warehouses` at 02-12-2019 ------
+ALTER TABLE `warehouses` ADD `mandi_samiti_id` INT NOT NULL COMMENT 'mandi samiti id' AFTER `id`;
+
+-- ------------------- ALTER TABLE `bank_master` at 02-12-2019 ------
+ALTER TABLE `bank_master` ADD `loan_per_total_amount` VARCHAR(191) NULL AFTER `processing_fee`;
+
+-- ------------------- ALTER TABLE `today_prices` at 03-12-2019 ------
+ALTER TABLE `today_prices` CHANGE `created_at` `created_at` DATE NOT NULL;
+
+-- ------------------- ALTER TABLE `today_prices` at 03-12-2019 ------
+ALTER TABLE `today_prices` CHANGE `mandi_id` `terminal_id` INT NOT NULL;

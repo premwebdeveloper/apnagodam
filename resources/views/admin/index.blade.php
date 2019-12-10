@@ -62,6 +62,15 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Phone</th>
+                                    <th>Father</th>
+                                    <th>Aadhar Number</th>
+                                    <th>Bank Name</th>
+                                    <th>Bank Branch</th>
+                                    <th>Bank Ac No</th>
+                                    <th>Bank IFSC</th>
+                                    <th>Address</th>
+                                    <th>Village</th>
+                                    <th>District</th>
                                     <th>Referral Code</th>
                                     <th>Transfer Amount</th>
                                     <th>Action</th>
@@ -73,13 +82,22 @@
                                         <td><input type="checkbox" class="" id="user_group" value="{!! $user->user_id !!}" name="user_ids[]"></td>
                                         <td>{!! $user->fname . $user->lname !!}</td>
                                         <td>{!! $user->phone !!}</td>
+                                        <td>{!! $user->father_name !!}</td>
+                                        <td>{!! $user->aadhar_no !!}</td>
+                                        <td>{!! $user->bank_name !!}</td>
+                                        <td>{!! $user->bank_branch !!}</td>
+                                        <td>{!! $user->bank_acc_no !!}</td>
+                                        <td>{!! $user->bank_ifsc_code !!}</td>
+                                        <td>{!! $user->address !!}</td>
+                                        <td>{!! $user->village !!}</td>
+                                        <td>{!! $user->district !!}</td>
                                         <td><a class="referred_by" href="javascript:;" id="{!! $user->referral_code !!}">{!! $user->referral_code !!}</a></td>
                                         <td>{!! $user->transfer_amount !!}</td>
                                         <td>
                                             <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                            @if(Auth::user()->id == 1)
+                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2)
                                             <a href="{!! route('user_edit_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>

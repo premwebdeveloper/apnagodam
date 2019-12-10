@@ -44,57 +44,6 @@ class UsersController extends Controller
         return view("user.profile", array('user' => $user));
     }
 
-    // get_total_loan_amount
-    public function get_total_loan_amount(Request $request){
-
-        $inventory_id = $request->inventory_id;
-        $quantity = $request->quantity;
-        $loan_amount = $request->loan_amount;
-        $loan_per_total_amount = $request->loan_per_total_amount;
-
-        // Get inventory info by ID
-        $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
-
-        // Get todays prict of this commodity in their ware house
-        $today_price = DB::table('today_prices')->where('commodity_id', $inventory_id)->where('terminal_id', $inventory_info->warehouse_id)->where('created_at', date('Y-m-d'))->first();
-
-        if(!empty($today_price)){
-            
-            $allowed_loan_amount = $quantity * $today_price->modal * $loan_per_total_amount / 100;
-
-            if($allowed_loan_amount < $loan_amount){
-                echo 2;
-            }else{
-                echo 1;
-            }
-
-        }else{
-            echo 0;
-        }
-
-        exit;
-    }
-
-    // get_total_loan_amount
-    public function get_todays_price_by_inventory(Request $request){
-
-        $inventory_id = $request->inventory_id;
-
-        // Get inventory info by ID
-        $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
-
-        // Get todays prict of this commodity in their ware house
-        $today_price = DB::table('today_prices')->where('commodity_id', $inventory_id)->where('terminal_id', $inventory_info->warehouse_id)->where('created_at', date('Y-m-d'))->first();
-
-        if(!empty($today_price)){
-            
-            echo $today_price->modal;
-        }else{
-            echo 0;
-        }
-
-        exit;
-    }
 
     // User profile view
     public function inventories(){
@@ -103,11 +52,10 @@ class UsersController extends Controller
 
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
 
-        // Get today's commodity price
-        $today_prices = DB::table('today_prices')->where('status', 1)->where('created_at', '=', date('Y-m-d'))->get();
-
         //Get All Bank Master
         $banks_master = DB::table('bank_master')->where('status', 1)->get();
+
+        $loan_max_value = DB::table('loan_max_value')->first();
 
         $inventories = DB::table('inventories')
                         ->leftJoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
@@ -127,7 +75,7 @@ class UsersController extends Controller
             $ids[$key] = $loan->commodity_id;
         }
 
-        return view("user.inventory", array('user' => $user, 'banks_master' => $banks_master, 'inventories' => $inventories, 'alll_loan' => $ids));
+        return view("user.inventory", array('user' => $user, 'banks_master' => $banks_master, 'inventories' => $inventories, 'loan_max_value' => $loan_max_value, 'alll_loan' => $ids));
     }
 
     // User profile view
@@ -218,7 +166,7 @@ class UsersController extends Controller
         // First get commodity informatioon
         $commodity_info = DB::table('inventories')->where('id', $commodity_id)->first();
 
-        if($commodity_info->quantity < $quantity):
+        if($commodity_info->net_weight < $quantity):
 
             $status = 'You can not apply for loan on more than quantity you have !';
             return redirect('inventories/'.$commodity_id)->with('status', $status);
@@ -521,7 +469,7 @@ class UsersController extends Controller
 
         // first check buyer power / buyer can puchase or not
         $buyer_info = DB::table('user_details')->where('user_id', $currentuserid)->first();
-        
+
         // If the buyer so not have enough power then hit error
         if($buyer_info->power < $inventory_info->sell_quantity * $my_bid){
 
@@ -587,7 +535,6 @@ class UsersController extends Controller
 
         //Send Message to another buyer and farmer
         $user = DB::table('users')->where('id', $inventory_info->user_id)->first();
-
         $sms = "Buyer Bid ".$my_bid. " RS. on your inventory." ;
         $done = sendsms($user->phone, $sms);
 

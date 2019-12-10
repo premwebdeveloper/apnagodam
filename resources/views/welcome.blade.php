@@ -198,7 +198,7 @@
                                             {!! $today_price->min !!}&nbsp;₹
                                         </td>
                                     </tr>
-                                    <tr><td colspan="4" class="text-center" style="font-weight: 700;background-color: gray;color:#fff;padding: 2px 0px;font-size: 18px;">{{ $today_price->mandi_name }}</td></tr>
+                                    <tr><td colspan="4" class="text-center" style="font-weight: 700;background-color: gray;color:#fff;padding: 2px 0px;font-size: 18px;">{{ $today_price->terminal_name }}</td></tr>
                                 </tbody>
                             </table>
                         </div>

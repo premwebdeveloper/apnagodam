@@ -35,9 +35,9 @@ class HomeController extends Controller
         $warehouse_rent_rates = DB::table('warehouse_rent_rates')->where('status', 1)->get();
 
         $today_price = DB::table('today_prices')
-                        ->join('warehouses', 'warehouses.id', '=', 'today_prices.terminal_id')
+                        ->join('mandi_name', 'mandi_name.id', '=', 'today_prices.mandi_id')
                         ->leftjoin('categories', 'categories.id', '=', 'today_prices.commodity_id')
-                        ->select('today_prices.*', 'categories.category as commodity', 'categories.image', 'warehouses.name as terminal_name')
+                        ->select('today_prices.*', 'categories.category as commodity', 'categories.image', 'mandi_name.mandi_name as mandi_name')
                         ->where('today_prices.status', 1)
                         ->get();
        
@@ -91,6 +91,12 @@ class HomeController extends Controller
 
                     // send otp on mobile number using Helper
                     $done = sendotp($request->phone, $sms, $otp);
+                }else{
+                    
+                    $sms = 'Verify your mobile to login Apnagodam with OTP - '.$exist->login_otp;
+
+                    // send otp on mobile number using Helper
+                    $done = sendotp($request->phone, $sms, $exist->login_otp);
                 }
 
                 return view('auth.login', array('otp' => $otp, 'exist_phone' => $request->phone ));

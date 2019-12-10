@@ -571,10 +571,10 @@ class AdminController extends Controller
         $remaining_quantity = $inventory_info->quantity - $quantity;
         $date = date('Y-m-d H:i:s');
 
-        //$trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
+        $trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
 
         // If trader have this commodity already then update quantity
-        /*if(!empty($trader_inventory)){
+        if(!empty($trader_inventory)){
 
             $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
 
@@ -582,22 +582,14 @@ class AdminController extends Controller
                 'updated_at' => $date,
             ]);
 
-
-
-        }else{*/
-
-            //Get Comodity Details
-
-            $cate = DB::table('categories')->where('id', $inventory_info->commodity)->first();
-            $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Paid'])->first();
-
+        }else{
 
             // If trader do not have this commodity already then insert this commodity with this teader
             $insert_id = DB::table('inventories')->insertGetId([
 
                 'user_id'          => $buyer_id,
                 'warehouse_id'     => $inventory_info->warehouse_id,
-                'commodity'        => $new_cate->id,
+                'commodity'        => $inventory_info->commodity,
                 'quantity'         => $quantity,
                 'gate_pass_wr'     => $gate_pass,
                 'price'            => $price,
@@ -608,7 +600,7 @@ class AdminController extends Controller
                 'created_at'       => $date,
                 'updated_at'       => $date,
             ]);
-        /*}*/
+        }
 
         //Get Remainning Inverntry From Farmer
         $inventory_info_seller = DB::table('inventories')->where(['user_id' => $seller_id, 'warehouse_id' => $warehouse_id, 'commodity' => $inventory_info->commodity])->first();
@@ -818,82 +810,5 @@ class AdminController extends Controller
         }
         echo $codes;
         die;
-    }
-
-    // Show all users OTP in admin panel
-    public function users_otp(){
-
-        $users_otp = DB::table('users')
-                ->select('phone', 'login_otp')
-                ->where('login_otp', '!=', '')
-                ->where('id', '>', 2)
-                ->get();
-
-        return view('admin.users_otp', array('users_otp' => $users_otp));
-    }
-
-    // Show all users OTP in admin panel
-    public function mandi_samiti(){
-
-        $mandi_samiti = DB::table('mandi_samitis')
-                ->where('status', 1)
-                ->get();
-
-        return view('admin.mandi_samiti', array('mandi_samiti' => $mandi_samiti));
-    }
-
-    // Add new mandi samiti page
-    public function add_mandi_samiti(){
-
-        return view('admin.add_mandi_samiti');
-    }
-
-    // Add new mandi samiti page
-    public function create_mandi_samiti(Request $request){
-
-        $name = $request->name;
-        $address = $request->address;
-        $district = $request->district;
-        $date = date('Y-m-d');
-
-        $insert = DB::table('mandi_samitis')->insert([
-            'name'       => $name,
-            'address'    => $address,
-            'district'   => $district,
-            'created_at' => $date,
-            'updated_at' => $date,
-            'status'     => 1
-        ]);
-
-        if($insert)
-        {
-            $status = 'Mandi Samiti Added successfully.';
-        }
-        else
-        {
-            $status = 'Something went wrong !';
-        }
-
-        return redirect('mandi_samiti')->with('status', $status);
-    }
-
-    // delete mandi samiti
-    public function delete_mandi_samiti(Request $request){
-
-        $id = $request->id;
-
-        // User update in users table
-        $delete = DB::table('mandi_samitis')->where('id', $id)->delete();
-
-        if($delete)
-        {
-            $status = 'Mandi Samiti Deleted successfully.';
-        }
-        else
-        {
-            $status = 'Something went wrong !';
-        }
-
-        return redirect('mandi_samiti')->with('status', $status);
     }
 }

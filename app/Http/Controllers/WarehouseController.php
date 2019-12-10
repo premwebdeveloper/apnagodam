@@ -37,11 +37,31 @@ class WarehouseController extends Controller
         // Get all terminal_enquires
         $warehouses = DB::table('warehouse_enquirers')
                         ->join('warehouses','warehouses.id', '=', 'warehouse_enquirers.warehouse_id')
+                        ->join('categories','categories.id', '=', 'warehouse_enquirers.commodity')
                         ->where('warehouse_enquirers.status', 1)
-                        ->select('warehouse_enquirers.*', 'warehouses.name')
+                        ->select('warehouse_enquirers.*', 'warehouses.name', 'categories.category as commodity_name')
                         ->get();
 
         return view('warehouse.warehouse_enquiry', array('warehouses' => $warehouses));
+    }
+
+    // delete terminal enquiry
+    public function delete_terminal_enquiry(Request $request){
+
+        $enquiry_id = $request->enquiry_id;
+
+        $delete = DB::table('warehouse_enquirers')->where('id', $enquiry_id)->delete();
+
+        if($delete)
+        {
+            $status = 'Terminal Enquiry Deleted successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('terminal_enquires')->with('status', $status);
     }
 
     // Add warehouse page view
@@ -49,6 +69,9 @@ class WarehouseController extends Controller
 
         // All facilities
         $facilities = DB::table('facilitiy_master')->where('status', 1)->get();
+
+        // Get all madi samities
+        $mandi_samiti = DB::table('mandi_samitis')->where('status', 1)->get();
 
         $all_facilities = [];
         foreach ($facilities as $row)
@@ -65,7 +88,7 @@ class WarehouseController extends Controller
             $banks[$row->id] = $row->bank_name;
         }
 
-        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities, 'banks' => $banks]);
+        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti]);
     }
 
     // Add Warehouse
@@ -73,6 +96,7 @@ class WarehouseController extends Controller
 
         # Set validation for
         $this->validate($request, [
+            'mandi_samiti' => 'required',
             'name' => 'required',
             'address' => 'required',
             'area' => 'required',
@@ -82,6 +106,7 @@ class WarehouseController extends Controller
             'capacity_in_mt' => 'required',
         ]);
 
+        $mandi_samiti = $request->mandi_samiti;
         $name = $request->name;
         $address = $request->address;
         $location = $request->location;
@@ -149,6 +174,7 @@ class WarehouseController extends Controller
         }
         // Create Warehouses
         $warehouse_id = DB::table('warehouses')->insertGetId([
+            'mandi_samiti_id' => $mandi_samiti,
             'warehouse_code' => $temp,
             'name' => $name,
             'facility_ids' => $facilities,
@@ -222,9 +248,10 @@ class WarehouseController extends Controller
         // Get warehouse details by id
         $warehouse = DB::table('warehouses')
                         ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->leftjoin('mandi_samitis','mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
                         ->where('warehouses.status', 1)
                         ->where('warehouses.id', $id)
-                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info', 'mandi_samitis.name as mandi_samiti_name')
                         ->first();
 
         $facility_available = '';
@@ -263,6 +290,9 @@ class WarehouseController extends Controller
         // All facilities
         $facilities = DB::table('facilitiy_master')->where('status', 1)->get();
 
+        // Get all madi samities
+        $mandi_samiti = DB::table('mandi_samitis')->where('status', 1)->get();
+
         $all_facilities = [];
         foreach ($facilities as $row)
         {
@@ -286,7 +316,7 @@ class WarehouseController extends Controller
                         ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
                         ->first();
 
-        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities, 'banks' => $banks));
+        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti));
     }
 
     // Edit warehouse
@@ -294,6 +324,7 @@ class WarehouseController extends Controller
 
         # Set validation for
         $this->validate($request, [
+            'mandi_samiti' => 'required',
             'name' => 'required',
             'address' => 'required',
             'area' => 'required',
@@ -304,6 +335,7 @@ class WarehouseController extends Controller
         ]);
 
         $warehouse_id = $request->warehouse_id;
+        $mandi_samiti = $request->mandi_samiti;
         $name = $request->name;
         $address = $request->address;
         $location = $request->location;
@@ -370,6 +402,7 @@ class WarehouseController extends Controller
 
         // Create Warehouses
         $update = DB::table('warehouses')->where('id', $warehouse_id)->update([
+            'mandi_samiti_id' => $mandi_samiti,
             'name' => $name,
             'facility_ids' => $facilities,
             'bank_ids' => $banks,

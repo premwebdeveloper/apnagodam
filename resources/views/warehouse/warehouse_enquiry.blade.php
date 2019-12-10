@@ -30,27 +30,41 @@
 	            </div>
 
 	            <div class="ibox-content">
+
+                    @if(session('status'))
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
 	                <div class="table-responsive">
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
 	                            <tr>
                                     <th>Terminal Name</th>
                                     <th>Commodity</th>
-                                    <th>Quantity</th>
+                                    <th>Quantity (Ton)</th>
                                     <th>Mobile Number</th>
-                                    <th>Commitment</th>
+                                    <th>Commitment (Time Period in Months)</th>
                                     <th>Date</th>
+                                    <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
                                 @foreach($warehouses as $key => $warehouse)
 	                                <tr class="gradeX">
                                         <td>{!! $warehouse->name !!}</td>
-                                        <td>{!! $warehouse->commodity !!}</td>
+                                        <td>{!! $warehouse->commodity_name !!}</td>
                                         <td>{!! $warehouse->quantity !!}</td>
                                         <td>{!! $warehouse->mobile !!}</td>
                                         <td>{!! $warehouse->commitment !!}</td>
                                         <td><?php echo date('d-m-Y', strtotime($warehouse->created_at)) ?></td>
+                                        <td>
+                                            <a href="{!! route('delete_terminal_enquiry', ['enquiry_id' => $warehouse->id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete Enquiry">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
 	                                </tr>
                                 @endforeach
 	                        </tbody>

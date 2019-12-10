@@ -129,7 +129,7 @@
                                 <label for="name">{{ __('Category') }}</label>
 
                                 <div class="form-group">
-                                    <select id="category" name="category" class="form-control {{ $errors->has('category') ? ' is-invalid' : '' }}" required="">
+                                    <select id="category" name="category" class="form-control {{ $errors->has('category') ? ' is-invalid' : '' }}">
                                         <option value="">Select Category</option>
                                         <option value="1">Seller</option>
                                         <option value="2">Buyer</option>
