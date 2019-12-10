@@ -50,7 +50,7 @@
                                     <th>Gate Pass / WR No.</th>
                                     <th>Commodity</th>
                                     <th>Net Weight (Qtl.)</th>
-                                    <th>Quantity (Bags)</th>
+                                    <!-- <th>Quantity (Bags)</th> -->
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
@@ -61,7 +61,7 @@
                                         <td>{!! $inventory->warehouse !!} ({!! $inventory->warehouse_code !!})</td>
                                         <td>{!! $inventory->gate_pass_wr !!}</td>
                                         <td>{!! $inventory->category !!}</td>
-                                        <td>{!! $inventory->net_weight !!}</td>
+                                        <!-- <td>{!! $inventory->net_weight !!}</td> -->
                                         <td>{!! $inventory->quantity !!}</td>
                                         <td>
                                             <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">

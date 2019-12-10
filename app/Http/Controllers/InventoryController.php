@@ -75,7 +75,7 @@ class InventoryController extends Controller
             'truck_no'         => 'required',
             'stack_no'         => 'required',
             'lot_no'           => 'required',
-            'net_weight'       => 'required',
+            //'net_weight'       => 'required',
             'quantity'         => 'required',
             'price'            => 'required',
             'quality_category' => 'required',
@@ -99,7 +99,7 @@ class InventoryController extends Controller
         $truck_no         = $request->truck_no;
         $stack_no         = $request->stack_no;
         $lot_no           = $request->lot_no;
-        $net_weight       = $request->net_weight;
+        $net_weight       = null;
         $quantity         = $request->quantity;
         $price            = $request->price;
         $quality_category = $request->quality_category;
@@ -187,7 +187,7 @@ class InventoryController extends Controller
             {
                 $temp = 1;
                 foreach ($data as $key => $value) {
-                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_name) && !empty($value->commodity) && !empty($value->quantity_bags) && !empty($value->price) && !empty($value->quality_category) && !empty($value->commodity_type))
+                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_name) && !empty($value->commodity) && !empty($value->price) && !empty($value->quality_category) && !empty($value->commodity_type))
                     {
                         //CHeck this is number is active or not
                         $check_number = DB::table('users')->where('phone', $value->seller_mobile_no)->first();
@@ -222,7 +222,7 @@ class InventoryController extends Controller
                                         $net_weight          =  $value->net_weight;
                                         $terminal_name       =  $value->terminal_name;
                                         $commodity           =  $value->commodity;
-                                        $quantity            =  $value->quantity_bags;
+                                        //$quantity            =  $value->quantity_bags;
                                         $price               =  $value->price;
                                         $quality_category    =  $value->quality_category;
                                         $date             = date('Y-m-d H:i:s');
@@ -236,9 +236,9 @@ class InventoryController extends Controller
                                             'truck_no'         => $truck_no,
                                             'stack_no'         => $stack_no,
                                             'lot_no'           => $lot_no,
-                                            'net_weight'       => $net_weight,
+                                            //'net_weight'       => $net_weight,
                                             'type'             => null,
-                                            'quantity'         => $quantity,
+                                            'quantity'         => $net_weight,
                                             'price'            => $price,
                                             'gate_pass_wr'     => $gate_pass_wr,
                                             'quality_category' => $quality_category,
@@ -381,7 +381,7 @@ class InventoryController extends Controller
             'truck_no'         => 'required',
             'stack_no'         => 'required',
             'lot_no'           => 'required',
-            'net_weight'       => 'required',
+            //'net_weight'       => 'required',
             'quantity'         => 'required',
             'price'            => 'required',
             'gate_pass_wr'     => 'required',
@@ -397,7 +397,7 @@ class InventoryController extends Controller
         $truck_no         = $request->truck_no;
         $stack_no         = $request->stack_no;
         $lot_no           = $request->lot_no;
-        $net_weight       = $request->net_weight;
+        $net_weight       = null;
         $quantity         = $request->quantity;
         $price            = $request->price;
         $quality_category = $request->quality_category;

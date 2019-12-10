@@ -65,13 +65,15 @@
                                     <td><b>Lot No.</b></td>
                                     <td>{{ $inventory->lot_no }}</td>
                                     <td><b>Net Weight (Qtl.)</b></td>
-                                    <td>{{ $inventory->net_weight }}</td>
+                                    <td>{{ $inventory->quantity }}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Commodity</b></td>
                                     <td>{{ $inventory->category }}</td>
-                                    <td><b>Quantity (Bags)</b></td>
-                                    <td>{{ $inventory->quantity }}</td>
+                                    <!-- <td><b>Quantity (Bags)</b></td>
+                                    <td>{{ $inventory->quantity }}</td> -->
+                                    <td><b>Terminal</b></td>
+                                    <td>{{ $inventory->warehouse }}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Price</b></td>
@@ -80,8 +82,6 @@
                                     <td>{{ $inventory->created_at }}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>Terminal</b></td>
-                                    <td>{{ $inventory->warehouse }}</td>
                                     <td><b>Quality Category</b></td>
                                     <td>{{ $inventory->quality_category }}</td>
                                 </tr>

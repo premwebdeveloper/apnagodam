@@ -121,7 +121,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('net_weight', 'Net Weight (Qtl.)') !!}
                                     {!! Form::text('net_weight', '', ['class' => 'form-control', 'id' => 'net_weight', 'placeholder' => 'Net Weight']) !!}
@@ -132,7 +132,7 @@
                                         </span>
                                     @endif
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -162,8 +162,8 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('quantity', 'Quantity (Bags)') !!}
-                                    {!! Form::number('quantity', '', ['class' => 'form-control', 'id' => 'quantity', 'placeholder' => 'Quantity (Bags)']) !!}
+                                    {!! Form::label('net_weight', 'Net Weight (Qtl.)') !!}
+                                    {!! Form::number('quantity', '', ['class' => 'form-control', 'id' => 'quantity', 'placeholder' => 'Net Weight (Qtl.)']) !!}
 
                                     @if($errors->has('quantity'))
                                         <span class="help-block red">
