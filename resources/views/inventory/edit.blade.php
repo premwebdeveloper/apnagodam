@@ -165,7 +165,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('net_weight', 'Net Weight (Qtl.)') !!}
-                                    {!! Form::number('quantity', $inventory->quantity, ['class' => 'form-control', 'id' => 'quantity', 'placeholder' => 'Net Weight (Qtl.)']) !!}
+                                    {!! Form::text('quantity', $inventory->quantity, ['class' => 'form-control', 'id' => 'quantity', 'placeholder' => 'Net Weight (Qtl.)']) !!}
 
                                     @if($errors->has('quantity'))
                                         <span class="help-block red">

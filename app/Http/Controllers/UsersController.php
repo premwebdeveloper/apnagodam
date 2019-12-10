@@ -56,7 +56,7 @@ class UsersController extends Controller
         $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
 
         // Get todays prict of this commodity in their ware house
-        $today_price = DB::table('today_prices')->where('commodity_id', $inventory_id)->where('terminal_id', $inventory_info->warehouse_id)->where('created_at', date('Y-m-d'))->first();
+        $today_price = DB::table('today_prices')->where('commodity_id', $inventory_info->commodity)->where('terminal_id', $inventory_info->warehouse_id)->where('created_at', date('Y-m-d'))->first();
 
         if(!empty($today_price)){
             
@@ -84,7 +84,7 @@ class UsersController extends Controller
         $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
 
         // Get todays prict of this commodity in their ware house
-        $today_price = DB::table('today_prices')->where('commodity_id', $inventory_id)->where('terminal_id', $inventory_info->warehouse_id)->where('created_at', date('Y-m-d'))->first();
+        $today_price = DB::table('today_prices')->where('commodity_id', $inventory_info->commodity)->where('terminal_id', $inventory_info->warehouse_id)->where('created_at', date('Y-m-d'))->first();
 
         if(!empty($today_price)){
             

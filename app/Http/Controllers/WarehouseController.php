@@ -24,8 +24,9 @@ class WarehouseController extends Controller
         // Get all warehouses
         $warehouses = DB::table('warehouses')
                         ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->join('mandi_samitis','mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
                         ->where('warehouses.status', 1)
-                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt')
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'mandi_samitis.name as mandi_samiti_name')
                         ->get();
 
         return view('warehouse.index', array('warehouses' => $warehouses));

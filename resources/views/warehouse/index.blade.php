@@ -46,6 +46,7 @@
 	                    <table class="table table-striped table-bordered table-hover dataTables-example">
 	                        <thead>
 	                            <tr>
+                                    <th>Mandi Samiti Name</th>
                                     <th>Name</th>
                                     <th>Address</th>
                                     <!-- <th>Location</th> -->
@@ -61,6 +62,7 @@
 	                        <tbody>
                                 @foreach($warehouses as $key => $warehouse)
 	                                <tr class="gradeX">
+                                        <td>{!! $warehouse->mandi_samiti_name !!}</td>
                                         <td>{!! $warehouse->name !!}</td>
                                         <td>{!! $warehouse->address !!}</td>
                                         <!-- <td>{!! $warehouse->location !!}</td> -->
@@ -78,7 +80,7 @@
                                             <a href="{!! route('warehouse_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                            @if(Auth::user()->id == 1)
+                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2)
                                             <a href="{!! route('warehouse_edit_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
