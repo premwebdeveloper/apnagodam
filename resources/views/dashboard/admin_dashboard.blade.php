@@ -130,9 +130,9 @@
                     <div class="col-md-6" style="margin-bottom: 10px;">
                         <a href="javascript:;" id="2" class="sales_reocrd btn btn-primary btn-md" style="width: 100%">Monthly Report Secondary Sales</a>
                     </div>
-                    <div class="col-md-6" style="margin-bottom: 10px;">
+                    <!-- <div class="col-md-6" style="margin-bottom: 10px;">
                         <a href="{{ asset('resources/frontend_assets/reports/niryat_partivedan.pdf') }}" target="_blank" class="btn btn-warning btn-md">Niryat Partivedan</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
