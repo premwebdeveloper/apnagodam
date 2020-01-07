@@ -38,7 +38,7 @@
         <table class="table table-bordered">
             <tr>
                 <td>
-                    <b>Quantity : </b> {{$quantity }} Bags
+                    <b>Net Weight : </b> {{$quantity }} Qtl.
                 </td>
                 <td>
                     <b>Price : </b>{{$price }} / Qtl.

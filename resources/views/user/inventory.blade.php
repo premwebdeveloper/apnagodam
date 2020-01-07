@@ -228,7 +228,7 @@
                     <div class="md-form mb-5">
                         <label data-error="wrong" data-success="right">Net Weight (Qtl.)</label>
 
-                        <input id="sell_quantity" type="number" class="form-control" name="sell_quantity" required autofocus placeholder="quantity">
+                        <input id="sell_quantity" type="text" class="form-control" name="sell_quantity" required autofocus placeholder="quantity">
                     </div>
 
                 </div>
