@@ -114,7 +114,7 @@ class deleteSells extends Command
                 /*}*/
 
                 //Get Remainning Inverntry From Farmer
-                $inventory_info_seller = DB::table('inventories')->where(['user_id' => $seller_id, 'warehouse_id' => $warehouse_id, 'commodity' => $inventory_info->commodity])->first();
+                $inventory_info_seller = DB::table('inventories')->where('id' => $inventory_id])->first();
 
                 if($inventory_info_seller->quantity == 0)
                 {
