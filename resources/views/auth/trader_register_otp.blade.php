@@ -1,7 +1,5 @@
 @extends('layouts.public_app')
-
 @section('content')
-
 <script>
 $(document).ready(function(){
 
@@ -79,8 +77,17 @@ $(document).ready(function(){
 
 });
 </script>
-
-<header class="masthead text-white d-flex masthalf"></header>
+<section class="banner_area m-t-158">
+    <div class="container">
+        <div class="pull-left">
+            <h3>{{ __('Buyer Registration') }}</h3>
+        </div>
+        <div class="pull-right">
+            <a href="{{ url('/') }}">Home</a>
+            <a >Buyer Registration</a>
+        </div>
+    </div>
+</section>
 <section id="about">
 
     <div class="container">
@@ -92,11 +99,10 @@ $(document).ready(function(){
             </div>
         @endif
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+        <div class="row text-center m-t-40 m-b-40">
+            <div class="col-md-6 col-md-offset-3">
                 <h2 class="section-heading text-center">{{ __('Buyer Registration') }}</h2>
                 <hr>
-
                 @if($errors->any())
                     <div class="alert alert-danger alert-dismissible">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -120,9 +126,9 @@ $(document).ready(function(){
                                         OTP Resend Sucessfully.
                                     </h6>
 
-                                    <label for="otp" class="col-sm-4 col-form-label text-md-right">Enter 6 digit OTP code sent to your mobile number</label>
+                                    <label for="otp" class="col-sm-12 col-form-label text-md-right">Enter 6 digit OTP code sent to your mobile number</label>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-8 col-md-offset-2">
                                         <input id="otp" style="margin-bottom:8px;" type="number" class="form-control{{ $errors->has('otp') ? ' is-invalid' : '' }}" name="otp" value="{{ old('otp') }}" placeholder="OTP" required autofocus>
 
                                         @if ($errors->has('otp'))
@@ -137,15 +143,14 @@ $(document).ready(function(){
                                 </div>
 
                                 <input id="exist_phone" type="hidden" value="{{ $exist_phone }}" name="phone" required>
-                                <input type="hidden" name="role" value="6">
                                 <input id="password" type="hidden" value="123456" name="password" required>
 
                                 <div class="form-group row mb-0">
-                                    <div class="col-md-8 offset-md-4">
-                                        <a class="btn btn-warning" id="resendotp">
+                                    <div class="col-md-12">
+                                        <a class="btn btn-danger" id="resendotp">
                                             Resend OTP
-                                        </a>
-                                        <button type="submit" class="btn btn-primary" id="verifyButton">
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button type="submit" class="btn btn-success" id="verifyButton">
                                             {{ __('Verify OTP') }}
                                         </button>
                                     </div>

@@ -1,171 +1,146 @@
-  <body>
-
 <?php
-    $terminals = DB::table('warehouses')
-                        ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-                        ->where('warehouses.status', 1)
-                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location')
-                        ->get();
+    $terminals = DB::table('warehouses')->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')->where('warehouses.status', 1)->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location')->get();
 ?>
-    <!-- Navigation -->
+<!-- Navigation -->
+<header class="main_header_area">
     <marquee class="b-clr" scrollamount="3">
         <img class="blink-image" src="{{ asset('resources/frontend_assets/img/apna-godam-top-img.png') }}">
     </marquee>
-    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav" style="/*background-color: rgba(0,0,0,.4)*/background-color: #00C0F5;padding:0px;margin-top: -6px;">
+    <div class="header_top">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" style="padding:0px; " href="{{ url('/')}}">
-                <img class="head-logo" src="{{ asset('resources/frontend_assets/img/apna-godam-logo-1.png') }}" style="width: 100px;">
-            </a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ url('/')}}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ route('about-us') }}">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ url('/')}}#services">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ route('our-team') }}">Our Team</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ route('contact-us') }}">CONTACT US</a>
-                    </li>
-
-                    @guest
-                    <li class="nav-item">
-                        <a class="btn btn-secondary" href="{{ route('farmer_login') }}" >Seller Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-success" href="{{ route('trader_login') }}" >Buyer Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-danger" href="{{ route('login') }}" >Admin Login <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                    </li>
+            <div class="pull-left">
+                <a href="{{ url('/') }}"><img style="width: 100px;" src="{{ asset('resources/frontend_assets/img/logo-img.png') }}" alt=""></a>
+            </div>
+            <div class="pull-right">
+                <div class="header_c_text">
+                    <h5>Call us</h5>
+                    <h4>+91-9314142089</h4>
+                </div>
+                <div class="header_c_text">
+                    <h5>Email Us</h5>
+                    <h4>contact@apnagodam.com</h4>
+                </div>
+                <div class="header_c_text">
+                    <h5>IVR Number</h5>
+                    <h4>7733901154</h4>
+                </div>
+                <div class="header_c_text">
+                    @if(Auth::user())
+                        <a class="quote_btn" href="{{ route('dashboard') }}">Dashboard</a>
+                        <a class="quote_btn" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                     @else
-                        @if(Auth::user()->id != 1)
-
-                            <!-- <li class="nav-item">
-                                <a href="{{ route('notifications') }}" class="nav-link js-scroll-trigger"><i class="fa fa-bell"></i></a>
-                            </li> -->
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link js-scroll-trigger" href="">
-                                    <span class="fa fa-user"></span> {{ Auth::user()->fname }}
-                                </a>
-                                <div class="dropdown-content">
-                                    <!-- <a href="{{ route('user_dashboard') }}">Dashboard</a> -->
-                                    <a href="{{ route('profile') }}">My Account</a>
-                                    <a href="{{ route('inventories') }}">My Commodity</a>
-                                    <a href="{{ route('deals', ['status' => 'sell']) }}">My Sell</a>
-                                    <a href="{{ route('buy_sell') }}">Market</a>
-                                    <a href="{{ route('deals', ['status' => 'purchase']) }}">My Purchase</a>
-
-                                    <a href="{{ route('user_finance_view') }}">Finance / Loan</a>
-                                    <!-- <a href="{{ route('change_password') }}">Change Password</a> -->
-                                    <!-- <a href="javascript:;">Notifications</a> -->
-                                    
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </div>
-                            </li>
-                        @else
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ route('dashboard') }}"><i class="fa fa-tachometer"></i> Go to dashboard</a></li>
-                        @endif
-
+                        <a class="quote_btn" href="{{ route('login') }}">Login</a>
+                        <a class="quote_btn" href="{{ route('register') }}">Register</a>
                     @endif
-                    <li class="nav-item">
-                        <a class="tel-icon nav-link js-scroll-trigger" href="tel:+91-9314142089" style="background: none;color:#000!important">+91-9314142089</a>
-                    </li>
-                </ul>
+                </div>
             </div>
         </div>
-    </nav>  <!-- naivigation ends -->
-    <nav style="min-height: 50px; background:#f3f5f7;text-align: center" class="navbar navbar-expand-lg navbar-light bottom-navbar">
-        <ul class="navbar-nav">
-            @foreach($terminals as $terminal)
-                <li class="nav-item">
-                    <a class="nav-link" href="{!! route('terminal_view', ['id' => $terminal->id]) !!}">{!! $terminal->name !!} ({!! $terminal->location !!})</a>
-                </li>
-            @endforeach
-        </ul>
-    </nav>
-    <style type="text/css">
-        .bottom-navbar .nav-item{
-            padding: 0px 0px;
-            font-size: 10px;
-            font-weight: 500;
-            border-right: 2px solid lightgray;
-        }
-        .bottom-navbar .nav-item a{
-            color: #000!important;
-        }
-        /* Firefox old*/
-        @-moz-keyframes blink {
-            0% {
-                opacity:1;
-            }
-            50% {
-                opacity:0;
-            }
-            100% {
-                opacity:1;
-            }
-        } 
+    </div>
+    <div class="main_menu_area">
+        <nav class="navbar navbar-default">
+            <div class="container">
 
-        @-webkit-keyframes blink {
-            0% {
-                opacity:1;
-            }
-            50% {
-                opacity:0;
-            }
-            100% {
-                opacity:1;
-            }
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{ url('/') }}">Home</a></li>
+                        <li>
+                            <a href="{{ route('about-us') }}">About Us</a>
+                        </li>
+                        <li class="dropdown submenu">
+                            <a href="{{ route('terminals') }}" class="dropdown-toggle disabled" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Terminals <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                            <ul class="dropdown-menu">
+                                @foreach($terminals as $terminal)
+                                    <li><a href="{!! route('terminal_view', ['id' => $terminal->id]) !!}">{!! $terminal->name !!} ({!! $terminal->location !!})</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                        <li >
+                            <a href="{{ route('our-team') }}">Our Team</a>
+                        </li>
+                        <li >
+                            <a href="{{ route('contact-us') }}">CONTACT US</a>
+                        </li>
+                        <li >
+                            <a href="{{ route('faq') }}">FAQ's</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<style type="text/css">
+    /* Firefox old*/
+    @-moz-keyframes blink {
+        0% {
+            opacity:1;
         }
-        /* IE */
-        @-ms-keyframes blink {
-            0% {
-                opacity:1;
-            }
-            50% {
-                opacity:0;
-            }
-            100% {
-                opacity:1;
-            }
-        } 
-        /* Opera and prob css3 final iteration */
-        @keyframes blink {
-            0% {
-                opacity:1;
-            }
-            50% {
-                opacity:0;
-            }
-            100% {
-                opacity:1;
-            }
-        } 
-        .blink-image {
-            -moz-animation: blink normal 0.2s infinite ease-in-out; /* Firefox */
-            -webkit-animation: blink normal 0.2s infinite ease-in-out; /* Webkit */
-            -ms-animation: blink normal 0.2s infinite ease-in-out; /* IE */
-            animation: blink normal 0.2s infinite ease-in-out; /* Opera and prob css3 final iteration */
-            height: 40px;
+        50% {
+            opacity:0;
         }
-        .b-clr{
-            background-color: #efefef;
+        100% {
+            opacity:1;
         }
-        li.nav-item {
-            text-align: center;
+    } 
+
+    @-webkit-keyframes blink {
+        0% {
+            opacity:1;
         }
-    </style>
+        50% {
+            opacity:0;
+        }
+        100% {
+            opacity:1;
+        }
+    }
+    /* IE */
+    @-ms-keyframes blink {
+        0% {
+            opacity:1;
+        }
+        50% {
+            opacity:0;
+        }
+        100% {
+            opacity:1;
+        }
+    } 
+    /* Opera and prob css3 final iteration */
+    @keyframes blink {
+        0% {
+            opacity:1;
+        }
+        50% {
+            opacity:0;
+        }
+        100% {
+            opacity:1;
+        }
+    } 
+    .blink-image {
+        -moz-animation: blink normal 0.2s infinite ease-in-out; /* Firefox */
+        -webkit-animation: blink normal 0.2s infinite ease-in-out; /* Webkit */
+        -ms-animation: blink normal 0.2s infinite ease-in-out; /* IE */
+        animation: blink normal 0.2s infinite ease-in-out; /* Opera and prob css3 final iteration */
+        height: 35px;
+    }
+    .b-clr{
+        background-color: #efefef;
+    }
+    li.nav-item {
+        text-align: center;
+    }
+</style>

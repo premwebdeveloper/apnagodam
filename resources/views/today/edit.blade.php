@@ -4,8 +4,8 @@
 <script type="text/javascript">
     $(document).ready(function(){
         var commodity = "{!! $today_price->commodity_id !!}";
-        var mandi = "{!! $today_price->mandi_id !!}";
-        $("#mandi option[value="+mandi+"]").attr("selected","selected");
+        var terminal_id = "{!! $today_price->terminal_id !!}";
+        $("#terminal_id option[value="+terminal_id+"]").attr("selected","selected");
         $("#commodity option[value="+commodity+"]").attr("selected","selected");
     });
 </script>
@@ -49,22 +49,21 @@
                     
                     <div class="row">                        
                         {!! Form::open(array('url' => 'today_price_edit', 'files' => true)) !!}
-                            
+                            @csrf
                             {{ Form::hidden('id', $today_price->id) }}
-
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    {!! Form::label('mandi', 'Mandi Name') !!}
-                                    <select name="mandi" id="mandi" class="form-control" required="">
-                                        <option value="">Select Mandi Name</option>
-                                        @foreach($mandies as $key => $mandi)
-                                            <option value="{!! $mandi->id !!}">{!! $mandi->mandi_name !!}</option>
+                                    {!! Form::label('terminal', 'Terminal') !!}
+                                    <select name="warehouse" id="terminal_id" class="form-control" required="">
+                                        <option value="">Select Terminal</option>
+                                        @foreach($warehouses as $key => $warehouse)
+                                            <option value="{!! $warehouse->id !!}">{!! $warehouse->name !!} ( {!! $warehouse->warehouse_code !!} )</option>
                                         @endforeach
                                     </select>
 
-                                    @if($errors->has('mandi'))
+                                    @if($errors->has('warehouse'))
                                         <span class="help-block red">
-                                            <strong>{{ $errors->first('mandi') }}</strong>
+                                            <strong>{{ $errors->first('warehouse') }}</strong>
                                         </span>
                                     @endif
                                 </div>

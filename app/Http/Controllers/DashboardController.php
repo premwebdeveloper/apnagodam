@@ -16,13 +16,66 @@ class DashboardController extends Controller
 
 		// Only authenticarte and admin user can enter here
 		$this->middleware('auth');
-		$this->middleware('adminOnly');
 	}
 
     // Admin dashboard view
-    public function dashboard(){
+    public function dashboard()
+    {
+        # Get User Role
+        $user = Auth::user();
 
-    	return view('dashboard.admin_dashboard');
+        $user_roles = DB::table('user_roles')->where('user_id', $user->id)->first();
+
+        if($user_roles->role_id == 1)
+        {
+            return view('dashboard.admin_dashboard');
+        }
+        else if($user_roles->role_id == 2)
+        {
+            $currentuserid = Auth::user()->id;
+
+            //Get Total Count 
+            $inventories = DB::table('inventories')
+                        ->where(['inventories.status' => 1, 'inventories.user_id' => $currentuserid])
+                        ->count();
+            // Get all sell products
+            $sells = DB::table('buy_sells')->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '3'])->count();
+
+            // Get all buy products
+            $buys = DB::table('buy_sells')
+                ->where(['buy_sells.buyer_id' => $currentuserid, 'buy_sells.status' => '3'])
+                ->count();
+
+            $finances =  DB::table('finances')
+                ->where('finances.user_id', $currentuserid)
+                ->count();
+            $today_prices = DB::table('today_prices')
+                        ->join('warehouses', 'warehouses.id', '=', 'today_prices.terminal_id')
+                        ->leftjoin('categories', 'categories.id', '=', 'today_prices.commodity_id')
+                        ->select('today_prices.*', 'categories.category as commodity', 'categories.image', 'warehouses.name as terminal_name')
+                        ->where('today_prices.status', 1)
+                        ->get();
+
+            return view('dashboard.user_dashboard', array('inventories' => $inventories, 'sells' => $sells, 'buys' => $buys, 'finances' => $finances, 'today_prices' => $today_prices));
+        }
+        else if($user_roles->role_id == 3)
+        {
+            return view('dashboard.account_dashboard');
+        }
+        else if($user_roles->role_id == 4)
+        {
+            return view('dashboard.govt_dashboard');
+        }
+        else if($user_roles->role_id == 5)
+        {
+            return view('dashboard.inventory_dashboard');
+        }
+        else if($user_roles->role_id == 6)
+        {
+            return view('dashboard.sales_dashboard');
+        }else{
+            redirect('/');
+        }
     }
 
     public function getSalesCSV(Request $request)

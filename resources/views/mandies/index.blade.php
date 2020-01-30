@@ -15,7 +15,7 @@
     </div>
     <div class="col-lg-2 text-right">
         <h2>
-            <a href="{{ route('create_mandi') }}" class="btn btn-info">Add Mandi Name</a>
+            <a href="{{ route('create_mandi') }}" class="btn btn-info">Add Mandi Details</a>
         </h2>
     </div>
 </div>
@@ -49,6 +49,13 @@
                                     <th>S.No.</th>
                                     <th>Mandi Name</th>
                                     <th>Mandi Tax Fees (%)</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Bank Name</th>
+                                    <th>Account Holder Name</th>
+                                    <th>Account Number</th>
+                                    <th>Branch Name</th>
+                                    <th>Branch IFSC Code</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -58,12 +65,19 @@
                                         <td>{!! $key + 1 !!}</td>
                                         <td>{!! $mandi->mandi_name !!}</td>
                                         <td>{!! $mandi->mandi_tax_fees !!}</td>
+                                        <td>{!! $mandi->email !!}</td>
+                                        <td>{!! $mandi->phone !!}</td>
+                                        <td>{!! $mandi->bank_name !!}</td>
+                                        <td>{!! $mandi->account_holder !!}</td>
+                                        <td>{!! $mandi->bank_account_no !!}</td>
+                                        <td>{!! $mandi->branch_name !!}</td>
+                                        <td>{!! $mandi->branch_ifsc !!}</td>
                                         <td>
-                                            @if(Auth::user()->id == 1)
-                                            <a href="{!! route('mandi_edit_view', ['id' => $mandi->id]) !!}" class="btn btn-info btn-sm" title="Edit">
+                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2)
+                                            <a href="{!! route('mandi_edit_view', ['id' => $mandi->id]) !!}" class="btn btn-info btn-xs" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{!! route('mandi_delete', ['id' => $mandi->id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete Mandi Name">
+                                            <a href="{!! route('mandi_delete', ['id' => $mandi->id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="left" title="Delete Mandi Details">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
                                             @endif

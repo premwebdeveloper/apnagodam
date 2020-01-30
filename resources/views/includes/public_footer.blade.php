@@ -1,70 +1,84 @@
-<footer> <!-- footer starts here -->
-    <section id="footer">
+<footer class="footer_area">
+    <div class="footer_widget_area">
         <div class="container">
             <div class="row">
+                <div class="col-md-3 col-xs-6">
+                    <aside class="f_widget about_widget">
+                        <img src="{{ asset('resources/frontend_assets/theme/img/footer-logo.png') }}" style="max-height: 120px;" alt="">
+                        <p class="f-w-500 text-white">ApnaGodam is a Jaipur based Agritech Startup providing warehousing facilities, online commodity trading & financing.</p>
+                        
+                    </aside>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <aside class="f_widget link_widget">
+                        <div class="f_title">
+                            <h3 class="text-white f-w-600">Quick Links</h3>
+                        </div>
+                        <ul>
+                            <li><a class="text-white f-w-500" href="{{ url('/') }}">Home</a></li>
+                            <li><a class="text-white f-w-500" href="{{ route('about-us') }}">About Us</a></li>
+                            <li><a class="text-white f-w-500" href="{{ route('terminals') }}">Terminals</a></li>
+                            <li><a class="text-white f-w-500" href="{{ route('contact-us') }}">Contact Us</a></li>
+                            <li><a class="text-white f-w-500" href="{{ route('our-team') }}">Our Team</a></li>
+                            <li><a class="text-white f-w-500" href="{{ route('terms-conditions') }}">Terms & Condition</a></li>
+                            <li><a class="text-white f-w-500" href="{{ route('faq') }}">Faq's</a></li>
 
-                <div class="col-sm-3 px-4 mb-4">
-                   <iframe width="100%" height="200" src="https://www.youtube.com/embed/hzZdgPYVIhM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </ul>
+                    </aside>
                 </div>
-                <div class="col-sm-3 px-4 mb-4">
-                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/dswDEBdAtZ8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <div class="col-md-3 col-xs-6">
+                    <aside class="f_widget service_widget">
+                        <div class="f_title">
+                            <h3 class="text-white f-w-600">Our Terminals</h3>
+                        </div>
+                        <p class="text-white f-w-600">Apnagodam Terminals in Rajasthan, Uttar Pradesh & West Bengal.</p>
+                        <aside class="f_widget about_widget">
+                            <hr>
+                            <div class="f_title">
+                                <h3 class="text-white f-w-600">Social Links</h3>
+                            </div>
+                            <ul>
+                                <li>
+                                    <a href="https://www.facebook.com/apnagodam/" target="_blank"><i class="p-t-15 fa fa-facebook"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/in/apna-godam-253a2619b/" target="_blank"><i class="p-t-15 fa fa-linkedin"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://www.youtube.com/channel/UCbTi5MXhy2l7WcmBBPPnwWw" target="_blank"><i class="p-t-15 fa fa-youtube"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/apnagodam/" target="_blank"><i class="p-t-15 fa fa-instagram"></i></a>
+                                </li>
+                            </ul>
+                        </aside>
+                    </aside>
                 </div>
-                <div class="col-sm-3 px-4 mb-4">
-                   <p>Terminal in Jaipur, Terminal in Sikar, Terminal in Jhunjhunu, Terminal in Bikaner</p>
-                </div>
-                <div class="col-sm-3 px-4 mb-4">
-                   <p><a href="{{ route('about-us') }}">About Us</a>&nbsp; |&nbsp; <a href="{{ route('our-team') }}">Our Team</a> <br><a href="{{ route('terms-conditions') }}">Terms & Conditions</a>
-                </div>
+                <div class="col-md-3 col-xs-6">
+                    <aside class="f_widget info_widget">
+                        <div class="f_title">
+                            <h3 class="f-w-600 text-white">Contact Info</h3>
+                        </div>
+                        <div class="contact_details">
+                            <p class="f-w-500 text-white">Plot No.-16, Sector-9,
+                                <br class="info_br" /> Vidhyadhar Nagar Jaipur - 302023 Rajasthan
 
-            </div>
-            <hr>
-            <div class="row">
+                            </p>
+                            <p class="f-w-500 text-white">Phone: <a href="tel:+91-9314142089" class="f-w-500 text-white">+91-9314142089</a></p>
 
-                <div class="col-sm-6 px-4 mb-4">
-                   <p>&copy; 2018 Apna Godam All Rights Reserved</p>
+                            <p class="f-w-500 text-white">Email: contact@apnagodam.com</p>
+                        </div>
+                    </aside>
                 </div>
-                <div class="col-sm-6 px-4 mb-4 text-right">
-                    <p>Designed by <a href="https://www.hastagsoft.com/" target="_blank" style="color:#00c0f5!important;"><b>Hastag Soft</b></p>
-                </div>
-
             </div>
         </div>
-    </section>
+    </div>
+    <div class="footer_copy_right">
+        <div class="container">
+            <h4>Copyright © 
+                <script>document.write(new Date().getFullYear());</script>.
+                 All Rights Reserved. Designed by <a href="https://www.hastagsoft.com/" target="_blank" style="color:#00c0f5!important;"><b class="text-white">Hastag Soft</b>
+            </h4>
+        </div>
+    </div>
 </footer>
-
-<!-- Bootstrap core JavaScript -->
-
-<script src="{{ asset('resources/frontend_assets/js/bootstrap.bundle.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/js/jquery.easing.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/js/scrollreveal.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/js/carousel.min.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/js/jquery-waypoints.js') }}"> </script>
-<script src="{{ asset('resources/frontend_assets/js/main.min.js') }}"> </script>
-<script>
-    $(document).ready(function(){
-        $(document).on('change', '#category', function(){
-            var category = $('#category').val();
-
-            if(category==1){
-                $("#khasra_show").show();
-                $("#khasra").addAttr('required', "required");
-                $("#gst").removeAttr('required', "required");
-                $("#gst_show").hide();
-            }
-            else if(category==2 || category==3){
-                $("#khasra_show").hide();
-                $("#gst_show").show();
-                $("#gst").addAttr('required', "required");
-                $("#khasra").removeAttr('required', "required");
-            }
-            else{
-                $("#khasra_show").hide();
-                $("#gst_show").hide();
-                $("#khasra").removeAttr('required', "required");
-                $("#gst").removeAttr('required', "required");
-            }
-        });
-        $("#khasra_show").hide();
-        $("#gst_show").hide();
-     });
-</script>

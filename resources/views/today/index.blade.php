@@ -49,9 +49,9 @@
                                     <th>S.No.</th>
                                     <th>Terminal</th>
                                     <th>Commodity Name</th>
-                                    <th>Modal(per qtl)</th>
-                                    <th>Max(per qtl)</th>
-                                    <th>Min(per qtl)</th>
+                                    <th>Max (Superior) (Per Qtl.)</th>
+                                    <th>Modal (Average) (Per Qtl.)</th>
+                                    <th>Min (Low) (Per Qtl.)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -61,14 +61,14 @@
                                         <td>{!! $key + 1 !!}</td>
                                         <td>{!! $today_price->terminal_name !!}</td>
                                         <td>{!! $today_price->commodity !!}</td>
-                                        <td>{!! $today_price->modal !!}</td>
                                         <td>{!! $today_price->max !!}</td>
+                                        <td>{!! $today_price->modal !!}</td>
                                         <td>{!! $today_price->min !!}</td>
                                         <td>
-                                            <a href="{!! route('today_price_edit_view', ['id' => $today_price->id]) !!}" class="btn btn-info btn-sm" title="Edit">
+                                            <a href="{!! route('today_price_edit_view', ['id' => $today_price->id]) !!}" class="btn btn-info btn-xs" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{!! route('today_price_delete', ['id' => $today_price->id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete Today Price">
+                                            <a href="{!! route('today_price_delete', ['id' => $today_price->id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete Today Price">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
                                         </td>

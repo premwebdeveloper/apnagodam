@@ -28,27 +28,39 @@ class BuySellController extends Controller
     {
         $current_user_id = Auth::user()->id;
 
-        $cat_id = $request->id;
+        $cat_name = $request->id;
 
         $categories = DB::table('categories')->where('status', 1)->get();
 
-        $cat = DB::table('categories')->where(['status' => 1, 'id' => $cat_id])->first();
+        $cats = DB::table('categories')
+        ->where('status' , 1)
+        ->where('category', 'like', ucfirst($cat_name))->get();
+        
+        //Get cat id 
+        foreach($cats as $key => $cat){
+            $cat_ids[$key] = $cat->id;
+        }
+        $id1 = $cat_ids[0];
+        $id2 = $cat_ids[1];
 
         $inventories = DB::table('inventories')
-                        ->leftjoin('user_details', 'user_details.user_id', '=', 'inventories.user_id')
-                        ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-                        ->leftjoin('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-                        ->select('user_details.fname as farmer_name', 'warehouses.name as warehouse', 'inventories.*', 'warehouse_rent_rates.location as warehouse_location')
+                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                        ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'inventories.warehouse_id')
+                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                        ->select('warehouses.name as warehouse', 'inventories.*', 'warehouse_rent_rates.location as warehouse_location', 'categories.commodity_type')
                         ->where('inventories.user_id', '!=', $current_user_id)
                         ->where('inventories.status', '=', 1)
-                        ->where('inventories.commodity', '=', $cat_id)
+                        ->where(function($query) use($id1, $id2) {
+                            $query->where('inventories.commodity', $id1)
+                                  ->orwhere('inventories.commodity', $id2);
+                        })
                         ->where('inventories.quantity', '>', 0)
                         ->where('inventories.quantity', '!=', null)
                         ->where('inventories.sell_quantity', '!=', null)
                         ->where('inventories.sell_quantity', '>', 0)
                         ->get();
 
-        return view('buy_sell.view', array('categories' => $categories, 'inventories' => $inventories, 'cat' => $cat));
+        return view('buy_sell.view', array('categories' => $categories, 'inventories' => $inventories, 'cat' => $cats));
     }
 
     public function purchasing(Request $request)
@@ -132,6 +144,7 @@ class BuySellController extends Controller
         $last_id = DB::table('buy_sells')->insertGetId([
             'buyer_id' => $current_user_id,
             'seller_id' => $seller_id,
+            'mandi_fees' => $commodity_name->mandi_fees,
             'seller_cat_id' => $inventory_id,
             'quantity' => $req_quantity,
             'price' => $deal_price,

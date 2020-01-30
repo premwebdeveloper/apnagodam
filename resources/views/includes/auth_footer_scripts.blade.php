@@ -6,7 +6,7 @@
     <script src="{{ asset('resources/assets/js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('resources/assets/js/plugins/flot/jquery.flot.js') }}"></script>
 
-    <script src="{{ asset('resources/assets/js/plugins/flot/jquery.flot.tooltip.min.js') }}"></script>
+    <!-- <script src="{{ asset('resources/assets/js/plugins/flot/jquery.flot.tooltip.min.js') }}"></script> -->
     <script src="{{ asset('resources/assets/js/plugins/flot/jquery.flot.spline.js') }}"></script>
     <script src="{{ asset('resources/assets/js/plugins/flot/jquery.flot.resize.js') }}"></script>
     <script src="{{ asset('resources/assets/js/plugins/flot/jquery.flot.pie.js') }}"></script>
@@ -15,10 +15,10 @@
     <script src="{{ asset('resources/assets/js/demo/peity-demo.js') }}"></script>
 
     <script src="{{ asset('resources/assets/js/plugins/dataTables/datatables.min.js') }}"></script>
- <!--    <script src="{{ asset('resources/assets/js/inspinia.js') }}"></script> -->
+    <script src="{{ asset('resources/assets/js/inspinia.js') }}"></script>
     <script src="{{ asset('resources/assets/js/plugins/pace/pace.min.js') }}"></script>
 
-    <!-- <script src="{{ asset('resources/assets/js/plugins/jquery-ui/jquery-ui.min.js') }}"></script> -->
+   <script src="{{ asset('resources/assets/js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('resources/assets/js/plugins/gritter/jquery.gritter.min.js') }}"></script>
     <script src="{{ asset('resources/assets/js/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
     <script src="{{ asset('resources/assets/js/demo/sparkline-demo.js') }}"></script>
@@ -54,8 +54,30 @@
             alert('"myevent" triggered');
         });
 
+        var path = window.location.href; 
+        $('a').each(function() {
+            if (this.href === path) {
+                $(this).parent().addClass('active');
+            }
+        });
     </script>
 
+    @if($role->role_id == 2)
+        <script type="text/javascript">
+            $('body').addClass('md-skin pace-done');
+        </script>
+        <style type="text/css">
+            body {
+                font-size: 14px;
+            }
+            .nav .label, .ibox .label {
+                font-size: 14px;
+            }
+            .btn-group-xs>.btn, .btn-xs {
+                font-size: 14px;
+            }
+        </style>
+    @endif
 </body>
 
 </html>

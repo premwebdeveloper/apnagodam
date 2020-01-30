@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li>
-                <a href="{{ route('items') }}">Today Price</a>
+                <a href="{{ route('today_price') }}">Today Price</a>
             </li>
             <li class="active">
                 <strong>Add Today Price</strong>

@@ -18,21 +18,8 @@ class UsersController extends Controller
 
 		// Only authenticated and user enter here
 		$this->middleware('auth');
-		//$this->middleware('userOnly');
+		$this->middleware('userOnly');
 	}
-
-    // User user_dashboard
-    public function user_dashboard(){
-
-        $currentuserid = Auth::user()->id;
-
-         # empty otp for this user if successfully logged iN
-        $user = DB::table('users')->where('id', $currentuserid)->update(['login_otp' => null]);
-
-        $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
-
-        return view("user.dashboard", array('user' => $user));
-    }
 
     // User profile view
     public function profile(){
@@ -40,8 +27,60 @@ class UsersController extends Controller
         $currentuserid = Auth::user()->id;
 
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
+        $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
 
-        return view("user.profile", array('user' => $user));
+        return view("user.profile", array('user' => $user, 'role' => $role));
+    }
+
+    // User profile view
+    public function updateProfileImage(Request $request)
+    {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $date = date('Y-m-d H:i:s');
+        $user_id = Auth::user()->id;
+
+        # If user profile image uploaded then
+        if($request->hasFile('profile_image')) {
+
+            $file = $request->profile_image;
+
+            $profile_image = $file->getClientOriginalName();
+
+            $ext = pathinfo($profile_image, PATHINFO_EXTENSION);
+
+            $profile_image = substr(md5(microtime()),rand(0,26),6);
+
+            $profile_image .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('profile')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('profile')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
+            $file->move($destinationPath,$profile_image);
+            $filepath = $destinationPath.$profile_image;
+            $update = DB::table('user_details')->where('user_id', $user_id)->update(['image' => $profile_image, 'updated_at' => $date]);
+            return redirect('profile')->with('success', 'Profile Image updated successfully.');
+        }else{
+            return redirect('profile')->with('success', 'Something went wrong.');
+        }
+
     }
 
     // get_total_loan_amount
@@ -96,7 +135,7 @@ class UsersController extends Controller
         exit;
     }
 
-    // User profile view
+    // User inventory view
     public function inventories(){
 
         $currentuserid = Auth::user()->id;
@@ -437,7 +476,7 @@ class UsersController extends Controller
             ->leftjoin('categories', 'categories.id', '=', 'inventories.commodity')
             ->leftjoin('user_details', 'user_details.user_id', '=', 'buy_sells.buyer_id')
             ->where(['buy_sells.seller_id' => $currentuserid, 'buy_sells.status' => '3'])
-            ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location','user_details.fname')
+            ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location','user_details.fname', 'inventories.sales_status')
             ->get();
 
         // Get all buy products
@@ -445,9 +484,10 @@ class UsersController extends Controller
                 ->leftjoin('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
                 ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->leftjoin('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                ->leftjoin('user_details', 'user_details.user_id', '=', 'buy_sells.seller_id')
                 ->leftjoin('categories', 'categories.id', '=', 'inventories.commodity')
                 ->where(['buy_sells.buyer_id' => $currentuserid, 'buy_sells.status' => '3'])
-                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location')
+                ->select('buy_sells.*', 'categories.category', 'inventories.quality_category', 'warehouses.name', 'warehouse_rent_rates.location', 'user_details.fname', 'inventories.sales_status')
                 ->get();
 
         return view("user.deals", array('status' => $status, 'sells' => $sells, 'buys' => $buys));
@@ -463,8 +503,9 @@ class UsersController extends Controller
         $inventory_info = DB::table('inventories')
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'inventories.warehouse_id')
                 ->where('inventories.id', $inventory_id)
-                ->select('categories.category', 'warehouses.name', 'inventories.*')
+                ->select('categories.category', 'warehouses.name', 'warehouse_rent_rates.area', 'inventories.*')
                 ->first();
 
         $deal_info = DB::table('buy_sells')
@@ -697,10 +738,6 @@ class UsersController extends Controller
 
         $notifications = array();
 
-       /* echo '<pre>';
-        print_r($deals);*/
-
-
         foreach ($deals as $key => $deal) {
 
             $row = DB::table('buy_sell_conversations')
@@ -712,11 +749,7 @@ class UsersController extends Controller
                     ->limit(1)
                     ->select('categories.category', 'buy_sells.*', 'buy_sell_conversations.user_id');
 
-                    $data = $row->first();
-
-                   //echo ($row->tosql());
-
-            print_r($data);
+            $data = $row->first();
 
             if($data->user_id != $currentuserid){
 

@@ -50,7 +50,7 @@
                                     <th>Category Name</th>
                                     <th>Commodity Type</th>
                                     <th>GST (%)</th>
-                                    <th>Commossion(%)</th>
+                                    <th>Commission(%)</th>
                                     <th>Mandi Fees(%)</th>
                                     <th>Image</th>
                                     <th>Action</th>
@@ -67,12 +67,12 @@
                                         <td>{!! $category->mandi_fees !!}</td>
                                         <td><img src="{{ asset('resources/assets/upload/category/'.$category->image) }}" class="img-responsive" width="100" height="100"></td>
                                         <td>
-                                            @if(Auth::user()->id == 1)
-                                            <a href="{!! route('category_edit_view', ['id' => $category->id]) !!}" class="btn btn-info btn-sm" title="Edit">
+                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2)
+                                            <a href="{!! route('category_edit_view', ['id' => $category->id]) !!}" class="btn btn-info btn-xs" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>
                                             
-                                            <a href="{!! route('category_delete', ['id' => $category->id]) !!}" class="btn btn-info btn-sm" data-toggle="confirmation" data-placement="bottom" title="Delete Category">
+                                            <a href="{!! route('category_delete', ['id' => $category->id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete Category">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </a>
                                             @endif

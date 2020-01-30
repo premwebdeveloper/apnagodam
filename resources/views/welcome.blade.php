@@ -1,357 +1,317 @@
 @extends('layouts.public_app')
 
 @section('content')
+<section class="main_slider_area">
+    <div id="main_slider" class="rev_slider" data-version="5.3.1.6">
+        <ul>
+            <li data-index="rs-2972" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="Creative" data-param1="01" data-param2="" data-delay="1500" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
 
-<style type="text/css">
-    .amit{
-        display: inline-flex;
-        list-style-type: none;
-        margin-bottom: 0;
-    }
-    .amit li{
-        margin-left: 20px;
-    }
-</style>
+                <img src="{{ asset('resources/frontend_assets/theme/img/home-slider/slider-5.jpg') }}" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" class="rev-slidebg" data-no-retina>
 
-<main id="main"> <!-- main body conatiner starts-->
-    <header class="">
-         <link href="{{ asset('resources/frontend_assets/css/responsive-slider.css') }}" rel="stylesheet">
-        <div class="responsive-slider" data-spy="responsive-slider" data-autoplay="true">
-            <div class="slides apna_godam1" data-group="slides">
-                <ul>
-
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner1.jpg') }}">
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner2.jpg') }}">
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner3.jpg') }}">
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner4.jpg') }}">
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner5.jpg') }}">
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner6.jpg') }}">
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="slide-body" data-group="slide">
-                            <img src="{{ asset('resources/frontend_assets/img/banner7.jpg') }}">
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <script src="{{ asset('resources/frontend_assets/js/jquery.event.move.js') }}"></script>
-        <script src="{{ asset('resources/frontend_assets/js/responsive-slider.js') }}"></script>
-    </header>
-        <section id="services">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h2 class="section-heading">Services We Provide</h2>
-                    <hr class="my-4">
-                    <p>Through our experienced operations team we can handle various kind of supply chain operations and services</p>
+                <div class="slider_text_box">
+                    <div class="tp-caption first_text" data-x="['left','left','left','center']" data-y="['top','top','top','top']" data-hoffset="['0','0','0','0']" data-voffset="['200','200','200','140']" data-fontsize="['34','34','34','20']" data-lineheight="['44','44','44','30']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]" data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]">Reliable and Secured Post Harvesting Solutions</div>
+                    <div class="tp-caption secand_text" data-x="['left','left','left','center']" data-y="['top','top','top','top']" data-hoffset="['0','0','0','0']" data-voffset="['250','250','250','190']" data-fontsize="['50','50','50','30']" data-lineheight="['60','60','60','40']" data-width="['730','730','730','400']" data-height="none" data-whitespace="['normal','normal','normal','normal']" data-type="text" data-responsive_offset="on" data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]" data-textAlign="['left','left','left','center']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[10,10,10,10]" data-paddingleft="[0,0,0,0]">Agri Warehousing | Commodity Finance</div>
+                    <div class="tp-caption slider_btn" data-x="['left','left','left','center']" data-y="['top','top','top','top']" data-hoffset="['0','0','0','0']" data-voffset="['390','390','390','335']" data-fontsize="['16','16','16','16']" data-lineheight="['26','26','26','26']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":500,"to":"o:1;","delay":150,"ease":"Power2.easeInOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]"><a class="quote_btn" onclick="changeVideo('5-Wyq_0pTJA')" href="javascript:;">View Demo<i class="fa fa-angle-right"></i></a></div>
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto">
-                        <a href="{{ route('inventories') }}">
-                            <i class="fa fa-warehouse"></i>
-                            <h4 class="mb-2">Warehousing Services</h4><br />
+            </li>
+            <li data-index="rs-2973" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-delay="1500" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="Creative" data-param1="01" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+
+                <img src="{{ asset('resources/frontend_assets/theme/img/home-slider/slider-4.jpg') }}" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="5" class="rev-slidebg" data-no-retina>
+
+                <div class="slider_text_box">
+                    <div class="tp-caption first_text" data-x="['left','left','left','center']" data-y="['top','top','top','top']" data-hoffset="['0','0','0','0']" data-voffset="['200','200','200','140']" data-fontsize="['34','34','34','20']" data-lineheight="['44','44','44','30']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]" data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]">Phygital Warehousing</div>
+                    <div class="tp-caption secand_text" data-x="['left','left','left','center']" data-y="['top','top','top','top']" data-hoffset="['0','0','0','0']" data-voffset="['250','250','250','190']" data-fontsize="['50','50','50','30']" data-lineheight="['60','60','60','40']" data-width="['730','730','730','400']" data-height="none" data-whitespace="['normal','normal','normal','normal']" data-type="text" data-responsive_offset="on" data-frames="[{&quot;delay&quot;:10,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;&quot;,&quot;mask&quot;:&quot;x:0px;y:0px;s:inherit;e:inherit;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;y:[175%];&quot;,&quot;mask&quot;:&quot;x:inherit;y:inherit;s:inherit;e:inherit;&quot;,&quot;ease&quot;:&quot;Power2.easeInOut&quot;}]" data-textAlign="['left','left','left','center']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[10,10,10,10]" data-paddingleft="[0,0,0,0]">Online Agri-Trading Marketplace</div>
+                    <div class="tp-caption slider_btn" data-x="['left','left','left','center']" data-y="['top','top','top','top']" data-hoffset="['0','0','0','0']" data-voffset="['390','390','390','335']" data-fontsize="['16','16','16','16']" data-lineheight="['26','26','26','26']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":500,"to":"o:1;","delay":150,"ease":"Power2.easeInOut"},{"delay":"wait","speed":300,"to":"opacity:0;","ease":"nothing"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]"><a class="quote_btn" onclick="changeVideo('5-Wyq_0pTJA')" href="javascript:;">View Demo<i class="fa fa-angle-right"></i></a></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="feature_slider_area">
+    <div class="container">
+        <div class="row feature_row p-b-20">
+            <div class="feature_slider_inner owl-carousel">
+                <div class="item">
+                    <div class="feature_s_item">
+                        <img alt="" class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/warehouse1.svg') }}" />
+                        <a href="#">
+                            <h4>Warehousing</h4>
                         </a>
+                        <p>We provides state-of-the-art storage through an integrated and Pan India warehousing network to maximize efficiency and reduce post harvest losses.</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="feature_s_item">
+                        <img alt="" class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/hand.svg') }}" />
+                        <a href="#">
+                            <h4>Financing</h4>
+                        </a>
+                        <p>Though our NBFC firm, ApnaGodam provides loans to farmers against warehouse receipts on low interest. Fastest Loan processing. Get easy finance on warehouse stocks.</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="feature_s_item">
+                        <img alt="" class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/auction.svg') }}" />
+                        <a href="#">
+                            <h4>E-Mandi</h4>
+                        </a>
+                        <p>ApnaGodam offers an online trading platform in various agri commodities wherein farmers, traders, processors, exporters, importers, can buy/sell in a transparent manner.</p>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto" style="background: #012b72;">
-                        <i class="fa fa-rupee-sign" style="color:#fff"></i>
-                        <h4 class="mb-2" style="color:#fff">Financing</h4>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="service-box mt-5 mx-auto">
-                        <i class="fab fa-buysellads"></i>
-                        <h4 class="mb-2">Buy and Sell</h4>
-                    </div>
-                </div>
             </div>
         </div>
-    </section>
-    <section id="featured">
-        <h2 class="section-heading text-center">Today's Price (Per Qtl)</h2>
-        <h6 class="section-heading text-center">Last Update Date : <?= date('d-m-Y'); ?></h6>
-        <div class="container-fluid">
-            <div class="row pt-4">
-                <div class="col-md-12">
+        <h4 class="text-center p-t-30">Through our experienced operations team we can handle various kind of supply chain operations and services</h4>
+    </div>
+</section>
 
-                    <script type="text/javascript">
-                        $(document).ready(function(){
+<section class="feature_slider_area todays-b">
+    <div class="container">
+        <div class="row feature_row">
+            <div class="main_title p-t-30 p-b-30">
+                <h2>Today's Price (Per Qtl.)</h2>
+                <hr>
+                <p class="f-w-800">Last Update Date : {{ date('d-m-Y') }}</p>
+                <h5 class="p-t-10">Commodity Market</h5>
+                <script type="text/javascript">
+                    $(document).ready(function(){
 
-                            $(document).on('change', '#mandi', function(){
+                        $(document).on('change', '#mandi', function(){
 
-                                var mandi = $(this).val();
+                            var mandi = $(this).val();
 
-                                // If there is any mandi selected
-                                if(mandi != ''){
+                            // If there is any mandi selected
+                            if(mandi != ''){
 
-                                    $.ajax({
-                                        method : 'POST',
-                                        url : '{{ url("get_todays_price") }}',
-                                        async : true,
-                                        data : { '_token' : '{{ csrf_token() }}', 'mandi' : mandi},
-                                        success : function(response){
-                                            console.log(response);
+                                $.ajax({
+                                    method : 'POST',
+                                    url : '{{ url("get_todays_price") }}',
+                                    async : true,
+                                    data : { '_token' : '{{ csrf_token() }}', 'mandi' : mandi},
+                                    success : function(response){
+                                        console.log(response);
 
-                                            $('#featured-caro').html(response);
-                                        },
-                                        error: function(data) { // What to do if we fail
-                                            console.log(data);
-                                        }
-                                    });
-                                }
-                            });
+                                        $('#featured-caro').html(response);
+                                    },
+                                    error: function(data) { // What to do if we fail
+                                        console.log(data);
+                                    }
+                                });
+                            }
                         });
-                    </script>
-
-                    <div class="col-md-12">
-                        <form>
-                            <span style="font-weight: bold;background-color: grey;padding: 2px 10px;">
-                                <a href="">Commodity Wise</a>
-                            </span>
-                            
-                        </form>
-                    </div>
-
-                    <div id="featured-caro" class="owl-carousel">
-                        @foreach($today_prices as $key => $today_price)
-                        <div class="item">
-                            <img class="iblock bline" style="height: 220px;" src="{{ asset('resources/assets/upload/category/'.$today_price->image) }}"> <br>
-                            <span class="iblock bline">&nbsp; {!! $today_price->commodity !!}</span>
-                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tbody>
-                                    <tr>
-                                        <td width="15">
-                                            <i class="fa fa-arrow-alt-circle-right"></i>
-                                        </td>
-                                        <td>
-                                            <span id="ContentPlaceHolder1_rptScroller1_lblModal_39">Modal</span>
-                                        </td>
-                                        <td width="10">
-                                            :
-                                        </td>
-                                        <td>
-                                            {!! $today_price->modal !!}&nbsp;₹
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="15">
-                                            <i class="fa fa-arrow-alt-circle-right"></i>
-                                        </td>
-                                        <td>
-                                            <span id="ContentPlaceHolder1_rptScroller1_lblMax_39">Max</span>
-                                        </td>
-                                        <td width="10">
-                                            :
-                                        </td>
-                                        <td>
-                                            {!! $today_price->max !!}&nbsp;₹
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="15">
-                                            <i class="fa fa-arrow-alt-circle-right"></i>
-                                        </td>
-                                        <td>
-                                            <span id="ContentPlaceHolder1_rptScroller1_lblMin_39">Min</span>
-                                        </td>
-                                        <td width="10">
-                                            :
-                                        </td>
-                                        <td>
-                                            {!! $today_price->min !!}&nbsp;₹
-                                        </td>
-                                    </tr>
-                                    <tr><td colspan="4" class="text-center" style="font-weight: 700;background-color: gray;color:#fff;padding: 2px 0px;font-size: 18px;">{{ $today_price->terminal_name }}</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        @endforeach
-                    </div>
-                    <div class="customNavigation">
-                        <a class="btn prev"><i class="fa fa-chevron-left"></i></a>
-                        <a class="btn next"><i class="fa fa-chevron-right"></i></a>
+                    });
+                </script>
+            </div>
+            <div class="feature_slider_inner m-t-0 todays owl-carousel">
+                @foreach($today_prices as $key => $today_price)
+                <div class="item p-t-30">
+                    <div class="feature_s_item">
+                        <img alt="" class="svg social-link" src="{{ asset('resources/assets/upload/category/'.$today_price->image) }}" />
+                        <a href="#">
+                            <h4>{!! $today_price->commodity !!}</h4>
+                        </a>
+                        <p><strong>{{ $today_price->terminal_name }}</strong></p>
+                        <div class="col-md-3 p-0"><p>Min (Low)</p> <b>{{ $today_price->min }} ₹</b> </div>
+                        <div class="col-md-6 p-0"><p>Modal (Average)</p> <b>{{ $today_price->modal }} ₹</b> </div>
+                        <div class="col-md-3 p-0"><p>Max (High)</p> <b>{{ $today_price->max }} ₹</b> </div>
                     </div>
                 </div>
+                @endforeach
+                
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h3>Bid Time</h3>
-                </div>
-                <div class="col-md-4 text-right">
-                    <h4><b>Bid Time : </b><b class="red"> 08:00AM - 03:00PM</b></h4>
-                </div>
-                <div class="col-md-4 text-center">
-                    <h4><b>Bid Close Time : </b><b class="red"> 03:00PM - 03:30PM</b></h4>
-                </div>
-                <div class="col-md-4">
-                    <h4><b>Deal Close Time : </b><b class="red"> 03:30PM - 04:30PM</b></h4>
-                </div>
+<section class="feature_slider_area p-t-30 p-b-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center p-b-30 p-t-30">
+                <h3>Bid Time</h3>
+            </div>
+            <div class="col-md-4 text-center">
+                <h4><b>Bid Time : </b><b class="text-red"> 08:00AM - 03:00PM</b></h4>
+            </div>
+            <div class="col-md-4 text-center">
+                <h4><b>Bid Close Time : </b><b class="text-red"> 03:00PM - 03:30PM</b></h4>
+            </div>
+            <div class="col-md-4 text-center">
+                <h4><b>Deal Close Time : </b><b class="text-red"> 03:30PM - 04:30PM</b></h4>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                <h2 class="section-heading">Welcome to Apna Godam</h2>
-
-                <hr class="margin-unset">
-                <div class="text-justify">
-                    <p class="mb-4"><b>“An exclusive portal for Sellers / village level collectors
-    where they can avail Warehousing , Commodity Finance and
-    Market linkage all three facilities at one place”</b></p>
-                    <p class="mb-4">
-                    Sellers don’t have access to warehousing facilities and
-                    commodity finance since Terminals are situated at far off
-                    locations. They sell their commodity immediately post harvest at
-                    lower price and don’t get the benefit of price appreciation.</p>
-                    <p class="mb-4">
-                    We identify closed factories, Old sheds and abandoned buildings
-    NEAR production area and convert them into agriculture
-    Terminals where the Sellers can keep the Agri commodity and
-    avail commodity loan by pledging the stock. When prices of agri
-    produce are better then they can sell the stock to millers on the
-    apnagodam portal on “ As is Where is basis”.</p>
-                    </div>
+<section class="main_feature_area">
+    <div class="left_feature_content">
+        <div class="left_feature_inner_text">
+            <div class="feature_content">
+                <h5>FEATURES</h5>
+                <h2>WHY APNAGODAM?</h2>
+            </div>
+            <div class="media">
+                <div class="media-left">
+                    <img class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/online-booking') }}.svg" alt="" />
                 </div>
-                <div class="col-lg-6 text-center">
-                    <img class="max-100" src="{{ asset('resources/frontend_assets/img/farmer.jpg') }}">
+                <div class="media-body">
+                    <a href="#">
+                        <h4>Online Booking</h4>
+                    </a>
+                    <p>Book storage space online, track inventory in real-time! </p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="why-us">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 mx-lg-auto text-lg-center">
-                    <h2 class="section-heading">Why Apna Godam</h2>
-                    <hr class="my-4 mob-left">
-                    <p>We remove inefficiency in the entire supply chain and save cost to the Sellers</p>
+            <div class="media">
+                <div class="media-left">
+                    <img class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/inventory.svg') }}" alt="" />
+                </div>
+                <div class="media-body">
+                    <a href="#">
+                        <h4>Inventory Management</h4>
+                    </a>
+                    <p>Integrated IMS that allows you to track goods across your business's supply chain. </p>
                 </div>
             </div>
-        </div>
-        <div class="container-fluid bg-light mt-4">
-        <div class="row pb-2">
-            <div class="col-lg-6l px-0">
-                <img class="full-100 p-4 p-lg-0" src="{{ asset('resources/frontend_assets/img/strenght.png') }}" style="width: 91%;height: 500px;">
-            </div>
-
-            <div class="col-lg-6s my-auto text-lg-center px-0">
-                <div class="iblock px-5">
-                    <h2 class="text-left section-heading">Our Strength</h2>
-
-                    <ul class="text-left">
-                        <li>Terminals NEAR FARM</li>
-                        <li>Affordable storage solution</li>
-                        <li>Paper less loan process in just 10 minutes</li>
-                        <li>Online CCTV access to customers</li>
-                        <li>Online sale of agri commodity on “ As is where is basis”.</li>
-                        <li>System and process driven organization.</li>
-                    </ul>
+            <div class="media">
+                <div class="media-left">
+                    <img class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/destination.svg') }}" alt="" />
+                </div>
+                <div class="media-body">
+                    <a href="#">
+                        <h4>Logistics Management</h4>
+                    </a>
+                    <p>Online tracking logistics to track drivers, shipment of goods, vehicles and client’s operations. </p>
                 </div>
             </div>
-        </div>
-        <div class="row pt-2">
-            <div class="col-lg-6l col-lg-push-6l px-0">
-                <img class="full-100 p-4 p-lg-0" src="{{ asset('resources/frontend_assets/img/benifits.png') }}">
+            <div class="media">
+                <div class="media-left">
+                    <img class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/medal.svg') }}" alt="" />
+                </div>
+                <div class="media-body">
+                    <a href="#">
+                        <h4>Quality Management</h4>
+                    </a>
+                    <p>Team of highly qualified and experienced experts for quality testing of agri-commodities. </p>
+                </div>
             </div>
-            <div class="col-lg-6s col-lg-pull-6s my-auto text-lg-center px-0">
-                <div class="iblock px-5">
-                <h2 class="text-left section-heading">Benefits to Sellers</h2>
-
-                <ul class="text-left">
-                    <li>Low transportation cost as the warehouse is nearby</li>
-                    <li>Just send the commodity in warehouse and relax , everything is online</li>
-                    <li>Proper Fumigations and spray to keep the commodity safe</li>
-                    <li>Millers on board to purchase the commodity from Terminals</li>
-                    <li>Grading / sorting facility in some Terminals</li>
-                </ul>
+            <div class="media">
+                <div class="media-left">
+                    <img class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/bid.svg') }}" alt="" />
+                </div>
+                <div class="media-body">
+                    <a href="#">
+                        <h4>Online Trading</h4>
+                    </a>
+                    <p>Online trading platform for Buyers & Sellers dealing with various agri commodities . </p>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-left">
+                    <img class="svg social-link" src="{{ asset('resources/frontend_assets/theme/img/icon/svg/ivr.svg') }}" alt="" />
+                </div>
+                <div class="media-body">
+                    <a href="#">
+                        <h4>IVR System </h4>
+                    </a>
+                    <p>It just requires a phone call for a farmer to confirm his stock price . </p>
                 </div>
             </div>
         </div>
     </div>
+    <div class="right_feature_image">
+        <img src="{{ asset('resources/frontend_assets/theme/img/feature-right.jpg') }}" alt="">
+    </div>
+</section>
 
-    </section>
-
-    <section id="featured">
-      <div class="container-fluid">
-        <div class="row pt-4">
-            <div class="col-md-3 text-center my-auto">
-                <div class="iblock text-left quoted">
-                    <h2 class="section-heading text-center text-md-left">Testimonials</h2>
-                    <hr class="mx-lg-0 mx-auto">
+<section class="testimonials_area p-b-30">
+    <div class="container">
+        <div class="testimonials_inner">
+            <h3 class="single_title text-center">What Customers Say...</h3>
+            <div class="testimonials_slider owl-carousel">
+                <div class="item">
+                    <img class="img-circle" src="{{ asset('resources/frontend_assets/theme/img/testimonials/testimonials-1a.png') }}" alt="">
+                    <p>Apnagodam has been a boon for me and other farmers like me who have to compromise on low prices with high interest and high rent due to the monopoly of the Mandi system.</p>
+                    <h4>Ramji Sunda (Farmer in Palsana - Rajasthan)</h4>
                 </div>
-            </div>
-            <div class="col-md-9">
-
-                <div id="featured-caro" class="owl-carousel">
-                    <div class="item">
-                        <p class="pb-2">We are getting better realization of produce by using Agri warehousing facility which is provided at nominal cost and near to us. We get sms on our mobile phone for every transaction.</p>
-                        <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/q1.png') }}"> <span class="iblock bline">&nbsp; Baldev Chaudhary (Seller)</span>
-                    </div>
-                    <div class="item">
-                        <p class="pb-2">This is the first time we used Agri Godam of this company and the experience was wonderful. Specially online CCTV footage access and real time kanta parchi is unique feature of this warehouse.</p>
-                        <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/qwe.png') }}"> <span class="iblock bline">&nbsp; Lokesh Agarwal ( Trader)</span>
-                    </div>
-                    <div class="item">
-                        <p class="pb-2">Our Shed was lying unused since last 15 years. I am grateful to Apna Godam Team for making best use of it. We are not earning only money but the idle resource of the country has been put to use.</p>
-                        <img class="iblock bline" src="{{ asset('resources/frontend_assets/img/gzz.png') }}"> <span class="iblock bline">&nbsp; Karun Modi  ( Godam owner)</span>
-
-                    </div>
+                <div class="item">
+                    <img class="img-circle" src="{{ asset('resources/frontend_assets/theme/img/testimonials/testimonials-2.png') }}" alt="">
+                    <p>With Apnagodam, we as farmers have the power to decide at which prices to sell our stocks.Instant financing from Apnagodam at low rates has given me great relief.</p>
+                    <h4>Keshav Lal (Farmer in Gariyala - Rajasthan)</h4>
                 </div>
-                <div class="customNavigation">
-                    <a class="btn prev"><i class="fa fa-chevron-left"></i></a>
-                    <a class="btn next"><i class="fa fa-chevron-right"></i></a>
+                <div class="item">
+                    <img class="img-circle" src="{{ asset('resources/frontend_assets/theme/img/testimonials/testimonials-3.png') }}" alt="">
+                    <p>Most farmers in the country are unable to reap the benefits of their hard labour as they get cheated by middlemen.With Apnagodam increasing the earnings of the farmers by connecting them directly to the buyers across the country.</p>
+                    <h4>Ravi Kanwar (Farmer in Lachharsar - Rajasthan)</h4>
                 </div>
             </div>
         </div>
     </div>
 </section>
-</main>
-<!-- Page Content Ends -->
 
+<section class="gallery_area p-t-30 todays-b">
+    <div class="container">
+        <div class="col-md-12 text-center">
+            <div class="left_gallery_area">
+                <h3 class="single_title">Our Gallery</h3>
+                <div class="l_gallery_inner zoom-gallery">                    
+                    <div class="l_gallery_item">
+                        <a href="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-3.jpg') }}">
+                            <img src="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-3.jpg') }}" alt="">
+                        </a>
+                    </div>
+                    <div class="l_gallery_item">
+                        <a href="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-5.jpg') }}">
+                            <img src="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-5.jpg') }}" alt="">
+                        </a>
+                    </div>
+                    <div class="l_gallery_item">
+                        <a href="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-6.jpg') }}">
+                            <img src="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-6.jpg') }}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="get_quote_area">
+    <div class="container">
+        <div class="pull-left">
+            <h4>Providing Safe & Secured Agri Warehousing Solutions </h4>
+        </div>
+        <div class="pull-right">
+            <a class="b_get_btn" href="{{ route('terminals') }}">Book Now <i class="fa fa-angle-right"></i></a>
+        </div>
+    </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+      
+        <iframe id="iframeYoutube" width="560" height="315"  src="https://www.youtube.com/embed/e80BbX05D7Y" frameborder="0" allowfullscreen></iframe> 
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+      $("#myModal").on("hidden.bs.modal",function(){
+        $("#iframeYoutube").attr("src","#");
+      })
+    })
+
+    function changeVideo(vId){
+      var iframe=document.getElementById("iframeYoutube");
+      iframe.src="https://www.youtube.com/embed/"+vId;
+
+      $("#myModal").modal("show");
+    }
+</script>
 @endsection

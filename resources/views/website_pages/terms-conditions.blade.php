@@ -1,132 +1,19 @@
 @extends('layouts.public_app')
 
 @section('content')
-<style type="text/css">
-    .breadcrumbs-fixed {
-        z-index: 2;
-    }
-    .searchresult-bg {
-        background-color: #fbfbfb;
-    }
-    .padding-horizontal-0 {
-        padding-left: 0!important;
-    }    
-    .padding-horizontal-110 {
-        padding-left: 110px!important;
-    }
-    .padding-horizontal-0, .padding-right-0 {
-        padding-right: 0!important;
-    }
-    .breadcrumbs {
-        border-bottom: 1px solid #ebedee;
-        height: 60px;
-    }
-    .breadcrumbs, .mandi-1 {
-        background-color: #fff;
-    }
-    .padding-top-10 {
-        padding-top: 10px!important;
-    }
-    .breadcrumbs span {
-        font-size: 17px;
-        font-weight: 400;
-        color: #938c8c;
-        letter-spacing: .4px;
-        padding-right: 5px;
-    }
-    .breadcrumbs span {
-        font-size: 17px;
-        font-weight: 400;
-        color: #938c8c;
-        letter-spacing: .4px;
-        padding-right: 5px;
-    }
-    .breadcrumbs span:last-child {
-        color: #222427;
-    }
-    .breadcrumbs span {
-        font-size: 17px;
-        font-weight: 400;
-        color: #938c8c;
-        letter-spacing: .4px;
-        padding-right: 5px;
-    }
-    .margin-top-90 {
-        margin-top: 90px;
-    }
-    .term-header {
-        font-size: 22px;
-        line-height: 42px;
-    }
-    .term-header, .term-sub-header {
-        color: #29304a;
-        font-weight: 500;
-    }
-    .term-sub-header {
-        font-size: 15px;
-    }
-    .margin-top-5 {
-        margin-top: 5px;
-    }    
-    .margin-top-10 {
-        margin-top: 5px;
-    }
-    .padding-top-10{
-        padding-top: 10px;
-    }
-    .term-sub-header ol li, .term-sub-header ul li {
-        color: #0090f2;
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 22px;
-    }
-    .term-description-header {
-        color: #0090f2;
-        font-size: 16px;
-        font-weight: 500;
-    }
-    .term-description {
-        color: #535976;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 20px;
-    }
-    .term-section table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    .term-section table tr {
-        height: 40px;
-    }
-    .term-section tr td:first-child {
-        border-left: 1px solid #ddd;
-        background-color: #ddd5e;
-        color: #29304a;
-        font-weight: 700;
-        width: 15%;
-    }
-    .term-section td, .term-section td:last-child {
-        border-right: 1px solid #ddd;
-    }
-    .term-section td, .term-section th {
-        border: 1px solid #ddd;
-        text-align: left;
-        padding: 8px;
-    }
-</style>
-<header class="masthead text-white d-flex masthalf"></header>
-<section id="about" class="padding-top-10">
-    <div class="col-xs-12 padding-horizontal-0 searchresult-bg breadcrumbs-fixed ng-scope">
-        <div class="breadcrumbs">
-            <div class="col-xs-8 col-xs-push-2 child-div padding-horizontal-110 margin-top-10">
-                <div class="col-xs-12 padding-top-10 padding-horizontal-0">
-                    <span ng-click="terms.routeTo('home')">Home</span><span>›</span>
-                    <span>Terms of Use</span>
-                </div>
-            </div>
+<section class="banner_area m-t-158">
+    <div class="container">
+        <div class="pull-left">
+            <h3>{{ __('Terms & Condition') }}</h3>
+        </div>
+        <div class="pull-right">
+            <a href="/">Home</a>
+            <a href="/">Terms & Condition</a>
         </div>
     </div>
-<div class="container">
+</section>
+<section id="about" class="p-t-20 p-b-20 ">    
+    <div class="container">
     <div class="row justify-content-center">
         <div class="col-xs-12 padding-horizontal-0">
             <div class="col-xs-12 padding-horizontal-0 margin-top-10 term-header" style="text-transform: uppercase;">
@@ -2584,5 +2471,115 @@
         </div>
     </div>
 </section>
+<style type="text/css">
+    .breadcrumbs-fixed {
+        z-index: 2;
+    }
+    .searchresult-bg {
+        background-color: #fbfbfb;
+    }
+    .padding-horizontal-0 {
+        padding-left: 0!important;
+    }    
+    .padding-horizontal-110 {
+        padding-left: 110px!important;
+    }
+    .padding-horizontal-0, .padding-right-0 {
+        padding-right: 0!important;
+    }
+    .breadcrumbs {
+        border-bottom: 1px solid #ebedee;
+        height: 60px;
+    }
+    .breadcrumbs, .mandi-1 {
+        background-color: #fff;
+    }
+    .breadcrumbs span {
+        font-size: 17px;
+        font-weight: 400;
+        color: #938c8c;
+        letter-spacing: .4px;
+        padding-right: 5px;
+    }
+    .breadcrumbs span {
+        font-size: 17px;
+        font-weight: 400;
+        color: #938c8c;
+        letter-spacing: .4px;
+        padding-right: 5px;
+    }
+    .breadcrumbs span:last-child {
+        color: #222427;
+    }
+    .breadcrumbs span {
+        font-size: 17px;
+        font-weight: 400;
+        color: #938c8c;
+        letter-spacing: .4px;
+        padding-right: 5px;
+    }
+    .margin-top-90 {
+        margin-top: 90px;
+    }
+    .term-header {
+        font-size: 22px;
+        line-height: 42px;
+    }
+    .term-header, .term-sub-header {
+        color: #29304a;
+        font-weight: 500;
+    }
+    .term-sub-header {
+        font-size: 15px;
+    }
+    .margin-top-5 {
+        margin-top: 5px;
+    }    
+    .margin-top-10 {
+        margin-top: 5px;
+    }
+    .padding-top-10{
+        padding-top: 10px;
+    }
+    .term-sub-header ol li, .term-sub-header ul li {
+        color: #750c0e;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 22px;
+    }
+    .term-description-header {
+        color: #750c0e;
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .term-description {
+        color: #535976;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+    .term-section table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .term-section table tr {
+        height: 40px;
+    }
+    .term-section tr td:first-child {
+        border-left: 1px solid #ddd;
+        background-color: #ddd5e;
+        color: #29304a;
+        font-weight: 700;
+        width: 15%;
+    }
+    .term-section td, .term-section td:last-child {
+        border-right: 1px solid #ddd;
+    }
+    .term-section td, .term-section th {
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 8px;
+    }
+</style>
 <script src="https://www.agribazaar.com/scripts/vendor-1d.js"></script>
 @endsection

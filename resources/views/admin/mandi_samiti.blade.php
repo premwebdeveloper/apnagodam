@@ -58,6 +58,9 @@
                                             <td>{!! $samiti->address !!}</td>
                                             <td>{!! $samiti->district !!}</td>
                                             <td>
+                                                <a href="{!! route('edit_mandi_samiti', ['id' => $samiti->id]) !!}" class="btn btn-info btn-xs" title="Edit">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
                                                 <a href="{!! route('delete_mandi_samiti', ['id' => $samiti->id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete Mandi Samiti">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </a>

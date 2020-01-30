@@ -44,8 +44,6 @@ Route::post('/get_total_loan_amount', 'UsersController@get_total_loan_amount')->
 // Get todays price of this commodity
 Route::post('/get_todays_price_by_inventory', 'UsersController@get_todays_price_by_inventory')->name('get_todays_price_by_inventory');
 
-Route::get('/user_dashboard', 'UsersController@user_dashboard')->name('user_dashboard');
-
 Route::get('/change_password', 'UsersController@change_password')->name('change_password');
 
 Route::get('/user_finance_view', 'UsersController@user_finance_view')->name('user_finance_view');
@@ -55,8 +53,6 @@ Route::get('/request_for_loan/{id}', 'UsersController@request_for_loan')->name('
 Route::post('/loan_request', 'UsersController@loan_request')->name('loan_request');
 Route::get('/loan_approved/{id}', 'UsersController@loan_approved')->name('loan_approved');
 Route::post('/user_agree_for_loan/', 'UsersController@user_agree_for_loan')->name('user_agree_for_loan');
-
-
 
 Route::post('/get_todays_price/', 'HomeController@get_todays_price')->name('get_todays_price');
 
@@ -95,6 +91,9 @@ Route::post('/getWarehouseDistance', 'AjaxController@getWarehouseDistance')->nam
 // Change password view
 Route::get('/change_password_view', 'AdminController@change_password_view')->name('change_password_view');
 Route::post('/change_password', 'AdminController@change_password')->name('change_password');
+
+//User Profile on Dashboard
+Route::any('/updateProfileImage', 'UsersController@updateProfileImage')->name('updateProfileImage');
 
 // Admin dashboard view route
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
@@ -208,7 +207,9 @@ Route::get('/terms-conditions', 'HomeController@terms_conditions')->name('terms-
 Route::get('/about-us', 'HomeController@about_us')->name('about-us');
 Route::get('/terminal_view/{id}', 'HomeController@terminal_view')->name('terminal_view');
 Route::get('/our-team', 'HomeController@our_team')->name('our-team');
+Route::get('/terminals', 'HomeController@our_warehoue')->name('terminals');
 Route::get('/contact-us', 'HomeController@contact_us')->name('contact-us');
+Route::get('/faq', 'HomeController@faq')->name('faq');
 Route::post('/warehouse_enquiry', 'HomeController@warehouse_enquiry')->name('warehouse_enquiry');
 
 
@@ -253,6 +254,10 @@ Route::get('/users_otp', 'AdminController@users_otp')->name('users_otp');
 
 // Mandi samitis view
 Route::get('/mandi_samiti', 'AdminController@mandi_samiti')->name('mandi_samiti');
+
+// Mandi samitis Edit / Update
+Route::post('/update_mandi_samiti/', 'AdminController@update_mandi_samiti')->name('update_mandi_samiti');
+Route::get('/edit_mandi_samiti/{id}', 'AdminController@edit_mandi_samiti')->name('edit_mandi_samiti');
 
 // Add mandi samiti page
 Route::get('/add_mandi_samiti', 'AdminController@add_mandi_samiti')->name('add_mandi_samiti');

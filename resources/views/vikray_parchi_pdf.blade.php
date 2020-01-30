@@ -11,76 +11,188 @@
 .page-break {
     page-break-after: always;
 }
+p{font-size: 13px;padding:0px;margin:0px;}
+b{font-size: 13px;}
+.f-w-600{font-weight: 600;}
+.f-s-12{font-size:12px;}
+/* #watermark 
+{
+    position: fixed;
+    text-align: center;
+    width:    12cm;
+    height:   16cm;
+    opacity: 0.2;
+    left: 19%;
+    top:15%;
+    z-index:  -1000;
+} */
 </style>
   <body>
+        <!-- <div id="watermark">
+            <img src="{{ asset('resources/frontend_assets/img/apna-godam-logo-1.png') }}" height="100%" width="100%" />
+        </div> -->
+        <?php
+        $total_price = $quantity * $price;
+        $commission = ($total_price * 0.75) / 100;
+        $mandi_fee = '';
+        $hammali = '';
+        if($sales_status == 1)
+        {
+            $mandi_fee = (($total_price * $mandi_fees) / 100);
+        }else{
+            $mandi_fee = "N/A";
+        }
+        if($sales_status == 1)
+        {
+            $mandi_fee = ($quantity * 3.5);
+        }else{
+            $mandi_fee = "N/A";
+        }
+
+        $res = 'Vikray Parchi = '.$id.', ApnaGodam.com, CIN = U63030RJ2016PTC055509, Buyer Name = '.$buyer_name.', Seller Name = '.$seller_name.', Date = '.date('d-m-Y').', Bid Date = '.date('d-m-Y', strtotime($updated_at)).', Commodity = '.$category.', Warehouse = '.$warehouse.', Net Weight = '.$quantity.', Price = '.$price.', Quality = '.$quality_category.', E-mandi Commission = '.$commission.', Bags = '.$quantity.', Hammali = '.$hammali.', Mandi Fees = '.$mandi_fee.", Total = ".$total_price;
+        ?>
         <div class="">
             <div class="row">
-                <div class="col-md-12 text-center">
-                    <h6>Vikray Parchi <b>{{ $id }}</b></h6>
+                <div class="col-md-3 text-left">
+                   <img style="position:relative;height: 110px;" src="{{ asset('resources/frontend_assets/img/apna-godam-logo-1.png') }}">
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h2>Apna Godam</h2>
+                <div class="col-md-3 text-right">
+                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(150)->generate($res))!!} ">
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <b>Buyer Name : </b><span> {{ $buyer_name }}</span>&nbsp;&nbsp;&nbsp; <b> Date : </b><span> {{ date('d-m-Y') }}</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <b>Seller Name : </b><span> {{ $seller_name }}</span>&nbsp;&nbsp;&nbsp; <b>Bid Date : </b><span> {{ date('d-m-Y', strtotime($updated_at)) }}</span>
-                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h2>apnagodam.com</h2>
+                            <h6>Private Sub e-Market Notified By Govt. of Rajasthan</h6>
+                            <p><b>Private Sub e-Market License No.:</b> 009</p>
+                            <p><b>CIN:</b> U63030RJ2016PTC055509</p><br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Vikray Parchi No. - <b>{{ $id }}</b></p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p><b><?= ($sales_status == 1)?"Primary Sale":'Secondary Sale'; ?> </b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><b>Buyer Name : </b> {{ ucfirst($buyer_name) }}, {{ ucfirst($buyer_address) }}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p><b>Print Date : </b> {{ date('d-m-Y') }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><b>Seller Name : </b> {{ ucfirst($seller_name) }}, {{ ucfirst($seller_address) }}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p><b>Bid Date : </b> {{ date('d-m-Y', strtotime($updated_at)) }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p><b style="text-decoration: underline;">Shipment Details :</b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>
+                                        <b>Commodity : </b>{{$category }}
+                                    </td>
+                                    <td>
+                                        <b>Warehouse : </b>{{$warehouse }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Net Weight : </b> {{$quantity }} Qtl.
+                                    </td>
+                                    <td>
+                                        <b>Price : </b>{{$price }} / Qtl.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Quality Grade: </b> {{ $quality_category }}
+                                    </td>
+                                    <td>
+                                        
+                                        <b>E-mandi Commission (0.75%): </b> {{ $commission }} <span class='f-w-600 f-s-12'>(INR)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Bags : </b> {{ $quantity * 2 }}
+                                    </td>
+                                    <td>
+                                        <b>Hammali (3.50 per Bag): </b> @if($sales_status == 1)  {{ ($quantity * 3.5) }} <span class='f-w-600 f-s-12'>(INR)</span>  @else N/A @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @if($sales_status == 1) 
+                                            <b>Mandi Fees ({!! $mandi_fees !!}%) : </b>
+                                            <?php
+                                            echo $mandi_fee = (($total_price * $mandi_fees) / 100)." <span class='f-w-600 f-s-12'>(INR)</span>";
+                                            ?>
+                                        @else
+                                            <b>Mandi Fees : </b>
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <b>Total Amount  : </b>{{ number_format((float)$total_price, 2, '.', '') }} <span class='f-w-600 f-s-12'>(INR)</span> ({{convertCurrencyToWords($total_price) }})
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: 12px;padding:0px;margin:0px;">Regd. Office: ApnaGodam.com (A Unit of Singodwala Warehousing & Logistics Pvt. Ltd.) Sector-9, Plot No. 16, Vidhyadhar Nagar, Jaipur, Rajasthan 302032</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="font-size: 12px;padding:0px;margin:0px;">Email : sanjayagarwal@apnagodam.com</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p style="font-size: 12px;padding:0px;margin:0px;">Landline No. : 0141-2232204</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="font-size: 12px;padding:0px;margin:0px;">This is a system generated Vikray Parchi hence  need not be signed. Please call on IVR no. 7733901154 to check its authenticity.</p>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
-        <table class="table table-bordered">
-            <tr>
-                <td>
-                    <b>Net Weight : </b> {{$quantity }} Qtl.
-                </td>
-                <td>
-                    <b>Price : </b>{{$price }} / Qtl.
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Commodity : </b>{{$category }}
-                </td>
-                <td>
-                    <b>Warehouse : </b>{{$warehouse }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <?php
-                        $total_price = $quantity * $price;
-                    ?>
-                    <b>Total Amount  : </b>{{$total_price }} Rs.
-                </td>
-                <td>
-                    <?php
-                        $total_price = $quantity * $price;
-                    ?>
-                    @if($sales_status == 1) 
-                        <b>Mandi Fees ({!! $mandi_fees !!}%) : </b>
-                        <?php
-                        echo $mandi_fee = ($total_price * $mandi_fees) / 100;
-                        ?>
-                    @else
-                        <b>Mandi Fees : </b>
-                        N/A
-                    @endif
-                    Rs.
-                </td>
-            </tr>
-        </table>
-        <div class="page-break"></div>
         <div class="" style="width: 100%;padding:10px 0px;">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h4><b>[FORM XXII]</b></h4>
+                    <h4><strong>[FORM XXII]</strong></h4>
                 </div>
             </div>
             <div class="row">
@@ -90,62 +202,62 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h5><b>Certificate of Market Fees Paid Notified Agricultural Produce</b></h5>
+                    <h5><strong>Certificate of Market Fees Paid Notified Agricultural Produce</strong></h5>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h5><b>DELIVERY SLIP</b></h5>
+                    <h5><strong>DELIVERY SLIP</strong></h5>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h5><b>(To be issued by private Sub e-market)</b></h5>
+                    <h5><strong>(To be issued by private Sub e-market)</strong></h5>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <span><b> {{ $warehouse }} ({{ $warehouse_code }})</b> Delivery centre</span>
+                    <span><strong> {{ $warehouse }} ({{ $warehouse_code }})</strong> Delivery centre</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <span><b> {{ $warehouse }} ({{ $warehouse_code }})</b> Name of Private sub e-market</span>
+                    <span><strong> {{ $warehouse }} ({{ $warehouse_code }})</strong> Name of Private sub e-market</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <span>Serial No. <b> {{ $id }} </b></span>
+                    <span>Serial No. <strong> {{ $id }} </strong></span>
                 </div>
                 <div class="col-md-6 text-right">
-                    <span>Date : <b>{{ date('d-m-Y', strtotime($updated_at)) }}</b></span>
+                    <span>Date : <strong>{{ date('d-m-Y', strtotime($updated_at)) }}</strong></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <span> Name of Selling Member <b> {{ $seller_name }}</b></span>
+                    <span> Name of Selling Member <strong> {{ $seller_name }}</strong></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <span> Registration / Licence No. : <b> N/A</b></span>
+                    <span> Registration / Licence No. : <strong> N/A</strong></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <span> Name of Buying Member <b> {{ $buyer_name }}</b></span>
+                    <span> Name of Buying Member <strong> {{ $buyer_name }}</strong></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <span> Registration / Licence No. : <b> {{ $mandi_license }} </b></span>
+                    <span> Registration / Licence No. : <strong> {{ $mandi_license }} </strong></span>
                 </div>
             </div>
             <br />
             <br />
             <div class="row">
                 <div class="col-md-12">
-                    <p>We hereby certify that the following deliveries have been lifted from our warehouse located at <b>{{ $location }}</b> which is in <b> N/A </b> market area, and the completed details of payment of market fees and name of original trader along with his licence number, who has delivered originally and is responsible for payment of market fees on such goods are maintained with us, which can be verified from our records. We have delivered the below mentioned Agricultural Produces to the person named below:-
+                    <p>We hereby certify that the following deliveries have been lifted from our warehouse located at <strong>{{ $location }}</strong> which is in <strong> N/A </strong> market area, and the completed details of payment of market fees and name of original trader along with his licence number, who has delivered originally and is responsible for payment of market fees on such goods are maintained with us, which can be verified from our records. We have delivered the below mentioned Agricultural Produces to the person named below:-
                 </div>
             </div>
         </div> 
@@ -166,16 +278,16 @@
             </tr>
             <tr>
                 <td>
-                    <b>{{ $category }}</b>
+                    <strong>{{ $category }}</strong>
                 </td>
                 <td>
-                    <b>{{ $quantity }} Bags</b>
+                    <strong>{{ $quantity }} Bags</strong>
                 </td>
                 <td>
-                    <b>{{ $buyer_name }}</b>
+                    <strong>{{ $buyer_name }}</strong>
                 </td>
                 <td>
-                    <b>E-Mandi</b>
+                    <strong>E-Mandi</strong>
                 </td>
             </tr>
         </table>
@@ -187,12 +299,12 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <span>Phone No : <b>0141-2232204</b></span>
+                    <span>Phone No : <strong>0141-2232204</strong></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <span>Address : <b>9/16, Vidhyadhar Nagar, Jaipur</b></span>
+                    <span>Address : <strong>9/16, Vidhyadhar Nagar, Jaipur</strong></span>
                 </div>
             </div>
         </div>

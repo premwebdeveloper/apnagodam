@@ -175,7 +175,7 @@ class ApiController extends Controller
                 'status' => 1,
             ]);
 
-            $role_id = 5;
+            $role_id = 2;
             $user_id = $exist->id;
             $date = date('Y-m-d H:i:s');
 

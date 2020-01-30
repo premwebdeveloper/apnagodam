@@ -1,93 +1,128 @@
-@extends('layouts.public_app')
-
+@extends('layouts.auth_app')
 @section('content')
-<style>
-    .py-4{
-        padding-top: 0rem!important;
-    }
-    .masthead{
-        height: 20vh!important;
-        min-height: 140px!important;
-    }
-</style>
-<header class="masthead text-white d-flex masthalf"></header>
-<section id="about">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-lg-12">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        @if($status == 'sell')
+            <h2>My Sell</h2>
+       @else
+            <h2>My Purchase</h2>
+       @endif
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ route('dashboard') }}">Home</a>
+            </li>
+            <li class="active">
                 @if($status == 'sell')
-                    <h2 class="section-heading text-center">My Sell</h2><hr>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">Terminal</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Buyer</th>
-                                <th scope="col">Commodity</th>
-                                <th scope="col">Net Weight (Qtl.)</th>
-                                <th scope="col">Quality Categgory</th>
-                                <th scope="col">Price (Rs/Qtl.)</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($sells as $key => $sell)
-                                    <tr>
-                                        <td>{{ $sell->name }}</td>
-                                        <td>{{ $sell->location }}</td>
-                                        <td>{{ $sell->fname }}</td>
-                                        <td>{{ $sell->category }}</td>
-                                        <td>{{ $sell->quantity }}</td>
-                                        <td>{{ $sell->quality_category }}</td>
-                                        <td>{{ $sell->price }}</td>
-                                        <td>{{ $sell->created_at }}</td>
-                                        @if($sell->status == 2)
-                                            <td><strong class="red">Pending With Admin</strong></td>
-                                        @elseif($sell->status == 3)
-                                            <td><strong style="color:green;">Success</strong></td>
-                                        @endif
-                                    </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <strong>My Sell</strong>
                 @else
-                    <h2 class="section-heading text-center">My Purchase</h2><hr>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">Terminal</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Commodity</th>
-                                <th scope="col">Net Weight(Qtl.)</th>
-                                <th scope="col">Quality Categgory</th>
-                                <th scope="col">Bid Amount(Price)</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($buys as $key => $buy)
-                                <tr>
-                                    <td>{{ $buy->name }}</td>
-                                    <td>{{ $buy->location }}</td>
-                                    <td>{{ $buy->category }}</td>
-                                    <td>{{ $buy->quantity }}</td>
-                                    <td>{{ $buy->quality_category }}</td>
-                                    <td>{{ $buy->price }}</td>
-                                    <td>{{ $buy->created_at }}</td>
-                                    <td><strong style="color:green;">Success</strong></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <strong>My Purchase</strong>
                 @endif
-            </div>
+            </li>
+        </ol>
+    </div>
+</div>
 
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    @if($status == 'sell')
+                        <h5>My Sell</h5>
+                    @else
+                        <h5>My Purchase</h5>
+                    @endif
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        @if($status == 'sell')
+                            <table id="my_sell" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Terminal</th>
+                                        <th>Location</th>
+                                        <th>Buyer</th>
+                                        <th>Mandi Fee</th>
+                                        <th>Commodity</th>
+                                        <th>Net Weight (Qtl.)</th>
+                                        <th>Quality Grade</th>
+                                        <th>Price (Rs/Qtl.)</th>
+                                        <th>Date</th>
+                                        <th>Sell Type</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($sells as $key => $buy)
+                                        <tr class="gradeX">
+                                            <td>{{ $buy->name }}</td>
+                                            <td>{{ $buy->location }}</td>
+                                            <td>{{ $buy->fname }}</td>
+                                            <td>{{ ($buy->mandi_fees)?$buy->mandi_fees:'N/A' }}</td>
+                                            <td>{{ $buy->category }}</td>
+                                            <td>{{ $buy->quantity }}</td>
+                                            <td>{{ $buy->quality_category }}</td>
+                                            <td>{{ $buy->price }}</td>
+                                            <td>{{ $buy->created_at }}</td>
+                                            <td>{!! ($buy->sales_status == 1)?'<span class="label label-primary">Primary</span>': '<span class="label label-danger">Secondary</span>' !!}</td>
+                                            <td><span class="label label-primary">Success</span></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                        <table id="my_sell" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Terminal</th>
+                                    <th>Location</th>
+                                    <th>Seller</th>
+                                    <th>Mandi Fee</th>
+                                    <th>Commodity</th>
+                                    <th>Net Weight (Qtl.)</th>
+                                    <th>Quality Grade</th>
+                                    <th>Price (Rs/Qtl.)</th>
+                                    <th>Date</th>
+                                    <th>Sell Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($buys as $key => $buy)
+                                    <tr class="gradeX">
+                                        <td>{{ $buy->name }}</td>
+                                        <td>{{ $buy->location }}</td>
+                                        <td>{{ $buy->fname }}</td>
+                                        <td>{{ ($buy->mandi_fees)?$buy->mandi_fees:'N/A' }}</td>
+                                        <td>{{ $buy->category }}</td>
+                                        <td>{{ $buy->quantity }}</td>
+                                        <td>{{ $buy->quality_category }}</td>
+                                        <td>{{ $buy->price }}</td>
+                                        <td>{{ $buy->created_at }}</td>
+                                        <td>{!! ($buy->sales_status == 1)?'<span class="label label-primary">Primary</span>': '<span class="label label-danger">Secondary</span>' !!}</td>
+                                        <td><span class="label label-primary">Success</span></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
-</section>
-
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#my_sell").dataTable();
+    });
+</script>
 @endsection

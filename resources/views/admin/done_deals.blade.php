@@ -22,9 +22,11 @@
 
                 <div class="ibox-title">
                     <h5>Done Deals</h5>
-                    <div class="ibox-tools">
-                        <span class="red">Deal Approve Time : 01:00 PM to 06:30PM</span>
-                    </div>
+                     @if($role->role_id == 1)
+                        <div class="ibox-tools">
+                            <span class="red">Deal Approve Time : 01:00 PM to 06:30PM</span>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="ibox-content">
@@ -48,7 +50,9 @@
                                     <th>Net Weight (Qtl.)</th>
                                     <th>Price</th>
                                     <th>Done Date</th>
-                                    <th>Action</th>
+                                    @if($role->role_id == 1)
+                                        <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,9 +66,11 @@
                                             @if($done_deal->payment_ref_no)
                                                 {!! $done_deal->payment_ref_no !!}
                                             @else
-                                                <a href="javascript:;" id="{!! $done_deal->id !!}" class="btn btn-warning btn-xs add_payment_ref" data-toggle="tooltip" title="Add Payment Ref. No.">
-                                                    <i class="fa fa-plus"></i>
-                                                </a>
+                                                @if($role->role_id == 1)
+                                                    <a href="javascript:;" id="{!! $done_deal->id !!}" class="btn btn-warning btn-xs add_payment_ref" data-toggle="tooltip" title="Add Payment Ref. No.">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>{!! $done_deal->warehouse !!}</td>
@@ -72,20 +78,23 @@
                                         <td>{!! $done_deal->quantity !!}</td>
                                         <td>{!! $done_deal->price !!}</td>
                                         <td>{!! date('d M Y', strtotime($done_deal->updated_at)) !!}</td>
-                                        <td>
-                                            @if($done_deal->status == 2)
-                                                <a href="javascript:;" id="{!! $done_deal->id !!}_{!! $done_deal->gate_pass_wr !!}" class="btn btn-warning btn-xs edit_gate_pass" data-toggle="tooltip" title="Deal Done">
-                                                    Approve
-                                                </a>
-                                            @else
-                                                <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id, 'email' => 0]) !!}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">
-                                                    Download Vikray Parchi
-                                                </a>
-                                                <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id, 'email' => 1]) !!}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Send Pdf">
-                                                    Send Mail
-                                                </a>
-                                            @endif
-                                        </td>
+
+                                        @if($role->role_id == 1)
+                                            <td>
+                                                @if($done_deal->status == 2)
+                                                    <a href="javascript:;" id="{!! $done_deal->id !!}_{!! $done_deal->gate_pass_wr !!}" class="btn btn-warning btn-xs edit_gate_pass" data-toggle="tooltip" title="Deal Done">
+                                                        Approve
+                                                    </a>
+                                                @else
+                                                    <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id, 'email' => 0]) !!}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">
+                                                        Download Vikray Parchi
+                                                    </a>
+                                                    <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id, 'email' => 1]) !!}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Send Pdf">
+                                                        Send Mail
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
 

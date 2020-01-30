@@ -1,139 +1,107 @@
-@extends('layouts.public_app')
-
+@extends('layouts.auth_app')
 @section('content')
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>Our {{ $cat[0]->category }}</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ route('dashboard') }}">Home</a>
+            </li>
+            <li class="active">
+                <strong>Our {{ $cat[0]->category }}</strong>
+            </li>
+        </ol>
+    </div>
+</div>
 
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Our {{ $cat[0]->category }}</h5>
+                </div>
+
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="ibox">
+                                <div class="ibox-content categoory-list">
+                                    @foreach($categories as $key => $category)
+                                        @if($category->commodity_type != 'Paid')
+                                            <div class="label d-i-b">
+                                                 <a href="{!! route('buy_sell_view', ['id' => strtolower($category->category)]) !!}" class="product-name">{{ $category->category }}</a>
+                                            </div>
+                                            <hr>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="table-responsive">
+                                <table id="my_sell" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Terminal</th>
+                                            <th scope="col">Commodity Type</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Net Weight (Qtl)</th>
+                                            <th scope="col">Quality Category</th>
+                                            <th scope="col">Price (<i class="fa fa-inr"></i>/Qtl.)</th>
+                                            <th scope="col">Lab Report</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($inventories as $key => $inventory)
+                                            @if($inventory->quantity > 0)
+                                                <tr>
+                                                    <th scope="row">{{ $key + 1 }}</th>
+                                                    <td>{{ $inventory->warehouse }}</td>
+                                                    <td><span class="label label-success">{{ $inventory->commodity_type }}</span></td>
+                                                    <td>{{ $inventory->warehouse_location }}</td>
+                                                    <td>{{ $inventory->sell_quantity }}</td>
+                                                    <td>{{ $inventory->quality_category }}</td>
+
+                                                    <input type="hidden" value="{{ $inventory->user_id }}" id="userid_{{ $inventory->id }}" class="this_seller_id">
+
+                                                    <td>{{ $inventory->price }}</td>
+
+                                                    <td>
+                                                        @if($inventory->image)
+                                                        <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}" class="btn btn-info btn-xs" target="_blank">
+                                                            View Report
+                                                        </a>
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('bidding', ['inventory_id' => $inventory->id])}}" class="btn btn-warning btn-xs" title="Bids">
+                                                            Bids
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $(document).ready(function(){
-        //var cat_id = '<?= $cat->id; ?>';
-        $("#<?= $cat->id; ?>").addClass('liactive');
+        $("#my_sell").dataTable();
     });
 </script>
-<style>
-    .py-4{
-        padding-top: 0rem!important;
-    }
-    .masthead{
-        height: 20vh!important;
-        min-height: 140px!important;
-    }
-    .card-product .img-wrap {
-    border-radius: 3px 3px 0 0;
-    overflow: hidden;
-    position: relative;
-    height: 220px;
-    text-align: center;
-    }
-    .card-product .img-wrap img {
-        max-height: 100%;
-        max-width: 100%;
-        object-fit: cover;
-    }
-    .card-product .info-wrap {
-        overflow: hidden;
-        padding: 15px;
-        border-top: 1px solid #eee;
-    }
-    .card-product .bottom-wrap {
-        padding: 15px;
-        border-top: 1px solid #eee;
-    }
-
-    .label-rating { margin-right:10px;
-        color: #333;
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    .card-product .price-old {
-        color: #999;
-    }
-
-</style>
-<header class="masthead text-white d-flex masthalf"></header>
-<section id="about">
-    <div class="container">
-
-        <div class="row">
-            <!-- <div class="col-md-12">
-                <p style="float: right;font-weight: bold;">
-                    <strong>Click
-                    <a href="https://www.ncdex.com/MarketData/LiveFuturesQuotes.aspx" target="_blank">
-                        Here
-                    </a>
-                    for Current Updates</strong>
-                </p>
-            </div> -->
-            <div class="col-md-12">
-                <h1 class="text-center">Our {{ $cat->category }}</h1>
-                <hr>
-                @if($errors->any())
-                    <div class="alert alert-success alert-dismissible">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{$errors->first()}}
-                    </div>
-                @endif
-                <div class="col-md-3">
-                    <ul class="apna_godam">
-                        @foreach($categories as $key => $category)
-
-                            <li id="{{ $category->id }}">
-                                <a href="{!! route('buy_sell_view', ['id' => $category->id]) !!}">{{ $category->category }}</a>
-                            </li>
-
-                        @endforeach
-                    </ul>
-                </div>
-                <div class="col-md-9">
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Terminal</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Seller</th>
-                                <th scope="col">Net Weight (Qtl)</th>
-                                <th scope="col">Quality Category</th>
-                                <th scope="col">Price (<i class="fa fa-inr"></i>/Qtl.)</th>
-                                <th scope="col">Lab Report</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($inventories as $key => $inventory)
-                                @if($inventory->quantity > 0)
-                                    <tr>
-                                        <th scope="row">{{ $key + 1 }}</th>
-                                        <td>{{ $inventory->warehouse }}</td>
-                                        <td>{{ $inventory->warehouse_location }}</td>
-                                        <td>{{ $inventory->farmer_name }}</td>
-                                        <td>{{ $inventory->sell_quantity }}</td>
-                                        <td>{{ $inventory->quality_category }}</td>
-
-                                        <input type="hidden" value="{{ $inventory->user_id }}" id="userid_{{ $inventory->id }}" class="this_seller_id">
-
-                                        <td>{{ $inventory->price }}</td>
-
-                                        <td>
-                                            <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image) }}" class="btn btn-info btn-sm" target="_blank">
-                                                View Report
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('bidding', ['inventory_id' => $inventory->id])}}" class="btn btn-warning btn-smw" title="Bids">
-                                                Bids
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div> <!-- col // -->
-            </div>
-        </div> <!-- row.// -->
-    </div>
-</section>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -182,4 +150,12 @@
         </div>
     </div>
 </div>
+<style type="text/css">
+    .d-i-b{display: inline-block;}
+    .categoory-list .active a{
+        color:#1ab394;
+    }
+    .label{width: 100%}
+    hr{margin-top:10px;margin-bottom:10px; }
+</style>
 @endsection

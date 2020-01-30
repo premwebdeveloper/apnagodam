@@ -15,27 +15,29 @@ if(isset($output['results'][0]))
 }
 ?>
 
-<style type="text/css">
-    .apna .fa{
-        font-size: 50px;
-        margin-bottom: 20px;
-    }
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 180px;
-      }
-      
-    </style>
+<section class="banner_area m-t-158">
+    <div class="container">
+        <div class="pull-left">
+            <h3>{!! $terminal->name !!}</h3>
+        </div>
+        <div class="pull-right">
+            <a href="{{ url('/') }}">Home</a>
+            <a href="{{ route('terminals') }}">Terminals</a>
+            <a>{!! $terminal->name !!}</a>
+        </div>
+    </div>
+</section>
 
-<section id="about">
+
+
+<section id="about" class="m-t-20 p-50">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
-                <img alt="image" class="max-100" src="{{ asset('resources/assets/upload/warehouses/'.$terminal->image) }}"><br /><br />
-                <h2 class="p-l-30">{!! $terminal->name !!}</h2>
-                <p class="p-l-30">{!! $terminal->address !!}, {!! $terminal->location !!}, {!! $terminal->area !!}, {!! $terminal->district !!}</p>
-                <div class="row p-l-30">
+                <img alt="image" class="w-100" src="<?= ($terminal->image)?asset('resources/assets/upload/warehouses/'.$terminal->image):asset('resources/assets/upload/warehouses/terminal.jpg');?>"><br /><br />
+                <h2>{!! $terminal->name !!}</h2>
+                <p>{!! $terminal->address !!}, {!! $terminal->location !!}, {!! $terminal->area !!}, {!! $terminal->district !!}</p>
+                <div class="row">
                     <div class="col-md-4 p-l-30">
                         <h4 class="p-t-20"><b>Facilities</b></h4>
                         <ul>
@@ -97,6 +99,7 @@ if(isset($output['results'][0]))
                         <p>{!! $terminal->capacity_in_mt !!}</p>
                     </div>
                 </div>
+                <hr>
                 <div class="row p-t-20 b-b-1">
                     <div class="col-md-12">
                         <h4><b>Near By Transport Info</b></h4>
@@ -108,6 +111,7 @@ if(isset($output['results'][0]))
                         ?></p>
                     </div>
                 </div>
+                <hr>
                 <div class="row p-t-20 b-b-1">
                     <div class="col-md-12">
                         <h4><b>Near By Mandi Info</b></h4>
@@ -120,6 +124,7 @@ if(isset($output['results'][0]))
                         ?></p>
                     </div>
                 </div>
+                <hr>
                 <div class="row p-t-20 p-b-30">
                     <div class="col-md-12">
                         <h4><b>Near By Crop Info</b></h4>
@@ -136,8 +141,8 @@ if(isset($output['results'][0]))
                     <form method="post" action="{{ route('warehouse_enquiry') }}">
                         @csrf
                         <div class="row" style="border:1px solid lightgray;border-radius: 5px;">
-                            <div class="col-md-12 p-b-8 p-t-5" style="background-color: #00C0F5;">
-                                <h4 class="text-center p-t-10"><b>Booking Form</b></h4>
+                            <div class="col-md-12 p-b-8 p-t-5 color-theme">
+                                <h4 class="text-center p-t-10 text-white"><b>Booking Form</b></h4>
                             </div>
                             <div class="col-md-6 p-b-20 p-t-10">
                                 {!! Form::label('Commodity', 'Commodity') !!}
@@ -187,7 +192,7 @@ if(isset($output['results'][0]))
                             </div>
                             <input type="hidden" value="<?php echo $terminal->id; ?>" id="warehouse_id" name="warehouse_id">
                             <div class="col-md-12 p-b-20">
-                                 {!! Form::submit('Book Now', ['class' => 'btn btn-success btn btn-block']) !!}
+                                 {!! Form::submit('Book Now', ['class' => 'quote_btn form-control']) !!}
                             </div>
                         </div>
                     {!! Form::close() !!}

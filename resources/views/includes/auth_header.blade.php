@@ -5,6 +5,15 @@
             <div class="navbar-header">
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
             </div>
+            <div class="navbar-header p-l-10">
+                <h3 class="{{ ($role->role_id == 2)?'text-white':''}} p-t-15 f-s-20">
+                @if($role->role_id == 2)
+                    {{ ($details->user_type == 1)?'Seller':'Buyer' }}
+                @else
+                    {{ ucfirst($role_name->role) }}
+                @endif
+                 Dashboard</h3>
+            </div>
 
             <ul class="nav navbar-top-links navbar-right">
 

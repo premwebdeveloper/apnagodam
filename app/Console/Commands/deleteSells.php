@@ -46,6 +46,7 @@ class deleteSells extends Command
         {
             $remove_bids = DB::table('buy_sells')->where('status', 1)->delete();
             $remove_bids_conv = DB::table('buy_sell_conversations')->delete();
+
             // remove all pending deals which are not completed yet
             $remove_deals = DB::table('buy_sells')->where('status', '=', '1')->delete();
 
@@ -77,19 +78,6 @@ class deleteSells extends Command
                 $remaining_quantity = $inventory_info->quantity - $quantity;
                 $date = date('Y-m-d H:i:s');
 
-                //$trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
-
-                // If trader have this commodity already then update quantity
-                /*if(!empty($trader_inventory)){
-
-                    $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
-
-                        'quantity' => $trader_inventory->quantity + $quantity,
-                        'updated_at' => $date,
-                    ]);
-
-                }else{
-*/
                     // If trader do not have this commodity already then insert this commodity with this teader
                     $cate = DB::table('categories')->where('id', $inventory_info->commodity)->first();
                     $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Paid'])->first();
@@ -111,10 +99,9 @@ class deleteSells extends Command
                         'created_at'       => $date,
                         'updated_at'       => $date,
                     ]);
-                /*}*/
-
+            
                 //Get Remainning Inverntry From Farmer
-                $inventory_info_seller = DB::table('inventories')->where('id' => $inventory_id])->first();
+                $inventory_info_seller = DB::table('inventories')->where(['id' => $inventory_id])->first();
 
                 if($inventory_info_seller->quantity == 0)
                 {
@@ -134,13 +121,6 @@ class deleteSells extends Command
 
                 // update inventory / qauantity of farmaer
                 $update_sell_quantity = DB::table('inventories')->where('id', $inventory_info_seller->id)->update($data);
-
-                //If Send pdf to email
-                //$data = json_decode(json_encode($done_deals),true);
-
-                //$pdf = PDF::loadView('vikray_parchi_pdf', $data);
-
-                //$pdf->download('vikray_parchi.pdf');
 
                 //Get User Old Power
                 $user = DB::table('user_details')->where('user_id', $buyer_id)->first();

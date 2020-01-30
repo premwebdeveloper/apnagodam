@@ -34,22 +34,45 @@ class CommodityController extends Controller
     // mandi_place_name
     public function add_mandi(Request $request)
     {
-
         # Set validation for
         $this->validate($request, [
             'mandi' => 'required',
             'mandi_tax_fees' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            'bank_name' => 'required',
+            'bank_account_no' => 'required',
+            'branch_name' => 'required',
+            'branch_ifsc' => 'required',
+            'account_holder' => 'required',
         ]);
 
-        $mandi = $request->mandi;
-        $mandi_tax_fees = $request->mandi_tax_fees;
+        $data = array();
+        $data ['mandi'] = $mandi = $request->mandi;
+        $data ['mandi_tax_fees'] = $mandi_tax_fees = $request->mandi_tax_fees;
+        $data ['email'] = $email = $request->email;
+        $data ['phone'] = $phone = $request->phone;
+        $data ['bank_account_no'] = $bank_account_no = $request->bank_account_no;
+        $data ['bank_name'] = $bank_name = $request->bank_name;
+        $data ['branch_name'] = $branch_name = $request->branch_name;
+        $data ['branch_ifsc'] = $branch_ifsc = strtoupper($request->branch_ifsc);
+        $data ['account_holder'] = $account_holder = $request->account_holder;
 
+        //check Security
+        $checked = xss_clean($data);
         $date = date('Y-m-d H:i:s');
 
         // Add Item
         $mandi = DB::table('mandi_name')->insert([
             'mandi_name' => $mandi,
             'mandi_tax_fees' => $mandi_tax_fees,
+            'email' => $email,
+            'phone' => $phone,
+            'bank_account_no' => $bank_account_no,
+            'bank_name' => $bank_name,
+            'branch_name' => $branch_name,
+            'branch_ifsc' => $branch_ifsc,
+            'account_holder' => $account_holder,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date
@@ -57,7 +80,7 @@ class CommodityController extends Controller
 
         if($mandi)
         {
-            $status = 'Mandi Added successfully.';
+            $status = 'Mandi Details Added Successfully.';
         }
         else
         {
@@ -81,16 +104,29 @@ class CommodityController extends Controller
     // edit_mandi_name
     public function edit(Request $request)
     {
-
         # Set validation for
         $this->validate($request, [
             'mandi' => 'required',
             'mandi_tax_fees' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            'bank_name' => 'required',
+            'bank_account_no' => 'required',
+            'branch_name' => 'required',
+            'branch_ifsc' => 'required',
+            'account_holder' => 'required',
         ]);
 
         $id = $request->id;
         $mandi = $request->mandi;
         $mandi_tax_fees = $request->mandi_tax_fees;
+        $email = $request->email;
+        $phone = $request->phone;
+        $bank_name = $request->bank_name;
+        $bank_account_no = $request->bank_account_no;
+        $branch_name = $request->branch_name;
+        $branch_ifsc = strtoupper($request->branch_ifsc);
+        $account_holder = $request->account_holder;
 
         $date = date('Y-m-d H:i:s');
 
@@ -98,6 +134,13 @@ class CommodityController extends Controller
         $mandi = DB::table('mandi_name')->where('id', $id)->update([
             'mandi_name' => $mandi,
             'mandi_tax_fees' => $mandi_tax_fees,
+            'email' => $email,
+            'phone' => $phone,
+            'bank_name' => $bank_name,
+            'bank_account_no' => $bank_account_no,
+            'branch_name' => $branch_name,
+            'branch_ifsc' => $branch_ifsc,
+            'account_holder' => $account_holder,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date
@@ -105,7 +148,7 @@ class CommodityController extends Controller
 
         if($mandi)
         {
-            $status = 'Mandi Update successfully.';
+            $status = 'Mandi Details Updated Successfully.';
         }
         else
         {
@@ -130,7 +173,7 @@ class CommodityController extends Controller
 
         if($delete)
         {
-            $status = 'Mandi Name Deleted successfully.';
+            $status = 'Mandi Details Deleted Successfully.';
         }
         else
         {
@@ -349,9 +392,12 @@ class CommodityController extends Controller
 
         $mandies = DB::table('mandi_name')->where('status', 1)->get();
 
+        // Get all warehouses
+        $warehouses = DB::table('warehouses')->where('status', 1)->get();
+
         $today_price = DB::table('today_prices')->where('id', $id)->first();
 
-        return view('today.edit', array('today_price' => $today_price, 'commodities' => $commodities, 'mandies' => $mandies));
+        return view('today.edit', array('today_price' => $today_price, 'warehouses' => $warehouses, 'commodities' => $commodities, 'mandies' => $mandies));
     }
 
     // Today's Price Edit View
@@ -413,12 +459,15 @@ class CommodityController extends Controller
 
         # Set validation for
         $this->validate($request, [
-            'mandi' => 'required',
+            'warehouse' => 'required',
             'commodity' => 'required',
+            'max' => 'required',
+            'modal' => 'required',
+            'min' => 'required',
         ]);
 
         $id = $request->id;
-        $mandi = $request->mandi;
+        $warehouse = $request->warehouse;
         $commodity = $request->commodity;
         $modal = $request->modal;
         $max = $request->max;
@@ -426,7 +475,7 @@ class CommodityController extends Controller
         
         // Add Price
         $edit = DB::table('today_prices')->where('id', $id)->update([
-            'mandi_id' => $mandi,
+            'terminal_id' => $warehouse,
             'commodity_id' => $commodity,
             'modal' => $modal,
             'max' => $max,

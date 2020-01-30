@@ -39,29 +39,20 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
 
         # Get User role
-        $user = DB::table('user_roles')->where('user_id', $currentuserid)->first();
+        $user = Auth::user();
+
+        $user_roles = DB::table('user_roles')->where('user_id', $user->id)->first();
 
         # User Role id
-        $role_id = $user->role_id;
+        $role_id = $user_roles->role_id;
 
         # If the logged in user is admin or government role
-        if($role_id == 1 || $role_id == 4)
+        if($role_id)
         {
+            # empty otp for this user if successfully logged iN
+            $user = DB::table('users')->where('id', $user->id)->update(['login_otp' => null]);
             return redirect(route('dashboard'));
         }
-        elseif($role_id == 5)
-        {
-            // If the logged in user  is farmer
-            return redirect(route('farmer_inventory'));
-        }
-        elseif($role_id == 6)
-        {
-            // If the logged in user  is trader
-            return redirect(route('buy_sell'));
-        }
-
-        /*return $this->authenticated($request, $this->guard()->user())
-                ?: redirect()->intended($this->redirectPath());*/
     }
 
     protected $redirectTo = '/';

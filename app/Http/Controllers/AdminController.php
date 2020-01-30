@@ -58,8 +58,8 @@ class AdminController extends Controller
     }
 
     // Show all users
-    public function users(){
-
+    public function users()
+    {
         $users = DB::table('user_details')
                 ->join('user_roles', 'user_roles.user_id', '=', 'user_details.user_id')
                 ->select('user_details.*', 'user_roles.role_id')
@@ -528,6 +528,9 @@ class AdminController extends Controller
     // Done Deals
     public function done_deals()
     {
+        $user = Auth::user(); 
+        $role = DB::table('user_roles')->where('user_id', $user->id)->first();
+
         $done_deals = DB::table('buy_sells')
                         ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
                         ->join('users','users.id', '=', 'buy_sells.seller_id')
@@ -537,7 +540,7 @@ class AdminController extends Controller
                         ->select('buy_sells.*', 'inv.gate_pass_wr','user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
                         ->get();
 
-        return view('admin.done_deals', array('done_deals' => $done_deals));
+        return view('admin.done_deals', array('done_deals' => $done_deals, 'role' => $role));
     }
 
     // Payment Accept By Admin
@@ -554,7 +557,7 @@ class AdminController extends Controller
                 ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
                 ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
                 ->where('buy_sells.id', $deal_id)
-                ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'categories.mandi_fees', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.gate_pass_wr', 'inv.image')
+                ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.gate_pass_wr', 'inv.image')
                 ->first();
             
         $inventory_id = $done_deals->seller_cat_id;
@@ -672,7 +675,8 @@ class AdminController extends Controller
     public function download_vikray_parchi(Request $request){
 
         $deal_id = $request->id;
-        $email_status = $request->email;        
+        $email_status = $request->email;
+
 
         $done_deals = DB::table('buy_sells')
             ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
@@ -682,8 +686,17 @@ class AdminController extends Controller
             ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
             ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'categories.mandi_fees', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status')
             ->first();
+
+        $buyer_id = $done_deals->buyer_id;
+        $seller_id = $done_deals->seller_id;
+
+        $buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
+
+        $seller_info = DB::table('user_details')->where('user_id', $seller_id)->first();
+        $done_deals->seller_address = $seller_info->area_vilage;
+        $done_deals->buyer_address = $buyer_info->area_vilage;
 
         $data = json_decode(json_encode($done_deals),true);
 
@@ -691,13 +704,8 @@ class AdminController extends Controller
 
         if($email_status == 1)
         {
-            $buyer_id = $done_deals->buyer_id;
-            $seller_id = $done_deals->seller_id;
 
             //Get User Details 
-            $buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
-
-            $seller_info = DB::table('user_details')->where('user_id', $seller_id)->first();
 
             $data = [];
 
@@ -840,6 +848,53 @@ class AdminController extends Controller
                 ->get();
 
         return view('admin.mandi_samiti', array('mandi_samiti' => $mandi_samiti));
+    }
+
+    // Single Mandi Samiti Edit Page
+    public function edit_mandi_samiti(Request $request){
+
+        $id = $request->id;
+        $mandi_samiti = DB::table('mandi_samitis')
+                ->where('id', $id)
+                ->first();
+
+        return view('admin.edit_mandi_samiti', array('mandi_samiti' => $mandi_samiti));
+    }
+
+    // Update Mandi Samiti
+    public function update_mandi_samiti(Request $request){
+
+        # Set validation for
+        $this->validate($request, [
+            'name' => 'required',
+            'address' => 'required',
+            'district' => 'required',
+        ]);
+
+        $id = $request->id;
+        $name = $request->name;
+        $address = $request->address;
+        $district = $request->district;
+
+        $date = date('Y-m-d H:i:s');
+
+        // Add Item
+        $mandi = DB::table('mandi_samitis')->where('id', $id)->update([
+            'name'       => $name,
+            'address'    => $address,
+            'district'   => $district,
+            'updated_at' => $date,
+        ]);
+
+        if($mandi)
+        {
+            $status = 'Mandi Samiti Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        return redirect('mandi_samiti')->with('status', $status);
     }
 
     // Add new mandi samiti page

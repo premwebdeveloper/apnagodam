@@ -1,94 +1,110 @@
-@extends('layouts.public_app')
-
+@extends('layouts.auth_app')
 @section('content')
-<style>
-    .py-4{
-        padding-top: 0rem!important;
-    }
-    .masthead{
-        height: 20vh!important;
-        min-height: 140px!important;
-    }
-</style>
-<header class="masthead text-white d-flex masthalf"></header>
-<section id="about">
-    <div class="container">
-            @if(session('status'))
-                <div class="col-md-12">
-                    <div class="alert alert-success">
-                        {{ session('status') }}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>My Commodity</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ route('dashboard') }}">Home</a>
+            </li>
+            <li class="active">
+                <strong>My Commodity</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>My Commodity</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
                     </div>
                 </div>
-            @endif
-        <div class="row">
 
-            <div class="col-lg-12 text-center">
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table id="my_commodity" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Gate Pass</th>
+                                    <th>Truck No.</th>
+                                    <th>Terminal</th>
+                                    <th>Location</th>
+                                    <th>Commodity</th>
+                                    <th>Net Weight (Qtl.)</th>
+                                    <th>Quality Grade</th>
+                                    <th>Create Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($inventories as $key => $inventory)
+                                    @if($inventory->quantity > 0)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $inventory->gate_pass_wr }}</td>
+                                            <td>{{ $inventory->truck_no }}</td>
+                                            <td>{{ $inventory->name }}</td>
+                                            <td>{{ $inventory->location }}</td>
+                                            <td>{{ $inventory->cat_name }}</td>
+                                            <td>{{ $inventory->quantity }}</td>
+                                            <td>
+                                                {{ $inventory->quality_category }}&nbsp;&nbsp;&nbsp;
+                                                @if(!empty($inventory->image))
+                                                <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" data-toggle='tooltip' title="Download PDF" download>
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                                @endif
+                                            </td>
+                                            <td>{{ date('d-M-Y', strtotime($inventory->created_at)) }}</td>
+                                            <td>
+                                                <a href="javascript:;" id="{{ $inventory->id }}_{{ $inventory->quantity }}" class="btn btn-primary btn-xs want_to_sell" title="Edit Price">
+                                                    Want To Sell
+                                                </a>
 
-                <h2 class="section-heading">My Commodity</h2>
-                <hr>
+                                                @if(!empty($inventory->sell_quantity) &&  $inventory->sell_quantity != 0)
+                                                    <a href="{{ route('bidding', ['inventory_id' => $inventory->id]) }}" class="btn btn-warning btn-xs" title="Edit Price">
+                                                        My Bids
+                                                    </a>
+                                                @endif
+                                                @if(!in_array($inventory->id, $alll_loan))
+                                                    <a href="javascript:;" id="{!! $inventory->id !!}__{!! $inventory->price !!}__{!! $inventory->net_weight !!}__{!! $inventory->quantity !!}" class="apply_for_loan btn btn-success btn-xs" title="Edit Price">
+                                                        Apply For Loan
+                                                    </a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endif
+
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Gate Pass</th>
-                      <th scope="col">Truck No.</th>
-                      <th scope="col">Terminal</th>
-                      <th scope="col">Location</th>
-                      <th scope="col">Commodity</th>
-                      <th scope="col">Net Weight (Qtl.)</th>
-                      <th scope="col">Quality Category</th>
-                      <th scope="col">Create Date</th>
-                      <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($inventories as $key => $inventory)
-
-                        @if($inventory->quantity > 0)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $inventory->gate_pass_wr }}</td>
-                                <td>{{ $inventory->truck_no }}</td>
-                                <td>{{ $inventory->name }}</td>
-                                <td>{{ $inventory->location }}</td>
-                                <td>{{ $inventory->cat_name }}</td>
-                                <td>{{ $inventory->quantity }}</td>
-                                <td>
-                                    {{ $inventory->quality_category }}&nbsp;&nbsp;&nbsp;
-                                    @if(!empty($inventory->image))
-                                    <a href="{{ asset('resources/assets/upload/inventory/'.$inventory->image.'') }}" data-toggle='tooltip' title="Download PDF" download>
-                                        <i class="fa fa-download"></i>
-                                    </a>
-                                    @endif
-                                </td>
-                                <td>{{ date('d-M-Y', strtotime($inventory->created_at)) }}</td>
-                                <td>
-                                    <a href="javascript:;" id="{{ $inventory->id }}_{{ $inventory->quantity }}" class="btn btn-secondary form-control btn-sm want_to_sell" title="Edit Price">
-                                        Want To Sell
-                                    </a>
-
-                                    @if(!empty($inventory->sell_quantity) &&  $inventory->sell_quantity != 0)
-                                        <a href="{{ route('bidding', ['inventory_id' => $inventory->id]) }}" class="btn btn-info form-control btn-sm" title="Edit Price">
-                                            My Bids
-                                        </a>
-                                    @endif
-                                    @if(!in_array($inventory->id, $alll_loan))
-                                        <a href="javascript:;" id="{!! $inventory->id !!}__{!! $inventory->price !!}__{!! $inventory->net_weight !!}__{!! $inventory->quantity !!}" class="apply_for_loan btn btn-success form-control btn-sm" title="Edit Price">
-                                            Apply For Loan
-                                        </a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endif
-
-                    @endforeach
-                </tbody>
-            </table>
         </div>
     </div>
-</section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#my_commodity").dataTable( {
+        dom: 'Bfrtip',
+        buttons: ['csv', 'excel', 'pdf', 'print'],
+        exportOptions:{
+           columns: ':not(:last-child)'
+        }
+    } );
+    });
+</script>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -206,12 +222,10 @@
 
 <!-- Modal Open -->
 <div class="modal fade" id="edit_price" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h2 class="modal-title" style="padding-left: 10px;">Want to Sell</h2>
             </div>
             <form action="{{ route('buy_sell_price_update') }}" method="post">
                 {{ csrf_field() }}
@@ -233,7 +247,10 @@
 
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-default">Update Price</button>
+                    <button type="submit" class="btn btn-info">Update Price</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                        Close
+                    </button>
                 </div>
             </form>
         </div>
@@ -249,7 +266,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2 class="modal-title" style="padding-left: 10px;">Apply For Loan</h2>
-        <button type="button" class="close" style="padding-right: 20px;" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
             {!! Form::open(array('url' => 'loan_request', 'files' => true, 'id' => 'apply_for_loan_form')) !!}
@@ -309,11 +325,14 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <h6 class="red warning"></h6>
+                        <h5 class="red warning"></h5>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 text-right">
                         <div class="form-group">
-                            {!! Form::button('APPLY FOR LOAN', ['class' => 'btn btn-info btn btn-block', 'id' => 'apply_for_loan']) !!}
+                            {!! Form::button('APPLY FOR LOAN', ['class' => 'btn btn-info btn', 'id' => 'apply_for_loan']) !!}
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                Close
+                            </button>
                         </div>
                     </div>
 
