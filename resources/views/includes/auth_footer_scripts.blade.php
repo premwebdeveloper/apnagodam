@@ -62,6 +62,12 @@
         });
     </script>
 
+    @if($role->role_id != 2  && $role->role_id != 1 && $role->role_id != 4)
+        <script type="text/javascript">
+            $('body').addClass('skin-1');
+        </script>
+    @endif
+
     @if($role->role_id == 2)
         <script type="text/javascript">
             $('body').addClass('md-skin pace-done');

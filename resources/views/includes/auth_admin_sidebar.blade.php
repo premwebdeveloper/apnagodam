@@ -37,11 +37,6 @@
                                 </a>
                             </li>
                         @endif
-                        <!-- <li>
-                            <a href="{{ route('change_password_view') }}">
-                                <i class="fa fa-key" aria-hidden="true"></i> Change Password
-                            </a>
-                        </li> -->
                         <li>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
@@ -96,93 +91,77 @@
             @endif
             @if($role->role_id == 1)
                 <li>
+                    <a href="{{ route('employees') }}">
+                        <i class="fa fa-database" title=""></i>
+                        <span class="nav-label">MIS</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('mandi_place_name') }}">
                         <i class="fa fa-building-o" title=""></i>
                         <span class="nav-label">Mandi Database</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('today_price') }}">
                         <i class="fa fa-inr" title=""></i>
                         <span class="nav-label">Today's Price</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('mandi_samiti') }}">
                         <i class="fa fa-building" title=""></i>
                         <span class="nav-label">Mandi Samiti</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('warehouses') }}">
                         <i class="fa fa-bank" title=""></i>
                         <span class="nav-label">Terminals</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('facilitiy_master') }}">
                         <i class="fa fa-cog" title=""></i>
                         <span class="nav-label">Facilities Master</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('terminal_enquires') }}">
                         <i class="fa fa-envelope" title=""></i>
                         <span class="nav-label">Terminal Enquiries</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('users') }}">
                         <i class="fa fa-users" title=""></i>
                         <span class="nav-label">Users</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('category') }}">
                         <i class="fa fa-list-alt" title=""></i>
                         <span class="nav-label">Category / Commodity</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('inventory') }}">
                         <i class="fa fa-houzz" title=""></i>
                         <span class="nav-label">Inventory</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('finance') }}">
                         <i class="fa fa-money" title=""></i>
                         <span class="nav-label">Finance / Loan</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('bank_master') }}">
                         <i class="fa fa-bank" title=""></i>
                         <span class="nav-label">Bank Master</span>
                     </a>
                 </li>
-            @endif
-            @if($role->role_id == 1)
                 <li>
                     <a href="{{ route('enquiries') }}">
                         <i class="fa fa-send-o" title=""></i>

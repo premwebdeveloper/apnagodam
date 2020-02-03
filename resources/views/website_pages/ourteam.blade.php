@@ -19,7 +19,7 @@
         <div class="col-xs-12 m-t-30 col-sm-12 col-md-12 col-lg-12 text-center">
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
                 
-                <img class="w-70" src="{{ asset('resources/frontend_assets/theme/img/team/team1.jpg') }}">
+                <img class="w-70" src="{{ asset('resources/frontend_assets/theme/img/team/team-1.jpg') }}">
                 <h4 class="m-t-30 m-b-20">Mr. Sitaram Agarwal</h4>
                 <p>65 years old is the promoter of the Company. He has been in the Agriculture trade since last 40 Years. The objective behind this venture is to increase the holding capacity of the Seller by providing Agri warehouses near to Sellers at affordable price so that he can realize better value for his Agri produce.</p>
                 
@@ -27,7 +27,7 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
                 
-                <img class="w-70" src="{{ asset('resources/frontend_assets/theme/img/team/team2.jpg') }}">
+                <img class="w-70" src="{{ asset('resources/frontend_assets/theme/img/team/team-2.jpg') }}">
                 <h4 class="m-t-30 m-b-20">Sanjay Agarwal</h4>
                 <p>Sanjay Agarwal is a chartered accountant and a company secretary by qualification and brings with him 11 years of experience in finance in HDFC Bank. He is Chief Executive Officer of the company.</p>
 
@@ -35,7 +35,7 @@
 
             <div class="col-xs-12 col-sm-6 col-md-3 col-lg-4">
                 
-                <img class="w-70" src="{{ asset('resources/frontend_assets/theme/img/team/team-3.jpg') }}">
+                <img class="w-70" src="{{ asset('resources/frontend_assets/theme/img/team/team3b.jpg') }}">
                 <h4 class="m-t-30 m-b-20">Anil Modi</h4>
                 <p>Anil Modi is MBA and worked in HDFC Bank for 5 years and now full time engaged in Apnagodam Venture. He belongs to an Agri Business Family.</p>
                 

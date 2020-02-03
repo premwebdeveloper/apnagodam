@@ -255,19 +255,49 @@
             <div class="left_gallery_area">
                 <h3 class="single_title">Our Gallery</h3>
                 <div class="l_gallery_inner zoom-gallery">                    
-                    <div class="l_gallery_item">
-                        <a href="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-3.jpg') }}">
-                            <img src="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-3.jpg') }}" alt="">
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner7.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner7.png') }}" alt="">
                         </a>
                     </div>
-                    <div class="l_gallery_item">
-                        <a href="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-5.jpg') }}">
-                            <img src="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-5.jpg') }}" alt="">
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner9.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner9.png') }}" alt="">
                         </a>
                     </div>
-                    <div class="l_gallery_item">
-                        <a href="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-6.jpg') }}">
-                            <img src="{{ asset('resources/frontend_assets/theme/img/gallery/gallery-6.jpg') }}" alt="">
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner2.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner2.png') }}" alt="">
+                        </a>
+                    </div>
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner10.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner10.png') }}" alt="">
+                        </a>
+                    </div>
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner8.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner8.png') }}" alt="">
+                        </a>
+                    </div>
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner6.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner6.png') }}" alt="">
+                        </a>
+                    </div>
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner12.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner12.png') }}" alt="">
+                        </a>
+                    </div>
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner11.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner11.png') }}" alt="">
+                        </a>
+                    </div>
+                    <div class="l_gallery_item p-10">
+                        <a href="{{ asset('resources/frontend_assets/img/banner5.png') }}">
+                            <img src="{{ asset('resources/frontend_assets/img/banner5.png') }}" alt="">
                         </a>
                     </div>
                 </div>
@@ -289,14 +319,14 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-body">
-      
-        <iframe id="iframeYoutube" width="560" height="315"  src="https://www.youtube.com/embed/e80BbX05D7Y" frameborder="0" allowfullscreen></iframe> 
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+        <div class="modal-body">
+            <video controls id="video1" style="width: 100%; height: auto; margin:0 auto; frameborder:0;">
+                <source src="{{ asset('resources/frontend_assets/uploads/apna-godam-e-mandi-video.mp4') }}" type="video/mp4">
+            </video>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
     </div>
   </div>
 </div>
@@ -308,9 +338,6 @@
     })
 
     function changeVideo(vId){
-      var iframe=document.getElementById("iframeYoutube");
-      iframe.src="https://www.youtube.com/embed/"+vId;
-
       $("#myModal").modal("show");
     }
 </script>

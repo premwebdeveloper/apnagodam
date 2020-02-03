@@ -128,6 +128,18 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'role_id' => [
+            'in_role' => 'user role not exist',
+        ],
+        'edit_role_id' => [
+            'in_role' => 'user role not exist',
+        ],
+        'edit_email' => [
+            'email_exist' => 'This attribute has already been taken',
+        ],
+        'edit_phone' => [
+            'phone_exist' => 'This attribute has already been taken',
+        ],
     ],
 
     /*

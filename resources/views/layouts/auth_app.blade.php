@@ -1,4 +1,4 @@
-<?php 
+<?php
 if(Auth::user())
 {
 	$user = Auth::user(); 
@@ -8,10 +8,23 @@ if(Auth::user())
 }else{
 	redirect('/');
 }
+$routeArray = app('request')->route()->getAction();
+$controllerAction = class_basename($routeArray['controller']);
+$temp = explode('@', $controllerAction);
 ?>
+
 @include('includes.auth_head')
 
-@include('includes.auth_admin_sidebar')
+@if($temp[0] == 'MisController' || $temp[0] == 'LeadController')
+	@include('includes.auth_mis_sidebar')
+@else
+	@include('includes.auth_admin_sidebar')
+@endif
+
+@if($role->role_id != 1 && $role->role_id != 2 && $role->role_id == 4)
+	@include('includes.auth_mis_sidebar')
+@endif
+
 
 @include('includes.auth_header')
 
