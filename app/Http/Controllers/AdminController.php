@@ -867,22 +867,34 @@ class AdminController extends Controller
         # Set validation for
         $this->validate($request, [
             'name' => 'required',
-            'address' => 'required',
-            'district' => 'required',
+            'secretary_name' => 'required',
+            'phone' => 'required',
+            'std_code' => 'required',
+            'email' => 'required|email',
         ]);
 
         $id = $request->id;
         $name = $request->name;
-        $address = $request->address;
-        $district = $request->district;
+        $class = $request->class;
+        $secretary_name = $request->secretary_name;
+        $phone = $request->phone;
+        $std_code = $request->std_code;
+        $tel_no = $request->tel_no;
+        $fax = $request->fax;
+        $email = $request->email;
 
         $date = date('Y-m-d H:i:s');
 
         // Add Item
         $mandi = DB::table('mandi_samitis')->where('id', $id)->update([
             'name'       => $name,
-            'address'    => $address,
-            'district'   => $district,
+            'class'       => $class,
+            'secretary_name'       => $secretary_name,
+            'phone'       => $phone,
+            'std_code'       => $std_code,
+            'tel_no'       => $tel_no,
+            'fax'       => $fax,
+            'email'       => $email,
             'updated_at' => $date,
         ]);
 
@@ -904,17 +916,39 @@ class AdminController extends Controller
     }
 
     // Add new mandi samiti page
-    public function create_mandi_samiti(Request $request){
+    public function create_mandi_samiti(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'secretary_name' => 'required',
+            'phone' => 'required',
+            'std_code' => 'required',
+            'email' => 'required|email',
+        ]);
 
         $name = $request->name;
-        $address = $request->address;
-        $district = $request->district;
+        $class = $request->class;
+        $secretary_name = $request->secretary_name;
+        $phone = $request->phone;
+        $std_code = $request->std_code;
+        $tel_no = $request->tel_no;
+        $fax = $request->fax;
+        $email = $request->email;
+        /*$address = $request->address;
+        $district = $request->district;*/
         $date = date('Y-m-d');
 
         $insert = DB::table('mandi_samitis')->insert([
             'name'       => $name,
-            'address'    => $address,
-            'district'   => $district,
+            'class'       => $class,
+            'secretary_name'       => $secretary_name,
+            'phone'       => $phone,
+            'std_code'       => $std_code,
+            'tel_no'       => $tel_no,
+            'fax'       => $fax,
+            'email'       => $email,
+            /*'address'    => $address,
+            'district'   => $district,*/
             'created_at' => $date,
             'updated_at' => $date,
             'status'     => 1
