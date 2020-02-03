@@ -248,7 +248,6 @@ Route::post('/add_today', 'CommodityController@add_today')->name('add_today');
 Route::get('/today_price_edit_view/{id}', 'CommodityController@today_view')->name('today_price_edit_view');
 Route::post('/today_price_edit/', 'CommodityController@today_edit')->name('today_price_edit');
 Route::get('/today_price_delete/{id}', 'CommodityController@today_delete')->name('today_price_delete');
-
 // Users otp page
 Route::get('/users_otp', 'AdminController@users_otp')->name('users_otp');
 
@@ -267,3 +266,22 @@ Route::post('/create_mandi_samiti', 'AdminController@create_mandi_samiti')->name
 
 // Delete mandi samiti
 Route::get('/delete_mandi_samiti/{id}', 'AdminController@delete_mandi_samiti')->name('delete_mandi_samiti');
+
+
+
+/*************************************************************************************/
+/*************************************************************************************/
+/********************* Management Information System Routes **************************/
+/*************************************************************************************/
+/*************************************************************************************/
+
+Route::get('/employees', 'MisController@index')->name('employees');
+Route::post('/getEmp', 'MisController@getEmp')->name('getEmp');
+Route::post('/addEmployee', 'MisController@addEmployee')->name('addEmployee');
+Route::post('/updateEmployee', 'MisController@updateEmployee')->name('updateEmployee');
+Route::get('/deleteEmployee/{id}', 'MisController@deleteEmployee')->name('deleteEmployee');
+
+
+Route::get('/leads', 'LeadController@index')->name('leads');
+Route::post('/createLead', 'LeadController@create')->name('createLead');
+
