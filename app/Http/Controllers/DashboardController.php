@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         $user_roles = DB::table('user_roles')->where('user_id', $user->id)->first();
-
+        
         if($user_roles->role_id == 1)
         {
             return view('dashboard.admin_dashboard');
@@ -58,23 +58,15 @@ class DashboardController extends Controller
 
             return view('dashboard.user_dashboard', array('inventories' => $inventories, 'sells' => $sells, 'buys' => $buys, 'finances' => $finances, 'today_prices' => $today_prices));
         }
-        else if($user_roles->role_id == 3)
-        {
-            return view('dashboard.account_dashboard');
-        }
         else if($user_roles->role_id == 4)
         {
             return view('dashboard.govt_dashboard');
         }
-        else if($user_roles->role_id == 5)
+        else if($user_roles->role_id == 3 || $user_roles->role_id == 5 || $user_roles->role_id == 6 || $user_roles->role_id == 7 || $user_roles->role_id == 8 || $user_roles->role_id == 9 || $user_roles->role_id == 10 || $user_roles->role_id == 11 || $user_roles->role_id == 12 || $user_roles->role_id == 13 || $user_roles->role_id == 14)
         {
-            return view('dashboard.inventory_dashboard');
-        }
-        else if($user_roles->role_id == 6)
-        {
-            return view('dashboard.sales_dashboard');
+            return redirect('leads');
         }else{
-            redirect('/');
+            return redirect('/');
         }
     }
 

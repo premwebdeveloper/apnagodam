@@ -33,7 +33,6 @@ class LoginController extends Controller
     // Custom login response function
     protected function sendLoginResponse(Request $request)
     {
-
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
