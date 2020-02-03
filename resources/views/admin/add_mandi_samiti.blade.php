@@ -47,8 +47,8 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('name', 'Name') !!}
-                                    {!! Form::text('name', '', ['class' => 'form-control', 'id' => 'name', 'placeholder' => 'Name', 'required' => 'required']) !!}
+                                    {!! Form::label('name', 'KUMS Name') !!}<span class="red">*</span>
+                                    {!! Form::text('name', '', ['class' => 'form-control', 'id' => 'name', 'placeholder' => 'Enter KUMS Name', 'required' => 'required']) !!}
 
                                     @if($errors->has('name'))
                                         <span class="help-block red">
@@ -57,12 +57,103 @@
                                     @endif
                                 </div>
                             </div>
-
+                            
                             <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('class', 'Class') !!}
+                                    {!! Form::text('class', '', ['class' => 'form-control', 'id' => 'class', 'placeholder' => 'Enter Class (A/B/C/D/SA)', 'required' => 'required']) !!}
+
+                                    @if($errors->has('class'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('class') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('secretary_name', 'Secretary Name') !!}<span class="red">*</span>
+                                    {!! Form::text('secretary_name', '', ['class' => 'form-control', 'id' => 'secretary_name', 'placeholder' => 'Secretary Name', 'required' => 'required']) !!}
+
+                                    @if($errors->has('secretary_name'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('secretary_name') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('phone', 'Mobile No.') !!}<span class="red">*</span>
+                                    {!! Form::text('phone', '', ['class' => 'form-control', 'id' => 'phone', 'placeholder' => 'Enter 10 Digit Mobile No.', 'required' => 'required']) !!}
+
+                                    @if($errors->has('phone'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('phone') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('std_code', 'Std Code') !!}<span class="red">*</span>
+                                    {!! Form::text('std_code', '', ['class' => 'form-control', 'id' => 'std_code', 'placeholder' => 'Std Code', 'required' => 'required']) !!}
+
+                                    @if($errors->has('std_code'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('std_code') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('tel_no', 'Tel. No.') !!}
+                                    {!! Form::text('tel_no', '', ['class' => 'form-control', 'id' => 'tel_no', 'placeholder' => 'Enter Tel. No', 'required' => 'required']) !!}
+
+                                    @if($errors->has('tel_no'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('tel_no') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('fax', 'Fax') !!}
+                                    {!! Form::text('fax', '', ['class' => 'form-control', 'id' => 'fax', 'placeholder' => 'Fax', 'required' => 'required']) !!}
+
+                                    @if($errors->has('fax'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('fax') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('email', 'Email') !!}<span class="red">*</span>
+                                    {!! Form::text('email', '', ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'Email', 'required' => 'required']) !!}
+
+                                    @if($errors->has('email'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('address', 'Address') !!}
                                     {!! Form::text('address', '', ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Address']) !!}
-
+                            
                                     @if($errors->has('address'))
                                         <span class="help-block red">
                                             <strong>{{ $errors->first('address') }}</strong>
@@ -70,19 +161,19 @@
                                     @endif
                                 </div>
                             </div>
-
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('district', 'District') !!}
                                     {!! Form::text('district', '', ['class' => 'form-control', 'id' => 'district', 'placeholder' => 'District']) !!}
-
+                            
                                     @if($errors->has('district'))
                                         <span class="help-block red">
                                             <strong>{{ $errors->first('district') }}</strong>
                                         </span>
                                     @endif
                                 </div>
-                            </div>
+                            </div> -->
                            
                             <div class="col-md-12">
                                 <div class="form-group">

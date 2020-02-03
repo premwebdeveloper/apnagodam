@@ -45,23 +45,39 @@
     	                    <table class="table table-striped table-bordered table-hover dataTables-example">
     	                        <thead>
     	                            <tr>
-                                        <th>Name</th>
-                                        <th>Address</th>
-                                        <th>District</th>
+                                        <th>#</th>
+                                        <th>KUMS Name</th>
+                                        <th>Class</th>
+                                        <th>Secretary Name</th>
+                                        <th>Mobile No.</th>
+                                        <th>STD Code</th>
+                                        <th>Tel. No.</th>
+                                        <th>Fax</th>
+                                        <th>Email</th>
+                                        <!-- <th>Address</th>
+                                        <th>District</th> -->
                                         <th>Action</th>
     	                            </tr>
     	                        </thead>
     	                        <tbody>
                                     @foreach($mandi_samiti as $key => $samiti)
     	                                <tr>
+                                            <td>{!! ++$key !!}</td>
                                             <td>{!! $samiti->name !!}</td>
-                                            <td>{!! $samiti->address !!}</td>
-                                            <td>{!! $samiti->district !!}</td>
+                                            <td>{!! $samiti->class !!}</td>
+                                            <td>{!! $samiti->secretary_name !!}</td>
+                                            <td>{!! $samiti->phone !!}</td>
+                                            <td>{!! $samiti->std_code !!}</td>
+                                            <td>{!! $samiti->tel_no !!}</td>
+                                            <td>{!! $samiti->fax !!}</td>
+                                            <td>{!! $samiti->email !!}</td>
+                                            <!-- <td>{!! $samiti->address !!}</td>
+                                            <td>{!! $samiti->district !!}</td> -->
                                             <td>
-                                                <a href="{!! route('edit_mandi_samiti', ['id' => $samiti->id]) !!}" class="btn btn-info btn-xs" title="Edit">
+                                                <a href="{!! route('edit_mandi_samiti', ['id' => $samiti->id]) !!}" class="btn btn-primary btn-xs" title="Edit">
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
-                                                <a href="{!! route('delete_mandi_samiti', ['id' => $samiti->id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete Mandi Samiti">
+                                                <a href="{!! route('delete_mandi_samiti', ['id' => $samiti->id]) !!}" class="btn btn-danger btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete Mandi Samiti">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </a>
                                             </td>
