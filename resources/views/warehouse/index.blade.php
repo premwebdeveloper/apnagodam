@@ -47,15 +47,13 @@
 	                        <thead>
 	                            <tr>
                                     <th>Mandi Samiti Name</th>
+                                    <th>Terminal Code</th>
                                     <th>Name</th>
                                     <th>Address</th>
-                                    <!-- <th>Location</th> -->
-                                    <!-- <th>Area</th> -->
                                     <th>District</th>
                                     <th>Area (SQ. FT.)</th>
                                     <th>Rent (/Month)</th>
                                     <th>Capacity (MT)</th>
-                                    <!-- <th>Image</th> -->
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
@@ -63,19 +61,13 @@
                                 @foreach($warehouses as $key => $warehouse)
 	                                <tr class="gradeX">
                                         <td>{!! $warehouse->mandi_samiti_name !!}</td>
+                                        <td>{!! $warehouse->warehouse_code !!}</td>
                                         <td>{!! $warehouse->name !!}</td>
                                         <td>{!! $warehouse->address !!}</td>
-                                        <!-- <td>{!! $warehouse->location !!}</td> -->
-                                        <!-- <td>{!! $warehouse->area !!}</td> -->
                                         <td>{!! $warehouse->district !!}</td>
                                         <td>{!! $warehouse->area_sqr_ft !!}</td>
                                         <td>{!! $warehouse->rent_per_month !!}</td>
-                                        <td>{!! $warehouse->capacity_in_mt !!}</td>
-                                        <!-- <td>
-                                            @if($warehouse->image)
-                                                <img alt="image" class="img-responsive" src="{{ asset('resources/assets/upload/warehouses/'.$warehouse->image) }}" style="height:50px;">
-                                            @endif
-                                        </td> -->
+                                        <td>{!! $warehouse->capacity_in_mt !!}</td>                                        
                                         <td>
                                             <a href="{!! route('warehouse_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>

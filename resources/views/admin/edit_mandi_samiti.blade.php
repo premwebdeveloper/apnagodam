@@ -72,8 +72,8 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('secretary_name', 'Secretary Name') !!}<span class="red">*</span>
-                                    {!! Form::text('secretary_name', $mandi_samiti->secretary_name, ['class' => 'form-control', 'id' => 'secretary_name', 'placeholder' => 'Secretary Name', 'required' => 'required']) !!}
+                                    {!! Form::label('secretary_name', 'Secretary Name') !!}
+                                    {!! Form::text('secretary_name', $mandi_samiti->secretary_name, ['class' => 'form-control', 'id' => 'secretary_name', 'placeholder' => 'Secretary Name']) !!}
 
                                     @if($errors->has('secretary_name'))
                                         <span class="help-block red">
@@ -98,8 +98,8 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('std_code', 'Std Code') !!}<span class="red">*</span>
-                                    {!! Form::text('std_code', $mandi_samiti->std_code, ['class' => 'form-control', 'id' => 'std_code', 'placeholder' => 'Std Code', 'required' => 'required']) !!}
+                                    {!! Form::label('std_code', 'Std Code') !!}
+                                    {!! Form::text('std_code', $mandi_samiti->std_code, ['class' => 'form-control', 'id' => 'std_code', 'placeholder' => 'Std Code']) !!}
 
                                     @if($errors->has('std_code'))
                                         <span class="help-block red">
@@ -146,34 +146,7 @@
                                         </span>
                                     @endif
                                 </div>
-                            </div>
-
-                            <!-- <div class="col-md-4">
-                                <div class="form-group">
-                                    {!! Form::label('address', 'Address') !!}
-                                    {!! Form::text('address', $mandi_samiti->address, ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Address']) !!}
-                            
-                                    @if($errors->has('address'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('address') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    {!! Form::label('district', 'District') !!}
-                                    {!! Form::text('district', $mandi_samiti->district, ['class' => 'form-control', 'id' => 'district', 'placeholder' => 'District']) !!}
-                            
-                                    @if($errors->has('district'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('district') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div> -->
-                           
+                            </div>                           
                             <div class="col-md-12">
                                 <div class="form-group">
                                     {!! Form::submit('Update & Save  Mandi Samiti', ['class' => 'btn btn-info btn btn-block']) !!}

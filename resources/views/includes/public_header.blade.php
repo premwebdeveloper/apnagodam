@@ -21,7 +21,7 @@
                     <h4>contact@apnagodam.com</h4>
                 </div>
                 <div class="header_c_text">
-                    <h5>IVR Number</h5>
+                    <h5>Quick Support</h5>
                     <h4>7733901154</h4>
                 </div>
                 <div class="header_c_text">

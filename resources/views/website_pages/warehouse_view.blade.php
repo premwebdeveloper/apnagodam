@@ -2,7 +2,8 @@
 @section('content')
 
 <?php
-$address = $terminal->address.','.$terminal->location.','.$terminal->area.','.$terminal->district;
+$address = $terminal->location.','.$terminal->district.','.$terminal->state;
+
 $url = sprintf('https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s', urlencode($address), urlencode('AIzaSyAB1vBRqGdwtdzsOOMeLf7mQLJ5PfVq-0s'));
 
 $response = file_get_contents($url);
@@ -205,7 +206,6 @@ if(isset($output['results'][0]))
     <input type="hidden" value="" id="current_address" name="">
 </section>
 
-<script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCD12UaZxo_4B0ScJAkuwx7PgkUeV6DsFE&libraries=places&callback=initMap"></script>
 <script>
 
   function initMap() {
@@ -304,4 +304,5 @@ jQuery(document).ready(function() {
 
 </script>
 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCD12UaZxo_4B0ScJAkuwx7PgkUeV6DsFE&libraries=places&callback=initMap"></script>
 @endsection

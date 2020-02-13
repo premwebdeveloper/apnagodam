@@ -281,7 +281,63 @@ Route::post('/addEmployee', 'MisController@addEmployee')->name('addEmployee');
 Route::post('/updateEmployee', 'MisController@updateEmployee')->name('updateEmployee');
 Route::get('/deleteEmployee/{id}', 'MisController@deleteEmployee')->name('deleteEmployee');
 
-
 Route::get('/leads', 'LeadController@index')->name('leads');
+Route::post('/get_lead', 'LeadController@get_lead')->name('get_lead');
 Route::post('/createLead', 'LeadController@create')->name('createLead');
+Route::post('/update_lead', 'LeadController@update_lead')->name('update_lead');
 
+Route::get('/caseGen', 'CaseGenController@index')->name('caseGen');
+Route::post('/getLeadGenRec', 'CaseGenController@getLeadGenRec')->name('getLeadGenRec');
+Route::post('/createCase', 'CaseGenController@createCase')->name('createCase');
+
+Route::any('/emp-profile/{id}', 'MisController@emp_profile')->name('emp-profile');
+Route::any('/getDistrict', 'HomeController@getDistrict')->name('getDistrict');
+
+Route::get('/pricing', 'CaseGenController@pricing')->name('pricing');
+Route::post('/addPrice', 'CaseGenController@addPrice')->name('addPrice');
+Route::get('/close_case/{id}', 'CaseGenController@close_case')->name('close_case');
+
+Route::get('/quality_report', 'CaseGenController@quality_report')->name('quality_report');
+Route::post('/addQualityReport', 'CaseGenController@addQualityReport')->name('addQualityReport');
+
+Route::get('/gate_pass', 'CaseGenController@gate_pass')->name('gate_pass');
+Route::post('/addGatePass', 'CaseGenController@addGatePass')->name('addGatePass');
+
+Route::get('/kanta_parchi', 'CaseGenController@kanta_parchi')->name('kanta_parchi');
+Route::post('/addKantaParchi', 'CaseGenController@addKantaParchi')->name('addKantaParchi');
+
+Route::get('/truck_book', 'CaseGenController@truck_book')->name('truck_book');
+Route::post('/addTruckBook', 'CaseGenController@addTruckBook')->name('addTruckBook');
+
+Route::get('/labour_book', 'CaseGenController@labour_book')->name('labour_book');
+Route::post('/addLabourBook', 'CaseGenController@addLabourBook')->name('addLabourBook');
+
+Route::get('/second_quality_report', 'CaseGenController@second_quality_report')->name('second_quality_report');
+Route::post('/addSecondQualityReport', 'CaseGenController@addSecondQualityReport')->name('addSecondQualityReport');
+
+Route::get('/second_kanta_parchi', 'CaseGenController@second_kanta_parchi')->name('second_kanta_parchi');
+Route::post('/addSecondKantaParchi', 'CaseGenController@addSecondKantaParchi')->name('addSecondKantaParchi');
+
+Route::get('/e_mandi', 'CaseGenController@e_mandi')->name('e_mandi');
+Route::post('/addEmandi', 'CaseGenController@addEmandi')->name('addEmandi');
+
+Route::get('/accounts', 'CaseGenController@accounts')->name('accounts');
+Route::post('/addAccounts', 'CaseGenController@addAccounts')->name('addAccounts');
+
+Route::get('/shipping_start', 'CaseGenController@shipping_start')->name('shipping_start');
+Route::post('/addShippingStart', 'CaseGenController@addShippingStart')->name('addShippingStart');
+
+Route::get('/shipping_end', 'CaseGenController@shipping_end')->name('shipping_end');
+Route::post('/addShippingEnd', 'CaseGenController@addShippingEnd')->name('addShippingEnd');
+
+Route::get('/quality_claim', 'CaseGenController@quality_claim')->name('quality_claim');
+Route::post('/addQualityClaim', 'CaseGenController@addQualityClaim')->name('addQualityClaim');
+
+Route::get('/truck_payment', 'CaseGenController@truck_payment')->name('truck_payment');
+Route::post('/addTruckPayment', 'CaseGenController@addTruckPayment')->name('addTruckPayment');
+
+Route::get('/labour_payment', 'CaseGenController@labour_payment')->name('labour_payment');
+Route::post('/addLabourPayment', 'CaseGenController@addLabourPayment')->name('addLabourPayment');
+
+Route::get('/payment_received', 'CaseGenController@payment_received')->name('payment_received');
+Route::post('/addPaymentReceived', 'CaseGenController@addPaymentReceived')->name('addPaymentReceived');

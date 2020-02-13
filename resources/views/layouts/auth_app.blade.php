@@ -15,13 +15,13 @@ $temp = explode('@', $controllerAction);
 
 @include('includes.auth_head')
 
-@if($temp[0] == 'MisController' || $temp[0] == 'LeadController')
+@if($temp[0] == 'MisController' || $temp[0] == 'LeadController' || $temp[0] == 'CaseGenController')
 	@include('includes.auth_mis_sidebar')
 @else
 	@include('includes.auth_admin_sidebar')
 @endif
 
-@if($role->role_id != 1 && $role->role_id != 2 && $role->role_id == 4)
+@if($role->role_id != 1 && $role->role_id != 2 && $role->role_id != 4)
 	@include('includes.auth_mis_sidebar')
 @endif
 

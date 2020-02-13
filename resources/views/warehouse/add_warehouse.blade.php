@@ -37,7 +37,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('mandi samiti', 'Mandi Samiti *') !!}
+                                    {!! Form::label('mandi samiti', 'Mandi Samiti') !!}<span class="red">*</span>
                                     <select name="mandi_samiti" id="mandi_samiti" class="form-control" required="required">
                                         <option value="">Select Mandi Samiti</option>
 
@@ -57,7 +57,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('name', 'Name *') !!}
+                                    {!! Form::label('name', 'Name') !!}<span class="red">*</span>
                                     {!! Form::text('name', '', ['class' => 'form-control', 'id' => 'name', 'placeholder' => 'Terminal Name']) !!}
 
                                     @if($errors->has('name'))
@@ -70,7 +70,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('address', 'Address *') !!}
+                                    {!! Form::label('address', 'Address') !!}<span class="red">*</span>
                                     {!! Form::text('address', '', ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Address']) !!}
 
                                     @if($errors->has('address'))
@@ -93,14 +93,15 @@
                                     @endif
                                 </div>
                             </div>
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('area', 'Area *') !!}
-                                    {!! Form::text('area', '', ['class' => 'form-control', 'id' => 'area', 'placeholder' => 'Area']) !!}
+                                    {!! Form::label('state', 'State') !!}<span class="red">*</span>
+                                    {!! Form::select('state', $states, '',['class' => 'form-control', 'id' => 'state']) !!}
 
-                                    @if($errors->has('area'))
+                                    @if($errors->has('state'))
                                         <span class="help-block red">
-                                            <strong>{{ $errors->first('area') }}</strong>
+                                            <strong>{{ $errors->first('state') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -108,8 +109,8 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('district', 'District *') !!}
-                                    {!! Form::text('district', '', ['class' => 'form-control', 'id' => 'district', 'placeholder' => 'District']) !!}
+                                    {!! Form::label('district', 'District') !!}<span class="red">*</span>
+                                    {!! Form::select('district', array('' => 'Select District'), '', ['class' => 'form-control', 'id' => 'district']) !!}
 
                                     @if($errors->has('district'))
                                         <span class="help-block red">
@@ -121,7 +122,7 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('area_sqr_ft', 'Area in Sqr. Ft. *') !!}
+                                    {!! Form::label('area_sqr_ft', 'Area in Sqr. Ft.') !!}<span class="red">*</span>
                                     {!! Form::text('area_sqr_ft', '', ['class' => 'form-control', 'id' => 'area_sqr_ft', 'placeholder' => 'Area in Sqr. Ft.']) !!}
 
                                     @if($errors->has('area_sqr_ft'))
@@ -134,7 +135,7 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('rent_per_month', 'Rent Per Month Per MT *') !!}
+                                    {!! Form::label('rent_per_month', 'Rent Per Month Per MT')!!} <span class="red">*</span>
                                     {!! Form::text('rent_per_month', '', ['class' => 'form-control', 'id' => 'rent_per_month', 'placeholder' => 'Rent Per Month Per MT']) !!}
 
                                     @if($errors->has('rent_per_month'))
@@ -247,5 +248,26 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#state').on('change', function(){
+            var id = $(this).val();
+            $.ajax({
+                method : 'post',
+                url: "{{ route('getDistrict') }}",
+                async : true,
+                data : {"_token": "{{ csrf_token() }}", 'code' : id},
+                success:function(response)
+                {
+                    $('#district').html(response);
+                },
+                error: function(data)
+                {
+                    console.log(data);
+                    alert(data);
+                },
+            });
+        });
+    });
+</script>
 @endsection

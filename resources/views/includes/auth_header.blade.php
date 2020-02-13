@@ -17,10 +17,10 @@
 
             <ul class="nav navbar-top-links navbar-right">
 
-                <li class="dropdown">
-                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell"></i>  <span class="label label-danger"></span>
-                    </a>
+                <!-- <li class="dropdown"> -->
+                   <!--  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                       <i class="fa fa-bell"></i>  <span class="label label-danger"></span>
+                   </a> -->
 <!--                     <ul class="dropdown-menu dropdown-messages">
                         <li>
                             <div class="dropdown-messages-box">
@@ -43,7 +43,7 @@
                             </div>
                         </li>
                     </ul> -->
-                </li>
+                <!-- </li> -->
 
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();

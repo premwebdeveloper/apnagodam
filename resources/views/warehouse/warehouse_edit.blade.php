@@ -37,7 +37,7 @@
 
                             {{ Form::hidden('warehouse_id', $warehouse->id) }}
   
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('mandi samiti', 'Mandi Samiti *') !!}
                                     <select name="mandi_samiti" id="mandi_samiti" class="form-control" required="required">
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('name', 'Name') !!}
                                     {!! Form::text('name', $warehouse->name, ['class' => 'form-control', 'id' => 'name', 'placeholder' => 'Terminal Name']) !!}
@@ -70,7 +70,7 @@
                                 </div>
                             </div>
 
-                           <div class="col-md-6">
+                           <div class="col-md-4">
                                <div class="form-group">
                                    {!! Form::label('address', 'Address') !!}
                                    {!! Form::text('address', $warehouse->address, ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Address']) !!}
@@ -83,7 +83,7 @@
                                </div>
                            </div>
 
-                           <div class="col-md-6">
+                           <div class="col-md-4">
                                <div class="form-group">
                                    {!! Form::label('location', 'Location') !!}
                                    {!! Form::text('location', $warehouse->location, ['class' => 'form-control', 'id' => 'location', 'placeholder' => 'Location']) !!}
@@ -95,34 +95,33 @@
                                    @endif
                                </div>
                            </div>
+                           <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('state', 'State') !!}<span class="red">*</span>
+                                    {!! Form::select('state', $states, $warehouse->state, ['disabled' => 'disabled', 'class' => 'form-control', 'id' => 'state']) !!}
 
-                           <div class="col-md-6">
-                               <div class="form-group">
-                                   {!! Form::label('area', 'Area') !!}
-                                   {!! Form::text('area', $warehouse->area, ['class' => 'form-control', 'id' => 'area', 'placeholder' => 'Area']) !!}
-                           
-                                   @if($errors->has('area'))
-                                       <span class="help-block red">
-                                           <strong>{{ $errors->first('area') }}</strong>
-                                       </span>
-                                   @endif
-                               </div>
-                           </div>
+                                    @if($errors->has('state'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('state') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('district', 'District') !!}<span class="red">*</span>
+                                    {!! Form::select('district', $districts, $warehouse->district, ['disabled' => 'disabled', 'class' => 'form-control', 'id' => 'district']) !!}
 
-                           <div class="col-md-6">
-                               <div class="form-group">
-                                   {!! Form::label('district', 'District') !!}
-                                   {!! Form::text('district', $warehouse->district, ['class' => 'form-control', 'id' => 'district', 'placeholder' => 'District']) !!}
-                           
-                                   @if($errors->has('district'))
-                                       <span class="help-block red">
-                                           <strong>{{ $errors->first('district') }}</strong>
-                                       </span>
-                                   @endif
-                               </div>
-                           </div>
+                                    @if($errors->has('district'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('district') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
 
-                           <div class="col-md-6">
+                           <div class="col-md-4">
                                <div class="form-group">
                                    {!! Form::label('area_sqr_ft', 'Area (SQ.FT.)') !!}
                                    {!! Form::text('area_sqr_ft', $warehouse->area_sqr_ft, ['class' => 'form-control', 'id' => 'area_sqr_ft', 'placeholder' => 'Area SQ.FT.']) !!}
@@ -135,7 +134,7 @@
                                </div>
                            </div>
 
-                           <div class="col-md-6">
+                           <div class="col-md-4">
                                <div class="form-group">
                                    {!! Form::label('rent_per_month', 'Rent') !!}
                                    {!! Form::text('rent_per_month', $warehouse->rent_per_month, ['class' => 'form-control', 'id' => 'rent_per_month', 'placeholder' => 'Rent']) !!}
@@ -148,7 +147,7 @@
                                </div>
                            </div>
 
-                           <div class="col-md-6">
+                           <div class="col-md-4">
                                <div class="form-group">
                                    {!! Form::label('capacity_in_mt', 'Capacity') !!}
                                    {!! Form::text('capacity_in_mt', $warehouse->capacity_in_mt, ['class' => 'form-control', 'id' => 'capacity_in_mt', 'placeholder' => 'Capacity']) !!}
@@ -254,7 +253,7 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    {!! Form::submit('Edit Terminal', ['class' => 'btn btn-info btn btn-block']) !!}
+                                    {!! Form::submit('Update Terminal', ['class' => 'btn btn-info btn btn-block']) !!}
                                 </div>
                             </div>
 
@@ -266,5 +265,26 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+        $(document).ready(function(){
+            $('#state').on('change', function(){
+                var id = $(this).val();
+                $.ajax({
+                    method : 'post',
+                    url: "{{ route('getDistrict') }}",
+                    async : true,
+                    data : {"_token": "{{ csrf_token() }}", 'code' : id},
+                    success:function(response)
+                    {
+                        $('#district').html(response);
+                    },
+                    error: function(data)
+                    {
+                        console.log(data);
+                        alert(data);
+                    },
+                });
+            });
+        });
+    </script>
 @endsection

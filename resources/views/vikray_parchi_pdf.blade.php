@@ -78,6 +78,13 @@ b{font-size: 13px;}
                             <p>Vikray Parchi No. - <b>{{ $id }}</b></p>
                         </div>
                         <div class="col-md-6 text-right">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Mandi Samiti - <b>{{ $mandi_samiti_name }}</b></p>
+                        </div>
+                        <div class="col-md-6 text-right">
                             <p><b><?= ($sales_status == 1)?"Primary Sale":'Secondary Sale'; ?> </b></p>
                         </div>
                     </div>
@@ -202,17 +209,17 @@ b{font-size: 13px;}
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h5><strong>Certificate of Market Fees Paid Notified Agricultural Produce</strong></h5>
+                    <h6><strong>Certificate of Market Fees Paid Notified Agricultural Produce</strong></h6>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h5><strong>DELIVERY SLIP</strong></h5>
+                    <h6><strong>DELIVERY SLIP</strong></h6>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h5><strong>(To be issued by private Sub e-market)</strong></h5>
+                    <h6><strong>(To be issued by private Sub e-market)</strong></h6>
                 </div>
             </div>
             <div class="row">
@@ -257,23 +264,29 @@ b{font-size: 13px;}
             <br />
             <div class="row">
                 <div class="col-md-12">
-                    <p>We hereby certify that the following deliveries have been lifted from our warehouse located at <strong>{{ $location }}</strong> which is in <strong> N/A </strong> market area, and the completed details of payment of market fees and name of original trader along with his licence number, who has delivered originally and is responsible for payment of market fees on such goods are maintained with us, which can be verified from our records. We have delivered the below mentioned Agricultural Produces to the person named below:-
+                    <p>We hereby certify that the following deliveries have been lifted from our warehouse located at <strong> {{ $location }}</strong> which is in <strong> {{ $mandi_samiti_name }} </strong> market area and the complete payment details of the market fees and name of the trader along with his licence number, who has delivered originally and is responsible for payment of market fees on such goods are maintained with us, which can be verified from our records. We have delivered the below mentioned Agricultural Produces to the person named below:-
                 </div>
             </div>
         </div> 
         <table class="table table-bordered">
             <tr>
                 <th>
-                    Name of Agricultural Produce
+                    <p>Name of Agricultural Produce</p>
                 </th>
                 <th>
-                    Weight
+                    <p>Weight</p>
                 </th>
                 <th>
-                    Name of the person to whom Delivery has Been given
+                    <p>Name of the person to whom delivery has been given</p>
                 </th>
                 <th>
-                    Remarks
+                    <p>Remarks</p>
+                </th>
+                <th>
+                    <p>Vehicle No.</p>
+                </th>
+                <th>
+                    <p>Time of Generation</p>
                 </th>
             </tr>
             <tr>
@@ -288,6 +301,12 @@ b{font-size: 13px;}
                 </td>
                 <td>
                     <strong>E-Mandi</strong>
+                </td>
+                <td>
+                    <strong>{{ $truck_no }}</strong>
+                </td>
+                <td>
+                    <strong>{{ date('d-m-Y H:i:s', strtotime($created_at)) }}</strong>
                 </td>
             </tr>
         </table>
