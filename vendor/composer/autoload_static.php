@@ -472,6 +472,7 @@ class ComposerStaticInit9ea17fc3cac10e8c030606638a949ff3
     );
 
     public static $classMap = array (
+        'App\\Case' => __DIR__ . '/../..' . '/app/Case.php',
         'App\\Console\\Commands\\cronJobs' => __DIR__ . '/../..' . '/app/Console/Commands/cronJobs.php',
         'App\\Console\\Commands\\deleteInventories' => __DIR__ . '/../..' . '/app/Console/Commands/deleteInventories.php',
         'App\\Console\\Commands\\deleteSells' => __DIR__ . '/../..' . '/app/Console/Commands/deleteSells.php',
@@ -487,6 +488,7 @@ class ComposerStaticInit9ea17fc3cac10e8c030606638a949ff3
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\BuySellController' => __DIR__ . '/../..' . '/app/Http/Controllers/BuySellController.php',
+        'App\\Http\\Controllers\\CaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/CaseController.php',
         'App\\Http\\Controllers\\CategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/CategoryController.php',
         'App\\Http\\Controllers\\CommodityController' => __DIR__ . '/../..' . '/app/Http/Controllers/CommodityController.php',
         'App\\Http\\Controllers\\CommonController' => __DIR__ . '/../..' . '/app/Http/Controllers/CommonController.php',

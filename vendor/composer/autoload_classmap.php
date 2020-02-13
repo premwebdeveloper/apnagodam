@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Case' => $baseDir . '/app/Case.php',
     'App\\Console\\Commands\\cronJobs' => $baseDir . '/app/Console/Commands/cronJobs.php',
     'App\\Console\\Commands\\deleteInventories' => $baseDir . '/app/Console/Commands/deleteInventories.php',
     'App\\Console\\Commands\\deleteSells' => $baseDir . '/app/Console/Commands/deleteSells.php',
@@ -21,6 +22,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\BuySellController' => $baseDir . '/app/Http/Controllers/BuySellController.php',
+    'App\\Http\\Controllers\\CaseController' => $baseDir . '/app/Http/Controllers/CaseController.php',
     'App\\Http\\Controllers\\CategoryController' => $baseDir . '/app/Http/Controllers/CategoryController.php',
     'App\\Http\\Controllers\\CommodityController' => $baseDir . '/app/Http/Controllers/CommodityController.php',
     'App\\Http\\Controllers\\CommonController' => $baseDir . '/app/Http/Controllers/CommonController.php',
