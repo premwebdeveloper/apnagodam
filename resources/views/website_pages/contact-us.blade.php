@@ -17,7 +17,7 @@
         <div class="col-md-7">
             <h3 class="single_title">Location</h3>
             <div class="row">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.8298847729357!2d75.7990183150455!3d26.940606983115643!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db3e0cb618df7%3A0xa8be15fef1f87c60!2sApnaGodam!5e0!3m2!1sen!2sin!4v1538732548264" width="100%" height="312" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1777.946913425978!2d75.78078182464692!3d26.970261379524768!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db2499a1def69%3A0x227bfe707295013!2sApna%20Godam!5e0!3m2!1sen!2sin!4v1581572418528!5m2!1sen!2sin" width="100%" height="312" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
             </div>
         </div>
         <div class="col-md-5">

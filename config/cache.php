@@ -67,6 +67,9 @@ return [
                 ],
             ],
         ],
+        'none' => [
+            'driver' => 'null',
+        ],
 
         'redis' => [
             'driver' => 'redis',
