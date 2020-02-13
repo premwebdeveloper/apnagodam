@@ -88,3 +88,9 @@ INSERT INTO `roles` (`id`, `role`, `created_at`, `updated_at`) VALUES ('3', 'acc
 ALTER TABLE `user_details` ADD `user_type` INT NULL COMMENT '1 for Farmer, 2 for Trader' AFTER `user_id`;
 ALTER TABLE `buy_sells` ADD `mandi_fees` INT NULL AFTER `price`;
 ALTER TABLE `buy_sells` CHANGE `mandi_fees` `mandi_fees` VARCHAR(10) NULL DEFAULT NULL;
+
+-- ------------------- ALTER TABLE `mandi_samitis` at 03-02-2020 ------------------
+ALTER TABLE `mandi_samitis` ADD `class` VARCHAR(2) NULL AFTER `name`, ADD `secretary_name` VARCHAR(100) NULL AFTER `class`, ADD `phone` VARCHAR(15) NULL AFTER `secretary_name`, ADD `std_code` VARCHAR(10) NULL AFTER `phone`, ADD `tel_no` VARCHAR(15) NULL AFTER `std_code`, ADD `fax` VARCHAR(12) NULL AFTER `tel_no`, ADD `email` VARCHAR(100) NULL AFTER `fax`;
+
+-- ------------------- ALTER TABLE `warehouse_rent_rates` at 04-02-2020 ------------------
+ALTER TABLE `warehouse_rent_rates` ADD `state` VARCHAR(10) NULL AFTER `district`;
