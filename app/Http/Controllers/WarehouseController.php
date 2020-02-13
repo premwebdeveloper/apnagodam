@@ -23,11 +23,14 @@ class WarehouseController extends Controller
 
         // Get all warehouses
         $warehouses = DB::table('warehouses')
-                        ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-                        ->join('mandi_samitis','mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
-                        ->where('warehouses.status', 1)
-                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'mandi_samitis.name as mandi_samiti_name')
-                        ->get();
+            ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+            ->join('states','states.code', '=', 'warehouse_rent_rates.state')
+            ->join('districts','districts.id', '=', 'warehouse_rent_rates.district')
+            ->join('mandi_samitis','mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
+            ->where('warehouses.status', 1)
+            ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'districts.name as district', 'states.name as state', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'mandi_samitis.name as mandi_samiti_name')
+            ->groupBy('warehouses.id')
+            ->get();
 
         return view('warehouse.index', array('warehouses' => $warehouses));
     }
@@ -71,6 +74,13 @@ class WarehouseController extends Controller
         // All facilities
         $facilities = DB::table('facilitiy_master')->where('status', 1)->get();
 
+        //Get States
+        $states_data = DB::table('states')->get();
+        $states = array('' => 'Select State');
+        foreach ($states_data as $key => $value) {
+            $states[$value->code] = $value->name;
+        }
+
         // Get all madi samities
         $mandi_samiti = DB::table('mandi_samitis')->where('status', 1)->get();
 
@@ -89,7 +99,7 @@ class WarehouseController extends Controller
             $banks[$row->id] = $row->bank_name;
         }
 
-        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti]);
+        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti, 'states' => $states]);
     }
 
     // Add Warehouse
@@ -100,7 +110,7 @@ class WarehouseController extends Controller
             'mandi_samiti' => 'required',
             'name' => 'required',
             'address' => 'required',
-            'area' => 'required',
+            'state' => 'required',
             'district' => 'required',
             'area_sqr_ft' => 'required',
             'rent_per_month' => 'required',
@@ -111,7 +121,7 @@ class WarehouseController extends Controller
         $name = $request->name;
         $address = $request->address;
         $location = $request->location;
-        $area = $request->area;
+        $state = $request->state;
         $district = $request->district;
         $area_sqr_ft = $request->area_sqr_ft;
         $rent_per_month = $request->rent_per_month;
@@ -166,17 +176,27 @@ class WarehouseController extends Controller
         $facilities = json_encode($facilities);
         $banks = json_encode($banks);
 
+        //Get District Code
+        $dis = DB::table('districts')->where('id', $district)->first();
+
         //Get Last Record
         $last_record = DB::table('warehouses')->orderBy('id', 'desc')->first();
-        $temp = 'TL001';
-        if($last_record)
+        $t_id = sprintf("%02d", $state).sprintf("%02d", $dis->district_code);
+
+        //Get last Record
+        $data = DB::table('warehouses')->where('warehouse_code', "like", "%" . $t_id."%")->orderBy('id', 'DESC')->first();
+        if($data)
         {
-            $temp = ++$last_record->warehouse_code;
-        }
+            $t_id = str_pad(intval($data->warehouse_code) + 1, strlen($data->warehouse_code), '0', STR_PAD_LEFT);
+            
+        }else{
+            $t_id = $t_id."01";
+        }        
+
         // Create Warehouses
         $warehouse_id = DB::table('warehouses')->insertGetId([
             'mandi_samiti_id' => $mandi_samiti,
-            'warehouse_code' => $temp,
+            'warehouse_code' => $t_id,
             'name' => $name,
             'facility_ids' => $facilities,
             'bank_ids' => $banks,
@@ -191,8 +211,8 @@ class WarehouseController extends Controller
             'warehouse_id' => $warehouse_id,
             'address' => $address,
             'location' => $location,
-            'area' => $area,
             'district' => $district,
+            'state' => $state,
             'area_sqr_ft' => $area_sqr_ft,
             'rent_per_month' => $rent_per_month,
             'capacity_in_mt' => $capacity_in_mt,
@@ -308,16 +328,31 @@ class WarehouseController extends Controller
         {
             $banks[$row->id] = $row->bank_name;
         }
+
+        //Get States
+        $states_data = DB::table('states')->get();
+        $states = array('' => 'Select State');
+        foreach ($states_data as $key => $value) {
+            $states[$value->code] = $value->name;
+        }
+
         
         // Get warehouse details by id
         $warehouse = DB::table('warehouses')
                         ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
                         ->where('warehouses.status', 1)
                         ->where('warehouses.id', $id)
-                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.state', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
                         ->first();
 
-        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti));
+        //Get States
+        $district_data = DB::table('districts')->where('state_code', $warehouse->state)->get();
+        $districts = array('' => 'Select State');
+        foreach ($district_data as $key => $value) {
+            $districts[$value->district_code] = $value->name;
+        }
+
+        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti, 'districts' => $districts, 'states' => $states));
     }
 
     // Edit warehouse
@@ -328,8 +363,6 @@ class WarehouseController extends Controller
             'mandi_samiti' => 'required',
             'name' => 'required',
             'address' => 'required',
-            'area' => 'required',
-            'district' => 'required',
             'area_sqr_ft' => 'required',
             'rent_per_month' => 'required',
             'capacity_in_mt' => 'required',
@@ -340,8 +373,6 @@ class WarehouseController extends Controller
         $name = $request->name;
         $address = $request->address;
         $location = $request->location;
-        $area = $request->area;
-        $district = $request->district;
         $area_sqr_ft = $request->area_sqr_ft;
         $rent_per_month = $request->rent_per_month;
         $capacity_in_mt = $request->capacity_in_mt;
@@ -414,9 +445,7 @@ class WarehouseController extends Controller
         // update warehouse features
         $update_features = DB::table('warehouse_rent_rates')->where('warehouse_id', $warehouse_id)->update([
             'address' => $address,
-            'location' => $location,
-            'area' => $area,
-            'district' => $district,
+            'location' => $location,            
             'area_sqr_ft' => $area_sqr_ft,
             'rent_per_month' => $rent_per_month,
             'capacity_in_mt' => $capacity_in_mt,

@@ -85,7 +85,7 @@ class InventoryController extends Controller
         //Get Commodity Type
         $categories = DB::table('categories')->where(['id' => $request->commodity,'status' => 1])->first();
 
-        if($categories->commodity_type == 'Paid')
+        if($categories->commodity_type == 'Secondary')
         {
             $sales_status = 2;
         }else{
@@ -204,7 +204,7 @@ class InventoryController extends Controller
                                     //Check Commodity 
                                     $check_commodity = DB::table('categories')->where(['category' => $value->commodity, 'commodity_type' => $value->commodity_type])->first();
 
-                                    if($value->commodity_type == 'Paid')
+                                    if($value->commodity_type == 'Secondary')
                                     {
                                         $sales_status = 2;
                                     }else{

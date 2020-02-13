@@ -18,6 +18,17 @@ class Mis extends Model
         return $employees;
     }
 
+    # Get all Employee Details
+    public function scopegetEmployee($query, $id)
+    {
+        $employees = DB::table('apna_employees')
+                    ->join('roles', 'roles.id', '=', 'apna_employees.role_id')
+                    ->select('apna_employees.*', 'roles.role')
+                    ->where(['status' => 1, 'user_id' => $id])
+                    ->first();
+        return $employees;
+    }
+
     # Last Emp ID
     public function scopegetLastEmpId()
     {

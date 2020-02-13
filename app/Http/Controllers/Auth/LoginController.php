@@ -41,7 +41,7 @@ class LoginController extends Controller
         $user = Auth::user();
 
         $user_roles = DB::table('user_roles')->where('user_id', $user->id)->first();
-
+       
         # User Role id
         $role_id = $user_roles->role_id;
 

@@ -487,9 +487,11 @@ class HomeController extends Controller
         // Get warehouse details by id
         $warehouse = DB::table('warehouses')
                         ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                        ->join('districts','districts.id', '=', 'warehouse_rent_rates.district')
+                        ->join('states','states.code', '=', 'warehouse_rent_rates.state')
                         ->where('warehouses.status', 1)
                         ->where('warehouses.id', $id)
-                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'warehouse_rent_rates.district', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
+                        ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'districts.name as district',  'states.name as state', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'warehouse_rent_rates.nearby_transporter_info', 'warehouse_rent_rates.nearby_mandi_info', 'warehouse_rent_rates.nearby_crop_info')
                         ->first();
 
         $facility_available = '';
@@ -639,5 +641,18 @@ class HomeController extends Controller
         $done = sendotp($phone, $sms, $otp);
 
         return view('auth.trader_register_otp', array('otp' => $otp, 'exist_phone' => $phone ));
+    }
+
+    //Get District Accourding yo state code
+    public function getDistrict(Request $request)
+    {
+        $code = $request->code;
+        $district = DB::table('districts')->where('state_code', $code)->get();
+        $res = '<option value="">Select District</option>';
+        foreach ($district as $key => $value) {
+            $res .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+        }
+
+        echo $res;
     }
 }

@@ -677,16 +677,16 @@ class AdminController extends Controller
         $deal_id = $request->id;
         $email_status = $request->email;
 
-
         $done_deals = DB::table('buy_sells')
             ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
             ->join('users','users.id', '=', 'buy_sells.seller_id')
             ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
             ->join('categories', 'categories.id', '=', 'inv.commodity')
             ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+            ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
             ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
             ->first();
 
         $buyer_id = $done_deals->buyer_id;
@@ -867,9 +867,7 @@ class AdminController extends Controller
         # Set validation for
         $this->validate($request, [
             'name' => 'required',
-            'secretary_name' => 'required',
             'phone' => 'required',
-            'std_code' => 'required',
             'email' => 'required|email',
         ]);
 
@@ -920,10 +918,7 @@ class AdminController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'secretary_name' => 'required',
             'phone' => 'required',
-            'std_code' => 'required',
-            'email' => 'required|email',
         ]);
 
         $name = $request->name;

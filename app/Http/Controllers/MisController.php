@@ -89,6 +89,8 @@ class MisController extends Controller
         $data['emp_id'] = $emp_id;
         $data['first_name'] = $first_name = $request->first_name;
         $data['last_name'] = $last_name = $request->last_name;
+        $data['fname'] = $last_name = $request->last_name;
+        $data['lname'] = $last_name = $request->last_name;
         $data['email'] = $email = $request->email;
         $data['phone'] = $phone = $request->phone;
         $data['role_id'] = $role_id = $request->role_id;
@@ -165,7 +167,7 @@ class MisController extends Controller
         $temp = DB::table('users')->where(['phone' => $phone, 'email' => $email])->first();
         
         
-        if(!$temp)
+        if($temp)
         {
             //Check Phone Number    
             $check_phone = DB::table('users')->where(['phone' => $phone])->first();
@@ -174,10 +176,10 @@ class MisController extends Controller
             }
 
             //Check Phone Number    
-            $check_email = DB::table('users')->where(['email' => $email])->first();
-            if($check_email){
+            //$check_email = DB::table('users')->where(['email' => $email])->first();
+            /*if($check_email){
                 return redirect('employees')->with('error', 'This email address is already exists.');
-            }
+            }*/
         }
 
         //Get All Post Data
@@ -258,9 +260,11 @@ class MisController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function emp_profile(Request $request)
     {
-        //
+        //Employee Profile
+        $emp = Mis::getEmployee($request->id);
+        return view('mis.employees.profile', array('employee' => $emp));
     }
 
     /**

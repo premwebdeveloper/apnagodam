@@ -21,6 +21,15 @@ class Lead extends Model
         return $leads;
     }
 
+    # Get single Leads
+    public function scopegetLead($query, $id)
+    {
+        $leads = DB::table('apna_leads')
+                ->where('id', $id)
+                ->first();
+        return $leads;
+    }
+
     # Get all Leads
     public function scopecreateLead($query, $data)
     {
@@ -28,16 +37,39 @@ class Lead extends Model
 
         $lead = DB::table('apna_leads')->insert([
             'user_id' => $data['user_id'],
-            'customer_name' => $data['customer_name'],
+            'customer_name' => ucfirst($data['customer_name']),
             'quantity' => $data['quantity'],
-            'location' => $data['location'],
+            'location' => ucfirst($data['location']),
             'phone' => $data['phone'],
             'commodity_id' => $data['commodity_id'],
             'terminal_id' => $data['terminal_id'],
+            'purpose' => $data['purpose'],
             'commodity_date' => $data['commodity_date'],
             'created_at' => $date,
             'updated_at' => $date,
             'status' => 1
+        ]);
+        return $lead;
+    }
+
+    # Get all Leads
+    public function scopeupdateLead($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        $lead = DB::table('apna_leads')
+        ->where('id', $data['id'])
+        ->update([
+            'user_id' => $data['user_id'],
+            'customer_name' => ucfirst($data['customer_name']),
+            'quantity' => $data['quantity'],
+            'location' => ucfirst($data['location']),
+            'phone' => $data['phone'],
+            'commodity_id' => $data['commodity_id'],
+            'terminal_id' => $data['terminal_id'],
+            'purpose' => $data['purpose'],
+            'commodity_date' => $data['commodity_date'],
+            'updated_at' => $date,
         ]);
         return $lead;
     }
