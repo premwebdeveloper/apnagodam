@@ -17,7 +17,7 @@
             <h3 class="c_inner_title">Buyer Registration Form</h3>
             {!! Form::open(array('url' => 'trader_registration', 'files' => true, 'class' => "contact_us_form")) !!}
                 @csrf
-                {{ Form::hidden('user_type', 1) }}
+                {{ Form::hidden('user_type', 2) }}
                 @if(session('error'))
                     <div class="alert alert-danger alert-dismissible">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

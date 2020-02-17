@@ -36,17 +36,22 @@ b{font-size: 13px;}
         $commission = ($total_price * 0.75) / 100;
         $mandi_fee = '';
         $hammali = '';
-        if($sales_status == 1)
+        if($bid_type == 2)
         {
-            $mandi_fee = (($total_price * $mandi_fees) / 100);
+            if($sales_status == 1)
+            {
+                $mandi_fee = (($total_price * $mandi_fees) / 100);
+            }else{
+                $mandi_fee = "N/A";
+            }
+            if($sales_status == 1)
+            {
+                $mandi_fee = ($quantity * 3.5);
+            }else{
+                $mandi_fee = "N/A";
+            }
         }else{
-            $mandi_fee = "N/A";
-        }
-        if($sales_status == 1)
-        {
-            $mandi_fee = ($quantity * 3.5);
-        }else{
-            $mandi_fee = "N/A";
+            $mandi_fee = (($total_price * 1.6) / 100);
         }
 
         $res = 'Vikray Parchi = '.$id.', ApnaGodam.com, CIN = U63030RJ2016PTC055509, Buyer Name = '.$buyer_name.', Seller Name = '.$seller_name.', Date = '.date('d-m-Y').', Bid Date = '.date('d-m-Y', strtotime($updated_at)).', Commodity = '.$category.', Warehouse = '.$warehouse.', Net Weight = '.$quantity.', Price = '.$price.', Quality = '.$quality_category.', E-mandi Commission = '.$commission.', Bags = '.$quantity.', Hammali = '.$hammali.', Mandi Fees = '.$mandi_fee.", Total = ".$total_price;

@@ -545,20 +545,21 @@ class AdminController extends Controller
 
     // Payment Accept By Admin
     public function payment_accept(Request $request){
-
         $deal_id = $request->id;
         $gate_pass = $request->gate_pass;
 
+
         $done_deals = DB::table('buy_sells')
-                ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
-                ->join('users','users.id', '=', 'buy_sells.seller_id')
-                ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
-                ->join('categories', 'categories.id', '=', 'inv.commodity')
-                ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
-                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-                ->where('buy_sells.id', $deal_id)
-                ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.gate_pass_wr', 'inv.image')
-                ->first();
+            ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+            ->join('users','users.id', '=', 'buy_sells.seller_id')
+            ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+            ->join('categories', 'categories.id', '=', 'inv.commodity')
+            ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+            ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
+            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+            ->where('buy_sells.id', $deal_id)
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
+            ->first();
             
         $inventory_id = $done_deals->seller_cat_id;
         $quantity = $done_deals->quantity;
@@ -568,50 +569,37 @@ class AdminController extends Controller
         $price = $done_deals->price;
         $quality_category = $done_deals->quality_category;
 
+        $buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
+
+        $seller_info = DB::table('user_details')->where('user_id', $seller_id)->first();
+        $done_deals->seller_address = $seller_info->area_vilage;
+        $done_deals->buyer_address = $buyer_info->area_vilage;
+
         // get old sell quantity of this inventory
         $inventory_info = DB::table('inventories')->where('id', $inventory_id)->first();
 
         $remaining_quantity = $inventory_info->quantity - $quantity;
         $date = date('Y-m-d H:i:s');
 
-        //$trader_inventory = DB::table('inventories')->where(['user_id' => $buyer_id, 'commodity' => $inventory_info->commodity])->first();
-
-        // If trader have this commodity already then update quantity
-        /*if(!empty($trader_inventory)){
-
-            $update_trader_quantity = DB::table('inventories')->where('id', $trader_inventory->id)->update([
-
-                'quantity' => $trader_inventory->quantity + $quantity,
-                'updated_at' => $date,
-            ]);
+        $cate = DB::table('categories')->where('id', $inventory_info->commodity)->first();
+        $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Paid'])->first();
 
 
+        // If trader do not have this commodity already then insert this commodity with this teader
+        $insert_id = DB::table('inventories')->insertGetId([
 
-        }else{*/
-
-            //Get Comodity Details
-
-            $cate = DB::table('categories')->where('id', $inventory_info->commodity)->first();
-            $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Paid'])->first();
-
-
-            // If trader do not have this commodity already then insert this commodity with this teader
-            $insert_id = DB::table('inventories')->insertGetId([
-
-                'user_id'          => $buyer_id,
-                'warehouse_id'     => $inventory_info->warehouse_id,
-                'commodity'        => $new_cate->id,
-                'quantity'         => $quantity,
-                'gate_pass_wr'     => $gate_pass,
-                'price'            => $price,
-                'quality_category' => $quality_category,
-                'sales_status'     => 2,
-                'image'            => $done_deals->image,
-                'status'           => 1,
-                'created_at'       => $date,
-                'updated_at'       => $date,
-            ]);
-        /*}*/
+            'user_id'          => $buyer_id,
+            'warehouse_id'     => $inventory_info->warehouse_id,
+            'commodity'        => $new_cate->id,
+            'quantity'         => $quantity,
+            'gate_pass_wr'     => $gate_pass,
+            'price'            => $price,
+            'quality_category' => $quality_category,
+            'sales_status'     => 2,
+            'status'           => 1,
+            'created_at'       => $date,
+            'updated_at'       => $date,
+        ]);
 
         //Get Remainning Inverntry From Farmer
         $inventory_info_seller = DB::table('inventories')->where('id', $inventory_id)->first();
@@ -706,7 +694,6 @@ class AdminController extends Controller
         {
 
             //Get User Details 
-
             $data = [];
 
             if($buyer_info->email)

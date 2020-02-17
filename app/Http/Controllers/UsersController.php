@@ -186,13 +186,13 @@ class UsersController extends Controller
 
         // Get user inventory
         $finances =  DB::table('finances')
-                        ->join('inventories', 'inventories.id', '=', 'finances.commodity_id')
-                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                        ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-                        ->join('bank_master', 'bank_master.id', '=', 'finances.bank_id')
-                        ->where('finances.user_id', $currentuserid)
-                        ->select('finances.*', 'inventories.net_weight','inventories.price', 'categories.category', 'warehouses.name','bank_master.bank_name','bank_master.interest_rate','bank_master.loan_pass_days')
-                        ->get();
+            ->join('inventories', 'inventories.id', '=', 'finances.commodity_id')
+            ->join('categories', 'categories.id', '=', 'inventories.commodity')
+            ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+            ->join('bank_master', 'bank_master.id', '=', 'finances.bank_id')
+            ->where('finances.user_id', $currentuserid)
+            ->select('finances.*', 'inventories.net_weight','inventories.price', 'categories.category', 'warehouses.name','bank_master.bank_name','bank_master.interest_rate','bank_master.loan_pass_days')
+            ->get();
 
         return view("user.finance", array('finances' => $finances));
     }
@@ -205,11 +205,11 @@ class UsersController extends Controller
         $user = DB::table('users')->where('id', $currentuserid)->first();
         // Get inventory details
         $inventory= DB::table('inventories')
-                    ->join('categories', 'categories.id', '=', 'inventories.commodity')
-                    ->where('inventories.id', $id)
-                    ->select('inventories.*', 'categories.category')
+            ->join('categories', 'categories.id', '=', 'inventories.commodity')
+            ->where('inventories.id', $id)
+            ->select('inventories.*', 'categories.category')
 
-                    ->first();
+            ->first();
 
         return view("user.request_for_loan", array('commodity_id' => $id, 'inventory' => $inventory));
     }
@@ -223,11 +223,11 @@ class UsersController extends Controller
 
         // Get Requested for loan details
         $finance =  DB::table('finances')
-                        ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
-                        ->join('categories', 'categories.id', '=', 'inv.commodity')
-                        ->where(['finances.id' => $finance_id])
-                        ->select('finances.*', 'inv.commodity', 'inv.quantity', 'categories.category')
-                        ->first();
+            ->join('inventories as inv','inv.id', '=', 'finances.commodity_id')
+            ->join('categories', 'categories.id', '=', 'inv.commodity')
+            ->where(['finances.id' => $finance_id])
+            ->select('finances.*', 'inv.commodity', 'inv.quantity', 'categories.category')
+            ->first();
 
         return view("user.requested_for_loan", array('finance' => $finance));
     }
@@ -725,8 +725,8 @@ class UsersController extends Controller
     }
 
     // show all notification to users
-    public function notifications(Request $request){
-
+    public function notifications(Request $request)
+    {
         $currentuserid = Auth::user()->id;
         $date = date('Y-m-d H:i:s');
 
@@ -757,5 +757,79 @@ class UsersController extends Controller
             }
         };
         return view("user.notifications", array('notifications' => $notifications));
+    }
+
+    //Corporate Buying
+    public function corporate_buying(Request $request)
+    {
+        $id = $request->id;
+        if(is_numeric($id) && $id)
+        {
+            //Get Inventory
+            $inventory = DB::table('inventories')
+                ->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
+                ->join('categories', 'categories.id', '=', 'inventories.commodity')
+                ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                ->select('user_details.fname', 'inventories.*', 'categories.category', 'warehouses.warehouse_code', 'warehouses.name as warehouse')
+                ->where(['inventories.id' => $id, 'inventories.status' => 1])
+                ->first();
+            /*echo "<pre>";
+            print_r($inventory);
+            die;*/
+            $corporate_price = DB::table('corporate_price')
+                        ->where('status', 1)
+                        ->get();
+            if($inventory){
+                return view("corporate_buying.index", array('inventory' => $inventory, 'corporate_price' => $corporate_price));
+            }else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/');
+        }
+    }
+
+    //Corporate Bid Deal Done
+    public function corporate_deal_done(Request $request)
+    {
+        $invetory_id = $request->inventory_id;
+        $price = $request->final_bid_price;
+        $bid_for = $request->bid_for;
+        $todays_price = $request->todays_price;
+        $quantity = $request->quantity;
+        $date = date('Y-m-d H:i:s');
+
+        // Update inventory quantity
+        $inventories = DB::table('inventories')->where('id', $invetory_id)->update([
+            'sell_quantity' => $quantity,
+            'updated_at' => $date
+        ]);
+
+        $currentuserid = Auth::user()->id;
+
+        $buy_sell_id = DB::table('buy_sells')->insertGetId([
+            'buyer_id' => 1,
+            'seller_id' => $currentuserid,
+            'seller_cat_id' => $invetory_id,
+            'quantity' => $quantity,
+            'price' => $price,
+            'todays_price' => $todays_price,
+            'bid_type' => 2,
+            'status' => 2,
+            'created_at' => $date,
+            'updated_at' => $date
+        ]);
+
+        $admin_sms = 'Apna Godam - New Corporate bid for Approval. ';
+
+        // send sms on mobile number using curl
+        //$success = sendsms(9314142089, $admin_sms);
+
+        $sms = 'Apna Godam - Your deal has been successfully done.';
+
+        // send sms on mobile number using curl
+        $success = sendsms(Auth::user()->phone, $sms);
+
+        return redirect('inventories')->with('status', 'Your Bid has been successfully submitted. Please wait for admin approval');
     }
 }

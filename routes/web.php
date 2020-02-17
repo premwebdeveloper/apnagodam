@@ -59,6 +59,9 @@ Route::post('/get_todays_price/', 'HomeController@get_todays_price')->name('get_
 // user update price
 Route::post('/buy_sell_price_update', 'UsersController@update_price')->name('buy_sell_price_update');
 
+// Corporate Deal Done
+Route::post('/corporate_deal_done', 'UsersController@corporate_deal_done')->name('corporate_deal_done');
+
 Route::get('/notifications', 'UsersController@notifications')->name('notifications');
 Route::get('/deals/{status}', 'UsersController@deals')->name('deals');
 Route::get('/bidding/{inventory_id}', 'UsersController@bidding')->name('bidding');
@@ -72,6 +75,8 @@ Route::get('/deal_done/{inventory_id}', 'UsersController@deal_done')->name('deal
 // show all notification
 Route::get('/notifications', 'UsersController@notifications')->name('notifications');
 
+//Corporate Buying
+Route::get('/corporate_buying/{id}', 'UsersController@corporate_buying')->name('corporate_buying');
 
 /* ***************************************************** */
 // Ajax functions in Ajax controller
@@ -248,6 +253,11 @@ Route::post('/add_today', 'CommodityController@add_today')->name('add_today');
 Route::get('/today_price_edit_view/{id}', 'CommodityController@today_view')->name('today_price_edit_view');
 Route::post('/today_price_edit/', 'CommodityController@today_edit')->name('today_price_edit');
 Route::get('/today_price_delete/{id}', 'CommodityController@today_delete')->name('today_price_delete');
+
+// Corporate Pricing
+Route::post('/getCorporateDetails', 'CommodityController@getCorporateDetails')->name('getCorporateDetails');
+Route::post('/updateCorporatePrice', 'CommodityController@updateCorporatePrice')->name('updateCorporatePrice');
+
 // Users otp page
 Route::get('/users_otp', 'AdminController@users_otp')->name('users_otp');
 

@@ -380,7 +380,10 @@ class CommodityController extends Controller
                         ->select('today_prices.*', 'categories.category as commodity', 'warehouses.name as terminal_name')
                         ->where('today_prices.status', 1)
                         ->get();
-        return view('today.index', array('today_prices' => $today_price));
+        $corporate_price = DB::table('corporate_price')
+                        ->where('status', 1)
+                        ->get();
+        return view('today.index', array('today_prices' => $today_price, 'corporate_price' => $corporate_price));
     }
 
     // Today's Price Edit View
@@ -496,6 +499,39 @@ class CommodityController extends Controller
         return redirect('today_price')->with('status', $status);
     }
 
+    // Today's Price Update
+    public function updateCorporatePrice(Request $request){
+        $date = date('Y-m-d H:i:s');
+
+        # Set validation for
+        $this->validate($request, [
+            'corporate_name' => 'required',
+            'ub_price' => 'required',
+        ]);
+
+        $id = $request->corporate_id;
+        $corporate_name = $request->corporate_name;
+        $ub_price = $request->ub_price;
+
+        // Add Price
+        $edit = DB::table('corporate_price')->where('id', $id)->update([
+            'ub_name' => $corporate_name,
+            'todays_price' => $ub_price,
+            'updated_at' => $date
+        ]);
+
+        if($edit)
+        {
+            $status = 'Price Updated successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('today_price')->with('status', $status);
+    }
+
     //delete today price name
     public function today_delete(Request $request)
     {
@@ -519,5 +555,13 @@ class CommodityController extends Controller
         }
 
         return redirect('today_price')->with('status', $status);
-    } 
+    }
+
+    //Get Corporate Single Details
+    public function getCorporateDetails(Request $request)
+    {
+        $id = $request->id;
+        $data = DB::table('corporate_price')->where('id', $id)->first();
+        echo json_encode($data);
+    }
 }

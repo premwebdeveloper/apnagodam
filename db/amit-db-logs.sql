@@ -94,3 +94,6 @@ ALTER TABLE `mandi_samitis` ADD `class` VARCHAR(2) NULL AFTER `name`, ADD `secre
 
 -- ------------------- ALTER TABLE `warehouse_rent_rates` at 04-02-2020 ------------------
 ALTER TABLE `warehouse_rent_rates` ADD `state` VARCHAR(10) NULL AFTER `district`;
+
+-- ------------------- ALTER TABLE `buy_sells` at 15-02-2020 ------------------
+ALTER TABLE `buy_sells` ADD `todays_price` VARCHAR(30) NULL AFTER `price`, ADD `bid_type` TINYINT NULL DEFAULT '1' COMMENT '1 For E-Mandi, 2 for Corporate Buying' AFTER `todays_price`;

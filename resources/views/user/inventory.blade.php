@@ -66,13 +66,17 @@
                                             </td>
                                             <td>{{ date('d-M-Y', strtotime($inventory->created_at)) }}</td>
                                             <td>
-                                                <a href="javascript:;" id="{{ $inventory->id }}_{{ $inventory->quantity }}" class="btn btn-primary btn-xs want_to_sell" title="Edit Price">
-                                                    Want To Sell
-                                                </a>
-
+                                                
                                                 @if(!empty($inventory->sell_quantity) &&  $inventory->sell_quantity != 0)
+                                                    <a href="javascript:;" data-id="{{ $inventory->id }}_{{ $inventory->quantity }}_{{ $inventory->cat_name }}" class="e_mandi btn btn-primary btn-xs" title="Update Price">
+                                                        Update Price
+                                                    </a>
                                                     <a href="{{ route('bidding', ['inventory_id' => $inventory->id]) }}" class="btn btn-warning btn-xs" title="Edit Price">
                                                         My Bids
+                                                    </a>
+                                                @else
+                                                    <a href="javascript:;" id="{{ $inventory->id }}_{{ $inventory->quantity }}_{{ $inventory->cat_name }}" class="btn btn-primary btn-xs want_to_sell" title="Edit Price">
+                                                        Want To Sell
                                                     </a>
                                                 @endif
                                                 @if(!in_array($inventory->id, $alll_loan))
@@ -108,6 +112,17 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $(".e_mandi").on('click', function(){
+            $('#update_price').val('');
+            var data = $(this).attr('data-id');
+            var temp = data.split('_');
+            $("#invetory_id").val(temp[0]);
+            $("#sell_quantity").val(temp[1]);
+            $("#sell_quantity").attr('max', temp[1]);
+            $("#sell_for_change").modal('hide');
+            $("#edit_price").modal('show');
+        });
+
         $(".want_to_sell").on('click', function(){
 
             $('#update_price').val('');
@@ -134,7 +149,16 @@
                         $('#update_price').val(response)                              
                     }
 
-                    $("#edit_price").modal('show');
+                    if(temp[2] == 'BARLEY' || temp[2] == 'Barley')
+                    {
+                        var res = temp[0]+"_"+temp[1];
+                        $('#e_mandi').attr('data-id', res);
+                        $("#sell_for_change").modal('show');
+                        var url = '<?= url('/'); ?>/corporate_buying/'+temp[0];
+                        $('#corporate_buying').attr('href', url);
+                    }else{
+                        $("#edit_price").modal('show');
+                    }
                 },
                 error: function(data){
                     console.log(data);
@@ -192,9 +216,6 @@
                     data : {"_token": "{{ csrf_token() }}", 'inventory_id' : seller_inventory_id, 'quantity' : quantity, 'loan_amount' : loan_amount, 'loan_per_total_amount' : loan_per_total_amount},
                     success:function(response){
 
-                        // console.log(response);
-                        // console.log(response);
-
                         if(response == 0){
 
                             $('.warning').html('Ask Administrator to update today`s price for the commodity, You are appling to loan for.');
@@ -220,12 +241,36 @@
     });
 </script>
 
-<!-- Modal Open -->
+<div class="modal fade" id="sell_for_change" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h2 class="modal-title" style="padding-left: 10px;">Want to Sell on</h2>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="row">
+                    <div class="col-md-12 m-b-10">
+                        <a style="width: 100%;" class="btn btn-sm btn-info e_mandi" title="">E-Mandi</a>
+                    </div>
+                    <div class="col-md-12">
+                        <a href="" style="width: 100%;" class="btn btn-sm btn-info" id="corporate_buying" title="">Corporate Buying</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="edit_price" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h2 class="modal-title" style="padding-left: 10px;">Want to Sell</h2>
+                <h2 class="modal-title" style="padding-left: 10px;">Want to Sell on E-Mandi</h2>
             </div>
             <form action="{{ route('buy_sell_price_update') }}" method="post">
                 {{ csrf_field() }}
@@ -256,9 +301,7 @@
         </div>
     </div>
 </div>
-<!-- Modal Close -->
 
-<!-- Modal -->
 <div id="apply_for_loan_modal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
 

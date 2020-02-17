@@ -74,7 +74,7 @@ class LeadController extends Controller
             'customer_name'   => 'required',
             'quantity'    => 'required|numeric',
             'location'    => 'required',
-            'phone'        => 'required|numeric|digits:10',
+            'phone'        => 'required|numeric|digits:10|unique:apna_leads',
             'commodity_id'      => 'required|numeric',
             'terminal_id'      => 'required|numeric',
             'commodity_date'      => 'required|date',

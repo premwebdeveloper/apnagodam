@@ -48,7 +48,8 @@
                                     <th>Terminal</th>
                                     <th>Commodity</th>
                                     <th>Net Weight (Qtl.)</th>
-                                    <th>Price</th>
+                                    <th>Today's Price</th>
+                                    <th>Bid Price</th>
                                     <th>Done Date</th>
                                     @if($role->role_id == 1)
                                         <th>Action</th>
@@ -76,6 +77,7 @@
                                         <td>{!! $done_deal->warehouse !!}</td>
                                         <td>{!! $done_deal->category !!}</td>
                                         <td>{!! $done_deal->quantity !!}</td>
+                                        <td>{!! $done_deal->todays_price !!}</td>
                                         <td>{!! $done_deal->price !!}</td>
                                         <td>{!! date('d M Y', strtotime($done_deal->updated_at)) !!}</td>
 
@@ -157,7 +159,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Add Payment Referance Number</h4>
+        <h4 class="modal-title">Add Payment Reference Number</h4>
       </div>
       <div class="modal-body">
         <div class="row">                        
@@ -165,8 +167,8 @@
                     <input type="hidden" name="id" id="ref_payment_id">
                     <div class="col-md-12">
                         <div class="form-group">
-                            {!! Form::label('payment_ref_no', 'Payment Referance Number') !!}
-                            {!! Form::text('payment_ref_no', '', ['class' => 'form-control', 'id' => 'payment_gate_pass', 'placeholder' => 'Payment Referance Number']) !!}
+                            {!! Form::label('payment_ref_no', 'Payment Reference Number') !!}
+                            {!! Form::text('payment_ref_no', '', ['class' => 'form-control', 'id' => 'payment_gate_pass', 'placeholder' => 'Payment Reference Number']) !!}
 
                             @if($errors->has('payment_ref_no'))
                                 <span class="help-block red">
