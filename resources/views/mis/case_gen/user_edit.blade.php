@@ -240,7 +240,7 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    {!! Form::submit('Edit User', ['class' => 'btn btn-info btn btn-block']) !!}
+                                    {!! Form::submit('Edit User', ['class' => 'btn btn-info btn btn-block', 'onclick' => 'submitForm(this);']) !!}
                                 </div>
                             </div>
 

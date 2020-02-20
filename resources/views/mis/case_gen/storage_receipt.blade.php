@@ -7,13 +7,13 @@ $role_id = $role->role_id;
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-6">
-        <h2>Gate Pass </h2>
+        <h2>Storage Receipt</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>Gate Pass </strong>
+                <strong>Storage Receipt</strong>
             </li>
         </ol>
     </div>
@@ -22,17 +22,17 @@ $role_id = $role->role_id;
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-	        <div class="ibox float-e-margins">
+            <div class="ibox float-e-margins">
                 <div class="ibox-title">
-	                <h5>Gate Pass List</h5>
-	                <div class="ibox-tools">
-	                    <a class="collapse-link">
-	                        <i class="fa fa-chevron-up"></i>
-	                    </a>
-	                </div>
-	            </div>
+                    <h5>Storage Receipt</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
 
-	            <div class="ibox-content">
+                <div class="ibox-content">
                     @if(session('status'))
                         <div class="alert alert-success alert-dismissible">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -47,53 +47,39 @@ $role_id = $role->role_id;
                     @endif
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
-	                        <thead>
-	                            <tr>
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                                <tr>
                                     <th>#</th>
-                                    <th>Get Pass</th>
+                                    <th>Storage Receipt</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
-                                    <!-- <th>Total. Qty(Qtl)</th>
-                                    <th>Gate Pass No.</th>
-                                    <th>Bags</th>
-                                    <th>Stack No.</th>
-                                    <th>Lot No.</th> -->
-                                    <th>Gate Pass File</th>
+                                    <th>Storage Receipt File</th>
                                     <th>Notes</th>
-	                            </tr>
-	                        </thead>
-	                        <tbody>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $pricing)
-	                                <tr class="gradeX">
+                                    <?php
+                                        $check_status = DB::table('apna_case_warehouse_receipt')->where('case_id', $pricing->case_id)->first();
+                                    ?>
+                                    <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
                                             @if($pricing->file)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if($pricing->in_out == 'PASS')
-                                                        <?php
-                                                            $check_status = DB::table('apna_case_second_kanta_parchi')->where('case_id', $pricing->case_id)->first();
-                                                        ?>
-                                                        @if((($currentuserid == $pricing->lead_conv_uid) && ($check_status)) || (($role_id == 8) && ($check_status)))
-                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Gate Pass</a>
-                                                        @else
-                                                            <span class="text-navy">Processing...</span>
-                                                        @endif
-                                                    @elseif($pricing->in_out == 'IN' || $pricing->in_out == 'OUT')
-                                                        <?php
-                                                            $check_status = DB::table('apna_case_second_quality_report')->where('case_id', $pricing->case_id)->first();
-                                                        ?>
-                                                        @if((($currentuserid == $pricing->lead_conv_uid) && ($check_status)) || (($role_id == 8) && ($check_status)))
-                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Gate Pass</a>
+                                                @if($role_id == 1 || $role_id == 3 || $role_id == 8)
+                                                    @if($pricing->in_out == 'IN')
+                                                        @if($check_status)
+                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Storage Receipt</a>
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
                                                     @else
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
-
                                                 @else
                                                     <span class="text-navy">In Process</span>
                                                 @endif
@@ -101,11 +87,6 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $pricing->case_id !!}</td>
                                         <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
-                                       <!--  <td>{!! $pricing->total_weight !!}</td>
-                                       <td>{!! $pricing->gate_pass_no !!}</td>
-                                       <td>{!! $pricing->bags !!}</td>
-                                       <td>{!! $pricing->stack_no !!}</td>
-                                       <td>{!! $pricing->lot_no !!}</td> -->
                                         <td>
                                             @if($pricing->file)
                                                 <a class="view_report" data-id="{{ $pricing->file }}"><i class="fa fa-eye"></i></a>
@@ -113,14 +94,14 @@ $role_id = $role->role_id;
                                             @endif
                                         </td>
                                         <td>{!! $pricing->notes !!}</td>
-	                                </tr>
+                                    </tr>
                                 @endforeach
-	                        </tbody>
-	                    </table>
-	                </div>
-	            </div>
-	        </div>
-    	</div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -131,61 +112,20 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Upload Gate Pass</h4>
+                <h4 class="modal-title">Upload Storage Receipt</h4>
             </div>
             <div class="modal-body">
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
-                {!! Form::open(array('url' => 'addGatePass', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
+                {!! Form::open(array('url' => 'addStorageReceipt', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
                 {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
                     @csrf
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <!-- <div class="col-md-4">
-                                {!! Form::label('gate_pass_no', 'Gate Pass No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('gate_pass_no', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Gate Pass No.']) !!}
-                            
-                                @if($errors->has('gate_pass_no'))
-                                    <span class="text-red" role="alert">
-                                        <strong class="red">{{ $errors->first('gate_pass_no') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="col-md-4">
-                                {!! Form::label('bags', 'Bags', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('bags', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Number of Bags']) !!}
-                            
-                                @if($errors->has('bags'))
-                                    <span class="text-red" role="alert">
-                                        <strong class="red">{{ $errors->first('bags') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="col-md-4">
-                                {!! Form::label('stack_no', 'Stack No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('stack_no', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Stack No.']) !!}
-                            
-                                @if($errors->has('stack_no'))
-                                    <span class="text-red" role="alert">
-                                        <strong class="red">{{ $errors->first('stack_no') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
-                                    {!! Form::label('lot_no', 'Lot No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                    {!! Form::text('lot_no', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Lot No.']) !!}
-                            
-                                    @if($errors->has('lot_no'))
-                                        <span class="text-red" role="alert">
-                                            <strong class="red">{{ $errors->first('lot_no') }}</strong>
-                                        </span>
-                                    @endif
-                                </div> -->
-                            <div class="col-md-4">
-                                <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'Gate Pass File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::label('report_file', 'CCTV File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                                     {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
 
                                     @if($errors->has('report_file'))
@@ -197,7 +137,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-8">
                                 {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
+                                {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
 
                                 @if($errors->has('notes'))
                                     <span class="text-red" role="alert">
@@ -225,7 +165,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Gate Pass File</h4>
+                <h4 class="modal-title">CCTV File</h4>
             </div>
             <div class="modal-body">                
                 <div class="row">
@@ -260,7 +200,7 @@ $role_id = $role->role_id;
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');
-            var full_url = "<?= url('/'); ?>/resources/assets/upload/gate_pass/"+file
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/cctv/"+file
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });

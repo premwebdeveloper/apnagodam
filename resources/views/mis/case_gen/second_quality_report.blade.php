@@ -71,9 +71,7 @@ $role_id = $role->role_id;
 	                        <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $quality_report)
-                                    <?php
-                                        $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
-                                    ?>
+                                    
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
@@ -81,10 +79,25 @@ $role_id = $role->role_id;
                                             <span class="text-navy">Done</span>
                                             @else
                                                 @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if(($check_status) && ($currentuserid == $quality_report->lead_conv_uid || $role_id == 1 || $role_id == 8))
-                                                        <a data-id="{!! $quality_report->case_id !!}" id='{!! $quality_report->cust_fname." ".$quality_report->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                    @if($quality_report->in_out == 'PASS')
+                                                        <?php
+                                                            $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
+                                                        ?>
+                                                        @if(($check_status) && ($currentuserid == $quality_report->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                            <a data-id="{!! $quality_report->case_id !!}" id='{!! $quality_report->cust_fname." ".$quality_report->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @elseif($quality_report->in_out == 'IN' || $quality_report->in_out == 'OUT')
+                                                        <?php
+                                                            $check_status = DB::table('apna_case_second_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
+                                                        ?>
+                                                        @if(($check_status) && ($currentuserid == $quality_report->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                            <a data-id="{!! $quality_report->case_id !!}" id='{!! $quality_report->cust_fname." ".$quality_report->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @else
-                                                        <span class="text-navy">Processing...</span>
                                                     @endif
                                                 @else
                                                     <span class="text-navy">In Process</span>
@@ -256,7 +269,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}

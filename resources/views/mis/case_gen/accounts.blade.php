@@ -56,6 +56,7 @@ $role_id = $role->role_id;
                                     <th>Customer Name</th>
                                     <th>Phone</th>
                                     <th>Vikray Parchi</th>
+                                    <th>Inventory</th>
                                     <th>Tally Updation</th>
                                     <th>Cold Win Entry</th>
                                     <th>WHS Issuation</th>
@@ -80,18 +81,55 @@ $role_id = $role->role_id;
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($role_id == 1 || $role_id == 3 || $role_id == 8)
-                                                    @if($check_status)
-                                                        @if($check_status->transaction_type == 'E-Mandi')
-                                                            @if($check_emandi)
-                                                                <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
+                                                    @if($accounts->in_out == 'PASS')
+                                                        @if($check_status)
+                                                            @if($check_status->transaction_type == 'E-Mandi')
+                                                                @if($check_emandi)
+                                                                    <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
+                                                                @else
+                                                                    <span class="text-navy">Processing...</span>
+                                                                @endif
                                                             @else
                                                                 <span class="text-navy">Processing...</span>
                                                             @endif
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
-                                                    @else
-                                                        <span class="text-navy">Processing...</span>
+                                                    @elseif($accounts->in_out == 'IN')
+                                                        <?php
+                                                        $check_emandi = DB::table('apna_case_cdf')->where('case_id', $accounts->case_id)->first();
+                                                        ?>
+                                                        @if($check_status)
+                                                            @if($check_status->transaction_type == 'E-Mandi')
+                                                                @if($check_emandi)
+                                                                    <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
+                                                                @else
+                                                                    <span class="text-navy">Processing...</span>
+                                                                @endif
+                                                            @else
+                                                                <span class="text-navy">Processing...</span>
+                                                            @endif
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    
+                                                    @elseif($accounts->in_out == 'OUT')
+                                                        <?php
+                                                        $check_emandi = DB::table('apna_case_commodity_withdrawal')->where('case_id', $accounts->case_id)->first();
+                                                        ?>
+                                                        @if($check_status)
+                                                            @if($check_status->transaction_type == 'E-Mandi')
+                                                                @if($check_emandi)
+                                                                    <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
+                                                                @else
+                                                                    <span class="text-navy">Processing...</span>
+                                                                @endif
+                                                            @else
+                                                                <span class="text-navy">Processing...</span>
+                                                            @endif
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @endif
                                                 @else
                                                     <span class="text-navy">In Process</span>
@@ -102,6 +140,7 @@ $role_id = $role->role_id;
                                         <td>{!! $accounts->cust_fname." ".$accounts->cust_lname !!}</td>
                                         <td>{!! $accounts->phone !!}</td>
                                         <td>{!! $accounts->vikray_parchi !!}</td>
+                                        <td>{!! $accounts->inventory !!}</td>
                                         <td>{!! $accounts->tally_updation !!}</td>
                                         <td>{!! $accounts->cold_win_entry !!}</td>
                                         <td>{!! $accounts->whs_issulation !!}</td>
@@ -173,6 +212,16 @@ $role_id = $role->role_id;
                                 @if($errors->has('whs_issulation'))
                                     <span class="text-red" role="alert">
                                         <strong class="red">{{ $errors->first('whs_issulation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-6">
+                                {!! Form::label('inventory', 'Inventory', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::select('inventory', array('' => 'Select', 'Yes' => 'Yes', 'No' => 'No'), '', ['class' => 'form-control', 'required' => 'required', 'id' => '']); !!}
+
+                                @if($errors->has('inventory'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('inventory') }}</strong>
                                     </span>
                                 @endif
                             </div>

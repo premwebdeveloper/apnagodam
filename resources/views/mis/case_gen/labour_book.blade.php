@@ -77,7 +77,7 @@ $role_id = $role->role_id;
                                             @else
                                                 @if($role_id == 1 || $role_id == 8 || $role_id == 11)
                                                     @if($check_status)
-                                                        <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
+                                                        <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Labour</a>
                                                     @else
                                                         <span class="text-navy">Processing...</span>
                                                     @endif
@@ -114,7 +114,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Upload Kanta Parchi</h4>
+                <h4 class="modal-title">Upload Labour</h4>
             </div>
             <div class="modal-body">
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
@@ -209,7 +209,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}

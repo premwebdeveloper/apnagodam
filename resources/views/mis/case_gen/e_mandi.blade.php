@@ -72,7 +72,6 @@ $role_id = $role->role_id;
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-
                                                     @if(($check_status))
                                                         @if($check_pricing->transaction_type == 'E-Mandi')
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update E-Mandi</a>
@@ -151,7 +150,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}

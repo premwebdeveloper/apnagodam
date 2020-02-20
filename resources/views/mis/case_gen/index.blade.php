@@ -5,6 +5,7 @@ $currentuserid = Auth::user()->id;
 $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
 $role_id = $role->role_id;
 ?>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-6">
         <h2>All Case </h2>
@@ -47,10 +48,28 @@ $role_id = $role->role_id;
                                 
                                 <div class="col-md-3">
                                     {!! Form::label('customer_uid', 'Customer', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::select('customer_uid', $customers, '', ['class' => 'form-control', 'required' => 'required']); !!}
+                                    {!! Form::select('customer_uid', $customers, '', ['class' => 'form-control', 'id' => 'customer', 'required' => 'required']); !!}
                                     @if($errors->has('customer_uid'))
                                         <span class="text-red" role="alert">
                                             <strong class="red">{{ $errors->first('customer_uid') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-md-3">
+                                    {!! Form::label('in_out', 'In / Out', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                    {!! Form::select('in_out', array('IN' => 'IN', 'OUT' => 'OUT', 'PASS' => 'PASS'), '', ['class' => 'form-control', 'id' => 'in_out', 'required' => 'required']); !!}
+                                    @if($errors->has('in_out'))
+                                        <span class="text-red" role="alert">
+                                            <strong class="red">{{ $errors->first('in_out') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-md-3">
+                                    {!! Form::label('purpose', 'Purpose', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                    {!! Form::select('purpose', array('For Sale' => 'For Sale', 'For Storage' => 'For Storage'), '', ['class' => 'form-control', 'id' => 'purpose', 'required' => 'required']); !!}
+                                    @if($errors->has('purpose'))
+                                        <span class="text-red" role="alert">
+                                            <strong class="red">{{ $errors->first('purpose') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -104,7 +123,7 @@ $role_id = $role->role_id;
                                 </div>
                                 <div class="col-md-3">
                                     {!! Form::label('vehicle_no', 'Vehicle No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::text('vehicle_no', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Vehicle / Truck No.']) !!}
+                                    {!! Form::text('vehicle_no', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'style' => 'text-transform: uppercase;','placeholder' => 'Enter Vehicle / Truck No.']) !!}
 
                                     @if($errors->has('vehicle_no'))
                                         <span class="text-red" role="alert">
@@ -114,7 +133,7 @@ $role_id = $role->role_id;
                                 </div>
                                 <div class="col-md-3">
                                     {!! Form::label('lead_generator', 'Lead Generator', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::select('lead_generator', array(), '', ['class' => 'form-control', 'required' => 'required', 'id' => 'lead_gen', 'readonly' => 'readonly']); !!}
+                                    {!! Form::select('lead_generator', array(), '', ['class' => 'form-control', 'id' => 'lead_gen', 'readonly' => 'readonly']); !!}
 
                                     @if($errors->has('lead_generator'))
                                         <span class="text-red" role="alert">
@@ -131,26 +150,9 @@ $role_id = $role->role_id;
                                         </span>
                                     @endif
                                 </div>
-                                <div class="col-md-3">
-                                    {!! Form::label('in_out', 'In / Out', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::select('in_out', array('IN' => 'IN', 'OUT' => 'OUT', 'PASS' => 'PASS'), '', ['class' => 'form-control', 'id' => 'in_out', 'required' => 'required']); !!}
-                                    @if($errors->has('in_out'))
-                                        <span class="text-red" role="alert">
-                                            <strong class="red">{{ $errors->first('in_out') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="col-md-3">
-                                    {!! Form::label('purpose', 'Purpose', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::select('purpose', array('For Sale' => 'For Sale', 'For Storage' => 'For Storage'), '', ['class' => 'form-control', 'id' => 'purpose', 'required' => 'required']); !!}
-                                    @if($errors->has('purpose'))
-                                        <span class="text-red" role="alert">
-                                            <strong class="red">{{ $errors->first('purpose') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                                
                                 <div class="col-md-12 m-t-25">
-                                    {!! Form::submit('Ceate Case', ['class' => 'btn btn-info form-control b-info']) !!}
+                                    {!! Form::submit('Ceate Case', ['class' => 'btn btn-info form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                                 </div>
                             {!! Form::close() !!}
                         </div>
@@ -244,13 +246,43 @@ $role_id = $role->role_id;
 
 <script type="text/javascript">
     $(document).ready(function(){
+
+        // Initialize select2
+        $("#customer").select2({
+            matcher: function(params, data) {
+                // If there are no search terms, return all of the data
+                if ($.trim(params.term) === '') { return data; }
+
+                // Do not display the item if there is no 'text' property
+                if (typeof data.text === 'undefined') { return null; }
+
+                // `params.term` is the user's search term
+                // `data.id` should be checked against
+                // `data.text` should be checked against
+                var q = params.term.toLowerCase();
+                if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
+                    return $.extend({}, data, true);
+                }
+
+                // Return `null` if the term should not be displayed
+                return null;
+            }
+        });
+
+        // Read selected option
+        $('#but_read').click(function(){
+            var username = $('#customer option:selected').text();
+            var userid = $('#customer').val();
+        });
+
+
         $('#addEmp').on('click', function(){
             $('#addEmployee').modal('show');
         });
 
 
         //Get Lead Generator and Mobile Number of Customer
-        $('#customer_uid').on('change', function(){
+        $('#customer').on('change', function(){
             var id = $(this).val();
             $.ajax({
                 method : 'post',
@@ -279,7 +311,7 @@ $role_id = $role->role_id;
         //Change In / Out
         $('#in_out').on('change', function(){
             var option = '';
-            if($(this).val() == 'OUT')
+            if($(this).val() == 'OUT' || $(this).val() == 'PASS')
             {
                 option = '<option value="For Sale">For Sale</option>';
                 $('#purpose').html(option);
@@ -290,4 +322,5 @@ $role_id = $role->role_id;
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 @endsection

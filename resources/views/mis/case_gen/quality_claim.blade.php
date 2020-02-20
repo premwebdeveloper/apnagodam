@@ -64,6 +64,7 @@ $role_id = $role->role_id;
                                     <th>BS Level (%)</th>
                                     <th>Infested (%)</th>
                                     <th>Live Insects</th>
+                                    <th>Quality Discount</th>
                                     <th>Report</th>
                                     <th>Notes</th>
 	                            </tr>
@@ -71,9 +72,6 @@ $role_id = $role->role_id;
 	                        <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $quality_claim)
-                                    <?php
-                                        $check_status = DB::table('apna_case_shipping_end')->where('case_id', $quality_claim->case_id)->first();
-                                    ?>
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
@@ -81,10 +79,25 @@ $role_id = $role->role_id;
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if(($check_status) && ($currentuserid == $quality_claim->lead_conv_uid || $role_id == 1 || $role_id == 8))
-                                                        <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                    @if($quality_claim->in_out == 'PASS' || $quality_claim->in_out == 'OUT')
+                                                        <?php
+                                                            $check_status = DB::table('apna_case_shipping_end')->where('case_id', $quality_claim->case_id)->first();
+                                                        ?>
+                                                        @if(($check_status) && ($currentuserid == $quality_claim->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                            <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @elseif($quality_claim->in_out == 'IN')
+                                                        <?php
+                                                            $check_status = DB::table('apna_case_e_mandi')->where('case_id', $quality_claim->case_id)->first();
+                                                        ?>
+                                                        @if(($check_status) && ($currentuserid == $quality_claim->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                            <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @else
-                                                        <span class="text-navy">Processing...</span>
                                                     @endif
                                                 @else
                                                     <span class="text-navy">In Process</span>
@@ -102,6 +115,7 @@ $role_id = $role->role_id;
                                         <td>{!! $quality_claim->damage !!}</td>
                                         <td>{!! $quality_claim->black_smith !!}</td>
                                         <td>{!! $quality_claim->infested !!}</td>
+                                        <td>{!! $quality_claim->quality_discount_value !!}</td>
                                         <td>{!! $quality_claim->live_insects !!}</td>
                                         <td>
                                             @if($quality_claim->imge)
@@ -142,7 +156,7 @@ $role_id = $role->role_id;
                         <div class="col-md-9">
                             <div class="col-md-4">
                                 {!! Form::label('moisture_level', 'Moisture Level(%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('moisture_level', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Moisture Level(%)']) !!}
+                                {!! Form::number('moisture_level', '', ['class' => 'form-control', 'step' => 'any', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Moisture Level(%)']) !!}
 
                                 @if($errors->has('moisture_level'))
                                     <span class="text-red" role="alert">
@@ -152,7 +166,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('thousand_crown_w', 'TCW', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('thousand_crown_w', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Thousand Crown Weight']) !!}
+                                {!! Form::number('thousand_crown_w', '', ['class' => 'form-control', 'step' => 'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Thousand Crown Weight']) !!}
 
                                 @if($errors->has('thousand_crown_w'))
                                     <span class="text-red" role="alert">
@@ -162,7 +176,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('broken', 'Broken (BK)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('broken', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Broken']) !!}
+                                {!! Form::number('broken', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'Enter Broken']) !!}
 
                                 @if($errors->has('broken'))
                                     <span class="text-red" role="alert">
@@ -172,7 +186,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('foreign_matter', 'FM Level %', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('foreign_matter', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Foreign Matter (FM Level %)']) !!}
+                                {!! Form::number('foreign_matter', '', ['class' => 'form-control', 'step' => 'any', 'autocomplete' => 'off', 'placeholder' => 'Foreign Matter (FM Level %)']) !!}
 
                                 @if($errors->has('foreign_matter'))
                                     <span class="text-red" role="alert">
@@ -182,7 +196,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('thin', 'Thin (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('thin', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Thin (%)']) !!}
+                                {!! Form::number('thin', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'Thin (%)']) !!}
 
                                 @if($errors->has('thin'))
                                     <span class="text-red" role="alert">
@@ -192,7 +206,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('damage', 'Damage (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('damage', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Damage (%)']) !!}
+                                {!! Form::number('damage', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'Damage (%)']) !!}
 
                                 @if($errors->has('damage'))
                                     <span class="text-red" role="alert">
@@ -202,7 +216,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('black_smith', 'BS Level (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('black_smith', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'BS Level (%)']) !!}
+                                {!! Form::number('black_smith', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'BS Level (%)']) !!}
 
                                 @if($errors->has('black_smith'))
                                     <span class="text-red" role="alert">
@@ -212,7 +226,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('infested', 'Infested (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('infested', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Infested (%)']) !!}
+                                {!! Form::number('infested', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'Infested (%)']) !!}
 
                                 @if($errors->has('infested'))
                                     <span class="text-red" role="alert">
@@ -222,11 +236,21 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('live_insects', 'Live Insects (In Count)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('live_insects', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Live Insects (In Count)']) !!}
+                                {!! Form::number('live_insects', '', ['class' => 'form-control', 'step' => 'any', 'autocomplete' => 'off', 'placeholder' => 'Live Insects (In Count)']) !!}
 
                                 @if($errors->has('live_insects'))
                                     <span class="text-red" role="alert">
                                         <strong class="red">{{ $errors->first('live_insects') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                {!! Form::label('quality_discount_value', 'Quality Discount Value', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                {!! Form::number('quality_discount_value', '', ['class' => 'form-control', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Quality Discount Value']) !!}
+
+                                @if($errors->has('quality_discount_value'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('quality_discount_value') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -256,7 +280,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}

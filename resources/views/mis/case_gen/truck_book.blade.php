@@ -76,10 +76,7 @@ $role_id = $role->role_id;
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                @foreach($case_gen as $key => $truck_book)
-                                    <?php
-                                        $check_status = DB::table('apna_case_pricing')->where('case_id', $truck_book->case_id)->first();
-                                    ?>
+                                @foreach($case_gen as $key => $truck_book)                                   
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
@@ -87,10 +84,24 @@ $role_id = $role->role_id;
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($role_id == 1 || $role_id == 8 || $role_id == 11)
-                                                    @if($check_status)
-                                                        <a data-id="{!! $truck_book->case_id !!}" id='{!! $truck_book->cust_fname." ".$truck_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Details</a>
+                                                    @if($truck_book->in_out == 'PASS' || $truck_book->in_out == 'IN')
+                                                        <?php
+                                                        $check_status = DB::table('apna_case_pricing')->where('case_id', $truck_book->case_id)->first();
+                                                        ?>
+                                                        @if($check_status)
+                                                            <a data-id="{!! $truck_book->case_id !!}" id='{!! $truck_book->cust_fname." ".$truck_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Details</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @else
-                                                        <span class="text-navy">Processing...</span>
+                                                        <?php
+                                                        $check_status = DB::table('apna_case_delivery_order')->where('case_id', $truck_book->case_id)->first();
+                                                        ?>
+                                                        @if($check_status)
+                                                            <a data-id="{!! $truck_book->case_id !!}" id='{!! $truck_book->cust_fname." ".$truck_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Details</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @endif
                                                 @else
                                                     <span class="text-navy">In Process</span>
@@ -136,7 +147,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Upload Kanta Parchi</h4>
+                <h4 class="modal-title">Upload Truck Book</h4>
             </div>
             <div class="modal-body">
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
@@ -313,7 +324,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
+                                {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'onclick' => 'submitForm(this);', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
 
                                 @if($errors->has('notes'))
                                     <span class="text-red" role="alert">
@@ -325,7 +336,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}
@@ -379,6 +390,7 @@ $role_id = $role->role_id;
             $('#viewQualityReport').modal('show');
         });
         $('.datetimepicker').datetimepicker();
+     });
     });
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />

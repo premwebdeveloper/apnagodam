@@ -63,33 +63,35 @@ $role_id = $role->role_id;
 	                        <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $shipping_start)
-                                    <?php
-                                        $check_status = DB::table('apna_case_shipping_start')->where('case_id', $shipping_start->case_id)->first();
-                                    ?>
-	                                <tr class="gradeX">
-                                        <td>{{ ++$key }}</td>
-                                        <td>
-                                            @if($shipping_start->location)
-                                                <span class="text-navy">Done</span>
-                                            @else
-                                                @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if(($check_status) && ($currentuserid == $shipping_start->lead_conv_uid || $role_id == 1 || $role_id == 8))
-                                                        <a data-id="{!! $shipping_start->case_id !!}" id='{!! $shipping_start->cust_fname." ".$shipping_start->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Shipping End</a>
-                                                    @else
-                                                        <span class="text-navy">Processing...</span>
-                                                    @endif
+                                    @if($shipping_start->in_out == 'PASS' || $shipping_start->in_out == 'OUT')
+                                        <?php
+                                            $check_status = DB::table('apna_case_shipping_start')->where('case_id', $shipping_start->case_id)->first();
+                                        ?>
+    	                                <tr class="gradeX">
+                                            <td>{{ ++$key }}</td>
+                                            <td>
+                                                @if($shipping_start->location)
+                                                    <span class="text-navy">Done</span>
                                                 @else
-                                                    <span class="text-navy">In Process</span>
+                                                    @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
+                                                        @if(($check_status) && ($currentuserid == $shipping_start->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                            <a data-id="{!! $shipping_start->case_id !!}" id='{!! $shipping_start->cust_fname." ".$shipping_start->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Shipping End</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </td>
-                                        <td>{!! $shipping_start->case_id !!}</td>
-                                        <td>{!! $shipping_start->cust_fname." ".$shipping_start->cust_lname !!}</td>
-                                        <td>{!! $shipping_start->date_time !!}</td>
-                                        <td>{!! $shipping_start->location !!}</td> 
-                                        <td>{!! $shipping_start->notes !!}</td>
-                                        <td>{!! $shipping_start->user_fname." ".$shipping_start->user_lname !!}</td>
-	                                </tr>
+                                            </td>
+                                            <td>{!! $shipping_start->case_id !!}</td>
+                                            <td>{!! $shipping_start->cust_fname." ".$shipping_start->cust_lname !!}</td>
+                                            <td>{!! $shipping_start->date_time !!}</td>
+                                            <td>{!! $shipping_start->location !!}</td> 
+                                            <td>{!! $shipping_start->notes !!}</td>
+                                            <td>{!! $shipping_start->user_fname." ".$shipping_start->user_lname !!}</td>
+    	                                </tr>
+                                    @endif
                                 @endforeach
 	                        </tbody>
 	                    </table>
@@ -154,7 +156,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}

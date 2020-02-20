@@ -61,9 +61,6 @@ $role_id = $role->role_id;
 	                        <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $kanta_parchi)
-                                    <?php
-                                        $check_status = DB::table('apna_case_second_quality_report')->where('case_id', $kanta_parchi->case_id)->first();
-                                    ?>
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
@@ -71,10 +68,22 @@ $role_id = $role->role_id;
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if(($check_status) && ($currentuserid == $kanta_parchi->lead_conv_uid || $role_id == 1 || $role_id == 8))
-                                                        <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
+                                                    @if($kanta_parchi->in_out == 'PASS')
+                                                        <?php
+                                                        $check_status = DB::table('apna_case_second_quality_report')->where('case_id', $kanta_parchi->case_id)->first();?>
+                                                        @if(($check_status) && ($currentuserid == $kanta_parchi->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                            <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @elseif($kanta_parchi->in_out == 'IN' || $kanta_parchi->in_out == 'OUT')
+                                                        <?php
+                                                        $check_status = DB::table('apna_case_quality_report')->where('case_id', $kanta_parchi->case_id)->first();
+                                                        ?>
+                                                        @if(($check_status) && ($currentuserid == $kanta_parchi->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                            <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @else
-                                                        <span class="text-navy">Processing...</span>
                                                     @endif
                                                 @else
                                                     <span class="text-navy">In Process</span>
@@ -157,7 +166,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}

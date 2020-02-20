@@ -7,13 +7,13 @@ $role_id = $role->role_id;
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-6">
-        <h2>Payment Received</h2>
+        <h2>Commodity Deposit</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>Payment Received</strong>
+                <strong>Commodity Deposit</strong>
             </li>
         </ol>
     </div>
@@ -24,7 +24,7 @@ $role_id = $role->role_id;
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Payment Received</h5>
+                    <h5>Commodity Deposit</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -51,46 +51,48 @@ $role_id = $role->role_id;
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Payment Received</th>
+                                    <th>Commodity Deposit</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
-                                    <th>Payment Received File</th>
+                                    <th>Commodity Deposit File</th>
                                     <th>Notes</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $pricing)
-                                    <?php
-                                        $check_status = DB::table('apna_case_labour_payment')->where('case_id', $pricing->case_id)->first();
-                                    ?>
-                                    <tr class="gradeX">
-                                        <td>{{ ++$key }}</td>
-                                        <td>
-                                            @if($pricing->file)
-                                                <span class="text-navy">Done</span>
-                                            @else
-                                                @if($role_id == 1 || $role_id == 3 || $role_id == 8)
-                                                    @if($check_status)
-                                                        <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Payment Received</a>
-                                                    @else
-                                                        <span class="text-navy">Processing...</span>
-                                                    @endif
+                                    @if($pricing->in_out == 'IN')
+                                        <?php
+                                            $check_status = DB::table('apna_case_cctv')->where('case_id', $pricing->case_id)->first();
+                                        ?>
+                                        <tr class="gradeX">
+                                            <td>{{ ++$key }}</td>
+                                            <td>
+                                                @if($pricing->file)
+                                                    <span class="text-navy">Done</span>
                                                 @else
-                                                    <span class="text-navy">In Process</span>
+                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
+                                                        @if($check_status)
+                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Commodity Deposit</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </td>
-                                        <td>{!! $pricing->case_id !!}</td>
-                                        <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
-                                        <td>
-                                            @if($pricing->file)
-                                                <a class="view_report" data-id="{{ $pricing->file }}"><i class="fa fa-eye"></i></a>
-                                            @else
-                                            @endif
-                                        </td>
-                                        <td>{!! $pricing->notes !!}</td>
-                                    </tr>
+                                            </td>
+                                            <td>{!! $pricing->case_id !!}</td>
+                                            <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
+                                            <td>
+                                                @if($pricing->file)
+                                                    <a class="view_report" data-id="{{ $pricing->file }}"><i class="fa fa-eye"></i></a>
+                                                @else
+                                                @endif
+                                            </td>
+                                            <td>{!! $pricing->notes !!}</td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -108,12 +110,12 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Upload Payment Received</h4>
+                <h4 class="modal-title">Upload Commodity Deposit</h4>
             </div>
             <div class="modal-body">
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
-                {!! Form::open(array('url' => 'addPaymentReceived', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
+                {!! Form::open(array('url' => 'addCCTV', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
                 {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
                     @csrf
                     
@@ -121,7 +123,7 @@ $role_id = $role->role_id;
                         <div class="col-md-12">
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'Payment Received File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::label('report_file', 'CCTV File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                                     {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
 
                                     @if($errors->has('report_file'))
@@ -161,7 +163,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Payment Received File</h4>
+                <h4 class="modal-title">CCTV File</h4>
             </div>
             <div class="modal-body">                
                 <div class="row">
@@ -196,7 +198,7 @@ $role_id = $role->role_id;
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');
-            var full_url = "<?= url('/'); ?>/resources/assets/upload/payment_received/"+file
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/cctv/"+file
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });

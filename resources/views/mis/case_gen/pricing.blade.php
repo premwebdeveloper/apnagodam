@@ -56,8 +56,8 @@ $role_id = $role->role_id;
                                     <th>Customer Name</th>
                                     <th>Phone</th>
                                     <th>Total. Qty(Qtl)</th>
-                                    <th>Processing Fees</th>
-                                    <th>Interest Rate</th>
+                                    <th>Processing Fees(%)</th>
+                                    <th>Interest Rate(%)</th>
                                     <th>Rent</th>
                                     <th>Labour Rate</th>
                                     <th>Price</th>
@@ -67,48 +67,64 @@ $role_id = $role->role_id;
 	                        </thead>
 	                        <tbody>
                                 @foreach($case_gen as $key => $pricing)
-                                    <?php
-                                    //If First Quality Report Update or not
-                                    $res = DB::table('apna_case_quality_report')->where('case_id', $pricing->case_id)->first();
-                                    $check_status = DB::table('apna_case_pricing')->where('case_id', $pricing->case_id)->first();
-                                    ?>
-	                                <tr class="gradeX">
-                                        <td>{{ ++$key }}</td>
-                                        <td>
-                                            @if($pricing->price)
-                                                <span class="text-navy">Done</span>
-                                            @else
-                                                @if($role_id == 1 || $role_id == 8 || $role_id == 9)
-                                                    @if($res)
-                                                        <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Set Price</a>
-                                                    @else
-                                                        <span class="text-navy">Processing...</span>
-                                                    @endif
+                                    @if($pricing->in_out == 'IN' || $pricing->in_out == 'PASS')
+                                        <?php
+                                        //If First Quality Report Update or not
+                                        $res = DB::table('apna_case_quality_report')->where('case_id', $pricing->case_id)->first();
+                                        $check_status = DB::table('apna_case_pricing')->where('case_id', $pricing->case_id)->first();
+                                        ?>
+    	                                <tr class="gradeX">
+                                            <td>{{ ++$key }}</td>
+                                            <td>
+                                                @if($pricing->price)
+                                                    <span class="text-navy">Done</span>
                                                 @else
-                                                    <span class="text-navy">In Process</span>
+                                                    @if($role_id == 1 || $role_id == 8 || $role_id == 9)
+                                                        @if($pricing->in_out == 'PASS')
+                                                            @if($res)
+                                                                <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Set Price</a>
+                                                            @else
+                                                                <span class="text-navy">Processing...</span>
+                                                            @endif
+                                                        @elseif($pricing->in_out == 'IN')
+                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Set Price</a>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </td>
-                                        <td>{!! $pricing->case_id !!}</td>
-                                        <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
-                                        <td>{!! $pricing->phone !!}</td>
-                                        <td>{!! $pricing->total_weight !!}</td>
-                                        <td>{!! $pricing->processing_fees !!}</td>
-                                        <td>{!! $pricing->interest_rate !!}</td>
-                                        <td>{!! $pricing->rent !!}</td>
-                                        <td>{!! $pricing->labour_rate !!}</td>
-                                        <td>{!! $pricing->price !!}</td>
-                                        <td>{!! $pricing->notes !!}</td>
-                                        <td>
-                                            @if(!$check_status && $res)
-                                                <a href="{!! route('close_case', ['user_id' => $pricing->case_id]) !!}" class="btn btn-danger btn-xs" data-toggle="confirmation" data-placement="bottom" title="Close Case ID">
-                                                    Close
-                                                </a>
-                                            @else
-                                                <span>-</span>
-                                            @endif
-                                        </td>
-	                                </tr>
+                                            </td>
+                                            <td>{!! $pricing->case_id !!}</td>
+                                            <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
+                                            <td>{!! $pricing->phone !!}</td>
+                                            <td>{!! $pricing->total_weight !!}</td>
+                                            <td>{!! $pricing->processing_fees !!}</td>
+                                            <td>{!! $pricing->interest_rate !!}</td>
+                                            <td>{!! $pricing->rent !!}</td>
+                                            <td>{!! $pricing->labour_rate !!}</td>
+                                            <td>{!! $pricing->price !!}</td>
+                                            <td>{!! $pricing->notes !!}</td>
+                                            <td>
+                                                @if($pricing->in_out == 'PASS')
+                                                    @if(!$check_status && $res)
+                                                        <a href="{!! route('close_case', ['user_id' => $pricing->case_id]) !!}" class="btn btn-danger btn-xs" data-toggle="confirmation" data-placement="bottom" title="Close Case ID">
+                                                            Close
+                                                        </a>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                @elseif($pricing->in_out == 'IN')
+                                                    @if(!$check_status)
+                                                        <a href="{!! route('close_case', ['user_id' => $pricing->case_id]) !!}" class="btn btn-danger btn-xs" data-toggle="confirmation" data-placement="bottom" title="Close Case ID">
+                                                            Close
+                                                        </a>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                @endif
+                                            </td>
+    	                                </tr>
+                                    @endif
                                 @endforeach
 	                        </tbody>
 	                    </table>
@@ -139,7 +155,7 @@ $role_id = $role->role_id;
                         <div class="col-md-9 p-0">
                             <div class="col-md-6">
                                 {!! Form::label('price', 'Price', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('price', '', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Price']) !!}
+                                {!! Form::number('price', '', ['class' => 'form-control', 'required' => 'required', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Price']) !!}
 
                                 @if($errors->has('price'))
                                     <span class="text-red" role="alert">
@@ -148,8 +164,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-6">
-                                {!! Form::label('processing_fees', 'Processing Fees', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('processing_fees', '', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Processing Fees']) !!}
+                                {!! Form::label('processing_fees', 'Processing Fees(%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::number('processing_fees', '', ['class' => 'form-control', 'required' => 'required', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Processing Fees']) !!}
 
                                 @if($errors->has('processing_fees'))
                                     <span class="text-red" role="alert">
@@ -158,8 +174,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-6">
-                                {!! Form::label('rent', 'Rent', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('rent', '', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Rent Id']) !!}
+                                {!! Form::label('rent', 'Rent (MT/Month)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::number('rent', '', ['class' => 'form-control', 'required' => 'required', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Rent Id']) !!}
 
                                 @if($errors->has('rent'))
                                     <span class="text-red" role="alert">
@@ -168,8 +184,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-6">
-                                {!! Form::label('interest_rate', 'Interest Rate', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::number('interest_rate', '', ['class' => 'form-control', 'minlength' => 10, 'maxlength' => 10, 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Interest Rate']) !!}
+                                {!! Form::label('interest_rate', 'Interest Rate(%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::number('interest_rate', '', ['class' => 'form-control', 'minlength' => 10, 'step'=>'any', 'maxlength' => 10, 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Interest Rate']) !!}
 
                                 @if($errors->has('interest_rate'))
                                     <span class="text-red" role="alert">
@@ -188,8 +204,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-6">
-                                {!! Form::label('labour_rate', 'Labour Rate', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::number('labour_rate', '', ['class' => 'form-control', 'minlength' => 10, 'maxlength' => 10, 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Labour Rate']) !!}
+                                {!! Form::label('labour_rate', 'Labour Rate (50KG / Bag)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::number('labour_rate', '', ['class' => 'form-control', 'minlength' => 10, 'maxlength' => 10, 'required' => 'required', 'autocomplete' => 'off', 'step'=>'any', 'placeholder' => 'Labour Rate']) !!}
 
                                 @if($errors->has('labour_rate'))
                                     <span class="text-red" role="alert">
@@ -211,7 +227,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}
