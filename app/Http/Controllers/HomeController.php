@@ -134,7 +134,7 @@ class HomeController extends Controller
         $done = sendsms($phone, $sms);
 
         $info_msg = 'Congratulations!';
-        return redirect('/farmer_login')->with('info_msg', $info_msg);
+        return redirect('/login')->with('info_msg', $info_msg);
         
     }
 

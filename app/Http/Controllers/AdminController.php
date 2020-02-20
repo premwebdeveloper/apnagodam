@@ -537,7 +537,8 @@ class AdminController extends Controller
                         ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
                         ->join('categories', 'categories.id', '=', 'inv.commodity')
                         ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
-                        ->select('buy_sells.*', 'inv.gate_pass_wr','user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse')
+                        ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
+                        ->select('buy_sells.*', 'inv.gate_pass_wr','user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse', 'mandi_samitis.name as mandi_samiti_name')
                         ->get();
 
         return view('admin.done_deals', array('done_deals' => $done_deals, 'role' => $role));

@@ -33,7 +33,7 @@ class CaseGenController extends Controller
     public function index()
     {
     	//Get All Case
-    	$case_gen = CaseGen::getCaseGen();
+    	$case_gen = CaseGen::getCaseGen(1);
 
     	//Get All Terminals 
         $res = DB::table('warehouses')->where('status', 1)->get();
@@ -64,20 +64,58 @@ class CaseGenController extends Controller
 
         //Get All Customer 
         $res = DB::table('user_details')->where('status', 1)->orderBy('fname', 'ASC')->get();
-        $customers = array('' => 'Select Customer');
+        $customers = array('' => 'Select Customer / Search Phone No.');
         foreach($res as $cust)
         {
-            $customers[$cust->user_id] = $cust->fname." ".$cust->lname. " (********".substr( $cust->phone, -2 ).")";
+            $customers[$cust->phone] = $cust->fname." ".$cust->lname;
         }
 
     	return view('mis.case_gen.index', array('case_gen' => $case_gen, 'terminals' => $terminals, 'commodity' => $commodity, 'employees' => $employees, 'customers' => $customers));
     }
 
+    //Get Completed Cases
+    public function completedCases(Request $request)
+    {
+        $case_gen = CaseGen::getCaseGen(2);
+        return view('mis.case_gen.completed_cases', array('case_gen' => $case_gen));
+    }
+
+    //Get Completed Cases
+    public function cancelledCases(Request $request)
+    {
+        $case_gen = CaseGen::getCaseGen(0);
+        return view('mis.case_gen.cancelled_cases', array('case_gen' => $case_gen));
+    }
+
+    //Get Completed Cases
+    public function approvalCasesPass()
+    {
+        $case_gen = CaseGen::getApprovalCasesPass();
+        $data['heading'] = 'PASS';
+        return view('mis.case_gen.approval_cases_pass', array('case_gen' => $case_gen, 'data' => $data));
+    }
+
+    //Get Completed Cases
+    public function approvalCasesIn()
+    {
+        $case_gen = CaseGen::getApprovalCasesIn();
+        $data['heading'] = 'IN';
+        return view('mis.case_gen.approval_cases_pass', array('case_gen' => $case_gen, 'data' => $data));
+    }
+
+    //Get Completed Cases
+    public function approvalCasesOut()
+    {
+        $case_gen = CaseGen::getApprovalCasesOut();
+        $data['heading'] = 'OUT';
+        return view('mis.case_gen.approval_cases_pass', array('case_gen' => $case_gen, 'data' => $data));
+    }
+
     //Get Lead Generator Details by Ajax
     public function getLeadGenRec(Request $request)
     {
-        $id = $request->customer_uid;
-        $uesr = DB::table('users')->where('id', $id)->first();        
+        $phone = $request->customer_uid;
+        $uesr = DB::table('users')->where('phone', $phone)->first();
         $data = CaseGen::getleadUserData($uesr->phone);
         if($data){
             $lead_user = DB::table('apna_employees')->where('user_id', $data->user_id)->first();
@@ -85,7 +123,6 @@ class CaseGenController extends Controller
         }else{
             echo 1;
         }
-
     }
 
     //Create Cash ID
@@ -95,29 +132,33 @@ class CaseGenController extends Controller
         $request->validate([
             'customer_uid'   => 'required',
             'location'    => 'required',
-            'gate_pass'    => 'required',
+            'gate_pass'    => 'required|unique:apna_case',
             'quantity'    => 'required|numeric',
             'commodity_id'      => 'required|numeric',
             'terminal_id'      => 'required|numeric',
             'vehicle_no'      => 'required',
-            'lead_generator'      => 'required',
             'in_out'      => 'required',
             'purpose'      => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
 
-        $data['user_id'] = $user_id = $request->customer_uid;
+        $data['user_id'] = $user_id = $currentuserid;
         $data['terminal_id'] = $terminal_id = $request->terminal_id;
         $data['in_out'] = $in_out = $request->in_out;
         $data['gate_pass'] = $gate_pass = $request->gate_pass;
-        $data['customer_uid'] = $customer_uid = $request->customer_uid;
+        $customer_phone = $request->customer_uid;
         $data['quantity'] = $quantity = $request->quantity;
-        $data['location'] = $location = $request->location;
+        $data['location'] = $location = ucfirst($request->location);
         $data['commodity_id'] = $commodity_id = $request->commodity_id;
         $data['vehicle_no'] = $vehicle_no = $request->vehicle_no;
         $data['purpose'] = $purpose = $request->purpose;
         
+        //Get User Id by Number
+        $customer =DB::table('users')->where('phone', $customer_phone)->first();
+
+        $data['customer_uid'] = $customer_uid = $customer->id;
+
         //Get Terminal Data 
         $terminal = DB::table('warehouses')->where('id', $terminal_id)->first(); 
 
@@ -138,13 +179,15 @@ class CaseGenController extends Controller
 
         $data['case_id'] = $case_id;
         
-        if($request->lead_generator)
-        {
-            $data['lead_generator'] = $lead_generator = $request->lead_generator;
+        $uesr = DB::table('users')->where('phone', $customer_phone)->first();
+        $res = CaseGen::getleadUserData($uesr->phone);
+        if($res){
+            $lead_user = DB::table('apna_employees')->where('user_id', $res->user_id)->first();
+            $data['lead_generator'] = $lead_generator = $lead_user->user_id;
+            
         }else{
             $data['lead_generator'] = $lead_generator = $currentuserid;
         }
-
         
         if($request->conv_user_id){
             $data['conv_user_id'] = $conv_user_id = $request->conv_user_id;
@@ -181,7 +224,7 @@ class CaseGenController extends Controller
     {
         //Get All Post Data
         $request->validate([
-            'price'    => 'required',
+         /*   'price'    => 'required',*/
             'processing_fees'    => 'required',
             'rent'      => 'required',
             'transaction_type'      => 'required',
@@ -193,7 +236,7 @@ class CaseGenController extends Controller
 
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
-        $data['price'] = $price = $request->price;
+        /*$data['price'] = $price = $request->price;*/
         $data['processing_fees'] = $processing_fees = $request->processing_fees;
         $data['transaction_type'] = $transaction_type = $request->transaction_type;
         $data['rent'] = $rent = $request->rent;
@@ -862,6 +905,7 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'vikray_parchi'    => 'required',
+            'inventory'    => 'required',
             'tally_updation'    => 'required',
             'cold_win_entry'    => 'required',
             'whs_issulation'    => 'required',
@@ -871,6 +915,7 @@ class CaseGenController extends Controller
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
         $data['vikray_parchi'] = $vikray_parchi = $request->vikray_parchi;
+        $data['inventory'] = $inventory = $request->inventory;
         $data['tally_updation'] = $tally_updation = $request->tally_updation;
         $data['cold_win_entry'] = $cold_win_entry = $request->cold_win_entry;
         $data['whs_issulation'] = $whs_issulation = $request->whs_issulation;
@@ -992,6 +1037,7 @@ class CaseGenController extends Controller
         $data['black_smith'] = $black_smith = $request->black_smith;
         $data['infested'] = $infested = $request->infested;
         $data['live_insects'] = $live_insects = $request->live_insects;
+        $data['quality_discount_value'] = $quality_discount_value = $request->quality_discount_value;
         $data['notes'] = $notes = $request->notes;
 
         $img_name = null;
@@ -1276,6 +1322,579 @@ class CaseGenController extends Controller
         }
         
          return redirect('payment_received')->with('status', $status);  
+    }
+
+    // CCTV
+    public function cctv()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getCaseCCTV();
+        return view('mis.case_gen.cctv', array('case_gen' => $case_gen));
+    }
+
+    // Add CCTV
+    public function addCCTV(Request $request)
+    {
+        $request->validate([
+            'report_file'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+
+        $img_name = null;
+
+        if($request->hasFile('report_file')) {
+
+            $file = $request->report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('cctv')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('cctv')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/cctv/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('cctv')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        //Insert Data
+        $insert = CaseGen::updateCCTV($data);
+
+        if($insert)
+        {
+            $status = 'CCTV Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+         return redirect('cctv')->with('status', $status);  
+    }
+
+    // Commodity Deposit Form
+    public function commodity_deposit()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getCommodityDeposit();
+        return view('mis.case_gen.commodity_deposit', array('case_gen' => $case_gen));
+    }
+
+    // Add Commodity Deposit Form
+    public function addCommodityDeposit(Request $request)
+    {
+        $request->validate([
+            'report_file'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+
+        $img_name = null;
+
+        if($request->hasFile('report_file')) {
+
+            $file = $request->report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('commodity_deposit')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('commodity_deposit')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/commodity_deposit/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('commodity_deposit')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        //Insert Data
+        $insert = CaseGen::updateCommodityDeposit($data);
+
+        if($insert)
+        {
+            $status = 'Commodity Deposit Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+         return redirect('commodity_deposit')->with('status', $status);  
+    }
+
+    // Warehouse Receipt
+    public function warehouse_receipt()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getWarehouseReceipt();
+        return view('mis.case_gen.warehouse_receipt', array('case_gen' => $case_gen));
+    }
+
+    // Add Warehouse Receipt
+    public function addWarehouseReceipt(Request $request)
+    {
+        $request->validate([
+            'report_file'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+
+        $img_name = null;
+
+        if($request->hasFile('report_file')) {
+
+            $file = $request->report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('warehouse_receipt')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('warehouse_receipt')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/warehouse_receipt/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('warehouse_receipt')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        //Insert Data
+        $insert = CaseGen::updateWarehouseReceipt($data);
+
+        if($insert)
+        {
+            $status = 'Warehouse Receipt Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+         return redirect('warehouse_receipt')->with('status', $status);  
+    }
+
+    // Storage Receipt
+    public function storage_receipt()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getWarehouseReceipt();
+        return view('mis.case_gen.storage_receipt', array('case_gen' => $case_gen));
+    }
+
+    // Add Storage Receipt
+    public function addStorageReceipt(Request $request)
+    {
+        $request->validate([
+            'report_file'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+
+        $img_name = null;
+
+        if($request->hasFile('report_file')) {
+
+            $file = $request->report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('storage_receipt')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('storage_receipt')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/storage_receipt/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('storage_receipt')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        //Insert Data
+        $insert = CaseGen::updateWarehouseReceipt($data);
+
+        if($insert)
+        {
+            $status = 'Storage Receipt Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+         return redirect('storage_receipt')->with('status', $status);  
+    }
+
+    // Delivery Order
+    public function release_order()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getReleaseOrder();
+        return view('mis.case_gen.release_order', array('case_gen' => $case_gen));
+    }
+
+    // Add Delivery Order
+    public function addReleaseOrder(Request $request)
+    {
+        $request->validate([
+            'report_file'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+
+        $img_name = null;
+
+        if($request->hasFile('report_file')) {
+
+            $file = $request->report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('release_order')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('release_order')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/release_order/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('release_order')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        //Insert Data
+        $insert = CaseGen::updateReleaseOrder($data);
+
+        if($insert)
+        {
+            $status = 'Release Order Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+        return redirect('release_order')->with('status', $status);  
+    }
+
+    // Delivery Order
+    public function delivery_order()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getDeliveryOrder();
+        return view('mis.case_gen.delivery_order', array('case_gen' => $case_gen));
+    }
+
+    // Add Delivery Order
+    public function addDeliveryOrder(Request $request)
+    {
+        $request->validate([
+            'report_file'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+
+        $img_name = null;
+
+        if($request->hasFile('report_file')) {
+
+            $file = $request->report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('delivery_order')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('delivery_order')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/delivery_order/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('delivery_order')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        //Insert Data
+        $insert = CaseGen::updateDeliveryOrder($data);
+
+        if($insert)
+        {
+            $status = 'Delivery Order Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+         return redirect('delivery_order')->with('status', $status);  
+    }
+
+    // Commodity Withdrawal Form
+    public function commodity_withdrawal()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getCommodityWithdrawal();
+        return view('mis.case_gen.commodity_withdrawal', array('case_gen' => $case_gen));
+    }
+
+    // Add Commodity Withdrawal Form
+    public function addCommodityWithdrawal(Request $request)
+    {
+        $request->validate([
+            'report_file'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+
+        $img_name = null;
+
+        if($request->hasFile('report_file')) {
+
+            $file = $request->report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('commodity_withdrawal')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('commodity_withdrawal')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/commodity_withdrawal/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('commodity_withdrawal')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        //Insert Data
+        $insert = CaseGen::updateCommodityWithdrawal($data);
+
+        if($insert)
+        {
+            $status = 'Delivery Order Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+         return redirect('delivery_order')->with('status', $status);  
+    }
+
+    // Case Approve
+    public function caseApprove(Request $request)
+    {
+        $request->validate([
+            'notes'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+        xss_clean($data);
+        $insert = CaseGen::completeCase($case_id, $notes);
+
+        if($insert)
+        {
+            $status = 'Case Completed Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+        return redirect('completedCases')->with('status', $status);  
+    }
+
+    //View Case 
+    public function viewCase(Request $request)
+    {
+        $case_id = $request->case_id;
+        $case_gen = CaseGen::getCaseDetails($case_id);
+        return view('mis.case_gen.view_case', array('case_gen' => $case_gen, 'case_id' => $case_id));
     }
 
 }
