@@ -8,7 +8,7 @@ use DB;
 class CaseGen extends Model
 {
     # Get Case
-    public function scopegetCaseGen()
+    public function scopegetCaseGen($query, $status)
     {
     	$case = DB::table('apna_case')
 			->join('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
@@ -16,12 +16,14 @@ class CaseGen extends Model
 			->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
 			->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
 			->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
+            ->where('apna_case.status', $status)
         	->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.name as terminal_name')
+            ->orderBy('apna_case.created_at', 'DESC')
 			->get();
         return $case;
     }
 
-    //
+    // Get lead User Data
     public function scopegetleadUserData($query, $phone)
     {
     	$data = DB::table('apna_leads')
@@ -44,7 +46,7 @@ class CaseGen extends Model
 
         $lead = DB::table('apna_case')->insert([
             'case_id' => $data['case_id'],
-            'customer_uid' => $data['user_id'],
+            'customer_uid' => $data['customer_uid'],
             'gate_pass' => $data['gate_pass'],
             'in_out' => $data['in_out'],
             'purpose' => $data['purpose'],
@@ -60,6 +62,66 @@ class CaseGen extends Model
             'status' => 1
         ]);
         return $lead;
+    }
+
+    // Get Approval Cases for Pass Cases
+    public function scopegetApprovalCasesPass()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('user_details as customer', 'customer.user_id', '=', 'apna_case.customer_uid')
+            ->join('apna_case_payment_received', 'apna_case_payment_received.case_id', '=', 'apna_case.case_id')
+            ->join('users as lead_generator', 'lead_generator.id', '=', 'apna_case.lead_gen_uid')
+            ->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
+            ->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
+            ->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_payment_received.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_payment_received.file', 'apna_case_payment_received.notes', 'apna_case_payment_received.payment_done', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.name as terminal_name')
+            ->where('apna_case.in_out', 'PASS')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case_payment_received.case_id')
+            ->get();
+        return $case;
+    }
+
+    // Get Approval Cases for In Cases
+    public function scopegetApprovalCasesIn()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('user_details as customer', 'customer.user_id', '=', 'apna_case.customer_uid')
+            ->join('apna_case_warehouse_receipt', 'apna_case_warehouse_receipt.case_id', '=', 'apna_case.case_id')
+            ->join('users as lead_generator', 'lead_generator.id', '=', 'apna_case.lead_gen_uid')
+            ->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
+            ->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
+            ->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_warehouse_receipt.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_warehouse_receipt.file', 'apna_case_warehouse_receipt.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.name as terminal_name')
+            ->where('apna_case.in_out', 'IN')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case_warehouse_receipt.case_id')
+            ->get();
+        return $case;
+    }
+
+    // Get Approval Cases for Out Cases
+    public function scopegetApprovalCasesOut()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('user_details as customer', 'customer.user_id', '=', 'apna_case.customer_uid')
+            ->join('apna_case_warehouse_receipt', 'apna_case_warehouse_receipt.case_id', '=', 'apna_case.case_id')
+            ->join('users as lead_generator', 'lead_generator.id', '=', 'apna_case.lead_gen_uid')
+            ->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
+            ->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
+            ->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_warehouse_receipt.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_warehouse_receipt.file', 'apna_case_warehouse_receipt.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.name as terminal_name')
+            ->where('apna_case.in_out', 'OUT')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case_warehouse_receipt.case_id')
+            ->get();
+        return $case;
     }
 
     public function scopegetCasePrice()
@@ -91,7 +153,7 @@ class CaseGen extends Model
         $price = DB::table('apna_case_pricing')->insert([
             'user_id' => $data['user_id'],
             'case_id' => $data['case_id'],
-            'price' => $data['price'],
+            /*'price' => $data['price'],*/
             'processing_fees' => $data['processing_fees'],
             'rent' => $data['rent'],
             'transaction_type' => $data['transaction_type'],
@@ -428,7 +490,7 @@ class CaseGen extends Model
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_accounts', 'apna_case_accounts.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_accounts.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_accounts.vikray_parchi', 'apna_case_accounts.tally_updation', 'apna_case_accounts.cold_win_entry', 'apna_case_accounts.whs_issulation', 'apna_case_accounts.notes', 'user_price.fname as user_fname', 'user_price.lname as user_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_accounts.vikray_parchi', 'apna_case_accounts.inventory','apna_case_accounts.tally_updation', 'apna_case_accounts.cold_win_entry', 'apna_case_accounts.whs_issulation', 'apna_case_accounts.notes', 'user_price.fname as user_fname', 'user_price.lname as user_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->get();
@@ -445,6 +507,7 @@ class CaseGen extends Model
             'user_id' => $data['user_id'],
             'case_id' => $data['case_id'],
             'vikray_parchi' => $data['vikray_parchi'],
+            'inventory' => $data['inventory'],
             'tally_updation' => $data['tally_updation'],
             'cold_win_entry' => $data['cold_win_entry'],
             'whs_issulation' => $data['whs_issulation'],
@@ -540,6 +603,7 @@ class CaseGen extends Model
             'black_smith' => $data['black_smith'],
             'infested' => $data['infested'],
             'live_insects' => $data['live_insects'],
+            'quality_discount_value' => $data['quality_discount_value'],
             'imge' => $data['imge'],
             'notes' => $data['notes'],
             'created_at' => $date,
@@ -556,7 +620,7 @@ class CaseGen extends Model
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_quality_claim', 'apna_case_quality_claim.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_quality_claim.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_claim.moisture_level', 'apna_case_quality_claim.thousand_crown_w', 'apna_case_quality_claim.broken', 'apna_case_quality_claim.foreign_matter', 'apna_case_quality_claim.thin', 'apna_case_quality_claim.damage', 'apna_case_quality_claim.black_smith', 'apna_case_quality_claim.infested',  'apna_case_quality_claim.live_insects', 'apna_case_quality_claim.imge',  'apna_case_quality_claim.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_claim.moisture_level', 'apna_case_quality_claim.thousand_crown_w', 'apna_case_quality_claim.broken', 'apna_case_quality_claim.foreign_matter', 'apna_case_quality_claim.thin', 'apna_case_quality_claim.damage', 'apna_case_quality_claim.black_smith', 'apna_case_quality_claim.infested', 'apna_case_quality_claim.live_insects', 'apna_case_quality_claim.quality_discount_value', 'apna_case_quality_claim.imge',  'apna_case_quality_claim.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->get();
@@ -627,7 +691,7 @@ class CaseGen extends Model
         return $price;
     }
 
-    // Labour Payment
+    // Payment Received
     public function scopegetCasePaymentReceived()
     {
         $case = DB::table('apna_case')
@@ -641,7 +705,7 @@ class CaseGen extends Model
         return $case;
     }
 
-    // Update Labour Payment
+    // Update Payment Received
     public function scopeupdatePaymentReceived($query, $data)
     {
         $date = date('Y-m-d H:i:s');
@@ -657,5 +721,231 @@ class CaseGen extends Model
             'status' => 1
         ]);
         return $price;
+    }
+
+    // CCTV
+    public function scopegetCaseCCTV()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_cctv', 'apna_case_cctv.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_cctv.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_cctv.file', 'apna_case_cctv.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->get();
+        return $case;
+    }
+
+    // Update CCTV
+    public function scopeupdateCCTV($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_cctv')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
+    // Commodity Deposit
+    public function scopegetCommodityDeposit()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_cdf', 'apna_case_cdf.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_cdf.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_cdf.file', 'apna_case_cdf.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->get();
+        return $case;
+    }
+
+    // Update Commodity Deposit
+    public function scopeupdateCommodityDeposit($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_cdf')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
+    // Warehouse Receipt
+    public function scopegetWarehouseReceipt()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_warehouse_receipt', 'apna_case_warehouse_receipt.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_warehouse_receipt.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_warehouse_receipt.file', 'apna_case_warehouse_receipt.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->get();
+        return $case;
+    }
+
+    // Update Warehouse Receipt
+    public function scopeupdateWarehouseReceipt($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_warehouse_receipt')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
+    // Release Order
+    public function scopegetReleaseOrder()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_release_order', 'apna_case_release_order.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_release_order.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_release_order.file', 'apna_case_release_order.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->get();
+        return $case;
+    }
+
+    // Update Release Order
+    public function scopeupdateReleaseOrder($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_release_order')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
+    // Delivery Order
+    public function scopegetDeliveryOrder()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_delivery_order', 'apna_case_delivery_order.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_delivery_order.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_delivery_order.file', 'apna_case_delivery_order.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->get();
+        return $case;
+    }
+
+    // Update Delivery Order
+    public function scopeupdateDeliveryOrder($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_delivery_order')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
+    // Commodity Withdrawal
+    public function scopegetCommodityWithdrawal()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_commodity_withdrawal', 'apna_case_commodity_withdrawal.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_commodity_withdrawal.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_commodity_withdrawal.file', 'apna_case_commodity_withdrawal.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->get();
+        return $case;
+    }
+
+    // Update Commodity Withdrawal
+    public function scopeupdateCommodityWithdrawal($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_commodity_withdrawal')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
+    // Update Labour Payment
+    public function scopecompleteCase($query, $case_id, $notes)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case')->where('case_id', $case_id)->update([
+            'approved_remark' => $notes,
+            'updated_at' => $date,
+            'status' => 2
+        ]);
+        return $price;
+    }
+
+    // Get Approval Cases for In Cases
+    public function scopegetCaseDetails($query, $case_id)
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('user_details as customer', 'customer.user_id', '=', 'apna_case.customer_uid')
+            ->join('apna_case_warehouse_receipt', 'apna_case_warehouse_receipt.case_id', '=', 'apna_case.case_id')
+            ->join('users as lead_generator', 'lead_generator.id', '=', 'apna_case.lead_gen_uid')
+            ->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
+            ->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
+            ->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_warehouse_receipt.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_warehouse_receipt.file', 'apna_case_warehouse_receipt.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.name as terminal_name')
+            ->where('apna_case.case_id', $case_id)
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case_warehouse_receipt.case_id')
+            ->get();
+        return $case;
     }
 }
