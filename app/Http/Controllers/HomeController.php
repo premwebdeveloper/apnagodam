@@ -191,6 +191,13 @@ class HomeController extends Controller
         return view('website_pages.aboutus');
     }
 
+    // Qualiity Variance Calculator
+    public function qualiity_variance_calculator()
+    {
+        return view('website_pages.qualiity_variance_calculator');
+    }
+
+
     // Our Team
     public function our_team()
     {

@@ -212,6 +212,7 @@ Route::get('/terms-conditions', 'HomeController@terms_conditions')->name('terms-
 Route::get('/about-us', 'HomeController@about_us')->name('about-us');
 Route::get('/terminal_view/{id}', 'HomeController@terminal_view')->name('terminal_view');
 Route::get('/our-team', 'HomeController@our_team')->name('our-team');
+Route::get('/qualiity-variance-calculator', 'HomeController@qualiity_variance_calculator')->name('qualiity-variance-calculator');
 Route::get('/terminals', 'HomeController@our_warehoue')->name('terminals');
 Route::get('/contact-us', 'HomeController@contact_us')->name('contact-us');
 Route::get('/faq', 'HomeController@faq')->name('faq');

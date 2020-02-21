@@ -18,12 +18,12 @@
             <div class="col-md-12">
                 <div class="row service_list_item_inner">
                     @foreach($warehouses as $key => $warehouse)
-                        <div class="col-md-4 col-xs-6">
-                            <a class="" href="{!! route('terminal_view', ['id' => $warehouse->id]) !!}">
-                                <div class="image_s_list">
+                        <div class="col-md-4 col-xs-6 m-h-410">
+                            <a href="{!! route('terminal_view', ['id' => $warehouse->id]) !!}">
+                                <div class="image_s_list m-h-410">
                                     <img src="<?= ($warehouse->image)?asset('resources/assets/upload/warehouses/'.$warehouse->image):asset('resources/assets/upload/warehouses/terminal.jpg');?>">
                                     <h3 class="single_title">{!! $warehouse->name !!}</h3>
-                                    <p>{!! $warehouse->location !!}</p>
+                                    <p>{!! ucfirst($warehouse->location) !!}</p>
                                     <a class="more_btn" href="service-detail2.html"> Book Now<i class="fa fa-angle-right"></i></a>
                                 </div>
                             </a>
