@@ -42,46 +42,46 @@
                         </thead>
                         <tbody>
                             <tr class="gradeX">
-                                <td>Moisture</td>
-                                <td><span id="mos_normal">11</span>%</td>
-                                <td><span id="mos_extreme">13</span>%</td>
+                                <td class="f-w-800 f-s-18">Moisture</td>
+                                <td><span class="f-w-800 f-s-18" id="mos_normal">11</span>%</td>
+                                <td><span class="f-w-800 f-s-18" id="mos_extreme">13</span>%</td>
                                 <td><input type="number" id="mos_actual" style="width:80px; float:left;" class="form-control" >%</td>
-                                <td><span id="mos_price"></span>0.00</td>
+                                <td><span class="f-w-800 f-s-18" id="mos_price"></span></td>
                             </tr>
                             <tr class="gradeX">
-                                <td>Broken</td>
-                                <td><span id="bro_normal">4</span>%</td>
-                                <td><span id="bro_extreme">6</span>%</td>
+                                <td class="f-w-800 f-s-18">Broken</td>
+                                <td><span class="f-w-800 f-s-18" id="bro_normal">4</span>%</td>
+                                <td><span class="f-w-800 f-s-18" id="bro_extreme">6</span>%</td>
                                 <td><input type="number" id="bro_actual" style="width:80px; float:left;" class="form-control" >%</td>
-                                <td><span id="bro_price"></span>0.00</td>
+                                <td><span class="f-w-800 f-s-18" id="bro_price"></span></td>
                             </tr>
                             <tr class="gradeX">
-                                <td>Thin</td>
-                                <td><span id="thin_normal">6</span>%</td>
-                                <td><span id="thin_extreme">8</span>%</td>
+                                <td class="f-w-800 f-s-18">Thin</td>
+                                <td><span class="f-w-800 f-s-18" id="thin_normal">6</span>%</td>
+                                <td><span class="f-w-800 f-s-18" id="thin_extreme">8</span>%</td>
                                 <td><input type="number" id="thin_actual" style="width:80px; float:left;" class="form-control" >%</td>
-                                <td><span id="thin_price"></span>0.00</td>
+                                <td><span class="f-w-800 f-s-18" id="thin_price"></span></td>
                             </tr>
                             <tr class="gradeX">
-                                <td>TCW (Thousand Count Weight)</td>
-                                <td><span id="tcw_normal">40</span></td>
-                                <td><span id="tcw_extreme">39</span></td>
+                                <td class="f-w-800 f-s-18"> TCW (Thousand Count Weight)</td>
+                                <td><span class="f-w-800 f-s-18" id="tcw_normal">40</span></td>
+                                <td><span class="f-w-800 f-s-18" id="tcw_extreme">39</span></td>
                                 <td><input type="number" id="tcw_actual" style="width:80px; float:left;" class="form-control" ></td>
-                                <td><span id="tcw_price"></span>0.00</td>
+                                <td><span class="f-w-800 f-s-18" id="tcw_price"></span></td>
                             </tr>
                             <tr class="gradeX">
-                                <td>FM (Foreign Material)</td>
-                                <td><span id="fm_normal">1</span>%</td>
-                                <td><span id="fm_extreme">2</span>%</td>
+                                <td class="f-w-800 f-s-18">FM (Foreign Material)</td>
+                                <td><span class="f-w-800 f-s-18" id="fm_normal">1</span>%</td>
+                                <td><span class="f-w-800 f-s-18" id="fm_extreme">2</span>%</td>
                                 <td><input type="number" id="fm_actual" style="width:80px; float:left;" class="form-control" >%</td>
-                                <td><span id="fm_price"></span>0.00</td>
+                                <td><span class="f-w-800 f-s-18" id="fm_price"></span></td>
                             </tr>
                             <tr class="gradeX">
-                                <td>Total Price Diff.</td>
+                                <td class="f-w-800 f-s-18">Total Price Diff.</td>
                                 <td ></td>
                                 <td ></td>
                                 <td ></td>
-                                <td class="f-s-20">QV Rs .<b class="" id="total_price">0.00</b> / Qtl.</td>
+                                <td class="f-s-20">QV Rs .<b class="" id="total_price"></b> / Qtl.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -143,7 +143,7 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
-                $('#n_bid_price').html("0.00");
+                $('#n_bid_price').html("");
             }
         });
 
@@ -188,7 +188,7 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
-                $('#n_bid_price').html("0.00");
+                $('#n_bid_price').html("");
 
             }
         });
@@ -235,7 +235,7 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
-                $('#n_bid_price').html("0.00");
+                $('#n_bid_price').html("");
             }
         });
 
@@ -279,7 +279,7 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
-                $('#n_bid_price').html("0.00");
+                $('#n_bid_price').html("");
             }
         });
 
@@ -323,7 +323,7 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
-                $('#n_bid_price').html("0.00");
+                $('#n_bid_price').html("");
             }
         });
 
@@ -542,7 +542,7 @@
                     $('#tcw_price').html('0');
                     $('#fm_price').html('0');
                     $('#thin_price').html('0');
-                    $('#total_price').html('0.00');
+                    $('#total_price').html('');
                     $('#nr_quality_variance').val('');
                 }
             }else{
@@ -551,7 +551,7 @@
                 $('#tcw_price').html('0');
                 $('#fm_price').html('0');
                 $('#thin_price').html('0');
-                $('#total_price').html('0.00');
+                $('#total_price').html('');
                 $('#nr_quality_variance').val('');
             }
         });
