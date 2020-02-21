@@ -72,7 +72,7 @@
                                             <a href="{!! route('warehouse_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2)
+                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2 || Auth::user()->id == 3)
                                             <a href="{!! route('warehouse_edit_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="Edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </a>

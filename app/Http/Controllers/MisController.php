@@ -150,8 +150,8 @@ class MisController extends Controller
 
         $role = $request->role_id;
         $res = array();
-        $phone = $request->edit_phone;
-        $email = $request->edit_email;
+        $phone = $request->phone;
+        $email = $request->email;
         $validate = Validator::extend('in_role', function($attribute, $role, $parameters) 
         {
             if(!in_array($role, array(3,5,6,7,8,9,10,11,12,13,14)))
@@ -162,43 +162,39 @@ class MisController extends Controller
             }
         });
 
-        //Check this phone and email is same for this employee
-       
-        $temp = DB::table('users')->where(['phone' => $phone, 'email' => $email])->first();
-        
-        
-        if($temp)
-        {
-            //Check Phone Number    
-            $check_phone = DB::table('users')->where(['phone' => $phone])->first();
-            if($check_phone){
-                return redirect('employees')->with('error', 'This phone number is already exists.');
-            }
+        $data = array();
+        $data['user_id'] = $user_id = $request->user_id;
 
-            //Check Phone Number    
-            //$check_email = DB::table('users')->where(['email' => $email])->first();
-            /*if($check_email){
-                return redirect('employees')->with('error', 'This email address is already exists.');
-            }*/
+        //Check this phone and email is same for this employee       
+        $temp = DB::table('users')->where(['id' => $user_id])->first();
+
+        if($temp->email == $email && $temp->phone != $phone)
+        {
+            $request->validate([
+                'phone' => 'required|numeric|digits:10|unique:users',
+            ]);
         }
 
+        if($temp->email != $email && $temp->phone == $phone)
+        {
+            $request->validate([
+                'email' => 'required|email|unique:users',
+            ]);
+        }
+        
         //Get All Post Data
         $request->validate([
             'edit_first_name'   => 'required',
             'edit_last_name'    => 'required',
-            'edit_email'         => 'required',
-            'edit_phone'        => 'required|numeric|digits:10',
             'edit_role_id'      => 'required|numeric|in_role',
             'edit_designation'  => 'required',
         ]);
        
 
-        $data = array();
-        $data['user_id'] = $user_id = $request->user_id;
         $data['first_name'] = $edit_first_name = $request->edit_first_name;
         $data['last_name'] = $edit_last_name = $request->edit_last_name;
-        $data['email'] = $edit_email = $request->edit_email;
-        $data['phone'] = $edit_phone = $request->edit_phone;
+        $data['email'] = $edit_email = $request->email;
+        $data['phone'] = $edit_phone = $request->phone;
         $data['role_id'] = $edit_role_id = $request->edit_role_id;
         $data['designation'] = $edit_designation = $request->edit_designation;
         

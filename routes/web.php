@@ -300,6 +300,12 @@ Route::get('/caseGen', 'CaseGenController@index')->name('caseGen');
 Route::post('/getLeadGenRec', 'CaseGenController@getLeadGenRec')->name('getLeadGenRec');
 Route::post('/createCase', 'CaseGenController@createCase')->name('createCase');
 
+Route::get('/approvalCasesPass', 'CaseGenController@approvalCasesPass')->name('approvalCasesPass');
+Route::get('/approvalCasesIn', 'CaseGenController@approvalCasesIn')->name('approvalCasesIn');
+Route::get('/approvalCasesOut', 'CaseGenController@approvalCasesOut')->name('approvalCasesOut');
+Route::get('/completedCases', 'CaseGenController@completedCases')->name('completedCases');
+Route::get('/cancelledCases', 'CaseGenController@cancelledCases')->name('cancelledCases');
+
 Route::any('/emp-profile/{id}', 'MisController@emp_profile')->name('emp-profile');
 Route::any('/getDistrict', 'HomeController@getDistrict')->name('getDistrict');
 
@@ -351,3 +357,27 @@ Route::post('/addLabourPayment', 'CaseGenController@addLabourPayment')->name('ad
 
 Route::get('/payment_received', 'CaseGenController@payment_received')->name('payment_received');
 Route::post('/addPaymentReceived', 'CaseGenController@addPaymentReceived')->name('addPaymentReceived');
+
+Route::get('/cctv', 'CaseGenController@cctv')->name('cctv');
+Route::post('/addCCTV', 'CaseGenController@addCCTV')->name('addCCTV');
+
+Route::get('/commodity_deposit', 'CaseGenController@commodity_deposit')->name('commodity_deposit');
+Route::post('/addCommodityDeposit', 'CaseGenController@addCommodityDeposit')->name('addCommodityDeposit');
+
+Route::get('/warehouse_receipt', 'CaseGenController@warehouse_receipt')->name('warehouse_receipt');
+Route::post('/addWarehouseReceipt', 'CaseGenController@addWarehouseReceipt')->name('addWarehouseReceipt');
+
+Route::get('/storage_receipt', 'CaseGenController@storage_receipt')->name('storage_receipt');
+Route::post('/addStorageReceipt', 'CaseGenController@addStorageReceipt')->name('addStorageReceipt');
+
+Route::get('/release_order', 'CaseGenController@release_order')->name('release_order');
+Route::post('/addReleaseOrder', 'CaseGenController@addReleaseOrder')->name('addReleaseOrder');
+
+Route::get('/delivery_order', 'CaseGenController@delivery_order')->name('delivery_order');
+Route::post('/addDeliveryOrder', 'CaseGenController@addDeliveryOrder')->name('addDeliveryOrder');
+
+Route::get('/commodity_withdrawal', 'CaseGenController@commodity_withdrawal')->name('commodity_withdrawal');
+Route::post('/addCommodityWithdrawal', 'CaseGenController@addCommodityWithdrawal')->name('addCommodityWithdrawal');
+
+Route::post('/caseApprove', 'CaseGenController@caseApprove')->name('caseApprove');
+Route::get('/viewCase/{case_id}', 'CaseGenController@viewCase')->name('viewCase');

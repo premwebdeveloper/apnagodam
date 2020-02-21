@@ -55,7 +55,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('quantity', 'Estimated Qty.(Qtl)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('quantity', '', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Quantity in Quintal']) !!}
+                                {!! Form::number('quantity', '', ['class' => 'form-control', 'required' => 'required', 'step' => 'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Quantity in Quintal']) !!}
 
                                 @if($errors->has('quantity'))
                                     <span class="text-red" role="alert">

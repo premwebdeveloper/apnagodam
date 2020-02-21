@@ -126,22 +126,22 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            {!! Form::label('edit_email', 'Email', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                            {!! Form::text('edit_email', '', ['class' => 'form-control', 'id' => 'edit_email', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Email Id']) !!}
+                            {!! Form::label('email', 'Email', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                            {!! Form::text('email', '', ['class' => 'form-control', 'id' => 'email', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Email Id']) !!}
 
-                            @if($errors->has('edit_email'))
+                            @if($errors->has('email'))
                                 <span class="text-red" role="alert">
-                                    <strong class="red">{{ $errors->first('edit_email') }}</strong>
+                                    <strong class="red">{{ $errors->first('email') }}</strong>
                                 </span>
                             @endif
                         </div>
                         <div class="col-md-6">
-                            {!! Form::label('edit_phone', 'Mobile No', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                            {!! Form::number('edit_phone', '', ['class' => 'form-control', 'id' => 'edit_phone', 'minlength' => 10, 'maxlength' => 10, 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Mobile No']) !!}
+                            {!! Form::label('phone', 'Mobile No', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                            {!! Form::number('phone', '', ['class' => 'form-control', 'id' => 'phone', 'minlength' => 10, 'maxlength' => 10, 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Mobile No']) !!}
 
-                            @if($errors->has('edit_phone'))
+                            @if($errors->has('phone'))
                                 <span class="text-red" role="alert">
-                                    <strong class="red">{{ $errors->first('edit_phone') }}</strong>
+                                    <strong class="red">{{ $errors->first('phone') }}</strong>
                                 </span>
                             @endif
                         </div>
@@ -275,7 +275,7 @@
     </script>
 @endif
 
-@if($errors->has('edit_first_name') || $errors->has('edit_last_name') || $errors->has('edit_role_id') || $errors->has('edit_phone') || $errors->has('edit_email') ||$errors->has('edit_designation'))
+@if($errors->has('edit_first_name') || $errors->has('edit_last_name') || $errors->has('edit_role_id') || $errors->has('phone') || $errors->has('email') ||$errors->has('edit_designation'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#editEmployee').modal('show');
@@ -299,8 +299,8 @@
                     $('#edit_first_name').val(data.first_name);
                     $('#edit_last_name').val(data.last_name);
                     $('#edit_user_id').val(data.user_id);
-                    $('#edit_phone').val(data.phone);
-                    $('#edit_email').val(data.email);
+                    $('#phone').val(data.phone);
+                    $('#email').val(data.email);
                     $('#edit_designation').val(data.designation);
                     $('#edit_role_id').val(data.role_id);
                     $('#editEmployee').modal('show');

@@ -164,7 +164,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Set Price</h4>
+                <h4 class="modal-title">Update Accounts</h4>
             </div>
             <div class="modal-body">
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>

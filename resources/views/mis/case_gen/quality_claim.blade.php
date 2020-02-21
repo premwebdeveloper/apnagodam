@@ -115,8 +115,8 @@ $role_id = $role->role_id;
                                         <td>{!! $quality_claim->damage !!}</td>
                                         <td>{!! $quality_claim->black_smith !!}</td>
                                         <td>{!! $quality_claim->infested !!}</td>
-                                        <td>{!! $quality_claim->quality_discount_value !!}</td>
                                         <td>{!! $quality_claim->live_insects !!}</td>
+                                        <td>{!! $quality_claim->quality_discount_value !!}</td>
                                         <td>
                                             @if($quality_claim->imge)
                                             <a class="view_report" data-id="{{ $quality_claim->imge }}"><i class="fa fa-eye"></i></a>

@@ -71,7 +71,7 @@
                     </a>
                 </li>
             @endif
-            @if($role->role_id == 1 || $role->role_id == 3 || $role->role_id == 6 || $role->role_id == 8 || $role->role_id == 9)
+            @if($role->role_id == 1 || $role->role_id == 3 || $role->role_id == 6 || $role->role_id == 8 || $role->role_id == 7 || $role->role_id == 9)
                 <li>
                     <a href="{{ route('leads') }}">
                         <i class="fa fa-book" title=""></i>
@@ -88,99 +88,373 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('quality_report') }}">
-                        <i class="fa fa-check-circle" title=""></i>
-                        <span class="nav-label">First Quality Report</span>
+                    <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label">PASS</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('quality_report') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">First Quality Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('pricing') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Pricing</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('truck_book') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">Truck Book</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('labour_book') }}">
+                                <i class="fa fa-user" title=""></i>
+                                <span class="nav-label">Labour Book</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('kanta_parchi') }}">
+                                <i class="fa fa-file" title=""></i>
+                                <span class="nav-label">First Kanta Parchi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('second_quality_report') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">Second Quality Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('second_kanta_parchi') }}">
+                                <i class="fa fa-file" title=""></i>
+                                <span class="nav-label">Second Kanta Parchi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('gate_pass') }}">
+                                <i class="fa fa-ticket" title=""></i>
+                                <span class="nav-label">Gate Pass</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('e_mandi') }}">
+                                <i class="fa fa-globe" title=""></i>
+                                <span class="nav-label">E-Mandi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('accounts') }}">
+                                <i class="fa fa-pencil" title=""></i>
+                                <span class="nav-label">Accounts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('shipping_start') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">Shipment Start</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('shipping_end') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">Shipment End</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('quality_claim') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">Quality Claim</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('truck_payment') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Truck Payment</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('labour_payment') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Labour Payment</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('payment_received') }}">
+                                <i class="fa fa-handshake-o" title=""></i>
+                                <span class="nav-label">Payment Received</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-indent"></i> <span class="nav-label">IN</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('pricing') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Pricing</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('truck_book') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">Truck Book</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('labour_book') }}">
+                                <i class="fa fa-user" title=""></i>
+                                <span class="nav-label">Labour Book</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('kanta_parchi') }}">
+                                <i class="fa fa-file" title=""></i>
+                                <span class="nav-label">First Kanta Parchi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('quality_report') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">First Quality Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('second_kanta_parchi') }}">
+                                <i class="fa fa-file" title=""></i>
+                                <span class="nav-label">Second Kanta Parchi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('second_quality_report') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">Second Quality Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('gate_pass') }}">
+                                <i class="fa fa-ticket" title=""></i>
+                                <span class="nav-label">Gate Pass</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('e_mandi') }}">
+                                <i class="fa fa-globe" title=""></i>
+                                <span class="nav-label">E-Mandi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('quality_claim') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">Quality Claim</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('cctv') }}">
+                                <i class="fa fa-video-camera" title=""></i>
+                                <span class="nav-label">CCTV</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('commodity_deposit') }}">
+                                <i class="fa fa-list" title=""></i>
+                                <span class="nav-label">Commodity Deposit</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('accounts') }}">
+                                <i class="fa fa-pencil" title=""></i>
+                                <span class="nav-label">Accounts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('truck_payment') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Truck Payment</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('labour_payment') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Labour Payment</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('payment_received') }}">
+                                <i class="fa fa-handshake-o" title=""></i>
+                                <span class="nav-label">Payment Received</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('warehouse_receipt') }}">
+                                <i class="fa fa-file-text" title=""></i>
+                                <span class="nav-label">Warehouse Receipt</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('storage_receipt') }}">
+                                <i class="fa fa-print" title=""></i>
+                                <span class="nav-label">Storage Receipt</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label">OUT</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('release_order') }}">
+                                <i class="fa fa-first-order" title=""></i>
+                                <span class="nav-label">Release Order</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('delivery_order') }}">
+                                <i class="fa fa-handshake-o" title=""></i>
+                                <span class="nav-label">Delivery Order</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('truck_book') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">Truck Book</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('labour_book') }}">
+                                <i class="fa fa-user" title=""></i>
+                                <span class="nav-label">Labour Book</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('quality_report') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">First Quality Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('kanta_parchi') }}">
+                                <i class="fa fa-file" title=""></i>
+                                <span class="nav-label">First Kanta Parchi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('second_quality_report') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">Second Quality Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('second_kanta_parchi') }}">
+                                <i class="fa fa-file" title=""></i>
+                                <span class="nav-label">Second Kanta Parchi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('gate_pass') }}">
+                                <i class="fa fa-ticket" title=""></i>
+                                <span class="nav-label">Gate Pass</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('e_mandi') }}">
+                                <i class="fa fa-globe" title=""></i>
+                                <span class="nav-label">E-Mandi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('cctv') }}">
+                                <i class="fa fa-video-camera" title=""></i>
+                                <span class="nav-label">CCTV</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('commodity_withdrawal') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Commodity Withdrawal</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('accounts') }}">
+                                <i class="fa fa-pencil" title=""></i>
+                                <span class="nav-label">Accounts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('shipping_start') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">Shipment Start</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('shipping_end') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">Shipment End</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('quality_claim') }}">
+                                <i class="fa fa-check-circle" title=""></i>
+                                <span class="nav-label">Quality Claim</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('truck_payment') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Truck Payment</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('labour_payment') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Labour Payment</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('payment_received') }}">
+                                <i class="fa fa-handshake-o" title=""></i>
+                                <span class="nav-label">Payment Received</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @if($role->role_id == 1)
+                    <li>
+                        <a href="#"><i class="fa fa-spinner"></i> <span class="nav-label">Approval Cases</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse" aria-expanded="false">
+                            <li>
+                                <a href="{{ route('approvalCasesPass') }}">
+                                    <i class="fa fa-money" title=""></i>
+                                    <span class="nav-label">PASS</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('approvalCasesIn') }}">
+                                    <i class="fa fa-truck" title=""></i>
+                                    <span class="nav-label">IN</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('approvalCasesOut') }}">
+                                    <i class="fa fa-truck" title=""></i>
+                                    <span class="nav-label">OUT</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+                <li>
+                    <a href="{{ route('completedCases') }}">
+                        <i class="fa fa-check-square-o" title=""></i>
+                        <span class="nav-label">Completed Cases</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('pricing') }}">
-                        <i class="fa fa-money" title=""></i>
-                        <span class="nav-label">Pricing</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('truck_book') }}">
-                        <i class="fa fa-truck" title=""></i>
-                        <span class="nav-label">Truck Book</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('labour_book') }}">
-                        <i class="fa fa-user" title=""></i>
-                        <span class="nav-label">Labour Book</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('kanta_parchi') }}">
-                        <i class="fa fa-file" title=""></i>
-                        <span class="nav-label">First Kanta Parchi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('second_quality_report') }}">
-                        <i class="fa fa-check-circle" title=""></i>
-                        <span class="nav-label">Second Quality Report</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('second_kanta_parchi') }}">
-                        <i class="fa fa-file" title=""></i>
-                        <span class="nav-label">Second Kanta Parchi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('gate_pass') }}">
-                        <i class="fa fa-ticket" title=""></i>
-                        <span class="nav-label">Gate Pass</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('e_mandi') }}">
-                        <i class="fa fa-globe" title=""></i>
-                        <span class="nav-label">E-Mandi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('accounts') }}">
-                        <i class="fa fa-pencil" title=""></i>
-                        <span class="nav-label">Accounts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('shipping_start') }}">
-                        <i class="fa fa-truck" title=""></i>
-                        <span class="nav-label">Shipment Start</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('shipping_end') }}">
-                        <i class="fa fa-truck" title=""></i>
-                        <span class="nav-label">Shipment End</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('quality_claim') }}">
-                        <i class="fa fa-check-circle" title=""></i>
-                        <span class="nav-label">Quality Claim</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('truck_payment') }}">
-                        <i class="fa fa-money" title=""></i>
-                        <span class="nav-label">Truck Payment</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('labour_payment') }}">
-                        <i class="fa fa-money" title=""></i>
-                        <span class="nav-label">Labour Payment</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('payment_received') }}">
-                        <i class="fa fa-handshake-o" title=""></i>
-                        <span class="nav-label">Payment Received</span>
+                    <a href="{{ route('cancelledCases') }}">
+                        <i class="fa fa-ban" title=""></i>
+                        <span class="nav-label">Cancelled Cases</span>
                     </a>
                 </li>
             @endif

@@ -18,18 +18,15 @@ $temp = explode('@', $controllerAction);
 @if($temp[0] == 'MisController' || $temp[0] == 'LeadController' || $temp[0] == 'CaseGenController')
 	@include('includes.auth_mis_sidebar')
 @else
-	@include('includes.auth_admin_sidebar')
+	@if($role->role_id == 1 || $role->role_id == 2 || $role->role_id == 4)
+		@include('includes.auth_admin_sidebar')
+	@endif
 @endif
 
-@if($role->role_id != 1 && $role->role_id != 2 && $role->role_id != 4)
-	@include('includes.auth_mis_sidebar')
-@endif
 
 
 @include('includes.auth_header')
-
 	@yield('content')
-
 @include('includes.auth_footer')
 
 @include('includes.auth_footer_scripts')

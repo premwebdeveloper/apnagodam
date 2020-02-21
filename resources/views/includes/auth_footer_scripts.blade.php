@@ -27,7 +27,7 @@
     <!-- <script src="{{ asset('resources/assets/js/plugins/summernote/summernote.min.js') }}"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
     <script src="{{ asset('resources/assets/js/bootstrap-confirmation.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.0/js/bootstrap-datetimepicker.min.js" crossorigin="anonymous"></script>
   
     @include('includes.auth_scripts')
     <!-- <script>
@@ -62,6 +62,13 @@
                 $(this).parent().addClass('active');
             }
         });
+
+        function submitForm(btn) {
+            // disable the button
+            btn.disabled = true;
+            // submit the form    
+            btn.form.submit();
+        }
     </script>
 
     @if($role->role_id != 2  && $role->role_id != 1 && $role->role_id != 4)

@@ -97,3 +97,11 @@ ALTER TABLE `warehouse_rent_rates` ADD `state` VARCHAR(10) NULL AFTER `district`
 
 -- ------------------- ALTER TABLE `buy_sells` at 15-02-2020 ------------------
 ALTER TABLE `buy_sells` ADD `todays_price` VARCHAR(30) NULL AFTER `price`, ADD `bid_type` TINYINT NULL DEFAULT '1' COMMENT '1 For E-Mandi, 2 for Corporate Buying' AFTER `todays_price`;
+
+-- ------------------- ALTER TABLE `apna_case` at 18-02-2020 ------------------
+ALTER TABLE `apna_case` CHANGE `status` `status` TINYINT(4) NOT NULL COMMENT '1 for active, 0 for cancel and 2 for completed';
+ALTER TABLE `apna_case` ADD `approved_remark` TEXT NULL AFTER `purpose`;
+
+-- ------------------- ALTER TABLE `apna_case_quality_claim` at 20-02-2020 ------------------
+ALTER TABLE `apna_case_quality_claim` ADD `quality_discount_value` VARCHAR(50) NULL AFTER `live_insects`;
+ALTER TABLE `apna_case_accounts` ADD `inventory` VARCHAR(10) NULL AFTER `whs_issulation`;

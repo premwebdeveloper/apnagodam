@@ -36,7 +36,7 @@ b{font-size: 13px;}
         $commission = ($total_price * 0.75) / 100;
         $mandi_fee = '';
         $hammali = '';
-        if($bid_type == 2)
+        if($bid_type == 1)
         {
             if($sales_status == 1)
             {
@@ -51,10 +51,10 @@ b{font-size: 13px;}
                 $mandi_fee = "N/A";
             }
         }else{
-            $mandi_fee = (($total_price * 1.6) / 100);
+            $mandi_fee = "1.6%";
         }
 
-        $res = 'Vikray Parchi = '.$id.', ApnaGodam.com, CIN = U63030RJ2016PTC055509, Buyer Name = '.$buyer_name.', Seller Name = '.$seller_name.', Date = '.date('d-m-Y').', Bid Date = '.date('d-m-Y', strtotime($updated_at)).', Commodity = '.$category.', Warehouse = '.$warehouse.', Net Weight = '.$quantity.', Price = '.$price.', Quality = '.$quality_category.', E-mandi Commission = '.$commission.', Bags = '.$quantity.', Hammali = '.$hammali.', Mandi Fees = '.$mandi_fee.", Total = ".$total_price;
+        $res = 'Vikray Parchi = '.$id.', ApnaGodam.com, CIN = U63030RJ2016PTC055509, Buyer Name = '.$buyer_name.', Seller Name = '.$seller_name.', Date = '.date('d-m-Y').', Bid Date = '.date('d-m-Y', strtotime($updated_at)).', Commodity = '.$category.', Warehouse = '.$warehouse.', Net Weight = '.$quantity.', Price = '.$price.', Quality = '.$quality_category.', E-mandi Commission = '.round($commission, 2).', Bags = '.$quantity.', Hammali = '.$hammali.', Mandi Fees = '.$mandi_fee.", Total = ".$total_price;
         ?>
         <div class="">
             <div class="row">
@@ -95,10 +95,10 @@ b{font-size: 13px;}
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <p><b>Buyer Name : </b> {{ ucfirst($buyer_name) }}, {{ ucfirst($buyer_address) }}</p>
+                            <p><b>Buyer Name : </b> {{ ucfirst($buyer_name) }}, {{ ucfirst($buyer_address) }} (Test)</p> 
                         </div>
                         <div class="col-md-6 text-right">
-                            <p><b>Print Date : </b> {{ date('d-m-Y') }}</p>
+                            <p><b>Print Date : </b> {{ date('d-m-Y') }}</p> 
                         </div>
                     </div>
                     <div class="row">
@@ -139,7 +139,7 @@ b{font-size: 13px;}
                                     </td>
                                     <td>
                                         
-                                        <b>E-mandi Commission (0.75%): </b> {{ $commission }} <span class='f-w-600 f-s-12'>(INR)</span>
+                                        <b>E-mandi Commission (0.75%): </b> {{ round($commission, 2) }} <span class='f-w-600 f-s-12'>(INR)</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -152,14 +152,18 @@ b{font-size: 13px;}
                                 </tr>
                                 <tr>
                                     <td>
-                                        @if($sales_status == 1) 
-                                            <b>Mandi Fees ({!! $mandi_fees !!}%) : </b>
-                                            <?php
-                                            echo $mandi_fee = (($total_price * $mandi_fees) / 100)." <span class='f-w-600 f-s-12'>(INR)</span>";
-                                            ?>
+                                        @if($bid_type == 1) 
+                                            @if($sales_status == 1) 
+                                                <b>Mandi Fees ({!! $mandi_fees !!}%) : </b>
+                                                <?php
+                                                echo $mandi_fee = (($total_price * $mandi_fees) / 100)." <span class='f-w-600 f-s-12'>(INR)</span>";
+                                                ?>
+                                            @else
+                                                <b>Mandi Fees : </b>
+                                                N/A
+                                            @endif
                                         @else
-                                            <b>Mandi Fees : </b>
-                                            N/A
+                                            <b>Mandi Fees : 1.6% </b>
                                         @endif
                                     </td>
                                     <td>
@@ -308,7 +312,7 @@ b{font-size: 13px;}
                     <strong>E-Mandi</strong>
                 </td>
                 <td>
-                    <strong>{{ $truck_no }}</strong>
+                    <strong>{{ strtoupper($truck_no) }}</strong>
                 </td>
                 <td>
                     <strong>{{ date('d-m-Y H:i:s', strtotime($created_at)) }}</strong>
@@ -318,7 +322,7 @@ b{font-size: 13px;}
         <div class="">
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <span>For & on behalf of License</span>
+                    <span>For & on behalf of license</span>
                 </div>
             </div>
             <div class="row">

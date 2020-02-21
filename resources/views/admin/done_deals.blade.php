@@ -45,6 +45,7 @@
                                     <th>Seller Name</th>
                                     <th>Gate Pass</th>
                                     <th>Payment Ref. No.</th>
+                                    <th>KUMS</th>
                                     <th>Terminal</th>
                                     <th>Commodity</th>
                                     <th>Net Weight (Qtl.)</th>
@@ -74,6 +75,7 @@
                                                 @endif
                                             @endif
                                         </td>
+                                        <td>{!! $done_deal->mandi_samiti_name !!}</td>
                                         <td>{!! $done_deal->warehouse !!}</td>
                                         <td>{!! $done_deal->category !!}</td>
                                         <td>{!! $done_deal->quantity !!}</td>

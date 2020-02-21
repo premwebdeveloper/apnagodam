@@ -60,7 +60,6 @@ $role_id = $role->role_id;
                                     <th>Interest Rate(%)</th>
                                     <th>Rent</th>
                                     <th>Labour Rate</th>
-                                    <th>Price</th>
                                     <th>Notes</th>
                                     <th>Action</th>
 	                            </tr>
@@ -76,7 +75,7 @@ $role_id = $role->role_id;
     	                                <tr class="gradeX">
                                             <td>{{ ++$key }}</td>
                                             <td>
-                                                @if($pricing->price)
+                                                @if($pricing->processing_fees)
                                                     <span class="text-navy">Done</span>
                                                 @else
                                                     @if($role_id == 1 || $role_id == 8 || $role_id == 9)
@@ -102,7 +101,6 @@ $role_id = $role->role_id;
                                             <td>{!! $pricing->interest_rate !!}</td>
                                             <td>{!! $pricing->rent !!}</td>
                                             <td>{!! $pricing->labour_rate !!}</td>
-                                            <td>{!! $pricing->price !!}</td>
                                             <td>{!! $pricing->notes !!}</td>
                                             <td>
                                                 @if($pricing->in_out == 'PASS')
@@ -153,16 +151,16 @@ $role_id = $role->role_id;
                     
                     <div class="row">
                         <div class="col-md-9 p-0">
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 {!! Form::label('price', 'Price', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                 {!! Form::number('price', '', ['class' => 'form-control', 'required' => 'required', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Price']) !!}
-
+                            
                                 @if($errors->has('price'))
                                     <span class="text-red" role="alert">
                                         <strong class="red">{{ $errors->first('price') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+                            </div> -->
                             <div class="col-md-6">
                                 {!! Form::label('processing_fees', 'Processing Fees(%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                 {!! Form::number('processing_fees', '', ['class' => 'form-control', 'required' => 'required', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Processing Fees']) !!}
