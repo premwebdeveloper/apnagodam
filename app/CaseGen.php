@@ -133,6 +133,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_pricing.processing_fees', 'apna_case_pricing.interest_rate', 'apna_case_pricing.price', 'apna_case_pricing.rent', 'apna_case_pricing.labour_rate', 'apna_case_pricing.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -153,7 +154,7 @@ class CaseGen extends Model
         $price = DB::table('apna_case_pricing')->insert([
             'user_id' => $data['user_id'],
             'case_id' => $data['case_id'],
-            /*'price' => $data['price'],*/
+            'price' => $data['price'],
             'processing_fees' => $data['processing_fees'],
             'rent' => $data['rent'],
             'transaction_type' => $data['transaction_type'],
@@ -203,6 +204,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_report.moisture_level', 'apna_case_quality_report.thousand_crown_w', 'apna_case_quality_report.broken', 'apna_case_quality_report.foreign_matter', 'apna_case_quality_report.thin', 'apna_case_quality_report.damage', 'apna_case_quality_report.black_smith', 'apna_case_quality_report.infested',  'apna_case_quality_report.live_insects', 'apna_case_quality_report.imge',  'apna_case_quality_report.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -216,6 +218,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_gate_pass.gate_pass_no', 'apna_case_gate_pass.bags', 'apna_case_gate_pass.stack_no', 'apna_case_gate_pass.lot_no', 'apna_case_gate_pass.file', 'apna_case_gate_pass.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -251,6 +254,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_truck_book.transporter', 'apna_truck_book.vehicle', 'apna_truck_book.driver_name', 'apna_truck_book.driver_phone', 'apna_truck_book.rate_per_km', 'apna_truck_book.min_weight', 'apna_truck_book.max_weight', 'apna_truck_book.turnaround_time', 'apna_truck_book.commodity_id', 'apna_truck_book.total_weight', 'apna_truck_book.no_of_bags', 'apna_truck_book.kanta_parchi_no', 'apna_truck_book.gate_pass_no', 'apna_truck_book.total_transport_cost', 'apna_truck_book.advance_payment', 'apna_truck_book.start_date_time', 'apna_truck_book.final_settlement_amount', 'apna_truck_book.end_date_time', 'apna_truck_book.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -298,6 +302,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_kanta_parchi.rst_no', 'apna_case_kanta_parchi.bags', 'apna_case_kanta_parchi.gross_weight', 'apna_case_kanta_parchi.tare_weight', 'apna_case_kanta_parchi.net_weight', 'apna_case_kanta_parchi.gross_date_time', 'apna_case_kanta_parchi.tare_date_time', 'apna_case_kanta_parchi.charges', 'apna_case_kanta_parchi.vehicle_no', 'apna_case_kanta_parchi.kanta_name', 'apna_case_kanta_parchi.kanta_place', 'apna_case_kanta_parchi.file', 'apna_case_kanta_parchi.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -340,6 +345,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_labour_book.labour_contractor', 'apna_labour_book.contractor_no', 'apna_labour_book.labour_rate_per_bags', 'apna_labour_book.total_labour', 'apna_labour_book.location', 'apna_labour_book.booking_date', 'apna_labour_book.total_bags', 'apna_labour_book.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -378,6 +384,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_second_quality_report.moisture_level', 'apna_case_second_quality_report.thousand_crown_w', 'apna_case_second_quality_report.broken', 'apna_case_second_quality_report.foreign_matter', 'apna_case_second_quality_report.thin', 'apna_case_second_quality_report.damage', 'apna_case_second_quality_report.black_smith', 'apna_case_second_quality_report.infested',  'apna_case_second_quality_report.live_insects', 'apna_case_second_quality_report.imge',  'apna_case_second_quality_report.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -419,6 +426,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_second_kanta_parchi.rst_no', 'apna_case_second_kanta_parchi.bags', 'apna_case_second_kanta_parchi.gross_weight', 'apna_case_second_kanta_parchi.tare_weight', 'apna_case_second_kanta_parchi.net_weight', 'apna_case_second_kanta_parchi.gross_date_time', 'apna_case_second_kanta_parchi.tare_date_time', 'apna_case_second_kanta_parchi.charges', 'apna_case_second_kanta_parchi.vehicle_no', 'apna_case_second_kanta_parchi.kanta_name', 'apna_case_second_kanta_parchi.kanta_place', 'apna_case_second_kanta_parchi.file', 'apna_case_second_kanta_parchi.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -461,6 +469,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_e_mandi.file', 'apna_case_e_mandi.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -493,6 +502,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_accounts.vikray_parchi', 'apna_case_accounts.inventory','apna_case_accounts.tally_updation', 'apna_case_accounts.cold_win_entry', 'apna_case_accounts.whs_issulation', 'apna_case_accounts.notes', 'user_price.fname as user_fname', 'user_price.lname as user_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -529,6 +539,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_shipping_start.location', 'apna_case_shipping_start.date_time', 'apna_case_shipping_start.notes', 'user_price.fname as user_fname', 'user_price.lname as user_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -562,6 +573,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_shipping_end.location', 'apna_case_shipping_end.date_time', 'apna_case_shipping_end.notes', 'user_price.fname as user_fname', 'user_price.lname as user_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -623,6 +635,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_claim.moisture_level', 'apna_case_quality_claim.thousand_crown_w', 'apna_case_quality_claim.broken', 'apna_case_quality_claim.foreign_matter', 'apna_case_quality_claim.thin', 'apna_case_quality_claim.damage', 'apna_case_quality_claim.black_smith', 'apna_case_quality_claim.infested', 'apna_case_quality_claim.live_insects', 'apna_case_quality_claim.quality_discount_value', 'apna_case_quality_claim.imge',  'apna_case_quality_claim.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -637,6 +650,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_truck_payment.file', 'apna_case_truck_payment.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -669,6 +683,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_labour_payment.file', 'apna_case_labour_payment.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -701,6 +716,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_payment_received.file', 'apna_case_payment_received.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -733,6 +749,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_cctv.file', 'apna_case_cctv.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -765,6 +782,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_cdf.file', 'apna_case_cdf.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -797,6 +815,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_warehouse_receipt.file', 'apna_case_warehouse_receipt.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -819,6 +838,39 @@ class CaseGen extends Model
         return $price;
     }
 
+    // Warehouse Receipt
+    public function scopegetStorageReceipt()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_storage_receipt', 'apna_case_storage_receipt.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_storage_receipt.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_storage_receipt.file', 'apna_case_storage_receipt.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
+            ->get();
+        return $case;
+    }
+
+    // Update Warehouse Receipt
+    public function scopeupdateStorageReceipt($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_storage_receipt')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
     // Release Order
     public function scopegetReleaseOrder()
     {
@@ -829,6 +881,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_release_order.file', 'apna_case_release_order.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -861,6 +914,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_delivery_order.file', 'apna_case_delivery_order.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }
@@ -893,6 +947,7 @@ class CaseGen extends Model
             ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_commodity_withdrawal.file', 'apna_case_commodity_withdrawal.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
             ->get();
         return $case;
     }

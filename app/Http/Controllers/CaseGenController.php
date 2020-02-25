@@ -224,7 +224,6 @@ class CaseGenController extends Controller
     {
         //Get All Post Data
         $request->validate([
-         /*   'price'    => 'required',*/
             'processing_fees'    => 'required',
             'rent'      => 'required',
             'transaction_type'      => 'required',
@@ -236,7 +235,7 @@ class CaseGenController extends Controller
 
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
-        /*$data['price'] = $price = $request->price;*/
+        $data['price'] = $price = $request->price;
         $data['processing_fees'] = $processing_fees = $request->processing_fees;
         $data['transaction_type'] = $transaction_type = $request->transaction_type;
         $data['rent'] = $rent = $request->rent;
@@ -542,52 +541,82 @@ class CaseGenController extends Controller
 
        //Get All Case
         $case_gen = CaseGen::getCaseTruckBook();
+
         return view('mis.case_gen.truck_book', array('case_gen' => $case_gen, 'commodity' => $commodity)); 
     }
 
     // Add Truck Book
     public function addTruckBook(Request $request)
     {
-        $request->validate([
-            'transporter'    => 'required',
-            'vehicle'    => 'required',
-            'driver_name'    => 'required',
-            'driver_phone'    => 'required',
-            'rate_per_km'    => 'required',
-            'min_weight'    => 'required',
-            'max_weight'    => 'required',
-            'turnaround_time'    => 'required',
-            'total_weight'    => 'required',
-            'no_of_bags'    => 'required',
-            'kanta_parchi_no'    => 'required',
-            'total_transport_cost'    => 'required',
-            'advance_payment'    => 'required',
-            'start_date_time'    => 'required',
-            'final_settlement_amount'    => 'required',
-            'end_date_time'    => 'required',
-        ]);
+        $not_required = $request->not_required;
+        if(!$not_required)
+        {
+            $request->validate([
+                'transporter'             => 'required',
+                'vehicle'                 => 'required',
+                'driver_name'             => 'required',
+                'driver_phone'            => 'required',
+                'rate_per_km'             => 'required',
+                'min_weight'              => 'required',
+                'max_weight'              => 'required',
+                'turnaround_time'         => 'required',
+                'total_weight'            => 'required',
+                'no_of_bags'              => 'required',
+                'total_transport_cost'    => 'required',
+                'advance_payment'         => 'required',
+                'start_date_time'         => 'required',
+                'final_settlement_amount' => 'required',
+                'end_date_time'           => 'required',
+            ]);
+        }
 
         $currentuserid = Auth::user()->id;
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
-        $data['transporter'] = $transporter = ucfirst($request->transporter);
-        $data['vehicle'] = $vehicle = strtoupper($request->vehicle);
-        $data['driver_name'] = $driver_name = ucfirst($request->driver_name);
-        $data['driver_phone'] = $driver_phone = $request->driver_phone;       
-        $data['rate_per_km'] = $rate_per_km = $request->rate_per_km;       
-        $data['min_weight'] = $min_weight = $request->min_weight;       
-        $data['max_weight'] = $max_weight = $request->max_weight;       
-        $data['turnaround_time'] = $turnaround_time = $request->turnaround_time;     
-        $data['total_weight'] = $total_weight = $request->total_weight;       
-        $data['no_of_bags'] = $no_of_bags = $request->no_of_bags;       
-        $data['kanta_parchi_no'] = $kanta_parchi_no = $request->kanta_parchi_no;
-        $data['total_transport_cost'] = $total_transport_cost = $request->total_transport_cost;
-        $data['advance_payment'] = $advance_payment = $request->advance_payment;       
-        $data['start_date_time'] = $start_date_time = $request->start_date_time;       
-        $data['final_settlement_amount'] = $final_settlement_amount = $request->final_settlement_amount;       
-        $data['end_date_time'] = $end_date_time = $request->end_date_time;       
-        $data['notes'] = $notes = $request->notes;
 
+        if(!$not_required)
+        {
+            $data['transporter'] = $transporter = ucfirst($request->transporter);
+            $data['vehicle'] = $vehicle = strtoupper($request->vehicle);
+            $data['driver_name'] = $driver_name = ucfirst($request->driver_name);
+            $data['driver_phone'] = $driver_phone = $request->driver_phone;       
+            $data['rate_per_km'] = $rate_per_km = $request->rate_per_km;       
+            $data['min_weight'] = $min_weight = $request->min_weight;       
+            $data['max_weight'] = $max_weight = $request->max_weight;       
+            $data['turnaround_time'] = $turnaround_time = $request->turnaround_time;     
+            $data['total_weight'] = $total_weight = $request->total_weight;       
+            $data['no_of_bags'] = $no_of_bags = $request->no_of_bags;       
+            $data['kanta_parchi_no'] = $kanta_parchi_no = $request->kanta_parchi_no;
+            $data['total_transport_cost'] = $total_transport_cost = $request->total_transport_cost;
+            $data['advance_payment'] = $advance_payment = $request->advance_payment;       
+            $data['start_date_time'] = $start_date_time = $request->start_date_time;       
+            $data['final_settlement_amount'] = $final_settlement_amount = $request->final_settlement_amount;       
+            $data['end_date_time'] = $end_date_time = $request->end_date_time;       
+        }else{
+            $data['transporter'] = $transporter = 'N/A';
+            $data['vehicle'] = $vehicle = 'N/A';
+            $data['driver_name'] = $driver_name = 'N/A';
+            $data['driver_phone'] = $driver_phone = 'N/A';
+            $data['rate_per_km'] = $rate_per_km = 'N/A';
+            $data['min_weight'] = $min_weight = 'N/A';
+            $data['max_weight'] = $max_weight = 'N/A';
+            $data['turnaround_time'] = $turnaround_time = 'N/A';
+            $data['total_weight'] = $total_weight = 'N/A';
+            $data['no_of_bags'] = $no_of_bags = 'N/A';
+            $data['kanta_parchi_no'] = $kanta_parchi_no = 'N/A';
+            $data['total_transport_cost'] = $total_transport_cost = 'N/A';
+            $data['advance_payment'] = $advance_payment = 'N/A';
+            $data['start_date_time'] = $start_date_time = 'N/A';
+            $data['final_settlement_amount'] = $final_settlement_amount = 'N/A';
+            $data['end_date_time'] = $end_date_time = 'N/A';
+        }
+
+        if($request->notes)
+        {
+            $data['notes'] = $notes = $request->notes;
+        }else{
+            $data['notes'] = $notes = 'N/A';
+        }
         //Insert Data
         $insert = CaseGen::updateTruckBook($data);
 
@@ -1559,7 +1588,7 @@ class CaseGenController extends Controller
     public function storage_receipt()
     {        
         //Get All Case
-        $case_gen = CaseGen::getWarehouseReceipt();
+        $case_gen = CaseGen::getStorageReceipt();
         return view('mis.case_gen.storage_receipt', array('case_gen' => $case_gen));
     }
 
@@ -1618,7 +1647,7 @@ class CaseGenController extends Controller
         $data['file'] = $img_name;
 
         //Insert Data
-        $insert = CaseGen::updateWarehouseReceipt($data);
+        $insert = CaseGen::updateStorageReceipt($data);
 
         if($insert)
         {
@@ -1853,14 +1882,14 @@ class CaseGenController extends Controller
 
         if($insert)
         {
-            $status = 'Delivery Order Updated Successfully.';
+            $status = 'Commodity Withdrawal Updated Successfully.';
         }
         else
         {
             $status = 'Something went wrong !';
         }
         
-         return redirect('delivery_order')->with('status', $status);  
+         return redirect('commodity_withdrawal')->with('status', $status);  
     }
 
     // Case Approve
