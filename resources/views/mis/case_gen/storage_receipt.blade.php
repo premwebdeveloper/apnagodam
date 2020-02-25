@@ -125,7 +125,7 @@ $role_id = $role->role_id;
                         <div class="col-md-12">
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'CCTV File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::label('report_file', 'Storage Receipt File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                                     {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
 
                                     @if($errors->has('report_file'))
@@ -165,7 +165,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">CCTV File</h4>
+                <h4 class="modal-title">Storage Receipt File</h4>
             </div>
             <div class="modal-body">                
                 <div class="row">
@@ -200,7 +200,7 @@ $role_id = $role->role_id;
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');
-            var full_url = "<?= url('/'); ?>/resources/assets/upload/cctv/"+file
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/storage_receipt/"+file
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });

@@ -65,7 +65,7 @@ $role_id = $role->role_id;
                                     <th>Commodity</th>
                                     <th>Total Weight(Qtl.)</th>
                                     <th>Bags</th>
-                                    <th>Kanta Parchi</th>
+                                    <!-- <th>Kanta Parchi</th> -->
                                     <th>Gate Pass</th>
                                     <th>Total Trans. Cost</th>
                                     <th>Advance Payment</th>
@@ -76,11 +76,11 @@ $role_id = $role->role_id;
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                @foreach($case_gen as $key => $truck_book)                                   
+                                @foreach($case_gen as $key => $truck_book)
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
-                                            @if($truck_book->transporter)
+                                            @if($truck_book->notes)
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($role_id == 1 || $role_id == 8 || $role_id == 11)
@@ -121,7 +121,7 @@ $role_id = $role->role_id;
                                         <td>{!! $truck_book->commodity_id !!}</td>
                                         <td>{!! $truck_book->total_weight !!}</td>
                                         <td>{!! $truck_book->no_of_bags !!}</td>
-                                        <td>{!! $truck_book->kanta_parchi_no !!}</td>
+                                        <!-- <td>{!! $truck_book->kanta_parchi_no !!}</td> -->
                                         <td>{!! $truck_book->gate_pass_no !!}</td>
                                         <td>{!! $truck_book->total_transport_cost !!}</td>
                                         <td>{!! $truck_book->advance_payment !!}</td>
@@ -160,7 +160,7 @@ $role_id = $role->role_id;
                         <div class="col-md-12">
                             <div class="col-md-4">
                                 {!! Form::label('transporter', 'Transporter', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('transporter', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Transporter']) !!}
+                                {!! Form::text('transporter', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Transporter']) !!}
 
                                 @if($errors->has('transporter'))
                                     <span class="text-red" role="alert">
@@ -170,7 +170,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('vehicle', 'Vehicle No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('vehicle', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Vehicle No.']) !!}
+                                {!! Form::text('vehicle', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Vehicle No.']) !!}
 
                                 @if($errors->has('vehicle'))
                                     <span class="text-red" role="alert">
@@ -180,7 +180,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('driver_name', 'Driver Name', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('driver_name', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Driver Name']) !!}
+                                {!! Form::text('driver_name', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Driver Name']) !!}
 
                                 @if($errors->has('driver_name'))
                                     <span class="text-red" role="alert">
@@ -190,7 +190,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('driver_phone', 'Driver Phone', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('driver_phone', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Driver Phone']) !!}
+                                {!! Form::text('driver_phone', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Driver Phone']) !!}
 
                                 @if($errors->has('driver_phone'))
                                     <span class="text-red" role="alert">
@@ -200,7 +200,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('rate_per_km', 'Tansport Rate/KM', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('rate_per_km', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Tansport Rate/KM']) !!}
+                                {!! Form::text('rate_per_km', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Tansport Rate/KM']) !!}
 
                                 @if($errors->has('rate_per_km'))
                                     <span class="text-red" role="alert">
@@ -210,7 +210,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('min_weight', 'Min Weight(Qtl.)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('min_weight', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Min Weight(Qtl.)']) !!}
+                                {!! Form::text('min_weight', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Min Weight(Qtl.)']) !!}
 
                                 @if($errors->has('min_weight'))
                                     <span class="text-red" role="alert">
@@ -220,7 +220,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('max_weight', 'Max Weight(Qtl.)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('max_weight', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Max Weight(Qtl.)']) !!}
+                                {!! Form::text('max_weight', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Max Weight(Qtl.)']) !!}
 
                                 @if($errors->has('max_weight'))
                                     <span class="text-red" role="alert">
@@ -230,7 +230,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('turnaround_time', 'Turnaround Time (In Hours)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('turnaround_time', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Turnaround Time']) !!}
+                                {!! Form::text('turnaround_time', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Turnaround Time']) !!}
 
                                 @if($errors->has('turnaround_time'))
                                     <span class="text-red" role="alert">
@@ -240,7 +240,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('total_weight', 'Total Weight (Qtl.)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('total_weight', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Total Weight']) !!}
+                                {!! Form::text('total_weight', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Total Weight']) !!}
 
                                 @if($errors->has('total_weight'))
                                     <span class="text-red" role="alert">
@@ -250,7 +250,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('no_of_bags', 'No of Bags', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('no_of_bags', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter No of Bags']) !!}
+                                {!! Form::text('no_of_bags', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter No of Bags']) !!}
 
                                 @if($errors->has('no_of_bags'))
                                     <span class="text-red" role="alert">
@@ -259,18 +259,28 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                {!! Form::label('kanta_parchi_no', 'Kanta Parchi No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('kanta_parchi_no', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Kanta Parchi No.']) !!}
+                                {!! Form::label('advance_payment', 'Advance Payment (INR)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::text('advance_payment', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Advance Payment']) !!}
 
+                                @if($errors->has('advance_payment'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('advance_payment') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <!-- <div class="col-md-4">
+                                {!! Form::label('kanta_parchi_no', 'Kanta Parchi No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::text('kanta_parchi_no', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Kanta Parchi No.']) !!}
+                            
                                 @if($errors->has('kanta_parchi_no'))
                                     <span class="text-red" role="alert">
                                         <strong class="red">{{ $errors->first('kanta_parchi_no') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+                            </div> -->
                             <div class="col-md-4">
                                 {!! Form::label('total_transport_cost', 'Total Transport Cost (INR)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('total_transport_cost', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Total Transport Cost']) !!}
+                                {!! Form::text('total_transport_cost', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Total Transport Cost']) !!}
 
                                 @if($errors->has('total_transport_cost'))
                                     <span class="text-red" role="alert">
@@ -282,7 +292,7 @@ $role_id = $role->role_id;
                             <div class="col-md-8 p-0">
                                 <div class="col-md-6">
                                     {!! Form::label('start_date_time', 'Start Date Time', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::text('start_date_time', '', ['class' => 'form-control datetimepicker', 'required' => 'required', 'placeholder' => 'Start Date Time', 'autocomplete' => 'off']) !!}
+                                    {!! Form::text('start_date_time', '', ['class' => 'form-control datetimepicker disable-cls', 'required' => 'required', 'placeholder' => 'Start Date Time', 'autocomplete' => 'off']) !!}
 
                                     @if($errors->has('start_date_time'))
                                         <span class="text-red" role="alert">
@@ -292,7 +302,7 @@ $role_id = $role->role_id;
                                 </div>
                                 <div class="col-md-6">
                                     {!! Form::label('end_date_time', 'End Date Time', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::text('end_date_time', '',['class' => 'form-control datetimepicker', 'placeholder' => 'End Date Time', 'required' => 'required', 'autocomplete' => 'off']) !!}
+                                    {!! Form::text('end_date_time', '',['class' => 'form-control datetimepicker disable-cls', 'placeholder' => 'End Date Time', 'required' => 'required', 'autocomplete' => 'off']) !!}
 
                                     @if($errors->has('end_date_time'))
                                         <span class="text-red" role="alert">
@@ -300,20 +310,11 @@ $role_id = $role->role_id;
                                         </span>
                                     @endif
                                 </div>
-                                <div class="col-md-6">
-                                    {!! Form::label('advance_payment', 'Advance Payment (INR)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::text('advance_payment', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Advance Payment']) !!}
-
-                                    @if($errors->has('advance_payment'))
-                                        <span class="text-red" role="alert">
-                                            <strong class="red">{{ $errors->first('advance_payment') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                                
                                 
                                 <div class="col-md-6">
                                     {!! Form::label('final_settlement_amount', 'Final Settlement Amount (INR)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::text('final_settlement_amount', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Final Settlement Amount']) !!}
+                                    {!! Form::text('final_settlement_amount', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Final Settlement Amount']) !!}
 
                                     @if($errors->has('final_settlement_amount'))
                                         <span class="text-red" role="alert">
@@ -321,10 +322,13 @@ $role_id = $role->role_id;
                                         </span>
                                     @endif
                                 </div>
+                                <div class="col-md-6 p-t-40 m-t-10">
+                                    <input type="checkbox" name="not_required" class="" id="not_required"> Not Required
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'onclick' => 'submitForm(this);', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
+                                {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
 
                                 @if($errors->has('notes'))
                                     <span class="text-red" role="alert">
@@ -365,7 +369,7 @@ $role_id = $role->role_id;
     </div>
 </div>
 
-@if($errors->has('transporter') || $errors->has('vehicle') || $errors->has('driver_name') || $errors->has('driver_phone') || $errors->has('rate_per_km') || $errors->has('min_weight') || $errors->has('max_weight') || $errors->has('turnaround_time') || $errors->has('total_weight') || $errors->has('no_of_bags') || $errors->has('notes') || $errors->has('kanta_parchi_no') || $errors->has('total_transport_cost') || $errors->has('advance_payment') || $errors->has('start_date_time') || $errors->has('final_settlement_amount') || $errors->has('end_date_time'))
+@if($errors->has('transporter') || $errors->has('vehicle') || $errors->has('driver_name') || $errors->has('driver_phone') || $errors->has('rate_per_km') || $errors->has('min_weight') || $errors->has('max_weight') || $errors->has('turnaround_time') || $errors->has('total_weight') || $errors->has('no_of_bags') || $errors->has('notes') || $errors->has('total_transport_cost') || $errors->has('advance_payment') || $errors->has('start_date_time') || $errors->has('final_settlement_amount') || $errors->has('end_date_time'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');
@@ -375,6 +379,18 @@ $role_id = $role->role_id;
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $('#not_required').on('click', function(){
+            if($(this).is(':checked'))
+            {
+                $('.disable-cls').attr('readonly', 'true');
+                $('.disable-cls').removeAttr("required");
+
+            }else{
+                $('.disable-cls').removeAttr("readonly");
+                $('.disable-cls').attr('required', 'true');
+            }
+        });
+
         $('.setPrice').on('click', function(){
             var case_id = $(this).attr('data-id');
             var name = $(this).attr('id');

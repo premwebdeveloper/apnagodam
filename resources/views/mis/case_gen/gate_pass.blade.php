@@ -51,7 +51,7 @@ $role_id = $role->role_id;
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
-                                    <th>Get Pass</th>
+                                    <th>Gate Pass</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
                                     <!-- <th>Total. Qty(Qtl)</th>
@@ -86,7 +86,7 @@ $role_id = $role->role_id;
                                                         <?php
                                                             $check_status = DB::table('apna_case_second_quality_report')->where('case_id', $pricing->case_id)->first();
                                                         ?>
-                                                        @if((($currentuserid == $pricing->lead_conv_uid) && ($check_status)) || (($role_id == 8) && ($check_status)))
+                                                        @if(($check_status) || ($role_id == 8 || $role_id == 7) && ($check_status))
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Gate Pass</a>
                                                         @else
                                                             <span class="text-navy">Processing...</span>

@@ -46,7 +46,7 @@ $role_id = $role->role_id;
                                     <th>Phone</th>
                                     <th>Location</th>
                                     <th>Commodity</th>
-                                    <th>Total. Quantity(Qtl)</th>
+                                    <th>Approx Quantity(Qtl)</th>
                                     <th>Terminal</th>
                                     <th>Purpose</th>
                                     <th>Created On</th>

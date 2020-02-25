@@ -55,9 +55,10 @@ $role_id = $role->role_id;
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
                                     <th>Phone</th>
-                                    <th>Total. Qty(Qtl)</th>
+                                    <th>Approx Qty(Qtl)</th>
                                     <th>Processing Fees(%)</th>
                                     <th>Interest Rate(%)</th>
+                                    <th>Price</th>
                                     <th>Rent</th>
                                     <th>Labour Rate</th>
                                     <th>Notes</th>
@@ -99,6 +100,7 @@ $role_id = $role->role_id;
                                             <td>{!! $pricing->total_weight !!}</td>
                                             <td>{!! $pricing->processing_fees !!}</td>
                                             <td>{!! $pricing->interest_rate !!}</td>
+                                            <td>{!! $pricing->price !!}</td>
                                             <td>{!! $pricing->rent !!}</td>
                                             <td>{!! $pricing->labour_rate !!}</td>
                                             <td>{!! $pricing->notes !!}</td>
@@ -151,16 +153,16 @@ $role_id = $role->role_id;
                     
                     <div class="row">
                         <div class="col-md-9 p-0">
-                            <!-- <div class="col-md-6">
+                            <div class="col-md-6">
                                 {!! Form::label('price', 'Price', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::number('price', '', ['class' => 'form-control', 'required' => 'required', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Price']) !!}
+                                {!! Form::number('price', '', ['class' => 'form-control', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Price']) !!}
                             
                                 @if($errors->has('price'))
                                     <span class="text-red" role="alert">
                                         <strong class="red">{{ $errors->first('price') }}</strong>
                                     </span>
                                 @endif
-                            </div> -->
+                            </div>
                             <div class="col-md-6">
                                 {!! Form::label('processing_fees', 'Processing Fees(%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                 {!! Form::number('processing_fees', '', ['class' => 'form-control', 'required' => 'required', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Processing Fees']) !!}
@@ -193,7 +195,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-6">
                                 {!! Form::label('transaction_type', 'Transaction Type', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::select('transaction_type', array('Cash (14-2)' => 'Cash (14-2)', 'E-Mandi' => 'E-Mandi'), '', ['class' => 'form-control', 'required' => 'required', 'id' => '']); !!}
+                                {!! Form::select('transaction_type', array('Cash (14-2)' => 'Cash (14-2)', 'E-Mandi' => 'E-Mandi', 'FPO' => 'FPO'), '', ['class' => 'form-control', 'required' => 'required', 'id' => '']); !!}
 
                                 @if($errors->has('transaction_type'))
                                     <span class="text-red" role="alert">

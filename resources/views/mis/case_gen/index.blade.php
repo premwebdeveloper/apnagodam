@@ -94,7 +94,7 @@ $role_id = $role->role_id;
                                     @endif
                                 </div>
                                 <div class="col-md-3">
-                                    {!! Form::label('quantity', 'Total Qty.(Qtl)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                    {!! Form::label('quantity', 'Approx Qty.(Qtl)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                     {!! Form::text('quantity', '', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Quantity in Quintal']) !!}
 
                                     @if($errors->has('quantity'))
@@ -190,7 +190,7 @@ $role_id = $role->role_id;
                                     <th>Phone</th>
                                     <th>Location</th>
                                     <th>Commodity</th>
-                                    <th>Total. Quantity(Qtl)</th>
+                                    <th>Approx Quantity(Qtl)</th>
                                     <th>Terminal</th>
                                     <th>In / Out</th>
                                     <th>Purpose</th>

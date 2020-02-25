@@ -71,7 +71,7 @@ $role_id = $role->role_id;
                                                 @if($pricing->file)
                                                     <span class="text-navy">Done</span>
                                                 @else
-                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
+                                                    @if($role_id == 1 || $role_id == 9 || $role_id == 8)
                                                         @if($check_status)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Delivery Order</a>
                                                         @else
@@ -200,7 +200,7 @@ $role_id = $role->role_id;
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');
-            var full_url = "<?= url('/'); ?>/resources/assets/upload/cctv/"+file
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/delivery_order/"+file
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });

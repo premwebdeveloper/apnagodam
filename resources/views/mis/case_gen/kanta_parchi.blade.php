@@ -82,7 +82,7 @@ $role_id = $role->role_id;
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if(($check_status) && ($currentuserid == $kanta_parchi->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                    @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
                                                         <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
                                                     @else
                                                         <span class="text-navy">Processing...</span>

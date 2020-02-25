@@ -61,7 +61,38 @@ $role_id = $role->role_id;
                             <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $pricing)
-                                    @if($pricing->in_out == 'IN' || $pricing->in_out == 'OUT')
+                                    @if($pricing->in_out == 'IN')
+                                        <?php
+                                            $check_status = DB::table('apna_case_quality_claim')->where('case_id', $pricing->case_id)->first();
+                                        ?>
+                                        <tr class="gradeX">
+                                            <td>{{ ++$key }}</td>
+                                            <td>
+                                                @if($pricing->file)
+                                                    <span class="text-navy">Done</span>
+                                                @else
+                                                    @if($role_id == 1 || $role_id == 14 || $role_id == 8)
+                                                        @if($check_status)
+                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update CCTV</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td>{!! $pricing->case_id !!}</td>
+                                            <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
+                                            <td>
+                                                @if($pricing->file)
+                                                    <a class="view_report" data-id="{{ $pricing->file }}"><i class="fa fa-eye"></i></a>
+                                                @else
+                                                @endif
+                                            </td>
+                                            <td>{!! $pricing->notes !!}</td>
+                                        </tr>
+                                    @elseif($pricing->in_out == 'OUT')
                                         <?php
                                             $check_status = DB::table('apna_case_e_mandi')->where('case_id', $pricing->case_id)->first();
                                         ?>
@@ -71,7 +102,7 @@ $role_id = $role->role_id;
                                                 @if($pricing->file)
                                                     <span class="text-navy">Done</span>
                                                 @else
-                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
+                                                    @if($role_id == 1 || $role_id == 14 || $role_id == 8)
                                                         @if($check_status)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update CCTV</a>
                                                         @else

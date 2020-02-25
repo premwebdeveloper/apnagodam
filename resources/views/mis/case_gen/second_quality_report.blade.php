@@ -60,8 +60,8 @@ $role_id = $role->role_id;
                                     <th>Broken (BK)</th>
                                     <th>FM Level %</th>
                                     <th>Thin (%)</th>
-                                    <th>Damage (%)</th>
-                                    <th>BS Level (%)</th>
+                                    <th>DeHusk (%)</th>
+                                    <th>Discolour (%)</th>
                                     <th>Infested (%)</th>
                                     <th>Live Insects</th>
                                     <th>Report</th>
@@ -92,7 +92,7 @@ $role_id = $role->role_id;
                                                         <?php
                                                             $check_status = DB::table('apna_case_second_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>
-                                                        @if(($check_status) && ($currentuserid == $quality_report->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                        @if(($check_status) && ($role_id == 1 || $role_id == 7 || $role_id == 8))
                                                             <a data-id="{!! $quality_report->case_id !!}" id='{!! $quality_report->cust_fname." ".$quality_report->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
                                                         @else
                                                             <span class="text-navy">Processing...</span>
@@ -204,8 +204,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                {!! Form::label('damage', 'Damage (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('damage', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Damage (%)']) !!}
+                                {!! Form::label('damage', 'DeHusk (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                {!! Form::text('damage', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'DeHusk (%)']) !!}
 
                                 @if($errors->has('damage'))
                                     <span class="text-red" role="alert">
@@ -214,8 +214,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                {!! Form::label('black_smith', 'BS Level (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::text('black_smith', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'BS Level (%)']) !!}
+                                {!! Form::label('black_smith', 'Discolour (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                {!! Form::text('black_smith', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Discolour (%)']) !!}
 
                                 @if($errors->has('black_smith'))
                                     <span class="text-red" role="alert">

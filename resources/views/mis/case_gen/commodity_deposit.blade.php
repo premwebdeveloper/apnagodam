@@ -71,7 +71,7 @@ $role_id = $role->role_id;
                                                 @if($pricing->file)
                                                     <span class="text-navy">Done</span>
                                                 @else
-                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
+                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
                                                         @if($check_status)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Commodity Deposit</a>
                                                         @else
@@ -115,7 +115,7 @@ $role_id = $role->role_id;
             <div class="modal-body">
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
-                {!! Form::open(array('url' => 'addCCTV', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
+                {!! Form::open(array('url' => 'addCommodityDeposit', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
                 {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
                     @csrf
                     
@@ -163,7 +163,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">CCTV File</h4>
+                <h4 class="modal-title">Commodity Deposit File</h4>
             </div>
             <div class="modal-body">                
                 <div class="row">
@@ -198,7 +198,7 @@ $role_id = $role->role_id;
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');
-            var full_url = "<?= url('/'); ?>/resources/assets/upload/cctv/"+file
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/commodity_deposit/"+file
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });

@@ -163,7 +163,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">CCTV File</h4>
+                <h4 class="modal-title">Commodity Withdrawal File</h4>
             </div>
             <div class="modal-body">                
                 <div class="row">
@@ -198,7 +198,7 @@ $role_id = $role->role_id;
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');
-            var full_url = "<?= url('/'); ?>/resources/assets/upload/cctv/"+file
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/commodity_withdrawal/"+file
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });

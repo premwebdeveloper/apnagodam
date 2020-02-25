@@ -80,7 +80,7 @@ $role_id = $role->role_id;
                                                         <?php
                                                         $check_status = DB::table('apna_case_quality_report')->where('case_id', $kanta_parchi->case_id)->first();
                                                         ?>
-                                                        @if(($check_status) && ($currentuserid == $kanta_parchi->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                        @if(($check_status) && ($role_id == 1 || $role_id == 7 || $role_id == 8))
                                                             <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
                                                         @else
                                                             <span class="text-navy">Processing...</span>

@@ -60,8 +60,8 @@ $role_id = $role->role_id;
                                     <th>Broken (BK)</th>
                                     <th>FM Level %</th>
                                     <th>Thin (%)</th>
-                                    <th>Damage (%)</th>
-                                    <th>BS Level (%)</th>
+                                    <th>DeHusk (%)</th>
+                                    <th>Discolour (%)</th>
                                     <th>Infested (%)</th>
                                     <th>Live Insects</th>
                                     <th>Quality Discount</th>
@@ -91,11 +91,28 @@ $role_id = $role->role_id;
                                                     @elseif($quality_claim->in_out == 'IN')
                                                         <?php
                                                             $check_status = DB::table('apna_case_e_mandi')->where('case_id', $quality_claim->case_id)->first();
+                                                            $check_pricing = DB::table('apna_case_pricing')->where('case_id', $quality_claim->case_id)->first();
                                                         ?>
-                                                        @if(($check_status) && ($currentuserid == $quality_claim->lead_conv_uid || $role_id == 1 || $role_id == 8))
-                                                            <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                        @if($check_pricing)
+                                                            @if($check_pricing->transaction_type == 'E-Mandi')
+                                                                @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                                    <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                                @else
+                                                                    <span class="text-navy">Processing...</span>
+                                                                @endif
+                                                            @else
+                                                                @if($role_id == 1 || $role_id == 8 || $role_id == 7)
+                                                                    <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                                @else
+                                                                    <span class="text-navy">Processing...</span>
+                                                                @endif
+                                                            @endif
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                                <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                            @else
+                                                                <span class="text-navy">Processing...</span>
+                                                            @endif
                                                         @endif
                                                     @else
                                                     @endif
@@ -205,8 +222,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                {!! Form::label('damage', 'Damage (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::number('damage', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'Damage (%)']) !!}
+                                {!! Form::label('damage', 'DeHusk (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                {!! Form::number('damage', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'DeHusk (%)']) !!}
 
                                 @if($errors->has('damage'))
                                     <span class="text-red" role="alert">
@@ -215,8 +232,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                {!! Form::label('black_smith', 'BS Level (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::number('black_smith', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'BS Level (%)']) !!}
+                                {!! Form::label('black_smith', 'Discolour (%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                {!! Form::number('black_smith', '', ['class' => 'form-control', 'autocomplete' => 'off', 'step' => 'any', 'placeholder' => 'Discolour (%)']) !!}
 
                                 @if($errors->has('black_smith'))
                                     <span class="text-red" role="alert">
@@ -331,7 +348,7 @@ $role_id = $role->role_id;
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');
-            var full_url = "<?= url('/'); ?>/resources/assets/upload/quality_report/"+file
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/quality_claim/"+file
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });

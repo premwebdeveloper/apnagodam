@@ -56,10 +56,10 @@ $role_id = $role->role_id;
                                     <th>Customer Name</th>
                                     <th>Phone</th>
                                     <th>Vikray Parchi</th>
-                                    <th>Inventory</th>
+                                    <th>Inventory Update</th>
                                     <th>Tally Updation</th>
                                     <th>Cold Win Entry</th>
-                                    <th>WHS Issuation</th>
+                                    <th>WH Issuation</th>
                                     <th>Notes</th>
                                     <th>Done By</th>
 	                            </tr>
@@ -100,12 +100,8 @@ $role_id = $role->role_id;
                                                         $check_emandi = DB::table('apna_case_cdf')->where('case_id', $accounts->case_id)->first();
                                                         ?>
                                                         @if($check_status)
-                                                            @if($check_status->transaction_type == 'E-Mandi')
-                                                                @if($check_emandi)
-                                                                    <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
-                                                                @else
-                                                                    <span class="text-navy">Processing...</span>
-                                                                @endif
+                                                            @if($check_emandi)
+                                                                <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
                                                             @else
                                                                 <span class="text-navy">Processing...</span>
                                                             @endif
@@ -206,7 +202,7 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-6">
-                                {!! Form::label('whs_issulation', 'WHS Issuation', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::label('whs_issulation', 'WH Issuation', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                 {!! Form::select('whs_issulation', array('' => 'Select', 'Yes' => 'Yes', 'No' => 'No'), '', ['class' => 'form-control', 'required' => 'required', 'id' => '']); !!}
 
                                 @if($errors->has('whs_issulation'))
@@ -216,7 +212,7 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-6">
-                                {!! Form::label('inventory', 'Inventory', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::label('inventory', 'Inventory Updation', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                 {!! Form::select('inventory', array('' => 'Select', 'Yes' => 'Yes', 'No' => 'No'), '', ['class' => 'form-control', 'required' => 'required', 'id' => '']); !!}
 
                                 @if($errors->has('inventory'))

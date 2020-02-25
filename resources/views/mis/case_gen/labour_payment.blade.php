@@ -51,7 +51,7 @@ $role_id = $role->role_id;
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
-                                    <th>Get Pass</th>
+                                    <th>Gate Pass</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
                                     <th>Labour Payment File</th>
@@ -70,8 +70,8 @@ $role_id = $role->role_id;
                                             @if($pricing->file)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if(($currentuserid == $pricing->lead_conv_uid) && ($check_status))
+                                                @if($role_id == 1 || $role_id == 3 || $role_id == 8)
+                                                    @if($check_status)
                                                         <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Labour Payment</a>
                                                     @else
                                                         <span class="text-navy">Processing...</span>
