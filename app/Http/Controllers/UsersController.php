@@ -830,6 +830,6 @@ class UsersController extends Controller
         // send sms on mobile number using curl
         $success = sendsms(Auth::user()->phone, $sms);
 
-        return redirect('inventories')->with('status', 'Your Bid has been successfully submitted. Please wait for admin approval');
+        return redirect('inventories')->with('status', 'Your deal has been done. Please wait for admin approval');
     }
 }

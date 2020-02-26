@@ -532,15 +532,16 @@ class AdminController extends Controller
         $role = DB::table('user_roles')->where('user_id', $user->id)->first();
 
         $done_deals = DB::table('buy_sells')
-                        ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
-                        ->join('users','users.id', '=', 'buy_sells.seller_id')
-                        ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
-                        ->join('categories', 'categories.id', '=', 'inv.commodity')
-                        ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
-                        ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
+                        ->leftjoin('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+                        ->leftjoin('users','users.id', '=', 'buy_sells.seller_id')
+                        ->leftjoin('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+                        ->leftjoin('categories', 'categories.id', '=', 'inv.commodity')
+                        ->leftjoin('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+                        ->leftjoin('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
                         ->select('buy_sells.*', 'inv.gate_pass_wr','user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse', 'mandi_samitis.name as mandi_samiti_name')
+                        ->orderBy('buy_sells.updated_at', 'DESC')
+                        ->groupBy('buy_sells.id')
                         ->get();
-
         return view('admin.done_deals', array('done_deals' => $done_deals, 'role' => $role));
     }
 

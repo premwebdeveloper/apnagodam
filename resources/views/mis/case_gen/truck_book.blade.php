@@ -427,5 +427,5 @@ $role_id = $role->role_id;
         $('.datetimepicker').datetimepicker();
     });
 </script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.0/css/bootstrap-datetimepicker.min.css" />
+<link rel="stylesheet" href="{{ asset('resources/assets/datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
 @endsection

@@ -125,7 +125,7 @@ $role_id = $role->role_id;
                         <div class="col-md-12">
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'CCTV File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::label('report_file', 'WH File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                                     {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
 
                                     @if($errors->has('report_file'))

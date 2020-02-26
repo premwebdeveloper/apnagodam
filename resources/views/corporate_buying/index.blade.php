@@ -531,6 +531,7 @@
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#nr_final_bid_price').val(actual_bid.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
+                        $('.neemrana_sell').addClass('show');
                     }
                 }
             }else{
@@ -538,6 +539,8 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
+                $('.neemrana_sell').removeClass('show');
+                $('.neemrana_sell').removeClass('show');
                 $('#n_bid_price').html("0.00");
             }
         });
@@ -592,6 +595,7 @@
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#nr_final_bid_price').val(actual_bid.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
+                        $('.neemrana_sell').addClass('show');
                     }
                 }
             }else{
@@ -599,6 +603,8 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
+                $('.neemrana_sell').removeClass('show');
+                $('.neemrana_sell').removeClass('show');
                 $('#n_bid_price').html("0.00");
 
             }
@@ -654,6 +660,7 @@
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#nr_final_bid_price').val(actual_bid.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
+                        $('.neemrana_sell').addClass('show');
                     }
                 }
             }else{
@@ -662,6 +669,8 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
+                $('.neemrana_sell').removeClass('show');
+                $('.neemrana_sell').removeClass('show');
                 $('#n_bid_price').html("0.00");
             }
         });
@@ -716,6 +725,7 @@
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#nr_final_bid_price').val(actual_bid.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
+                        $('.neemrana_sell').addClass('show');
                     }
                 }
             }else{
@@ -723,6 +733,8 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
+                $('.neemrana_sell').removeClass('show');
+                $('.neemrana_sell').removeClass('show');
                 $('#n_bid_price').html("0.00");
             }
         });
@@ -774,6 +786,7 @@
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#nr_final_bid_price').val(actual_bid.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
+                        $('.neemrana_sell').addClass('show');
                     }
                 }
 
@@ -783,6 +796,8 @@
                 $('#total_price').html('');
                 $('#nr_quality_variance').val('');
                 $('.neemrana_sell').addClass('hide');
+                $('.neemrana_sell').removeClass('show');
+                $('.neemrana_sell').removeClass('show');
                 $('#n_bid_price').html("0.00");
             }
         });
@@ -836,6 +851,7 @@
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#cm_final_bid_price').val(actual_bid.toFixed(2));
                         $('.chomu_sell').removeClass('hide');
+                        $('.chomu_sell').addClass('show');
                     }
                 }
             }else{
@@ -843,6 +859,7 @@
                 $('#cm_total_price').html('');
                 $('#cm_quality_variance').val('');
                 $('.chomu_sell').addClass('hide');
+                $('.chomu_sell').removeClass('show');
                 $('#c_bid_price').html('0.00');
             }
         });
@@ -897,6 +914,7 @@
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#cm_final_bid_price').val(actual_bid.toFixed(2));
                         $('.chomu_sell').removeClass('hide');
+                        $('.chomu_sell').addClass('show');
                     }
                 }
             }else{
@@ -904,6 +922,7 @@
                 $('#cm_total_price').html('');
                 $('#cm_quality_variance').val('');
                 $('.chomu_sell').addClass('hide');
+                $('.chomu_sell').removeClass('show');
                 $('#c_bid_price').html('0.00');
 
             }
@@ -959,6 +978,7 @@
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#cm_final_bid_price').val(actual_bid.toFixed(2));
                         $('.chomu_sell').removeClass('hide');
+                        $('.chomu_sell').addClass('show');
                     }
                 }
             }else{
@@ -1018,6 +1038,7 @@
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#cm_final_bid_price').val(actual_bid.toFixed(2));
                         $('.chomu_sell').removeClass('hide');
+                        $('.chomu_sell').addClass('show');
                     }
                 }
             }else{
@@ -1025,6 +1046,7 @@
                 $('#cm_total_price').html('');
                 $('#cm_quality_variance').val('');
                 $('.chomu_sell').addClass('hide');
+                $('.chomu_sell').removeClass('show');
                 $('#c_bid_price').html('0.00');
             }
         });
@@ -1074,6 +1096,7 @@
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                         $('#cm_final_bid_price').val(actual_bid.toFixed(2));
                         $('.chomu_sell').removeClass('hide');
+                        $('.chomu_sell').addClass('show');
                     }
                 }
 
@@ -1083,6 +1106,7 @@
                 $('#cm_total_price').html('');
                 $('#cm_quality_variance').val('');
                 $('.chomu_sell').addClass('hide');
+                $('.chomu_sell').removeClass('show');
                 $('#c_bid_price').html('0.00');
             }
         });
@@ -1129,11 +1153,13 @@
                     $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                     $('#nr_final_bid_price').val(actual_bid.toFixed(2));
                     $('.neemrana_sell').removeClass('hide');
+                    $('.neemrana_sell').addClass('show');
                 }
             }else{
                 $('#nr_total_km').val(0);
                 $('#nr_transport_cost').val(0);
                 $('.neemrana_sell').addClass('hide');
+                $('.neemrana_sell').removeClass('show');
                 $('#n_bid_price').html("0.00");
             }
         });
@@ -1179,11 +1205,13 @@
                     $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                     $('#cm_final_bid_price').val(actual_bid.toFixed(2));
                     $('.chomu_sell').removeClass('hide');
+                    $('.chomu_sell').addClass('show');
                 }
             }else{
                 $('#cm_total_km').val(0);
                 $('#cm_transport_cost').val(0);
                 $('.chomu_sell').addClass('hide');
+                $('.chomu_sell').removeClass('show');
                 $('#c_bid_price').html("0.00");
             }
         });
