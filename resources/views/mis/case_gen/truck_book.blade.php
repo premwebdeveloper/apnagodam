@@ -83,8 +83,8 @@ $role_id = $role->role_id;
                                             @if($truck_book->notes)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 8 || $role_id == 11)
-                                                    @if($truck_book->in_out == 'PASS' || $truck_book->in_out == 'IN')
+                                                @if($truck_book->in_out == 'PASS')
+                                                    @if($role_id == 1 || $role_id == 8 || $role_id == 6)
                                                         <?php
                                                         $check_status = DB::table('apna_case_pricing')->where('case_id', $truck_book->case_id)->first();
                                                         ?>
@@ -94,6 +94,10 @@ $role_id = $role->role_id;
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
                                                     @else
+                                                        <span class="text-navy">In Proces</span>
+                                                    @endif
+                                                @elseif($truck_book->in_out == 'OUT')
+                                                    @if($role_id == 1 || $role_id == 8 || $role_id == 11)
                                                         <?php
                                                         $check_status = DB::table('apna_case_delivery_order')->where('case_id', $truck_book->case_id)->first();
                                                         ?>
@@ -102,6 +106,21 @@ $role_id = $role->role_id;
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif($truck_book->in_out == 'IN')
+                                                    @if($role_id == 1 || $role_id == 8 || $role_id == 11)
+                                                        <?php
+                                                        $check_status = DB::table('apna_case_pricing')->where('case_id', $truck_book->case_id)->first();
+                                                        ?>
+                                                        @if($check_status)
+                                                            <a data-id="{!! $truck_book->case_id !!}" id='{!! $truck_book->cust_fname." ".$truck_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Details</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
                                                 @else
                                                     <span class="text-navy">In Process</span>

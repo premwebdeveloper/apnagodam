@@ -305,6 +305,12 @@
                     <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label">OUT</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse" aria-expanded="false">
                         <li>
+                            <a href="{{ route('pricing') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">Pricing</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('release_order') }}">
                                 <i class="fa fa-first-order" title=""></i>
                                 <span class="nav-label">Release Order</span>

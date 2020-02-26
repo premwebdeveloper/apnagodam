@@ -81,14 +81,36 @@ $role_id = $role->role_id;
                                             @if($kanta_parchi->file)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
-                                                        <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
+                                                @if($kanta_parchi->in_out == 'PASS')
+                                                    @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
+                                                        @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7 || $role_id == 6))
+                                                            <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @else
-                                                        <span class="text-navy">Processing...</span>
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
-                                                @else
-                                                    <span class="text-navy">In Process</span>
+                                                @elseif($kanta_parchi->in_out == 'OUT')
+                                                     @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                        @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                            <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif($kanta_parchi->in_out == 'IN')
+                                                     @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                        @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                            <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
                                                 @endif
                                             @endif
                                         </td>

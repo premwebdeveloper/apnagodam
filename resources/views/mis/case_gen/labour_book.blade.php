@@ -75,11 +75,35 @@ $role_id = $role->role_id;
                                             @if($labour_book->labour_contractor)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 8 || $role_id == 11)
-                                                    @if($check_status)
-                                                        <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Labour</a>
+                                                @if($labour_book->in_out == 'IN')
+                                                    @if($role_id == 1 || $role_id == 8 || $role_id == 11)
+                                                        @if($check_status)
+                                                            <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Labour</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @else
-                                                        <span class="text-navy">Processing...</span>
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif($labour_book->in_out == 'OUT')
+                                                    @if($role_id == 1 || $role_id == 8 || $role_id == 11)
+                                                        @if($check_status)
+                                                            <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Labour</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif($labour_book->in_out == 'PASS')
+                                                    @if($role_id == 1 || $role_id == 8 || $role_id == 6)
+                                                        @if($check_status)
+                                                            <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Labour</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
                                                 @else
                                                     <span class="text-navy">In Process</span>

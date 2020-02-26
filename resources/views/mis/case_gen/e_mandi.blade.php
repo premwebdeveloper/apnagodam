@@ -71,18 +71,38 @@ $role_id = $role->role_id;
                                             @if($pricing->file)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 13 || $role_id == 8)
-                                                    @if(($check_status))
-                                                        @if($check_pricing->transaction_type == 'E-Mandi')
-                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update E-Mandi</a>
+                                                @if($pricing->in_out == 'PASS' || $pricing->in_out == 'IN')
+                                                    @if($role_id == 1 || $role_id == 13 || $role_id == 8)
+                                                        @if(($check_status))
+                                                            @if($check_pricing->transaction_type == 'E-Mandi')
+                                                                <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update E-Mandi</a>
+                                                            @else
+                                                                <span class="text-navy">14(2) Transaction</span>
+                                                            @endif
                                                         @else
-                                                            <span class="text-navy">14(2) Transaction</span>
+                                                            <span class="text-navy">Processing...</span>
                                                         @endif
                                                     @else
-                                                        <span class="text-navy">Processing...</span>
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
-                                                @else
-                                                    <span class="text-navy">In Process</span>
+                                                @elseif($pricing->in_out == 'OUT')
+                                                     @if($role_id == 1 || $role_id == 13)
+                                                        @if(($check_status))
+                                                            @if($check_pricing)
+                                                                @if($check_pricing->transaction_type == 'E-Mandi')
+                                                                    <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update E-Mandi</a>
+                                                                @else
+                                                                    <span class="text-navy">14(2) Transaction</span>
+                                                                @endif
+                                                            @else
+                                                                <span class="text-navy">14(2) Transaction</span>
+                                                            @endif
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
                                                 @endif
                                             @endif
                                         </td>

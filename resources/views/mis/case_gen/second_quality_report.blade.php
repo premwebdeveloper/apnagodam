@@ -78,8 +78,8 @@ $role_id = $role->role_id;
                                             @if($quality_report->moisture_level)
                                             <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if($quality_report->in_out == 'PASS')
+                                                @if($quality_report->in_out == 'PASS')
+                                                    @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
                                                         <?php
                                                             $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>
@@ -88,7 +88,11 @@ $role_id = $role->role_id;
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
-                                                    @elseif($quality_report->in_out == 'IN' || $quality_report->in_out == 'OUT')
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif($quality_report->in_out == 'IN')
+                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
                                                         <?php
                                                             $check_status = DB::table('apna_case_second_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>
@@ -98,9 +102,22 @@ $role_id = $role->role_id;
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
                                                     @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif( $quality_report->in_out == 'OUT')
+                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                        <?php
+                                                            $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
+                                                        ?>
+                                                        @if(($check_status) && ($role_id == 1 || $role_id == 7 || $role_id == 8))
+                                                            <a data-id="{!! $quality_report->case_id !!}" id='{!! $quality_report->cust_fname." ".$quality_report->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
                                                 @else
-                                                    <span class="text-navy">In Process</span>
                                                 @endif
                                             @endif
                                         </td>

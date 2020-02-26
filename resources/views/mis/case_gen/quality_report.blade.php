@@ -7,13 +7,13 @@ $role_id = $role->role_id;
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-6">
-        <h2>Quality Report </h2>
+        <h2>First Quality Report </h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>Quality Report </strong>
+                <strong>First Quality Report </strong>
             </li>
         </ol>
     </div>
@@ -24,7 +24,7 @@ $role_id = $role->role_id;
         <div class="col-lg-12">
 	        <div class="ibox float-e-margins">
                 <div class="ibox-title">
-	                <h5>Quality Report List</h5>
+	                <h5>First Quality Report List</h5>
 	                <div class="ibox-tools">
 	                    <a class="collapse-link">
 	                        <i class="fa fa-chevron-up"></i>
@@ -77,14 +77,18 @@ $role_id = $role->role_id;
                                             @if($pricing->moisture_level)
                                             <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 11 || $role_id == 7 || $role_id == 8)
-                                                    @if($pricing->in_out == 'PASS')
+                                                @if($pricing->in_out == 'PASS')
+                                                    @if($role_id == 1 || $role_id == 6 || $role_id == 8)
                                                         @if($currentuserid == $pricing->lead_conv_uid || $role_id == 1 || $role_id == 8)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
-                                                    @elseif($pricing->in_out == 'IN')
+                                                    @else
+                                                        <span class="text-navy">Processing...</span>
+                                                    @endif
+                                                @elseif($pricing->in_out == 'IN')
+                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
                                                         <?php
                                                         $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $pricing->case_id)->first();
                                                         ?>
@@ -93,19 +97,24 @@ $role_id = $role->role_id;
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
-                                                    @elseif($pricing->in_out == 'OUT')
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif($pricing->in_out == 'OUT')
+                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
                                                         <?php
                                                         $check_status = DB::table('apna_labour_book')->where('case_id', $pricing->case_id)->first();
                                                         ?>
-                                                        @if(($check_status) && ($role_id == 1 || $role_id == 7 || $role_id == 11))
+                                                        @if(($check_status) && ($role_id == 1 || $role_id == 7 || $role_id == 8))
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
-                                                @else
-                                                    <span class="text-navy">In Process</span>
                                                 @endif
+                                                
                                             @endif
                                         </td>
                                         <td>{!! $pricing->case_id !!}</td>
@@ -289,7 +298,7 @@ $role_id = $role->role_id;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Quality Report File</h4>
+                <h4 class="modal-title">First Quality Report File</h4>
             </div>
             <div class="modal-body">                
                 <div class="row">

@@ -55,7 +55,8 @@ $role_id = $role->role_id;
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
                                     <th>Phone</th>
-                                    <th>Approx Qty(Qtl)</th>
+                                    <th>Transaction Type</th>
+                                    <th>Approx Qty.(Qtl.)</th>
                                     <th>Processing Fees(%)</th>
                                     <th>Interest Rate(%)</th>
                                     <th>Price</th>
@@ -67,64 +68,73 @@ $role_id = $role->role_id;
 	                        </thead>
 	                        <tbody>
                                 @foreach($case_gen as $key => $pricing)
-                                    @if($pricing->in_out == 'IN' || $pricing->in_out == 'PASS')
-                                        <?php
-                                        //If First Quality Report Update or not
-                                        $res = DB::table('apna_case_quality_report')->where('case_id', $pricing->case_id)->first();
-                                        $check_status = DB::table('apna_case_pricing')->where('case_id', $pricing->case_id)->first();
-                                        ?>
-    	                                <tr class="gradeX">
-                                            <td>{{ ++$key }}</td>
-                                            <td>
-                                                @if($pricing->processing_fees)
-                                                    <span class="text-navy">Done</span>
-                                                @else
+                                    <?php
+                                    //If First Quality Report Update or not
+                                    $res = DB::table('apna_case_quality_report')->where('case_id', $pricing->case_id)->first();
+                                    $check_status = DB::table('apna_case_pricing')->where('case_id', $pricing->case_id)->first();
+                                    ?>
+	                                <tr class="gradeX">
+                                        <td>{{ ++$key }}</td>
+                                        <td>
+                                            @if($pricing->processing_fees)
+                                                <span class="text-navy">Done</span>
+                                            @else
+                                                @if($pricing->in_out == 'PASS')
                                                     @if($role_id == 1 || $role_id == 8 || $role_id == 9)
-                                                        @if($pricing->in_out == 'PASS')
-                                                            @if($res)
-                                                                <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Set Price</a>
-                                                            @else
-                                                                <span class="text-navy">Processing...</span>
-                                                            @endif
-                                                        @elseif($pricing->in_out == 'IN')
+                                                        @if($res)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Set Price</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
                                                         @endif
+                                                    @else
+                                                        <span class="text-navy">Processing...</span>
+                                                    @endif
+                                                @elseif($pricing->in_out == 'IN')
+                                                    @if($role_id == 1 || $role_id == 8 || $role_id == 9)
+                                                        <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Set Price</a>
+                                                    @endif
+                                                @elseif($pricing->in_out == 'OUT')
+                                                    @if($role_id == 1 || $role_id == 9)
+                                                        <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Set Price</a>
                                                     @else
                                                         <span class="text-navy">In Process</span>
                                                     @endif
+                                                @else
+                                                    <span class="text-navy">In Process</span>
                                                 @endif
-                                            </td>
-                                            <td>{!! $pricing->case_id !!}</td>
-                                            <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
-                                            <td>{!! $pricing->phone !!}</td>
-                                            <td>{!! $pricing->total_weight !!}</td>
-                                            <td>{!! $pricing->processing_fees !!}</td>
-                                            <td>{!! $pricing->interest_rate !!}</td>
-                                            <td>{!! $pricing->price !!}</td>
-                                            <td>{!! $pricing->rent !!}</td>
-                                            <td>{!! $pricing->labour_rate !!}</td>
-                                            <td>{!! $pricing->notes !!}</td>
-                                            <td>
-                                                @if($pricing->in_out == 'PASS')
-                                                    @if(!$check_status && $res)
-                                                        <a href="{!! route('close_case', ['user_id' => $pricing->case_id]) !!}" class="btn btn-danger btn-xs" data-toggle="confirmation" data-placement="bottom" title="Close Case ID">
-                                                            Close
-                                                        </a>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
-                                                @elseif($pricing->in_out == 'IN')
-                                                    @if(!$check_status)
-                                                        <a href="{!! route('close_case', ['user_id' => $pricing->case_id]) !!}" class="btn btn-danger btn-xs" data-toggle="confirmation" data-placement="bottom" title="Close Case ID">
-                                                            Close
-                                                        </a>
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
+                                            @endif
+                                        </td>
+                                        <td>{!! $pricing->case_id !!}</td>
+                                        <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
+                                        <td>{!! $pricing->phone !!}</td>
+                                        <td>{!! $pricing->transaction_type !!}</td>
+                                        <td>{!! $pricing->total_weight !!}</td>
+                                        <td>{!! $pricing->processing_fees !!}</td>
+                                        <td>{!! $pricing->interest_rate !!}</td>
+                                        <td>{!! $pricing->price !!}</td>
+                                        <td>{!! $pricing->rent !!}</td>
+                                        <td>{!! $pricing->labour_rate !!}</td>
+                                        <td>{!! $pricing->notes !!}</td>
+                                        <td>
+                                            @if($pricing->in_out == 'PASS')
+                                                @if(!$check_status && $res)
+                                                    <a href="{!! route('close_case', ['user_id' => $pricing->case_id]) !!}" class="btn btn-danger btn-xs" data-toggle="confirmation" data-placement="bottom" title="Close Case ID">
+                                                        Close
+                                                    </a>
+                                                @else
+                                                    <span>-</span>
                                                 @endif
-                                            </td>
-    	                                </tr>
-                                    @endif
+                                            @elseif($pricing->in_out == 'IN')
+                                                @if(!$check_status)
+                                                    <a href="{!! route('close_case', ['user_id' => $pricing->case_id]) !!}" class="btn btn-danger btn-xs" data-toggle="confirmation" data-placement="bottom" title="Close Case ID">
+                                                        Close
+                                                    </a>
+                                                @else
+                                                    <span>-</span>
+                                                @endif
+                                            @endif
+                                        </td>
+	                                </tr>
                                 @endforeach
 	                        </tbody>
 	                    </table>

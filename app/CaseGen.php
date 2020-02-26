@@ -109,17 +109,17 @@ class CaseGen extends Model
     {
         $case = DB::table('apna_case')
             ->leftjoin('user_details as customer', 'customer.user_id', '=', 'apna_case.customer_uid')
-            ->join('apna_case_warehouse_receipt', 'apna_case_warehouse_receipt.case_id', '=', 'apna_case.case_id')
+            ->join('apna_case_payment_received', 'apna_case_payment_received.case_id', '=', 'apna_case.case_id')
             ->join('users as lead_generator', 'lead_generator.id', '=', 'apna_case.lead_gen_uid')
             ->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
             ->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
             ->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
-            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_warehouse_receipt.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_warehouse_receipt.file', 'apna_case_warehouse_receipt.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.name as terminal_name')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_payment_received.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_payment_received.file', 'apna_case_payment_received.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.name as terminal_name')
             ->where('apna_case.in_out', 'OUT')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
-            ->groupBy('apna_case_warehouse_receipt.case_id')
+            ->groupBy('apna_case_payment_received.case_id')
             ->get();
         return $case;
     }
@@ -130,7 +130,7 @@ class CaseGen extends Model
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_pricing', 'apna_case_pricing.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_pricing.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_pricing.processing_fees', 'apna_case_pricing.interest_rate', 'apna_case_pricing.price', 'apna_case_pricing.rent', 'apna_case_pricing.labour_rate', 'apna_case_pricing.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_pricing.processing_fees', 'apna_case_pricing.interest_rate', 'apna_case_pricing.price', 'apna_case_pricing.rent', 'apna_case_pricing.labour_rate', 'apna_case_pricing.notes', 'apna_case_pricing.transaction_type', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->groupBy('apna_case.case_id')
@@ -617,6 +617,7 @@ class CaseGen extends Model
             'live_insects' => $data['live_insects'],
             'quality_discount_value' => $data['quality_discount_value'],
             'imge' => $data['imge'],
+            'second_report' => $data['second_report'],
             'notes' => $data['notes'],
             'created_at' => $date,
             'updated_at' => $date,
@@ -632,7 +633,7 @@ class CaseGen extends Model
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_quality_claim', 'apna_case_quality_claim.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_quality_claim.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_claim.moisture_level', 'apna_case_quality_claim.thousand_crown_w', 'apna_case_quality_claim.broken', 'apna_case_quality_claim.foreign_matter', 'apna_case_quality_claim.thin', 'apna_case_quality_claim.damage', 'apna_case_quality_claim.black_smith', 'apna_case_quality_claim.infested', 'apna_case_quality_claim.live_insects', 'apna_case_quality_claim.quality_discount_value', 'apna_case_quality_claim.imge',  'apna_case_quality_claim.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_claim.moisture_level', 'apna_case_quality_claim.thousand_crown_w', 'apna_case_quality_claim.broken', 'apna_case_quality_claim.foreign_matter', 'apna_case_quality_claim.thin', 'apna_case_quality_claim.damage', 'apna_case_quality_claim.black_smith', 'apna_case_quality_claim.infested', 'apna_case_quality_claim.live_insects', 'apna_case_quality_claim.quality_discount_value', 'apna_case_quality_claim.imge', 'apna_case_quality_claim.second_report',  'apna_case_quality_claim.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->groupBy('apna_case.case_id')

@@ -1051,7 +1051,9 @@ class CaseGenController extends Controller
     {
         //Get All Post Data
         $request->validate([
-            'moisture_level'    => 'required'
+            'moisture_level'    => 'required',
+            'report_file'    => 'required',
+            'second_report_file'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -1106,6 +1108,41 @@ class CaseGenController extends Controller
         }
 
         $data['imge'] = $img_name;
+
+        if($request->hasFile('second_report_file')) {
+
+            $file = $request->second_report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('quality_claim')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('quality_claim')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/quality_claim/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }
+        $data['second_report'] = $img_name;
 
         //Insert Data
         $insert = CaseGen::updateQualityClaim($data);

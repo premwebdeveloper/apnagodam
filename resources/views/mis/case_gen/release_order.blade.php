@@ -70,11 +70,19 @@ $role_id = $role->role_id;
                                                 @if($pricing->file)
                                                     <span class="text-navy">Done</span>
                                                 @else
-                                                    @if($role_id == 1 || $role_id == 9 || $role_id == 8)
-                                                        <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Release Order</a>
-                                                           
+                                                    <?php
+                                                    $check_status = DB::table('apna_case_pricing')->where('case_id', $pricing->case_id)->first();
+                                                    ?>
+                                                    @if($check_status) 
+                                                        @if($role_id == 1 || $role_id == 9 || $role_id == 8)
+
+                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Release Order</a>
+                                                               
+                                                        @else
+                                                            <span class="text-navy">In Process</span>
+                                                        @endif
                                                     @else
-                                                        <span class="text-navy">In Process</span>
+                                                        <span class="text-navy">Processing...</span>
                                                     @endif
                                                 @endif
                                             </td>

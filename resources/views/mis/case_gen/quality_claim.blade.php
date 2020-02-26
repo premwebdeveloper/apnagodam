@@ -66,6 +66,7 @@ $role_id = $role->role_id;
                                     <th>Live Insects</th>
                                     <th>Quality Discount</th>
                                     <th>Report</th>
+                                    <th>Second Report</th>
                                     <th>Notes</th>
 	                            </tr>
 	                        </thead>
@@ -78,8 +79,8 @@ $role_id = $role->role_id;
                                             @if($quality_claim->moisture_level)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if($quality_claim->in_out == 'PASS' || $quality_claim->in_out == 'OUT')
+                                                @if($quality_claim->in_out == 'PASS')
+                                                    @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
                                                         <?php
                                                             $check_status = DB::table('apna_case_shipping_end')->where('case_id', $quality_claim->case_id)->first();
                                                         ?>
@@ -88,33 +89,47 @@ $role_id = $role->role_id;
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
-                                                    @elseif($quality_claim->in_out == 'IN')
-                                                        <?php
-                                                            $check_status = DB::table('apna_case_e_mandi')->where('case_id', $quality_claim->case_id)->first();
-                                                            $check_pricing = DB::table('apna_case_pricing')->where('case_id', $quality_claim->case_id)->first();
-                                                        ?>
-                                                        @if($check_pricing)
-                                                            @if($check_pricing->transaction_type == 'E-Mandi')
-                                                                @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
-                                                                    <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
-                                                                @else
-                                                                    <span class="text-navy">Processing...</span>
-                                                                @endif
+                                                    @else
+                                                            <span class="text-navy">Processing...</span>
+                                                    @endif
+                                                @elseif($quality_claim->in_out == 'IN')
+                                                    <?php
+                                                        $check_status = DB::table('apna_case_e_mandi')->where('case_id', $quality_claim->case_id)->first();
+                                                        $check_pricing = DB::table('apna_case_pricing')->where('case_id', $quality_claim->case_id)->first();
+                                                    ?>
+                                                    @if($check_pricing)
+                                                        @if($check_pricing->transaction_type == 'E-Mandi')
+                                                            @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                                <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
                                                             @else
-                                                                @if($role_id == 1 || $role_id == 8 || $role_id == 7)
-                                                                    <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
-                                                                @else
-                                                                    <span class="text-navy">Processing...</span>
-                                                                @endif
+                                                                <span class="text-navy">Processing...</span>
                                                             @endif
                                                         @else
-                                                            @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                            @if($role_id == 1 || $role_id == 8 || $role_id == 7)
                                                                 <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
                                                             @else
                                                                 <span class="text-navy">Processing...</span>
                                                             @endif
                                                         @endif
                                                     @else
+                                                        @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                            <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @endif
+                                                @elseif($quality_claim->in_out == 'OUT')
+                                                    @if($role_id == 1 || $role_id == 9)
+                                                        <?php
+                                                            $check_status = DB::table('apna_case_shipping_end')->where('case_id', $quality_claim->case_id)->first();
+                                                        ?>
+                                                        @if(($check_status) && ($currentuserid == $quality_claim->lead_conv_uid || $role_id == 1 || $role_id == 9))
+                                                            <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">Processing...</span>
                                                     @endif
                                                 @else
                                                     <span class="text-navy">In Process</span>
@@ -137,6 +152,12 @@ $role_id = $role->role_id;
                                         <td>
                                             @if($quality_claim->imge)
                                             <a class="view_report" data-id="{{ $quality_claim->imge }}"><i class="fa fa-eye"></i></a>
+                                            @else
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($quality_claim->imge)
+                                            <a class="view_report" data-id="{{ $quality_claim->second_report }}"><i class="fa fa-eye"></i></a>
                                             @else
                                             @endif
                                         </td>
@@ -271,11 +292,21 @@ $role_id = $role->role_id;
                                     </span>
                                 @endif
                             </div>
+                            <div class="col-md-4">
+                                {!! Form::label('second_report_file', 'Second Report File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::file('second_report_file', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off']) !!}
+
+                                @if($errors->has('second_report_file'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('second_report_file') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <div class="col-md-12">
-                                {!! Form::label('report_file', 'Report File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
+                                {!! Form::label('report_file', 'Report File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::file('report_file', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off']) !!}
 
                                 @if($errors->has('report_file'))
                                     <span class="text-red" role="alert">
@@ -328,7 +359,7 @@ $role_id = $role->role_id;
 </div>
 
 
-@if($errors->has('price') || $errors->has('processing_fees') || $errors->has('rent') || $errors->has('labour_rate') || $errors->has('interest_rate'))
+@if($errors->has('second_report_file') || $errors->has('moisture_level') || $errors->has('thousand_crown_w') || $errors->has('broken') || $errors->has('foreign_matter') || $errors->has('thin') || $errors->has('damage') || $errors->has('black_smith') || $errors->has('infested') || $errors->has('live_insects') || $errors->has('quality_discount_value') || $errors->has('report_file') || $errors->has('notes'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');
