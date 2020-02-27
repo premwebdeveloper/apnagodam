@@ -584,9 +584,8 @@ class AdminController extends Controller
         $date = date('Y-m-d H:i:s');
 
         $cate = DB::table('categories')->where('id', $inventory_info->commodity)->first();
-        $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Paid'])->first();
-
-
+        $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Secondary'])->first();
+       
         // If trader do not have this commodity already then insert this commodity with this teader
         $insert_id = DB::table('inventories')->insertGetId([
 

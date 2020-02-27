@@ -797,7 +797,17 @@ class UsersController extends Controller
         $bid_for = $request->bid_for;
         $todays_price = $request->todays_price;
         $quantity = $request->quantity;
+        $mandi_fees = $request->mandi_fees;
         $date = date('Y-m-d H:i:s');
+
+        if($bid_for == 'neemrana')
+        {
+            $buyer_id = 4;
+        }
+        if($bid_for == 'chomu')
+        {
+            $buyer_id = 5;
+        }
 
         // Update inventory quantity
         $inventories = DB::table('inventories')->where('id', $invetory_id)->update([
@@ -808,12 +818,13 @@ class UsersController extends Controller
         $currentuserid = Auth::user()->id;
 
         $buy_sell_id = DB::table('buy_sells')->insertGetId([
-            'buyer_id' => 1,
+            'buyer_id' => $buyer_id,
             'seller_id' => $currentuserid,
             'seller_cat_id' => $invetory_id,
             'quantity' => $quantity,
             'price' => $price,
             'todays_price' => $todays_price,
+            'mandi_fees' => $mandi_fees,
             'bid_type' => 2,
             'status' => 2,
             'created_at' => $date,
