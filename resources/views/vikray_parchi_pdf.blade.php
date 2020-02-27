@@ -15,22 +15,8 @@ p{font-size: 13px;padding:0px;margin:0px;}
 b{font-size: 13px;}
 .f-w-600{font-weight: 600;}
 .f-s-12{font-size:12px;}
-/* #watermark 
-{
-    position: fixed;
-    text-align: center;
-    width:    12cm;
-    height:   16cm;
-    opacity: 0.2;
-    left: 19%;
-    top:15%;
-    z-index:  -1000;
-} */
 </style>
   <body>
-        <!-- <div id="watermark">
-            <img src="{{ asset('resources/frontend_assets/img/apna-godam-logo-1.png') }}" height="100%" width="100%" />
-        </div> -->
         <?php
         $total_price = $quantity * $price;
         $commission = ($total_price * 0.75) / 100;
@@ -40,18 +26,12 @@ b{font-size: 13px;}
         {
             if($sales_status == 1)
             {
-                $mandi_fee = (($total_price * $mandi_fees) / 100);
-            }else{
-                $mandi_fee = "N/A";
-            }
-            if($sales_status == 1)
-            {
-                $mandi_fee = ($quantity * 3.5);
+                $mandi_fee = (($total_price * 1.6) / 100);
             }else{
                 $mandi_fee = "N/A";
             }
         }else{
-            $mandi_fee = "1.6%";
+            $mandi_fee = $mandi_fees;
         }
 
         $res = 'Vikray Parchi = '.$id.', ApnaGodam.com, CIN = U63030RJ2016PTC055509, Buyer Name = '.$buyer_name.', Seller Name = '.$seller_name.', Date = '.date('d-m-Y').', Bid Date = '.date('d-m-Y', strtotime($updated_at)).', Commodity = '.$category.', Warehouse = '.$warehouse.', Net Weight = '.$quantity.', Price = '.$price.', Quality = '.$quality_category.', E-mandi Commission = '.round($commission, 2).', Bags = '.$quantity.', Hammali = '.$hammali.', Mandi Fees = '.$mandi_fee.", Total = ".$total_price;
@@ -154,23 +134,21 @@ b{font-size: 13px;}
                                     <td>
                                         @if($bid_type == 1) 
                                             @if($sales_status == 1) 
-                                                <b>Mandi Fees ({!! $mandi_fees !!}%) : </b>
-                                                <?php
-                                                echo $mandi_fee = (($total_price * $mandi_fees) / 100)." <span class='f-w-600 f-s-12'>(INR)</span>";
-                                                ?>
+                                                <b>Mandi Fees (1.6%) : </b>
+                                                {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
                                             @else
                                                 <b>Mandi Fees : </b>
                                                 N/A
                                             @endif
                                         @else
-                                            <b>Mandi Fees : 1.6% </b>
+                                            <b>Mandi Fees (1.6%) : </b> {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <b>Total Amount  : </b>{{ number_format((float)$total_price, 2, '.', '') }} <span class='f-w-600 f-s-12'>(INR)</span> ({{convertCurrencyToWords($total_price) }})
                                     </td>
                                 </tr>
                             </table>
+                            <b>Total Amount  : </b>{{ number_format((float)$total_price, 2, '.', '') }} <span class='f-w-600 f-s-12'>(INR)</span> ({{convertCurrencyToWords($total_price) }})
                         </div>
                     </div>
                     <br />
@@ -303,7 +281,7 @@ b{font-size: 13px;}
                     <strong>{{ $category }}</strong>
                 </td>
                 <td>
-                    <strong>{{ $quantity }} Bags</strong>
+                    <strong>{{ $quantity }} Qtl.</strong>
                 </td>
                 <td>
                     <strong>{{ $buyer_name }}</strong>
@@ -336,8 +314,6 @@ b{font-size: 13px;}
                 </div>
             </div>
         </div>
-        <div style="clear: both;">
-
-      </body>
+        <div style="clear: both;"></div>
+      
     <script src="{{ asset('resources/frontend_assets/js/bootstrap.bundle.min.js') }}"> </script>
-</html>

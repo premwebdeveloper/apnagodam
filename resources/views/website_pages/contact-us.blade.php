@@ -46,7 +46,7 @@
                         <i class="fa fa-phone"></i>
                     </div>
                     <div class="media-body">
-                        <a href="tel:+91-9314142089">+91-9314142089</a>
+                        <a href="tel:+91-7229978617">+91-7229978617</a>
                         <a href="#">0141-2232204</a>
                     </div>
                 </div>

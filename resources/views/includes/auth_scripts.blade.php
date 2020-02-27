@@ -5,6 +5,7 @@
         // data table script for dataTables-example class
         var oTable = $('.dataTables-example').DataTable({
             pageLength: 10,
+            "aaSorting": [],
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             responsive: true,
             dom: '<"html5buttons"B>lTfgitp',
@@ -30,6 +31,7 @@
         // data table script for dataTables class
         $('.dataTables').DataTable({
             pageLength: 10,
+            "aaSorting": [],
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             responsive: true,
             dom: '<"html5buttons"B>lTfgitp',

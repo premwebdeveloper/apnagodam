@@ -64,7 +64,7 @@
                                 <br class="info_br" /> Vidhyadhar Nagar Jaipur - 302023 Rajasthan
 
                             </p>
-                            <p class="f-w-500 text-white">Phone: <a href="tel:+91-9314142089" class="f-w-500 text-white">+91-9314142089</a></p>
+                            <p class="f-w-500 text-white">Phone: <a href="tel:+91-7229978617" class="f-w-500 text-white">+91-7229978617</a></p>
 
                             <p class="f-w-500 text-white">Email: contact@apnagodam.com</p>
                         </div>

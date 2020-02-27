@@ -43,6 +43,7 @@
                             {!! Form::open(array('url' => 'corporate_deal_done', 'class' => "", 'id' => 'neemranaForm')) !!}
                                 @csrf
                                 {!! Form::hidden('final_bid_price', '' , array('id' => 'nr_final_bid_price')) !!}
+                                {!! Form::hidden('mandi_fees', '' , array('id' => 'nr_mandi_fees')) !!}
                                 {!! Form::hidden('inventory_id', $inventory->id) !!}
                                 {!! Form::hidden('quantity', $inventory->quantity) !!}
                                 {!! Form::hidden('todays_price', $corporate_price[0]->todays_price) !!}
@@ -204,6 +205,7 @@
                             {!! Form::open(array('url' => 'corporate_deal_done', 'class' => "", 'id' => 'chomuForm')) !!}
                             @csrf
                                 {!! Form::hidden('final_bid_price', '' , array('id' => 'cm_final_bid_price')) !!}
+                                {!! Form::hidden('mandi_fees', '' , array('id' => 'cm_mandi_fees')) !!}
                                 {!! Form::hidden('inventory_id', $inventory->id) !!}
                                 {!! Form::hidden('bid_for', 'chomu') !!}
                                 {!! Form::hidden('quantity', $inventory->quantity) !!}
@@ -526,6 +528,7 @@
 
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -590,6 +593,7 @@
                         var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_finance_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -655,6 +659,7 @@
                         var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_finance_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -720,6 +725,7 @@
 
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -781,6 +787,7 @@
                         var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_finance_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -846,6 +853,7 @@
                         var bid_price = total_cost - (parseInt($('#cm_transport_cost').val()) + parseInt($('#cm_finance_cost').val()) + parseInt($('#cm_miscellaneous_cost').val()) + (parseInt($('#cm_total_price').html() * parseInt($('#total_qtl').val()))));
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#cm_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#cm_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -909,6 +917,7 @@
                         var bid_price = total_cost - (parseInt($('#cm_transport_cost').val()) + parseInt($('#cm_finance_cost').val()) + parseInt($('#cm_miscellaneous_cost').val()) + (parseInt($('#cm_total_price').html() * parseInt($('#total_qtl').val()))));
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#cm_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#cm_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -973,6 +982,7 @@
                         var bid_price = total_cost - (parseInt($('#cm_transport_cost').val()) + parseInt($('#cm_finance_cost').val()) + parseInt($('#cm_miscellaneous_cost').val()) + (parseInt($('#cm_total_price').html() * parseInt($('#total_qtl').val()))));
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#cm_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#cm_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -1033,6 +1043,7 @@
                         var bid_price = total_cost - (parseInt($('#cm_transport_cost').val()) + parseInt($('#cm_finance_cost').val()) + parseInt($('#cm_miscellaneous_cost').val()) + (parseInt($('#cm_total_price').html() * parseInt($('#total_qtl').val()))));
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#cm_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#cm_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -1091,6 +1102,7 @@
                         var bid_price = total_cost - (parseInt($('#cm_transport_cost').val()) + parseInt($('#cm_finance_cost').val()) + parseInt($('#cm_miscellaneous_cost').val()) + (parseInt($('#cm_total_price').html() * parseInt($('#total_qtl').val()))));
                         var mandi_fee = (1.6*bid_price)/100;
                         $('#cm_mandi_fee').val(mandi_fee.toFixed(2));
+                        $('#cm_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
                         $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -1148,6 +1160,7 @@
                     var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_finance_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
                     var mandi_fee = (1.6*bid_price)/100;
                     $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
+                    $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                     var actual_bid = (bid_price/parseInt($('#total_qtl').val()));
                     $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
@@ -1201,6 +1214,7 @@
                     var bid_price = total_cost-(parseInt($('#cm_transport_cost').val())+parseInt($('#cm_finance_cost').val())+parseInt($('#cm_miscellaneous_cost').val())+(parseInt($('#cm_total_price').html()*parseInt($('#total_qtl').val()))));
                     var mandi_fee = (1.6*bid_price)/100;
                     $('#cm_mandi_fee').val(mandi_fee.toFixed(2));
+                    $('#cm_mandi_fees').val(mandi_fee.toFixed(2));
                     var actual_bid = (bid_price/parseInt($('#total_qtl').val()));
                     $('#c_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
                     $('#cm_final_bid_price').val(actual_bid.toFixed(2));

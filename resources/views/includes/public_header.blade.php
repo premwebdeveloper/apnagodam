@@ -14,7 +14,7 @@
             <div class="pull-right">
                 <div class="header_c_text">
                     <h5>Call us</h5>
-                    <h4>+91-9314142089</h4>
+                    <h4>+91-7229978617</h4>
                 </div>
                 <div class="header_c_text">
                     <h5>Email Us</h5>
