@@ -67,7 +67,7 @@
                             </ul>
                         </li>
                         <li >
-                            <a href="{{ route('qualiity-variance-calculator') }}">QVC</a>
+                            <a href="{{ route('qualiity-variance-calculator') }}">QV Calculator</a>
                         </li>
                         <li >
                             <a href="{{ route('our-team') }}">Our Team</a>

@@ -3,90 +3,103 @@
 <section class="banner_area m-t-158">
     <div class="container">
         <div class="pull-left">
-            <h3>{{ __('Qualiity Variance Calculator') }}</h3>
+            <h3>{{ __('Quality Variance Calculator') }}</h3>
         </div>
         <div class="pull-right">
             <a href="/">Home</a>
-            <a href="/">Qualiity Variance Calculator</a>
+            <a href="/">Quality Variance Calculator</a>
         </div>
     </div>
 </section>
-<section class="price_faq_area">
+<section class="price_faq_area p-t-40">
     <div class="container">
-        <div class="main_title">
-            <h5>QVC</h5>
-            <h2>Qualiity Variance Calculator - Barley</h2>
-        </div>
-        <div class="row p-10 theme-secondary">
-            <div class="col-md-6 m-t-8">
-                <h2 class="f-s-20 text-white"><b>Quality Variance Report</b></h2>
-            </div>
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-2">
-                <input type="number" placeholder="Enter Market Price" name="price" id="n_main_price" class="form-control p-5 h-35">
-            </div>
-        </div>
         <div class="row">
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover ">
-                        <thead>
-                            <tr>
-                                <th>Quality Parameter</th>
-                                <th>Normal</th>
-                                <th>Extreme</th>
-                                <th>Actual</th>
-                                <th>Price Diff. (Rs.)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="gradeX">
-                                <td class="f-w-800 f-s-18">Moisture</td>
-                                <td><span class="f-w-800 f-s-18" id="mos_normal">11</span>%</td>
-                                <td><span class="f-w-800 f-s-18" id="mos_extreme">13</span>%</td>
-                                <td><input type="number" id="mos_actual" style="width:80px; float:left;" class="form-control" >%</td>
-                                <td><span class="f-w-800 f-s-18" id="mos_price"></span></td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td class="f-w-800 f-s-18">Broken</td>
-                                <td><span class="f-w-800 f-s-18" id="bro_normal">4</span>%</td>
-                                <td><span class="f-w-800 f-s-18" id="bro_extreme">6</span>%</td>
-                                <td><input type="number" id="bro_actual" style="width:80px; float:left;" class="form-control" >%</td>
-                                <td><span class="f-w-800 f-s-18" id="bro_price"></span></td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td class="f-w-800 f-s-18">Thin</td>
-                                <td><span class="f-w-800 f-s-18" id="thin_normal">6</span>%</td>
-                                <td><span class="f-w-800 f-s-18" id="thin_extreme">8</span>%</td>
-                                <td><input type="number" id="thin_actual" style="width:80px; float:left;" class="form-control" >%</td>
-                                <td><span class="f-w-800 f-s-18" id="thin_price"></span></td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td class="f-w-800 f-s-18"> TCW (Thousand Count Weight)</td>
-                                <td><span class="f-w-800 f-s-18" id="tcw_normal">40</span></td>
-                                <td><span class="f-w-800 f-s-18" id="tcw_extreme">39</span></td>
-                                <td><input type="number" id="tcw_actual" style="width:80px; float:left;" class="form-control" ></td>
-                                <td><span class="f-w-800 f-s-18" id="tcw_price"></span></td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td class="f-w-800 f-s-18">FM (Foreign Material)</td>
-                                <td><span class="f-w-800 f-s-18" id="fm_normal">1</span>%</td>
-                                <td><span class="f-w-800 f-s-18" id="fm_extreme">2</span>%</td>
-                                <td><input type="number" id="fm_actual" style="width:80px; float:left;" class="form-control" >%</td>
-                                <td><span class="f-w-800 f-s-18" id="fm_price"></span></td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td class="f-w-800 f-s-18">Total Price Diff.</td>
-                                <td ></td>
-                                <td ></td>
-                                <td ></td>
-                                <td class="f-s-20">QV Rs .<b class="" id="total_price"></b> / Qtl.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="col-md-12 col-xs-12">
+                <div class="main_title">
+                    <h5>QVC</h5>
+                    <h2 class="m-t-20 m-b-20">Quality Variance Calculator - Barley</h2>
+                    <h4>Quality Variance Calculator helps Sellers to evaluate their crop  profitability by calculating quality variance, <br / >transportation costs, breakeven selling prices, gross margins, and returns to equity. </h4>
+                </div>
+                <div class="row p-10 theme-secondary">
+                    <div class="col-md-6 m-t-8">
+                        <h2 class="f-s-20 text-white"><b>Quality Variance Report</b></h2>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="number" placeholder="Enter Market Price" name="price" id="n_main_price" class="form-control p-5 h-35">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover ">
+                                <thead>
+                                    <tr>
+                                        <th>Quality Parameter</th>
+                                        <th>Normal</th>
+                                        <th>Extreme</th>
+                                        <th>Actual</th>
+                                        <th>Price Diff. (Rs.)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="gradeX">
+                                        <td class="f-w-800 f-s-18">Moisture</td>
+                                        <td><span class="f-w-800 f-s-18" id="mos_normal">11</span>%</td>
+                                        <td><span class="f-w-800 f-s-18" id="mos_extreme">13</span>%</td>
+                                        <td><input type="number" id="mos_actual" style="width:60px; float:left;" class="form-control" >%</td>
+                                        <td><span class="f-w-800 f-s-18" id="mos_price"></span></td>
+                                    </tr>
+                                    <tr class="gradeX">
+                                        <td class="f-w-800 f-s-18">Broken</td>
+                                        <td><span class="f-w-800 f-s-18" id="bro_normal">4</span>%</td>
+                                        <td><span class="f-w-800 f-s-18" id="bro_extreme">6</span>%</td>
+                                        <td><input type="number" id="bro_actual" style="width:60px; float:left;" class="form-control" >%</td>
+                                        <td><span class="f-w-800 f-s-18" id="bro_price"></span></td>
+                                    </tr>
+                                    <tr class="gradeX">
+                                        <td class="f-w-800 f-s-18">Thin</td>
+                                        <td><span class="f-w-800 f-s-18" id="thin_normal">6</span>%</td>
+                                        <td><span class="f-w-800 f-s-18" id="thin_extreme">8</span>%</td>
+                                        <td><input type="number" id="thin_actual" style="width:60px; float:left;" class="form-control" >%</td>
+                                        <td><span class="f-w-800 f-s-18" id="thin_price"></span></td>
+                                    </tr>
+                                    <tr class="gradeX">
+                                        <td class="f-w-800 f-s-18"> TCW</td>
+                                        <td><span class="f-w-800 f-s-18" id="tcw_normal">40</span></td>
+                                        <td><span class="f-w-800 f-s-18" id="tcw_extreme">39</span></td>
+                                        <td><input type="number" id="tcw_actual" style="width:60px; float:left;" class="form-control" ></td>
+                                        <td><span class="f-w-800 f-s-18" id="tcw_price"></span></td>
+                                    </tr>
+                                    <tr class="gradeX">
+                                        <td class="f-w-800 f-s-18">FM </td>
+                                        <td><span class="f-w-800 f-s-18" id="fm_normal">1</span>%</td>
+                                        <td><span class="f-w-800 f-s-18" id="fm_extreme">2</span>%</td>
+                                        <td><input type="number" id="fm_actual" style="width:60px; float:left;" class="form-control" >%</td>
+                                        <td><span class="f-w-800 f-s-18" id="fm_price"></span></td>
+                                    </tr>
+                                    <tr class="gradeX">
+                                        <td class="f-w-800 f-s-18">Total Price Diff.</td>
+                                        <td ></td>
+                                        <td ></td>
+                                        <td ></td>
+                                        <td class="f-s-20">QV Rs .<b class="" id="total_price"></b> / Qtl.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- <div class="col-md-4 m-t-40 text-center p-t-40 col-xs-12">
+                <div class="our_about_left_content">
+                    <h3 class="single_title p-t-40 m-b-40 p-b-10">About Quality Variance Calculator</h3>
+                    “ApnaGodam reinvents Indian Agri Commodity Trading by introducing Quality Variance Calculator. <br>
+                    Using this QV Calculator Farmers & Agri Sellers can discover the prices of their commodity based on their commodity quality parameters and the transport distance between the Seller and the Buyer.<br>
+                    This calculator helps Sellers to evaluate their crop  profitability by calculating transportation costs, breakeven selling prices, gross margins, and returns to equity.”
+                </div>
+            </div> -->
         </div>
     </div>
 </section>

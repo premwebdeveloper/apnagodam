@@ -45,23 +45,27 @@
 	                    <table id="inventory_table" class="table table-striped table-bordered table-hover">
 	                        <thead>
 	                            <tr>
+                                    <th>#</th>
                                     <th>Seller</th>
                                     <th>Terminal</th>
                                     <th>Gate Pass / WR No.</th>
                                     <th>Commodity</th>
                                     <th>Net Weight (Qtl.)</th>
                                     <!-- <th>Quantity (Bags)</th> -->
+                                    <th>Created Date</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
                                 @foreach($inventories as $key => $inventory)
 	                                <tr class="gradeX">
+                                        <td>{!! ++$key !!}</td>
                                         <td>{!! $inventory->fname !!} {!! $inventory->lname !!} ({!! $inventory->phone !!})</td>
                                         <td>{!! $inventory->warehouse !!} ({!! $inventory->warehouse_code !!})</td>
                                         <td>{!! $inventory->gate_pass_wr !!}</td>
                                         <td>{!! $inventory->category !!}</td>
                                         <!-- <td>{!! $inventory->net_weight !!}</td> -->
+                                        <td>{!! $inventory->created_at !!}</td>
                                         <td>{!! $inventory->quantity !!}</td>
                                         <td>
                                             <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">
@@ -121,7 +125,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $("#inventory_table").dataTable({
-            "order": [[ 3, "desc" ]]
+            "order": [[ 6, "desc" ]]
         });
 
 
