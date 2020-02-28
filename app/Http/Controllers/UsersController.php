@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use Mail;
+use App\Mail\SendMail;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -644,6 +646,14 @@ class UsersController extends Controller
             }
         }
 
+        $new_power = $user->power - ($quantity * $my_bid);
+
+        //Update Power of Trader
+        $user_power_update = DB::table('user_details')->where('user_id', $currentuserid)->update([
+            'power' => $new_power,
+            'updated_at' => $date,
+        ]);
+
         $status = 'Bid submitted successfully.';
 
         return redirect('bidding/'.$inventory_id)->with('status', $status);
@@ -678,7 +688,7 @@ class UsersController extends Controller
                 $done = DB::table('buy_sells')->where('id', $deal->deal_id)->update([
                     'buyer_id' => $deal->user_id,
                     'price' => $max_bid,
-                    'status' => 2,
+                    'status' => 3,
                     'updated_at' => $date
                 ]);
 
@@ -694,7 +704,22 @@ class UsersController extends Controller
             }
         }
 
-        if($done){
+        if($done)
+        {
+            /*$done_deals = DB::table('buy_sells')
+                ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+                ->join('users','users.id', '=', 'buy_sells.seller_id')
+                ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+                ->join('categories', 'categories.id', '=', 'inv.commodity')
+                ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+                ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
+                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+                ->where('buy_sells.id', $deal_info->id)
+                ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
+                ->first();
+
+            $buyer_info = DB::table('user_details')->where('user_id', $deal->user_id)->first();
+            $seller_info = DB::table('user_details')->where('user_id', $deal->buy_sell_id)->first();*/
 
             //Send Message to Other trader who do not take this bid
             foreach ($user_ids as $key => $value) {
@@ -713,6 +738,46 @@ class UsersController extends Controller
                 $sms = 'Congratulations. Your Bid accepted by seller amount by '.$max_bid." RS.";
                 $done = sendsms($user->phone, $sms);
             }
+
+            /*$done_deals->seller_address = $seller_info->area_vilage;
+            $done_deals->buyer_address = $buyer_info->area_vilage;
+
+            $data = json_decode(json_encode($done_deals),true);
+
+            $pdf = PDF::loadView('vikray_parchi_pdf', $data);
+
+            $data = [];
+            
+            if($buyer_info->email)
+            {
+                $data['to_name'] = $buyer_info->fname;
+                $data['email'] = $buyer_info->email;
+
+                //Send Vikray Parchi To Trader or Farmer
+                $send = Mail::send('email.send_vikray_parchi', $data, function($message) use ($data,$pdf){
+                    $message->from('info@apnagodam.com');
+                    $message->to($data['email']);
+                    $message->subject('Vikray Parchi by Apna Godam');
+                    //Attach PDF doc
+                    $message->attachData($pdf->output(),'vikray_parchi.pdf');
+                });
+            }
+
+            if($seller_info->email)
+            {
+                $data['to_name'] = $seller_info->fname;            
+                $data['email'] = $seller_info->email; 
+
+                //Send Vikray Parchi To Trader or Farmer
+                $send = Mail::send('email.send_vikray_parchi', $data, function($message) use ($data,$pdf){
+                    $message->from('info@apnagodam.com');
+                    $message->to($data['email']);
+                    $message->subject('Vikray Parchi for by Apna Godam');
+
+                    //Attach PDF doc
+                    $message->attachData($pdf->output(),'vikray_parchi.pdf');
+                });
+            }*/
 
             $status = 'Deal Done.';
         }else{

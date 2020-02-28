@@ -699,8 +699,8 @@ class AdminController extends Controller
 
             if($buyer_info->email)
             {
-                $data['to_name'] = $buyer_info->fname;            
-                $data['email'] = $buyer_info->email;    
+                $data['to_name'] = $buyer_info->fname;
+                $data['email'] = $buyer_info->email;
 
                 //Send Vikray Parchi To Trader or Farmer
                 $send = Mail::send('email.send_vikray_parchi', $data, function($message) use ($data,$pdf){

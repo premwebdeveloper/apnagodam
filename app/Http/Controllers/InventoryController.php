@@ -26,6 +26,7 @@ class InventoryController extends Controller
          		       	->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
          		       	->select('user_details.fname', 'user_details.lname', 'user_details.phone', 'inventories.*', 'categories.category', 'warehouses.warehouse_code', 'warehouses.name as warehouse')
 						->where('inventories.status', 1)
+                        ->orderBy('inventories.updated_at', 'DESC')
 						->get();
 
     	return view('inventory.index', array('inventories' => $inventories));
