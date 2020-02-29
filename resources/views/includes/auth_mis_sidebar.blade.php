@@ -450,6 +450,29 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#"><i class="fa fa-line-chart"></i> <span class="nav-label">Cases Status</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse" aria-expanded="false">
+                            <li>
+                                <a href="{{ route('casesStatusPass') }}">
+                                    <i class="fa fa-money" title=""></i>
+                                    <span class="nav-label">PASS</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('casesStatusIn') }}">
+                                    <i class="fa fa-truck" title=""></i>
+                                    <span class="nav-label">IN</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('casesStatusOut') }}">
+                                    <i class="fa fa-truck" title=""></i>
+                                    <span class="nav-label">OUT</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
                 <li>
                     <a href="{{ route('completedCases') }}">

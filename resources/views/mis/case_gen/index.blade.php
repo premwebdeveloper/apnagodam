@@ -56,7 +56,7 @@ $role_id = $role->role_id;
                                     @endif
                                 </div>
                                 <div class="col-md-3">
-                                    {!! Form::label('in_out', 'In / Out', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                    {!! Form::label('in_out', 'In / Out / Pass', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                     {!! Form::select('in_out', array('IN' => 'IN', 'OUT' => 'OUT', 'PASS' => 'PASS'), '', ['class' => 'form-control', 'id' => 'in_out', 'required' => 'required']); !!}
                                     @if($errors->has('in_out'))
                                         <span class="text-red" role="alert">

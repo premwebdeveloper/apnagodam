@@ -36,7 +36,7 @@
                             <table class="table table-striped table-hover ">
                                 <thead>
                                     <tr>
-                                        <th>Quality Parameter</th>
+                                        <th>Parameter</th>
                                         <th>Normal</th>
                                         <th>Extreme</th>
                                         <th>Actual</th>
@@ -80,11 +80,11 @@
                                         <td><span class="f-w-800 f-s-18" id="fm_price"></span></td>
                                     </tr>
                                     <tr class="gradeX">
-                                        <td class="f-w-800 f-s-18">Total Price Diff.</td>
+                                        <td class="f-s-20">QV Rs. <b class="" id="total_price"></b></td>
+                                        <td></td>
                                         <td ></td>
                                         <td ></td>
                                         <td ></td>
-                                        <td class="f-s-20">QV Rs .<b class="" id="total_price"></b> / Qtl.</td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -93,9 +93,15 @@ $role_id = $role->role_id;
                                             <td>{!! $pricing->notes !!}</td>
                                         </tr>
                                     @elseif($pricing->in_out == 'OUT')
-                                        <?php
-                                            $check_status = DB::table('apna_case_e_mandi')->where('case_id', $pricing->case_id)->first();
-                                        ?>
+                                        @if($pricing->transaction_type == 'E-Mandi')
+                                            <?php
+                                                $check_status = DB::table('apna_case_e_mandi')->where('case_id', $pricing->case_id)->first();
+                                            ?>
+                                        @else
+                                            <?php
+                                                $check_status = DB::table('apna_case_gate_pass')->where('case_id', $pricing->case_id)->first();
+                                            ?>
+                                        @endif
                                         <tr class="gradeX">
                                             <td>{{ ++$key }}</td>
                                             <td>

@@ -56,9 +56,9 @@ class CaseGenController extends Controller
         $employees = array('' => 'Select Employee');
         foreach($res as $emp)
         {
-            if($emp->role_id == 6 || $emp->role_id == 8 || $emp->role_id == 9)
+            if($emp->role_id == 6 || $emp->role_id == 7)
             {
-                $employees[$emp->user_id] = $emp->emp_id;
+                $employees[$emp->user_id] = $emp->first_name." ".$emp->last_name."(".$emp->emp_id.")";
             }
         }
 
@@ -109,6 +109,31 @@ class CaseGenController extends Controller
         $case_gen = CaseGen::getApprovalCasesOut();
         $data['heading'] = 'OUT';
         return view('mis.case_gen.approval_cases_pass', array('case_gen' => $case_gen, 'data' => $data));
+    }
+
+    //Get Cases Status Pass
+    public function casesStatusPass()
+    {
+        $case_gen = CaseGen::getCasesStatusPass();
+        return view('mis.case_gen.cases_status_pass', array('case_gen' => $case_gen));
+    }
+
+    //Get Cases Status In
+    public function casesStatusIn()
+    {
+        $case_gen = CaseGen::getCasesStatusIn();
+
+        /*echo "<pre>";
+        print_r($case_gen);
+        die;*/
+        return view('mis.case_gen.cases_status_in', array('case_gen' => $case_gen));
+    }
+
+    //Get Cases Status Out
+    public function casesStatusOut()
+    {
+        $case_gen = CaseGen::getCasesStatusOut();
+        return view('mis.case_gen.cases_status_out', array('case_gen' => $case_gen));
     }
 
     //Get Lead Generator Details by Ajax

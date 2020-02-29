@@ -304,6 +304,11 @@ Route::post('/createCase', 'CaseGenController@createCase')->name('createCase');
 Route::get('/approvalCasesPass', 'CaseGenController@approvalCasesPass')->name('approvalCasesPass');
 Route::get('/approvalCasesIn', 'CaseGenController@approvalCasesIn')->name('approvalCasesIn');
 Route::get('/approvalCasesOut', 'CaseGenController@approvalCasesOut')->name('approvalCasesOut');
+
+Route::get('/casesStatusPass', 'CaseGenController@casesStatusPass')->name('casesStatusPass');
+Route::get('/casesStatusIn', 'CaseGenController@casesStatusIn')->name('casesStatusIn');
+Route::get('/casesStatusOut', 'CaseGenController@casesStatusOut')->name('casesStatusOut');
+
 Route::get('/completedCases', 'CaseGenController@completedCases')->name('completedCases');
 Route::get('/cancelledCases', 'CaseGenController@cancelledCases')->name('cancelledCases');
 
