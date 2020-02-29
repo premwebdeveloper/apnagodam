@@ -123,6 +123,72 @@ class CaseGen extends Model
         return $case;
     }
 
+    // Get Pass Cases Status
+    public function scopegetCasesStatusOut()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('user_details as customer', 'customer.user_id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_pricing', 'apna_case_pricing.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_release_order', 'apna_case_release_order.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_delivery_order', 'apna_case_delivery_order.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_truck_book', 'apna_truck_book.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_labour_book', 'apna_labour_book.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_quality_report', 'apna_case_quality_report.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_kanta_parchi', 'apna_case_kanta_parchi.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_second_quality_report', 'apna_case_second_quality_report.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_second_kanta_parchi', 'apna_case_second_kanta_parchi.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_gate_pass', 'apna_case_gate_pass.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_e_mandi', 'apna_case_e_mandi.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_cctv', 'apna_case_cctv.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_commodity_withdrawal', 'apna_case_commodity_withdrawal.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_accounts', 'apna_case_accounts.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_shipping_start', 'apna_case_shipping_start.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_shipping_end', 'apna_case_shipping_end.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_quality_claim', 'apna_case_quality_claim.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_truck_payment', 'apna_case_truck_payment.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_labour_payment', 'apna_case_labour_payment.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_payment_received', 'apna_case_payment_received.case_id', '=', 'apna_case.case_id')
+            ->join('users as lead_generator', 'lead_generator.id', '=', 'apna_case.lead_gen_uid')
+            ->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
+            ->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
+            ->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
+            ->select('apna_case.*', 'customer.phone',
+                'customer.fname as cust_fname',
+                'customer.lname as cust_lname',
+                'apna_case_quality_report.case_id as quality_report_case_id',
+                'apna_case_pricing.case_id as pricing_case_id',
+                'apna_case_release_order.case_id as release_order_case_id',
+                'apna_case_delivery_order.case_id as delivery_order_case_id',
+                'apna_truck_book.case_id as truck_book_case_id',
+                'apna_labour_book.case_id as labour_book_case_id',
+                'apna_case_kanta_parchi.case_id as kanta_parchi_case_id',
+                'apna_case_second_quality_report.case_id as second_quality_report_case_id',
+                'apna_case_second_kanta_parchi.case_id as second_kanta_parchi_case_id',
+                'apna_case_gate_pass.case_id as gate_pass_case_id',
+                'apna_case_e_mandi.case_id as e_mandi_case_id',
+                'apna_case_cctv.case_id as cctv_case_id',
+                'apna_case_commodity_withdrawal.case_id as commodity_withdrawal_case_id',
+                'apna_case_accounts.case_id as accounts_case_id',
+                'apna_case_shipping_start.case_id as shipping_start_case_id',
+                'apna_case_shipping_end.case_id as shipping_end_case_id',
+                'apna_case_quality_claim.case_id as quality_claim_case_id',
+                'apna_case_truck_payment.case_id as truck_payment_case_id',
+                'apna_case_labour_payment.case_id as labour_payment_case_id',
+                'apna_case_payment_received.case_id as payment_received_case_id',
+                'lead_generator.fname as lead_gen_fname',
+                'lead_generator.lname as lead_gen_lname',
+                'lead_conv.fname as lead_conv_fname',
+                'lead_conv.lname as lead_conv_lname',
+                'categories.category as cate_name',
+                'categories.commodity_type',
+                'warehouses.name as terminal_name')
+            ->where('apna_case.in_out', 'OUT')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
+            ->get();
+        return $case;
+    }
 
     // Get In Cases Status
     public function scopegetCasesStatusIn()

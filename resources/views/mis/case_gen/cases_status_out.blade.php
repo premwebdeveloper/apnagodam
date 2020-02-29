@@ -2,13 +2,13 @@
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-6">
-        <h2>In Cases Status </h2>
+        <h2>Out Cases Status </h2>
         <ol class="breadcrumb">
             <li>
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>In Cases Status</strong>
+                <strong>Out Cases Status</strong>
             </li>
         </ol>
     </div>
@@ -19,7 +19,7 @@
         <div class="col-lg-12">
 	        <div class="ibox float-e-margins">
                 <div class="ibox-title">
-	                <h5>In Cases Status List</h5>
+	                <h5>Out Cases Status List</h5>
 	                <div class="ibox-tools">
 	                    <a class="collapse-link">
 	                        <i class="fa fa-chevron-up"></i>
@@ -39,23 +39,25 @@
                                     <th>Commodity</th>
                                     <th>Terminal</th>
                                     <th>Pricing</th>
+                                    <th>Release Order</th>
+                                    <th>Delivery Order</th>
                                     <th>Truck Book</th>
                                     <th>Labour Book</th>
-                                    <th>First Kanta Parchi</th>
                                     <th>First Quality Report</th>
-                                    <th>Second Kanta Parchi</th>
+                                    <th>First Kanta Parchi</th>
                                     <th>Second Quality Report</th>
+                                    <th>Second Kanta Parchi</th>
                                     <th>Gate Pass</th>
                                     <th>E-Mandi</th>
-                                    <th>Quality Claim</th>
                                     <th>CCTV</th>
-                                    <th>Commodity Deposite</th>
+                                    <th>Commodity Withdrawal</th>
                                     <th>Accounts</th>
+                                    <th>Shipment Start</th>
+                                    <th>Shipment End</th>
+                                    <th>Quality Claim</th>
                                     <th>Truck Payment</th>
                                     <th>Labour Payment</th>
                                     <th>Payment Received</th>
-                                    <th>Warehouse Receipt</th>
-                                    <th>Storage Receipt</th>
                                     <th>Created On</th>
 	                            </tr>
 	                        </thead>
@@ -68,25 +70,26 @@
                                         <td>{!! $lead->cate_name ." (".$lead->commodity_type.")"  !!}</td>
                                         <td>{!! $lead->terminal_name !!}</td>
 
-
                                         <td>{!! ($lead->pricing_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
+                                        <td>{!! ($lead->release_order_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
+                                        <td>{!! ($lead->delivery_order_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->truck_book_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->labour_book_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->quality_report_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->second_kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
+                                        <td>{!! ($lead->kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->second_quality_report_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
+                                        <td>{!! ($lead->second_kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->gate_pass_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->e_mandi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->quality_claim_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->cctv_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->cdf_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
+                                        <td>{!! ($lead->commodity_withdrawal_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->accounts_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
+                                        <td>{!! ($lead->shipping_start_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
+                                        <td>{!! ($lead->shipping_end_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
+                                        <td>{!! ($lead->quality_claim_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->truck_payment_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->labour_payment_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
                                         <td>{!! ($lead->payment_received_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->warehouse_receipt_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->storage_receipt_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
 
 
                                         <td>{!! date('d M Y', strtotime($lead->created_at)) !!}</td>

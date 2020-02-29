@@ -194,7 +194,7 @@ $role_id = $role->role_id;
                                 </div> -->
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'Gate Pass File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::label('report_file', 'Gate Pass File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                     {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
 
                                     @if($errors->has('report_file'))
@@ -249,7 +249,7 @@ $role_id = $role->role_id;
 </div>
 
 
-@if($errors->has('notes') || $errors->has('report_file') || $errors->has('case_id'))
+@if($errors->has('notes') || $errors->has('file') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');

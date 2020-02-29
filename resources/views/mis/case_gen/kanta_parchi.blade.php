@@ -273,7 +273,7 @@ $role_id = $role->role_id;
                                     @endif
                                 </div> -->
                                 <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'Kanta Parchi File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::label('report_file', 'Kanta Parchi File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                     {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required']) !!}
 
                                     @if($errors->has('report_file'))
