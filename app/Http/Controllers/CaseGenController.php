@@ -171,7 +171,7 @@ class CaseGenController extends Controller
         $data['user_id'] = $user_id = $currentuserid;
         $data['terminal_id'] = $terminal_id = $request->terminal_id;
         $data['in_out'] = $in_out = $request->in_out;
-        $data['gate_pass'] = $gate_pass = $request->gate_pass;
+        $data['gate_pass'] = $gate_pass = strtoupper($request->gate_pass);
         $customer_phone = $request->customer_uid;
         $data['quantity'] = $quantity = $request->quantity;
         $data['location'] = $location = ucfirst($request->location);
