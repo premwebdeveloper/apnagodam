@@ -622,7 +622,7 @@ class CaseGen extends Model
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_accounts', 'apna_case_accounts.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_accounts.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_accounts.vikray_parchi', 'apna_case_accounts.inventory','apna_case_accounts.tally_updation', 'apna_case_accounts.cold_win_entry', 'apna_case_accounts.whs_issulation', 'apna_case_accounts.notes', 'user_price.fname as user_fname', 'user_price.lname as user_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_accounts.vikray_parchi', 'apna_case_accounts.inventory','apna_case_accounts.tally_updation', 'apna_case_accounts.cold_win_entry', 'apna_case_accounts.whs_issulation', 'apna_case_accounts.loan', 'apna_case_accounts.sale', 'apna_case_accounts.purchase', 'apna_case_accounts.mandi_tax', 'apna_case_accounts.invoice', 'apna_case_accounts.notes', 'user_price.fname as user_fname', 'user_price.lname as user_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->groupBy('apna_case.case_id')
@@ -643,7 +643,12 @@ class CaseGen extends Model
             'inventory' => $data['inventory'],
             'tally_updation' => $data['tally_updation'],
             'cold_win_entry' => $data['cold_win_entry'],
-            'whs_issulation' => $data['whs_issulation'],
+            /*'whs_issulation' => $data['whs_issulation'],*/
+            'loan' => $data['loan'],
+            'sale' => $data['sale'],
+            'mandi_tax' => $data['mandi_tax'],
+            'purchase' => $data['purchase'],
+            'invoice' => $data['invoice'],
             'notes' => $data['notes'],
             'created_at' => $date,
             'updated_at' => $date,

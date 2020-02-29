@@ -172,10 +172,16 @@ $role_id = $role->role_id;
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
                 {!! Form::open(array('url' => 'addTruckBook', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
-                    {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
-                    @csrf
-                    
+                    @csrf                    
                     <div class="row">
+                        <div class="col-md-12">
+                            {!! Form::text('case_id', '', ['class' => 'form-control', 'id'=>'hidden_case_id', 'readonly' => 'readonly', 'placeholder' => 'Case ID']) !!}
+                            @if($errors->has('case_id'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('case_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         <div class="col-md-12">
                             <div class="col-md-4">
                                 {!! Form::label('transporter', 'Transporter', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
@@ -388,7 +394,7 @@ $role_id = $role->role_id;
     </div>
 </div>
 
-@if($errors->has('transporter') || $errors->has('vehicle') || $errors->has('driver_name') || $errors->has('driver_phone') || $errors->has('rate_per_km') || $errors->has('min_weight') || $errors->has('max_weight') || $errors->has('turnaround_time') || $errors->has('total_weight') || $errors->has('no_of_bags') || $errors->has('notes') || $errors->has('total_transport_cost') || $errors->has('advance_payment') || $errors->has('start_date_time') || $errors->has('final_settlement_amount') || $errors->has('end_date_time'))
+@if($errors->has('transporter') || $errors->has('vehicle') || $errors->has('driver_name') || $errors->has('driver_phone') || $errors->has('rate_per_km') || $errors->has('min_weight') || $errors->has('max_weight') || $errors->has('turnaround_time') || $errors->has('total_weight') || $errors->has('no_of_bags') || $errors->has('notes') || $errors->has('total_transport_cost') || $errors->has('advance_payment') || $errors->has('start_date_time') || $errors->has('final_settlement_amount') || $errors->has('end_date_time') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');

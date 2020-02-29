@@ -122,10 +122,17 @@ $role_id = $role->role_id;
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
                 {!! Form::open(array('url' => 'addReleaseOrder', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
-                {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
                     @csrf
                     
                     <div class="row">
+                        <div class="col-md-12">
+                            {!! Form::text('case_id', '', ['class' => 'form-control', 'id'=>'hidden_case_id', 'readonly' => 'readonly', 'placeholder' => 'Case ID']) !!}
+                            @if($errors->has('case_id'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('case_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         <div class="col-md-12">
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
@@ -184,7 +191,7 @@ $role_id = $role->role_id;
 </div>
 
 
-@if($errors->has('notes') || $errors->has('report_file'))
+@if($errors->has('notes') || $errors->has('report_file') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');

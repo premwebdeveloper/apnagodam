@@ -72,30 +72,32 @@ $role_id = $role->role_id;
                                             @if($pricing->file)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if($pricing->in_out == 'PASS')
-                                                        <?php
-                                                            $check_status = DB::table('apna_case_second_kanta_parchi')->where('case_id', $pricing->case_id)->first();
-                                                        ?>
-                                                        @if((($currentuserid == $pricing->lead_conv_uid) && ($check_status)) || (($role_id == 8) && ($check_status)))
-                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Gate Pass</a>
-                                                        @else
-                                                            <span class="text-navy">Processing...</span>
-                                                        @endif
-                                                    @elseif($pricing->in_out == 'IN' || $pricing->in_out == 'OUT')
-                                                        <?php
-                                                            $check_status = DB::table('apna_case_second_quality_report')->where('case_id', $pricing->case_id)->first();
-                                                        ?>
-                                                        @if(($check_status) || ($role_id == 8 || $role_id == 7) && ($check_status))
+                                                @if($pricing->in_out == 'PASS')
+                                                    <?php
+                                                    $check_status = DB::table('apna_case_second_kanta_parchi')->where('case_id', $pricing->case_id)->first();
+                                                    ?>
+
+                                                    @if($role_id == 1 || $role_id == 8 || ($role_id == 6 && $currentuserid == $pricing->lead_conv_uid))
+
+                                                        @if($check_status)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Gate Pass</a>
                                                         @else
                                                             <span class="text-navy">Processing...</span>
                                                         @endif
                                                     @else
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
 
+                                                @elseif($pricing->in_out == 'IN' || $pricing->in_out == 'OUT')
+                                                    <?php
+                                                    $check_status = DB::table('apna_case_second_quality_report')->where('case_id', $pricing->case_id)->first();
+                                                    ?>
+                                                    @if($check_status && ($role_id == 1 || $role_id == 7 || $role_id == 8))
+                                                        <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Gate Pass</a>
+                                                    @else
+                                                        <span class="text-navy">Processing...</span>
+                                                    @endif
                                                 @else
-                                                    <span class="text-navy">In Process</span>
                                                 @endif
                                             @endif
                                         </td>
@@ -137,10 +139,17 @@ $role_id = $role->role_id;
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
                 {!! Form::open(array('url' => 'addGatePass', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
-                {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
                     @csrf
                     
                     <div class="row">
+                        <div class="col-md-12">
+                            {!! Form::text('case_id', '', ['class' => 'form-control', 'id'=>'hidden_case_id', 'readonly' => 'readonly', 'placeholder' => 'Case ID']) !!}
+                            @if($errors->has('case_id'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('case_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         <div class="col-md-12">
                             <!-- <div class="col-md-4">
                                 {!! Form::label('gate_pass_no', 'Gate Pass No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
@@ -240,7 +249,7 @@ $role_id = $role->role_id;
 </div>
 
 
-@if($errors->has('notes') || $errors->has('report_file'))
+@if($errors->has('notes') || $errors->has('report_file') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');

@@ -249,6 +249,7 @@ class CaseGenController extends Controller
     {
         //Get All Post Data
         $request->validate([
+            'case_id'    => 'unique:apna_case_pricing',
             'processing_fees'    => 'required',
             'rent'      => 'required',
             'transaction_type'      => 'required',
@@ -296,6 +297,7 @@ class CaseGenController extends Controller
     {
         //Get All Post Data
         $request->validate([
+            'case_id'    => 'unique:apna_case_quality_report',
             'moisture_level'    => 'required'
         ]);
 
@@ -378,6 +380,7 @@ class CaseGenController extends Controller
     public function addGatePass(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_gate_pass',
             'report_file'    => 'required',
         ]);
 
@@ -470,10 +473,10 @@ class CaseGenController extends Controller
     public function addKantaParchi(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_kanta_parchi',
             'report_file'    => 'required',
         ]);
         /*$request->validate([
-            'rst_no'    => 'required',
             'bags'    => 'required',
             'gross_weight'    => 'required',
             'tare_weight'    => 'required',
@@ -577,6 +580,7 @@ class CaseGenController extends Controller
         if(!$not_required)
         {
             $request->validate([
+                'case_id'             => 'unique:apna_truck_book',
                 'transporter'             => 'required',
                 'vehicle'                 => 'required',
                 'driver_name'             => 'required',
@@ -677,6 +681,7 @@ class CaseGenController extends Controller
     public function addLabourBook(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_labour_book',
             'labour_contractor'    => 'required',
             'contractor_no'    => 'required',
             'labour_rate_per_bags'    => 'required',
@@ -726,6 +731,7 @@ class CaseGenController extends Controller
     {
         //Get All Post Data
         $request->validate([
+            'case_id'    => 'unique:apna_case_second_quality_report',
             'moisture_level'    => 'required'
         ]);
 
@@ -808,6 +814,7 @@ class CaseGenController extends Controller
     public function addSecondKantaParchi(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_second_kanta_parchi',
             'report_file'    => 'required',
         ]);
         
@@ -881,6 +888,7 @@ class CaseGenController extends Controller
     public function addEmandi(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_e_mandi',
             'report_file'    => 'required',
         ]);
 
@@ -958,12 +966,49 @@ class CaseGenController extends Controller
     public function addAccounts(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_accounts',
             'vikray_parchi'    => 'required',
             'inventory'    => 'required',
             'tally_updation'    => 'required',
             'cold_win_entry'    => 'required',
-            'whs_issulation'    => 'required',
+            /*'whs_issulation'    => 'required',*/
         ]);
+
+        if($request->hasFile('invoice')) {
+
+            $file = $request->invoice;
+
+            $invoice = $file->getClientOriginalName();
+
+            $ext = pathinfo($invoice, PATHINFO_EXTENSION);
+
+            $invoice = substr(md5(microtime()),rand(0,26),6);
+
+            $invoice .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('quality_claim')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('quality_claim')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/accounts/';
+            $file->move($destinationPath,$invoice);
+            $filepath = $destinationPath.$invoice;
+        }
+
+        $data['invoice'] = $invoice;
 
         $currentuserid = Auth::user()->id;
         $data['user_id'] = $user_id = $currentuserid;
@@ -972,7 +1017,12 @@ class CaseGenController extends Controller
         $data['inventory'] = $inventory = $request->inventory;
         $data['tally_updation'] = $tally_updation = $request->tally_updation;
         $data['cold_win_entry'] = $cold_win_entry = $request->cold_win_entry;
-        $data['whs_issulation'] = $whs_issulation = $request->whs_issulation;
+        /*$data['whs_issulation'] = $whs_issulation = $request->whs_issulation;*/
+
+        $data['loan'] = $loan = $request->loan;
+        $data['sale'] = $sale = $request->sale;
+        $data['mandi_tax'] = $mandi_tax = $request->mandi_tax;
+        $data['purchase'] = $purchase = $request->purchase;
         $data['notes'] = $notes = $request->notes;
 
         //Insert Data
@@ -1001,6 +1051,7 @@ class CaseGenController extends Controller
     public function addShippingStart(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_shipping_start',
             'location'    => 'required',
             'date_time'    => 'required',
         ]);
@@ -1038,6 +1089,7 @@ class CaseGenController extends Controller
     public function addShippingEnd(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_shipping_end',
             'location'    => 'required',
             'date_time'    => 'required',
         ]);
@@ -1076,6 +1128,7 @@ class CaseGenController extends Controller
     {
         //Get All Post Data
         $request->validate([
+            'case_id'    => 'unique:apna_case_quality_claim',
             'moisture_level'    => 'required',
             'report_file'    => 'required',
             'second_report_file'    => 'required',
@@ -1196,6 +1249,7 @@ class CaseGenController extends Controller
     public function addTruckPayment(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_truck_payment',
             'report_file'    => 'required',
         ]);
 
@@ -1273,6 +1327,7 @@ class CaseGenController extends Controller
     public function addLabourPayment(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_labour_payment',
             'report_file'    => 'required',
         ]);
 
@@ -1350,6 +1405,7 @@ class CaseGenController extends Controller
     public function addPaymentReceived(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_payment_received',
             'report_file'    => 'required',
         ]);
 
@@ -1427,6 +1483,7 @@ class CaseGenController extends Controller
     public function addCCTV(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_cctv',
             'report_file'    => 'required',
         ]);
 
@@ -1504,6 +1561,7 @@ class CaseGenController extends Controller
     public function addCommodityDeposit(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_cdf',
             'report_file'    => 'required',
         ]);
 
@@ -1581,6 +1639,7 @@ class CaseGenController extends Controller
     public function addWarehouseReceipt(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_warehouse_receipt',
             'report_file'    => 'required',
         ]);
 
@@ -1658,6 +1717,7 @@ class CaseGenController extends Controller
     public function addStorageReceipt(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_storage_receipt',
             'report_file'    => 'required',
         ]);
 
@@ -1735,6 +1795,7 @@ class CaseGenController extends Controller
     public function addReleaseOrder(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_release_order',
             'report_file'    => 'required',
         ]);
 
@@ -1812,6 +1873,7 @@ class CaseGenController extends Controller
     public function addDeliveryOrder(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_delivery_order',
             'report_file'    => 'required',
         ]);
 
@@ -1889,6 +1951,7 @@ class CaseGenController extends Controller
     public function addCommodityWithdrawal(Request $request)
     {
         $request->validate([
+            'case_id'    => 'unique:apna_case_commodity_withdrawal',
             'report_file'    => 'required',
         ]);
 

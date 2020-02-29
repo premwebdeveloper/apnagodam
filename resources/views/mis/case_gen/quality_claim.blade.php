@@ -187,10 +187,17 @@ $role_id = $role->role_id;
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
                 {!! Form::open(array('url' => 'addQualityClaim', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
-                {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
                     @csrf
                     
                     <div class="row">
+                        <div class="col-md-12">
+                            {!! Form::text('case_id', '', ['class' => 'form-control', 'id'=>'hidden_case_id', 'readonly' => 'readonly', 'placeholder' => 'Case ID']) !!}
+                            @if($errors->has('case_id'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('case_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         <div class="col-md-9">
                             <div class="col-md-4">
                                 {!! Form::label('moisture_level', 'Moisture Level(%)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
@@ -293,8 +300,8 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                {!! Form::label('second_report_file', 'Second Report File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::file('second_report_file', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off']) !!}
+                                {!! Form::label('second_report_file', 'Second Report File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                {!! Form::file('second_report_file', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
 
                                 @if($errors->has('second_report_file'))
                                     <span class="text-red" role="alert">
@@ -305,8 +312,8 @@ $role_id = $role->role_id;
                         </div>
                         <div class="col-md-3">
                             <div class="col-md-12">
-                                {!! Form::label('report_file', 'Report File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::file('report_file', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off']) !!}
+                                {!! Form::label('report_file', 'Report File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                {!! Form::file('report_file', ['class' => 'form-control','autocomplete' => 'off']) !!}
 
                                 @if($errors->has('report_file'))
                                     <span class="text-red" role="alert">
@@ -359,7 +366,7 @@ $role_id = $role->role_id;
 </div>
 
 
-@if($errors->has('second_report_file') || $errors->has('moisture_level') || $errors->has('thousand_crown_w') || $errors->has('broken') || $errors->has('foreign_matter') || $errors->has('thin') || $errors->has('damage') || $errors->has('black_smith') || $errors->has('infested') || $errors->has('live_insects') || $errors->has('quality_discount_value') || $errors->has('report_file') || $errors->has('notes'))
+@if($errors->has('second_report_file') || $errors->has('moisture_level') || $errors->has('thousand_crown_w') || $errors->has('broken') || $errors->has('foreign_matter') || $errors->has('thin') || $errors->has('damage') || $errors->has('black_smith') || $errors->has('infested') || $errors->has('live_insects') || $errors->has('quality_discount_value') || $errors->has('report_file') || $errors->has('notes') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');

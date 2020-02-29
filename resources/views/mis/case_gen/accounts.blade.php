@@ -59,8 +59,13 @@ $role_id = $role->role_id;
                                     <th>Inventory Update</th>
                                     <th>Tally Updation</th>
                                     <th>Cold Win Entry</th>
-                                    <th>WH Issuation</th>
+                                    <th>Loan</th>
+                                    <th>Sale</th>
+                                    <th>Purchase</th>
+                                    <th>Mandi Tax</th>
+                                    <!-- <th>WH Issuation</th> -->
                                     <th>Notes</th>
+                                    <th>Invoice</th>
                                     <th>Done By</th>
 	                            </tr>
 	                        </thead>
@@ -97,10 +102,10 @@ $role_id = $role->role_id;
                                                         @endif
                                                     @elseif($accounts->in_out == 'IN')
                                                         <?php
-                                                        $check_emandi = DB::table('apna_case_cdf')->where('case_id', $accounts->case_id)->first();
+                                                        $check_cdf = DB::table('apna_case_cdf')->where('case_id', $accounts->case_id)->first();
                                                         ?>
                                                         @if($check_status)
-                                                            @if($check_emandi)
+                                                            @if(!$check_cdf)
                                                                 <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
                                                             @else
                                                                 <span class="text-navy">Processing...</span>
@@ -143,8 +148,18 @@ $role_id = $role->role_id;
                                         <td>{!! $accounts->inventory !!}</td>
                                         <td>{!! $accounts->tally_updation !!}</td>
                                         <td>{!! $accounts->cold_win_entry !!}</td>
-                                        <td>{!! $accounts->whs_issulation !!}</td>
+                                        <td>{!! ($accounts->loan)?$accounts->loan:'N/A' !!}</td>
+                                        <td>{!! ($accounts->sale)?$accounts->sale:'N/A' !!}</td>
+                                        <td>{!! ($accounts->purchase)?$accounts->purchase:'N/A' !!}</td>
+                                        <td>{!! ($accounts->mandi_tax)?$accounts->mandi_tax:'N/A' !!}</td>
+                                        <!-- <td>{!! $accounts->whs_issulation !!}</td> -->
                                         <td>{!! $accounts->notes !!}</td>
+                                        <td>
+                                            @if($accounts->invoice)
+                                                <a class="view_report" data-id="{{ $accounts->invoice }}"><i class="fa fa-eye"></i></a>
+                                            @else
+                                            @endif
+                                        </td>
                                         <td>{!! $accounts->user_fname." ".$accounts->user_lname !!}</td>
 	                                </tr>
                                 @endforeach
@@ -170,10 +185,17 @@ $role_id = $role->role_id;
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
                 {!! Form::open(array('url' => 'addAccounts', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
-                {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
                     @csrf
                     
                     <div class="row">
+                        <div class="col-md-12">
+                            {!! Form::text('case_id', '', ['class' => 'form-control', 'id'=>'hidden_case_id', 'readonly' => 'readonly', 'placeholder' => 'Case ID']) !!}
+                            @if($errors->has('case_id'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('case_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         <div class="col-md-9 p-0">
                             <div class="col-md-6">
                                 {!! Form::label('vikray_parchi', 'Vikray Parchi', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
@@ -205,23 +227,49 @@ $role_id = $role->role_id;
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 {!! Form::label('whs_issulation', 'WH Issuation', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                 {!! Form::select('whs_issulation', array('' => 'Select', 'Yes' => 'Yes', 'No' => 'No'), '', ['class' => 'form-control', 'required' => 'required', 'id' => '']); !!}
-
+                            
                                 @if($errors->has('whs_issulation'))
                                     <span class="text-red" role="alert">
                                         <strong class="red">{{ $errors->first('whs_issulation') }}</strong>
                                     </span>
                                 @endif
-                            </div>
+                            </div> -->
                             <div class="col-md-6">
-                                {!! Form::label('inventory', 'Inventory Updation', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::label('inventory', 'Inventory Match', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                 {!! Form::select('inventory', array('' => 'Select', 'Yes' => 'Yes', 'No' => 'No'), '', ['class' => 'form-control', 'required' => 'required', 'id' => '']); !!}
 
                                 @if($errors->has('inventory'))
                                     <span class="text-red" role="alert">
                                         <strong class="red">{{ $errors->first('inventory') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-1">
+                                <label for="" class="m-t-20">Loan</label>
+                                <input type="checkbox" name="loan" value="Yes" id=""><br/>
+                            </div>
+                            <div class="col-md-1">
+                                <label for="" class="m-t-20">Sale</label>
+                                <input type="checkbox" name="sale" value="Yes" id=""><br/>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="" class="m-t-20">Mandi Tax</label>
+                                <input type="checkbox" name="mandi_tax" value="Yes" id="">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="" class="m-t-20">Purchase</label><br/>
+                                <input type="checkbox" name="purchase" value="Yes" id="">
+                            </div>
+                            <div class="col-md-6">
+                                {!! Form::label('invoice', 'Invoice', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                {!! Form::file('invoice', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
+
+                                @if($errors->has('invoice'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('invoice') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -248,8 +296,28 @@ $role_id = $role->role_id;
     </div>
 </div>
 
+<!-- View Report File -->
+<div id="viewQualityReport" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Invoice File</h4>
+            </div>
+            <div class="modal-body">                
+                <div class="row">
+                    <div class="col-md-12">
+                        <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
+                        </object>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-@if($errors->has('vikray_parchi') || $errors->has('tally_updation') || $errors->has('cold_win_entry') || $errors->has('whs_issulation'))
+@if($errors->has('vikray_parchi') || $errors->has('tally_updation') || $errors->has('cold_win_entry') || $errors->has('whs_issulation') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');
@@ -266,6 +334,12 @@ $role_id = $role->role_id;
             $('#hidden_case_id').val(case_id);
             $('#cust_name').html(name);
             $('#setCasePrice').modal('show');
+        });
+        $('.view_report').on('click', function(){
+            var file = $(this).attr('data-id');
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/accounts/"+file
+            $('#object_data').attr('data', full_url);
+            $('#viewQualityReport').modal('show');
         });
     });
 </script>

@@ -144,10 +144,17 @@ $role_id = $role->role_id;
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
                 {!! Form::open(array('url' => 'addLabourBook', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
-                    {!! Form::hidden('case_id', '',array('id' => 'hidden_case_id')) !!}
                     @csrf
                     
                     <div class="row">
+                        <div class="col-md-12">
+                            {!! Form::text('case_id', '', ['class' => 'form-control', 'id'=>'hidden_case_id', 'readonly' => 'readonly', 'placeholder' => 'Case ID']) !!}
+                            @if($errors->has('case_id'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('case_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                         <div class="col-md-12">
                             <div class="col-md-4">
                                 {!! Form::label('labour_contractor', 'Labour Contractor', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
@@ -201,7 +208,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('booking_date', 'Booking Date', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::date('booking_date', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Booking Date']) !!}
+                                {!! Form::text('booking_date', '', ['class' => 'form-control datetimepicker', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'DD-MM-YYYY']) !!}
 
                                 @if($errors->has('booking_date'))
                                     <span class="text-red" role="alert">
@@ -262,7 +269,7 @@ $role_id = $role->role_id;
     </div>
 </div>
 
-@if($errors->has('rst_no') || $errors->has('bags') || $errors->has('gross_weight') || $errors->has('tare_weight') || $errors->has('net_weight') || $errors->has('gross_date_time') || $errors->has('tare_date_time') || $errors->has('charges') || $errors->has('kanta_name') || $errors->has('kanta_place') || $errors->has('notes') || $errors->has('file'))
+@if($errors->has('labour_contractor') || $errors->has('contractor_no') || $errors->has('labour_rate_per_bags') || $errors->has('total_labour') || $errors->has('booking_date') || $errors->has('notes') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');
@@ -286,7 +293,12 @@ $role_id = $role->role_id;
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });
-        $('.datetimepicker').datetimepicker();
+        $('.datetimepicker').datetimepicker({
+            minView: 2,
+            autoclose: true,
+            format: 'd-m-yyyy'
+        });
+
     });
 </script>
 <link rel="stylesheet" href="{{ asset('resources/assets/datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
