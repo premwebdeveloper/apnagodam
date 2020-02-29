@@ -597,6 +597,10 @@ class CaseGenController extends Controller
                 'final_settlement_amount' => 'required',
                 'end_date_time'           => 'required',
             ]);
+        }else{
+            $request->validate([
+                'case_id' => 'unique:apna_truck_book',
+            ]);
         }
 
         $currentuserid = Auth::user()->id;
@@ -680,29 +684,37 @@ class CaseGenController extends Controller
     // Add Labour Book
     public function addLabourBook(Request $request)
     {
-        $request->validate([
-            'case_id'    => 'unique:apna_labour_book',
-            'labour_contractor'    => 'required',
-            'contractor_no'    => 'required',
-            'labour_rate_per_bags'    => 'required',
-            'total_labour'    => 'required',
-            'location'    => 'required',
-            'booking_date'    => 'required',
-            'total_bags'    => 'required',
-        ]);
-
+        $not_required = $request->not_required;
         $currentuserid = Auth::user()->id;
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
-        $data['labour_contractor'] = $labour_contractor = ucfirst($request->labour_contractor);
-        $data['contractor_no'] = $contractor_no = $request->contractor_no;
-        $data['labour_rate_per_bags'] = $labour_rate_per_bags = $request->labour_rate_per_bags;
-        $data['total_labour'] = $total_labour = $request->total_labour;
-        $data['location'] = $location = $request->location;
-        $data['booking_date'] = $booking_date = $request->booking_date;
-        $data['total_bags'] = $total_bags = $request->total_bags;
-        $data['notes'] = $notes = $request->notes;
+        if(!$not_required)
+        {
+            $request->validate([
+                'case_id'    => 'unique:apna_labour_book',
+                'labour_contractor'    => 'required',
+                'contractor_no'    => 'required',
+                'labour_rate_per_bags'    => 'required',
+                'total_labour'    => 'required',
+                'location'    => 'required',
+                'booking_date'    => 'required',
+                'total_bags'    => 'required',
+            ]);
+        }else{
+            $request->validate([
+                'case_id'    => 'unique:apna_labour_book'
+            ]);
 
+            $data['labour_contractor'] = $labour_contractor = 'N/A';
+            $data['contractor_no'] = $contractor_no = 'N/A';
+            $data['labour_rate_per_bags'] = $labour_rate_per_bags = 'N/A';
+            $data['total_labour'] = $total_labour = 'N/A';
+            $data['location'] = $location = 'N/A';
+            $data['booking_date'] = $booking_date = 'N/A';
+            $data['total_bags'] = $total_bags = 'N/A';
+        }
+
+        $data['notes'] = $notes = $request->notes;
         //Insert Data
         $insert = CaseGen::updateLabourBook($data);
 

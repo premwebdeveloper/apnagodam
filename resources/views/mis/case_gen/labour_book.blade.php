@@ -158,7 +158,7 @@ $role_id = $role->role_id;
                         <div class="col-md-12">
                             <div class="col-md-4">
                                 {!! Form::label('labour_contractor', 'Labour Contractor', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('labour_contractor', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Labour Contractor']) !!}
+                                {!! Form::text('labour_contractor', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Labour Contractor']) !!}
 
                                 @if($errors->has('labour_contractor'))
                                     <span class="text-red" role="alert">
@@ -168,7 +168,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('contractor_no', 'Contractor Phone', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('contractor_no', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Contractor Phone No.']) !!}
+                                {!! Form::text('contractor_no', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Contractor Phone No.']) !!}
 
                                 @if($errors->has('contractor_no'))
                                     <span class="text-red" role="alert">
@@ -178,7 +178,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('labour_rate_per_bags', 'Labour Rate Per Bags', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('labour_rate_per_bags', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Labour Rate Per Bags']) !!}
+                                {!! Form::text('labour_rate_per_bags', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Labour Rate Per Bags']) !!}
 
                                 @if($errors->has('labour_rate_per_bags'))
                                     <span class="text-red" role="alert">
@@ -188,7 +188,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('total_labour', 'Total Labour', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('total_labour', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Total No. of Labours']) !!}
+                                {!! Form::text('total_labour', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Total No. of Labours']) !!}
 
                                 @if($errors->has('total_labour'))
                                     <span class="text-red" role="alert">
@@ -198,7 +198,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('location', 'Location', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('location', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Location']) !!}
+                                {!! Form::text('location', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Location']) !!}
 
                                 @if($errors->has('location'))
                                     <span class="text-red" role="alert">
@@ -208,7 +208,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-4">
                                 {!! Form::label('booking_date', 'Booking Date', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('booking_date', '', ['class' => 'form-control datetimepicker', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'DD-MM-YYYY']) !!}
+                                {!! Form::text('booking_date', '', ['class' => 'form-control datetimepicker disable-cls', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'DD-MM-YYYY']) !!}
 
                                 @if($errors->has('booking_date'))
                                     <span class="text-red" role="alert">
@@ -216,15 +216,20 @@ $role_id = $role->role_id;
                                     </span>
                                 @endif
                             </div>
-                            <div class="col-md-4">
-                                {!! Form::label('total_bags', 'Total Bags', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                {!! Form::text('total_bags', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Total No. of Bags']) !!}
+                            <div class="col-md-4 p-0">
+                                <div class="col-md-12">
+                                    {!! Form::label('total_bags', 'Total Bags', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                    {!! Form::text('total_bags', '', ['class' => 'disable-cls form-control', 'autocomplete' => 'off', 'required' => 'required', 'placeholder' => 'Enter Total No. of Bags']) !!}
 
-                                @if($errors->has('total_bags'))
-                                    <span class="text-red" role="alert">
-                                        <strong class="red">{{ $errors->first('total_bags') }}</strong>
-                                    </span>
-                                @endif
+                                    @if($errors->has('total_bags'))
+                                        <span class="text-red" role="alert">
+                                            <strong class="red">{{ $errors->first('total_bags') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-md-12 p-t-20">
+                                    <input type="checkbox" name="not_required" class="" id="not_required"> Not Required
+                                </div>
                             </div>
                             <div class="col-md-8">
                                 {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
@@ -297,6 +302,18 @@ $role_id = $role->role_id;
             minView: 2,
             autoclose: true,
             format: 'd-m-yyyy'
+        });
+
+        $('#not_required').on('click', function(){
+            if($(this).is(':checked'))
+            {
+                $('.disable-cls').attr('readonly', 'true');
+                $('.disable-cls').removeAttr("required");
+
+            }else{
+                $('.disable-cls').removeAttr("readonly");
+                $('.disable-cls').attr('required', 'true');
+            }
         });
 
     });
