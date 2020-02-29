@@ -62,7 +62,7 @@ $role_id = $role->role_id;
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $pricing)
                                     <?php
-                                        $check_status = DB::table('apna_case_payment_received')->where('case_id', $pricing->case_id)->first();
+                                        $check_status = DB::table('apna_case_labour_payment')->where('case_id', $pricing->case_id)->first();
                                     ?>
                                     <tr class="gradeX">
                                         <td>{{ ++$key }}</td>

@@ -1250,7 +1250,7 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_truck_payment',
-            'report_file'    => 'required',
+            'notes'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -1292,10 +1292,6 @@ class CaseGenController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/truck_payment/';
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
-        }else{
-
-            $status = 'Please Upload file.';
-            return redirect('truck_payment')->with('error', $status);  
         }
 
         $data['file'] = $img_name;
@@ -1328,7 +1324,7 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_labour_payment',
-            'report_file'    => 'required',
+            'notes'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -1370,10 +1366,6 @@ class CaseGenController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/labour_payment/';
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
-        }else{
-
-            $status = 'Please Upload file.';
-            return redirect('labour_payment')->with('error', $status);  
         }
 
         $data['file'] = $img_name;
@@ -1406,7 +1398,7 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_payment_received',
-            'report_file'    => 'required',
+            'notes'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -1448,10 +1440,6 @@ class CaseGenController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/payment_received/';
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
-        }else{
-
-            $status = 'Please Upload file.';
-            return redirect('payment_received')->with('error', $status);  
         }
 
         $data['file'] = $img_name;
@@ -1640,7 +1628,7 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_warehouse_receipt',
-            'report_file'    => 'required',
+            'notes'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -1663,7 +1651,7 @@ class CaseGenController extends Controller
             $img_name .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
 
             if(! in_array($ext, $extensions))
             {
@@ -1682,10 +1670,6 @@ class CaseGenController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/warehouse_receipt/';
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
-        }else{
-
-            $status = 'Please Upload file.';
-            return redirect('warehouse_receipt')->with('error', $status);  
         }
 
         $data['file'] = $img_name;
@@ -1718,7 +1702,7 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_storage_receipt',
-            'report_file'    => 'required',
+            'notes'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -1760,10 +1744,6 @@ class CaseGenController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/storage_receipt/';
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
-        }else{
-
-            $status = 'Please Upload file.';
-            return redirect('storage_receipt')->with('error', $status);  
         }
 
         $data['file'] = $img_name;

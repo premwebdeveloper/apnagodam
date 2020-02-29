@@ -282,12 +282,6 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('payment_received') }}">
-                                <i class="fa fa-handshake-o" title=""></i>
-                                <span class="nav-label">Payment Received</span>
-                            </a>
-                        </li>
-                        <li>
                             <a href="{{ route('warehouse_receipt') }}">
                                 <i class="fa fa-file-text" title=""></i>
                                 <span class="nav-label">Warehouse Receipt</span>
@@ -297,6 +291,12 @@
                             <a href="{{ route('storage_receipt') }}">
                                 <i class="fa fa-print" title=""></i>
                                 <span class="nav-label">Storage Receipt</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('payment_received') }}">
+                                <i class="fa fa-handshake-o" title=""></i>
+                                <span class="nav-label">Payment Received</span>
                             </a>
                         </li>
                     </ul>

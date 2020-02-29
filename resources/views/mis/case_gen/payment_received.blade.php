@@ -61,23 +61,38 @@ $role_id = $role->role_id;
                             <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $pricing)
-                                    <?php
-                                        $check_status = DB::table('apna_case_labour_payment')->where('case_id', $pricing->case_id)->first();
-                                    ?>
                                     <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
                                             @if($pricing->file)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 3 || $role_id == 8)
-                                                    @if($check_status)
-                                                        <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Payment Received</a>
+                                                @if($pricing->in_out == 'PASS' || $pricing->in_out == 'OUT')
+                                                    <?php
+                                                    $check_status = DB::table('apna_case_labour_payment')->where('case_id', $pricing->case_id)->first();
+                                                    ?>
+                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
+                                                        @if($check_status)
+                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Payment Received</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
                                                     @else
-                                                        <span class="text-navy">Processing...</span>
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
-                                                @else
-                                                    <span class="text-navy">In Process</span>
+                                                @elseif($pricing->in_out == 'IN')
+                                                    <?php
+                                                    $check_status = DB::table('apna_case_storage_receipt')->where('case_id', $pricing->case_id)->first();
+                                                    ?>
+                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
+                                                        @if($check_status)
+                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Payment Received</a>
+                                                        @else
+                                                            <span class="text-navy">Processing...</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
                                                 @endif
                                             @endif
                                         </td>
