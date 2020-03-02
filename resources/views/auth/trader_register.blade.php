@@ -34,19 +34,19 @@
                         </span>
                     @endif
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     {!! Form::label('email', 'Email (Optional)', ['class' => 'm-t-20 col-form-label text-md-right']) !!}
                     {!! Form::text('email', '', ['class' => 'form-control', 'id' => 'email', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter Email Id']) !!}
-
+                
                     @if($errors->has('email'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('email') }}</strong>
                         </span>
                     @endif
-                </div>
+                </div> -->
                 <div class="col-md-6">
                     {!! Form::label('firm_name', 'Firm Name', ['class' => 'm-t-20 col-form-label text-md-right']) !!}
-                    {!! Form::text('firm_name', '', ['class' => 'form-control', 'id' => 'firm_name', 'autocomplete' => 'off', 'required' => 'required', 'autofocus' => 'on', 'placeholder' => 'Firm Name']) !!}
+                    {!! Form::text('firm_name', '', ['class' => 'form-control', 'id' => 'firm_name', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Firm Name']) !!}
                     @if($errors->has('firm_name'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('firm_name') }}</strong>
@@ -54,7 +54,7 @@
                     @endif
                 </div>
                 <div class="col-md-6">
-                    {!! Form::label('fname', 'Prop./Partner/Manager Name', ['class' => 'm-t-20 col-form-label text-md-right']) !!}
+                    {!! Form::label('fname', 'Prop./Partner/Manager Name', ['class' => 'm-t-20 col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'autocomplete' => 'off', 'required' => 'required', 'autofocus' => 'on', 'placeholder' => 'Prop./Partner/Manager Name']) !!}
                     @if($errors->has('fname'))
                         <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@
                         </span>
                     @endif
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     {!! Form::label('address', 'Address', ['class' => 'm-t-20 col-form-label text-md-right']) !!}
                     {!! Form::text('address', '', ['class' => 'form-control', 'id' => 'address', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Street Address']) !!}
                     @if($errors->has('address'))
@@ -124,11 +124,11 @@
                             <strong>{{ $errors->first('gst') }}</strong>
                         </span>
                     @endif
-                </div>
-                <div class="col-md-6">
+                </div> -->
+                <!-- <div class="col-md-6">
                     {!! Form::label('ref_referral_code', 'Referred By', ['class' => 'm-t-20 col-form-label text-md-right']) !!}
                     {!! Form::text('ref_referral_code', '', ['class' => 'form-control', 'id' => 'ref_referral_code', 'autocomplete' => 'off', 'autofocus' => 'on', 'minlength' => 6, 'maxlength' => 6, 'placeholder' => 'Reference Referral Code']) !!}
-                </div>
+                </div> -->
                
                 <div class="col-md-12 m-t-20">
                     <button type="submit" class="btn form-control btn-success">

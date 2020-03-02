@@ -263,6 +263,17 @@ class HomeController extends Controller
         }
         $request->validate([
             'phone' => 'required|numeric|digits:10',
+            'fname' => 'required|string|max:255',
+        ]);
+
+        if($request->email)
+        {
+            $request->validate([
+                'email' => 'email',
+            ]);
+        }
+        /*$request->validate([
+            'phone' => 'required|numeric|digits:10',
             'email' => 'email',
             'fname' => 'required|string|max:255',
             'aadhar' => 'required|numeric|digits:12',
@@ -273,7 +284,7 @@ class HomeController extends Controller
             'bank_ifsc_code' => 'required|string|max:255',
             'aadhar_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'cheque_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        ]);*/
 
         //Check Phone Number is already exist
         $phone = $request->phone;
@@ -547,8 +558,14 @@ class HomeController extends Controller
         $phone = $request->phone;
         $check_phone = DB::table('users')->where('phone', $phone)->first();
 
+        if($request->email)
+        {
+            $request->validate([
+                'email' => 'email',
+            ]);
+        }
+
         $request->validate([
-            'email' => 'email',
             'fname' => 'required|string|max:255',
         ]);
 

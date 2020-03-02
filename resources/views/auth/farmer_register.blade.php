@@ -34,16 +34,16 @@
                         </span>
                     @endif
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     {!! Form::label('email', 'Email (Optional)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                     {!! Form::text('email', '', ['class' => 'form-control', 'id' => 'email', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter Email Id']) !!}
-
+                
                     @if($errors->has('email'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('email') }}</strong>
                         </span>
                     @endif
-                </div>
+                </div> -->
                 <div class="col-md-6">
                     {!! Form::label('fname', 'Name', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::text('fname', '', ['class' => 'form-control', 'id' => 'fname', 'required' => 'required', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your  Full Name']) !!}
@@ -54,10 +54,10 @@
                         </span>
                     @endif
                 </div>
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     {!! Form::label('father_name', 'Father\'s Name', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::text('father_name', '', ['class' => 'form-control', 'id' => 'father_name', 'required' => 'required', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Father\'s Name']) !!}
-
+                
                     @if($errors->has('father_name'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('father_name') }}</strong>
@@ -67,7 +67,7 @@
                 <div class="col-md-6">
                     {!! Form::label('aadhar', 'Aadhar No', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::number('aadhar', '', ['class' => 'form-control', 'id' => 'aadhar', 'pattern' => '[0-9]', 'required' => 'required', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Aadhar No']) !!}
-
+                
                     @if($errors->has('aadhar'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('aadhar') }}</strong>
@@ -122,7 +122,7 @@
                 <div class="col-md-6">
                     {!! Form::label('bank_name', 'Bank Name', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::text('bank_name', '', ['class' => 'form-control', 'id' => 'bank_name', 'required' => 'required', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Bank Name']) !!}
-
+                
                     @if($errors->has('bank_name'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('bank_name') }}</strong>
@@ -132,7 +132,7 @@
                 <div class="col-md-6">
                     {!! Form::label('bank_branch', 'Bank Branch', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::text('bank_branch', '', ['class' => 'form-control', 'id' => 'bank_branch', 'required' => 'required', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Bank Branch']) !!}
-
+                
                     @if($errors->has('bank_branch'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('bank_branch') }}</strong>
@@ -142,7 +142,7 @@
                 <div class="col-md-6">
                     {!! Form::label('bank_acc_no', 'Bank Account No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::text('bank_acc_no', '', ['class' => 'form-control', 'id' => 'bank_acc_no', 'required' => 'required', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Bank Account No.']) !!}
-
+                
                     @if($errors->has('bank_acc_no'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('bank_acc_no') }}</strong>
@@ -152,22 +152,22 @@
                 <div class="col-md-6">
                     {!! Form::label('bank_ifsc_code', 'Bank IFSC Code', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::text('bank_ifsc_code', '', ['class' => 'form-control', 'id' => 'bank_ifsc_code', 'required' => 'required', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Bank IFSC Code']) !!}
-
+                
                     @if($errors->has('bank_ifsc_code'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('bank_ifsc_code') }}</strong>
                         </span>
                     @endif
-                </div>
-                <div class="col-md-6">
+                </div> -->
+                <!-- <div class="col-md-6">
                     {!! Form::label('ref_referral_code', 'Referred By', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                     {!! Form::text('ref_referral_code', '', ['class' => 'form-control', 'id' => 'ref_referral_code', 'autocomplete' => 'off', 'autofocus' => 'on', 'minlength' => 6, 'maxlength' => 6, 'placeholder' => 'Reference Referral Code']) !!}
-
-                </div>
-                <div class="col-md-6">
+                
+                </div> -->
+                <!-- <div class="col-md-6">
                     {!! Form::label('aadhar_image', 'Aadhar Card', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::file('aadhar_image', ['class' => 'form-control', 'required' => 'required', 'id' => 'aadhar_image']) !!}
-
+                
                     @if ($errors->has('aadhar_image'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('aadhar_image') }}</strong>
@@ -177,13 +177,13 @@
                 <div class="col-md-6">
                     {!! Form::label('cheque_image', 'Cheque', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="text-red">*</span>
                     {!! Form::file('cheque_image', ['class' => 'form-control', 'required' => 'required', 'id' => 'cheque_image']) !!}
-
+                
                     @if ($errors->has('cheque_image'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('cheque_image') }}</strong>
                         </span>
                     @endif
-                </div>
+                </div> -->
                 <div class="col-md-12 m-t-20">
                     <button type="submit" class="btn form-control btn-success">
                         {{ __('Submit') }}
