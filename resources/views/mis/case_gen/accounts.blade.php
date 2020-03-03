@@ -95,7 +95,11 @@ $role_id = $role->role_id;
                                                                     <span class="text-navy">Processing...</span>
                                                                 @endif
                                                             @else
-                                                                <span class="text-navy">Processing...</span>
+                                                                @if($res)
+                                                                    <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
+                                                                @else
+                                                                    <span class="text-navy">Processing...</span>
+                                                                @endif
                                                             @endif
                                                         @else
                                                             <span class="text-navy">Processing...</span>

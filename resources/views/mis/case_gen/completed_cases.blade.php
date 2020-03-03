@@ -69,8 +69,8 @@ $role_id = $role->role_id;
                                 @foreach($case_gen as $key => $lead)
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
-                                        <!-- <td><a href="{{ route('viewCase', ['case_id' => $lead->case_id]) }}">{!! $lead->case_id !!}</a></td> -->
-                                        <td><a>{!! $lead->case_id !!}</a></td>
+                                        <td><a href="{{ route('viewCase', ['case_id' => $lead->case_id]) }}">{!! $lead->case_id !!}</a></td>
+                                        <!-- <td><a>{!! $lead->case_id !!}</a></td> -->
 
                                         <td>{!! $lead->cust_fname." ".$lead->cust_lname !!}</td>
                                         <td>{!! $lead->lead_gen_fname." ".$lead->lead_gen_lname !!}</td>

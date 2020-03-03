@@ -122,7 +122,7 @@ $role_id = $role->role_id;
                                     @endif
                                 </div>
                                 <div class="col-md-3">
-                                    {!! Form::label('vehicle_no', 'Vehicle No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                    {!! Form::label('vehicle_no', 'Vehicle No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                                     {!! Form::text('vehicle_no', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'style' => 'text-transform: uppercase;','placeholder' => 'Enter Vehicle / Truck No.']) !!}
 
                                     @if($errors->has('vehicle_no'))

@@ -80,10 +80,10 @@
                                         <td><span class="f-w-800 f-s-18" id="fm_price"></span></td>
                                     </tr>
                                     <tr class="gradeX">
-                                        <td class="f-s-20">QV Rs. <b class="" id="total_price"></b></td>
-                                        <td></td>
-                                        <td ></td>
-                                        <td ></td>
+                                        <td class="f-s-20">QV Rs.</td>
+                                        <td class="f-s-20"><b class="" id="total_price"></b></td>
+                                        <td class="f-s-20">Final Price </td>
+                                        <td class="f-s-20"><b class="" id="final_price"></b></td>
                                         <td ></td>
                                     </tr>
                                 </tbody>
@@ -150,6 +150,7 @@
                     total = total + parseFloat($('#thin_price').html());
                     total = total + parseFloat($('#tcw_price').html());
                     $('#total_price').html(total.toFixed(2));
+                    $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                 }
             }else{
                 $('#mos_price').html('');
@@ -194,7 +195,8 @@
                     total = total + parseFloat($('#fm_price').html());
                     total = total + parseFloat($('#thin_price').html());
                     total = total + parseFloat($('#tcw_price').html());
-                    $('#total_price').html(total.toFixed(2));                    
+                    $('#total_price').html(total.toFixed(2));
+                    $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");                    
                 }
             }else{
                 $('#bro_price').html('');
@@ -241,6 +243,7 @@
                     total = total + parseFloat($('#thin_price').html());
                     total = total + parseFloat($('#tcw_price').html());
                     $('#total_price').html(total.toFixed(2));
+                    $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                 }
             }else{
 
@@ -286,6 +289,7 @@
                     total = total + parseFloat($('#thin_price').html());
                     total = total + parseFloat($('#tcw_price').html());
                     $('#total_price').html(total.toFixed(2));
+                    $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                 }
             }else{
                 $('#fm_price').html('');
@@ -328,6 +332,7 @@
                     total = total + parseFloat($('#thin_price').html());
                     total = total + parseFloat($('#tcw_price').html());
                     $('#total_price').html(total.toFixed(2));
+                    $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                 }
 
                 $('#tcw_price').html(pri_diff.toFixed(2));
@@ -382,6 +387,7 @@
                         total = total + parseFloat($('#thin_price').html());
                         total = total + parseFloat($('#tcw_price').html());
                         $('#total_price').html(total.toFixed(2));
+                        $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                     }
                 }
 
@@ -415,7 +421,8 @@
                         total = total + parseFloat($('#fm_price').html());
                         total = total + parseFloat($('#thin_price').html());
                         total = total + parseFloat($('#tcw_price').html());
-                        $('#total_price').html(total.toFixed(2));                    
+                        $('#total_price').html(total.toFixed(2));
+                        $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");                    
                     }
                 }
 
@@ -451,6 +458,7 @@
                         total = total + parseFloat($('#thin_price').html());
                         total = total + parseFloat($('#tcw_price').html());
                         $('#total_price').html(total.toFixed(2));
+                        $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                     }
                 }
 
@@ -485,6 +493,7 @@
                         total = total + parseFloat($('#thin_price').html());
                         total = total + parseFloat($('#tcw_price').html());
                         $('#total_price').html(total.toFixed(2));
+                        $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                     }
                 }
 
@@ -518,6 +527,7 @@
                         total = total + parseFloat($('#thin_price').html());
                         total = total + parseFloat($('#tcw_price').html());
                         $('#total_price').html(total.toFixed(2));
+                        $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                     }
 
                     $('#tcw_price').html(pri_diff.toFixed(2));
@@ -548,6 +558,7 @@
                         total = total + parseFloat($('#thin_price').html());
                         total = total + parseFloat($('#tcw_price').html());
                         $('#total_price').html(total.toFixed(2));
+                        $('#final_price').html(n_main_price - total.toFixed(2)+" Rs.");
                     }
                 }else{
                     $('#mos_price').html('0');

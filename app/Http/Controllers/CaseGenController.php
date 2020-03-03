@@ -161,7 +161,7 @@ class CaseGenController extends Controller
             'quantity'    => 'required|numeric',
             'commodity_id'      => 'required|numeric',
             'terminal_id'      => 'required|numeric',
-            'vehicle_no'      => 'required',
+            /*'vehicle_no'      => 'required',*/
             'in_out'      => 'required',
             'purpose'      => 'required',
         ]);
@@ -700,6 +700,15 @@ class CaseGenController extends Controller
                 'booking_date'    => 'required',
                 'total_bags'    => 'required',
             ]);
+
+            $data['labour_contractor'] = $labour_contractor = $request->labour_contractor;
+            $data['contractor_no'] = $contractor_no = $request->contractor_no;
+            $data['labour_rate_per_bags'] = $labour_rate_per_bags = $request->labour_rate_per_bags;
+            $data['total_labour'] = $total_labour = $request->total_labour;
+            $data['location'] = $location = $request->location;
+            $data['booking_date'] = $booking_date = $request->booking_date;
+            $data['total_bags'] = $total_bags = $request->total_bags;
+
         }else{
             $request->validate([
                 'case_id'    => 'unique:apna_labour_book'
@@ -2039,8 +2048,29 @@ class CaseGenController extends Controller
     public function viewCase(Request $request)
     {
         $case_id = $request->case_id;
-        $case_gen = CaseGen::getCaseDetails($case_id);
-        return view('mis.case_gen.view_case', array('case_gen' => $case_gen, 'case_id' => $case_id));
+
+        //Get Case Id Details for Pass / In / Out
+        $case = CaseGen::getSingleCaseById($case_id);
+        if($case->in_out == 'PASS')
+        {
+            $case_gen = CaseGen::getPassCaseDetails($case_id);
+            /*echo "<pre>";
+            print_r($case_gen);
+            die;*/
+
+            return view('mis.case_gen.view_pass_case', array('case_gen' => $case_gen, 'case_id' => $case_id));
+        }
+        elseif($case->in_out == 'IN')
+        {
+            $case_gen = CaseGen::getInCaseDetails($case_id);
+            return view('mis.case_gen.view_in_case', array('case_gen' => $case_gen, 'case_id' => $case_id));
+        }
+        elseif($case->in_out == 'OUT')
+        {
+            $case_gen = CaseGen::getOutCaseDetails($case_id);
+            return view('mis.case_gen.view_out_case', array('case_gen' => $case_gen, 'case_id' => $case_id));
+        }
+
     }
 
 }
