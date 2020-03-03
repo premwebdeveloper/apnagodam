@@ -99,13 +99,13 @@ $role_id = $role->role_id;
                                                     ?>
                                                     @if($check_pricing)
                                                         @if($check_pricing->transaction_type == 'E-Mandi')
-                                                            @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                            @if(($check_status) && ($role_id == 1 || $role_id == 8 || $role_id == 9))
                                                                 <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
                                                             @else
                                                                 <span class="text-navy">Processing...</span>
                                                             @endif
                                                         @else
-                                                            @if($role_id == 1 || $role_id == 8 || $role_id == 7)
+                                                            @if($role_id == 1 || $role_id == 8 || $role_id == 9)
                                                                 <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>
                                                             @else
                                                                 <span class="text-navy">Processing...</span>
