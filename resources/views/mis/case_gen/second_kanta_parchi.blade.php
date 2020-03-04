@@ -64,30 +64,34 @@ $role_id = $role->role_id;
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
-                                            @if($kanta_parchi->file)
+                                            @if($kanta_parchi->s_k_p_case_id)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
-                                                    @if($kanta_parchi->in_out == 'PASS')
+                                                @if($kanta_parchi->in_out == 'PASS')
+                                                    @if($role_id == 1 || $currentuserid == $kanta_parchi->lead_conv_uid || $role_id == 8)
                                                         <?php
                                                         $check_status = DB::table('apna_case_second_quality_report')->where('case_id', $kanta_parchi->case_id)->first();?>
-                                                        @if(($check_status) && ($currentuserid == $kanta_parchi->lead_conv_uid || $role_id == 1 || $role_id == 8))
+                                                        @if($check_status)
                                                             <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
-                                                    @elseif($kanta_parchi->in_out == 'IN' || $kanta_parchi->in_out == 'OUT')
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif($kanta_parchi->in_out == 'IN' || $kanta_parchi->in_out == 'OUT')
+                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
                                                         <?php
                                                         $check_status = DB::table('apna_case_quality_report')->where('case_id', $kanta_parchi->case_id)->first();
                                                         ?>
-                                                        @if(($check_status) && ($role_id == 1 || $role_id == 7 || $role_id == 8))
+                                                        @if($check_status)
                                                             <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
-                                                @else
-                                                    <span class="text-navy">In Process</span>
                                                 @endif
                                             @endif
                                         </td>
@@ -151,7 +155,7 @@ $role_id = $role->role_id;
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
                                     {!! Form::label('report_file', 'Kanta Parchi File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                    {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required']) !!}
+                                    {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off', 'onchange' => "loadFile(event)", 'required' => 'required']) !!}
 
                                     @if($errors->has('report_file'))
                                         <span class="text-red" role="alert">
@@ -175,6 +179,10 @@ $role_id = $role->role_id;
                     <div class="row">
                         <div class="col-md-12">
                             {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
+                        </div>
+                        <div class="col-md-12 m-t-20">
+                            <h3 id="file_preview_title" class="hide">File Preview</h3>
+                            <object type="" class="hide"  style="width:100%;min-height:450px;" data="" id="file_preview"></object>
                         </div>
                     </div>
                 {!! Form::close() !!}

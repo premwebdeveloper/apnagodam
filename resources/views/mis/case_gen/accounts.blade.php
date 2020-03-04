@@ -72,9 +72,6 @@ $role_id = $role->role_id;
 	                        <tbody>
                                 @foreach($case_gen as $key => $accounts)
                                     <?php
-                                    //If First Quality Report Update or not
-                                    $res = DB::table('apna_case_gate_pass')->where('case_id', $accounts->case_id)->first();
-
                                     $check_status = DB::table('apna_case_pricing')->where('case_id', $accounts->case_id)->first();
 
                                     $check_emandi = DB::table('apna_case_e_mandi')->where('case_id', $accounts->case_id)->first();
@@ -82,52 +79,63 @@ $role_id = $role->role_id;
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
-                                            @if($accounts->vikray_parchi)
+                                            @if($accounts->a_case_id)
                                                 <span class="text-navy">Done</span>
                                             @else
-                                                @if($role_id == 1 || $role_id == 3 || $role_id == 8)
-                                                    @if($accounts->in_out == 'PASS')
+                                                
+                                                @if($accounts->in_out == 'PASS')
+                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
                                                         @if($check_status)
                                                             @if($check_status->transaction_type == 'E-Mandi')
                                                                 @if($check_emandi)
                                                                     <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
                                                                 @else
-                                                                    <span class="text-navy">Processing...</span>
+                                                                    <span class="text-warning">Processing...</span>
                                                                 @endif
                                                             @else
+                                                                <?php
+                                                                $res = DB::table('apna_case_gate_pass')->where('case_id', $accounts->case_id)->first();
+                                                                ?>
                                                                 @if($res)
                                                                     <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
                                                                 @else
-                                                                    <span class="text-navy">Processing...</span>
+                                                                    <span class="text-warning">Processing...</span>
                                                                 @endif
                                                             @endif
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
-                                                    @elseif($accounts->in_out == 'IN')
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif
+                                                @elseif($accounts->in_out == 'IN')
+                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
                                                         <?php
                                                         $check_cdf = DB::table('apna_case_cdf')->where('case_id', $accounts->case_id)->first();
                                                         ?>
                                                         @if($check_status)
-                                                            @if(!$check_cdf)
+                                                            @if($check_cdf)
                                                                 <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
                                                             @else
-                                                                <span class="text-navy">Processing...</span>
+                                                                <span class="text-warning">Processing...</span>
                                                             @endif
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
-                                                    
-                                                    @elseif($accounts->in_out == 'OUT')
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
+                                                    @endif                                                
+                                                @elseif($accounts->in_out == 'OUT')
+                                                    @if($role_id == 1 || $role_id == 3 || $role_id == 8)
                                                         <?php
-                                                        $check_emandi = DB::table('apna_case_commodity_withdrawal')->where('case_id', $accounts->case_id)->first();
+                                                        $check_c_w = DB::table('apna_case_commodity_withdrawal')->where('case_id', $accounts->case_id)->first();
                                                         ?>
                                                         @if($check_status)
                                                             @if($check_status->transaction_type == 'E-Mandi')
-                                                                @if($check_emandi)
+                                                                @if($check_c_w)
                                                                     <a data-id="{!! $accounts->case_id !!}" id='{!! $accounts->cust_fname." ".$accounts->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Accounts</a>
                                                                 @else
-                                                                    <span class="text-navy">Processing...</span>
+                                                                    <span class="text-warning">Processing...</span>
                                                                 @endif
                                                             @else
                                                                 @if($role_id == 1 || $role_id == 3)
@@ -137,11 +145,11 @@ $role_id = $role->role_id;
                                                                 @endif
                                                             @endif
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
+                                                    @else
+                                                        <span class="text-navy">In Process</span>
                                                     @endif
-                                                @else
-                                                    <span class="text-navy">In Process</span>
                                                 @endif
                                             @endif
                                         </td>
@@ -269,7 +277,7 @@ $role_id = $role->role_id;
                             </div>
                             <div class="col-md-6">
                                 {!! Form::label('invoice', 'Invoice', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::file('invoice', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
+                                {!! Form::file('invoice', ['class' => 'form-control', 'onchange' => "loadFile(event)", 'autocomplete' => 'off']) !!}
 
                                 @if($errors->has('invoice'))
                                     <span class="text-red" role="alert">
@@ -292,6 +300,10 @@ $role_id = $role->role_id;
                     <div class="row">
                         <div class="col-md-12">
                             {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
+                        </div>
+                        <div class="col-md-12 m-t-20">
+                            <h3 id="file_preview_title" class="hide">File Preview</h3>
+                            <object type="" class="hide"  style="width:100%;min-height:450px;" data="" id="file_preview"></object>
                         </div>
                     </div>
                 {!! Form::close() !!}

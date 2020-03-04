@@ -995,6 +995,8 @@ class CaseGenController extends Controller
             /*'whs_issulation'    => 'required',*/
         ]);
 
+        $invoice = '';
+
         if($request->hasFile('invoice')) {
 
             $file = $request->invoice;
@@ -1013,7 +1015,7 @@ class CaseGenController extends Controller
             if(! in_array($ext, $extensions))
             {
                 $status = 'File type is not allowed you have uploaded. Please upload any image !';
-                return redirect('quality_claim')->with('status', $status);
+                return redirect('accounts')->with('status', $status);
             }
 
             $filesize = $file->getClientSize();
@@ -1021,7 +1023,7 @@ class CaseGenController extends Controller
             // first check file size if greater than 1mb than hit error
             if($filesize > 3052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
-                return redirect('quality_claim')->with('status', $status);
+                return redirect('accounts')->with('status', $status);
             }
 
             $destinationPath = base_path() . '/resources/assets/upload/accounts/';
@@ -1147,18 +1149,23 @@ class CaseGenController extends Controller
     // Add Quality Report 
     public function addQualityClaim(Request $request)
     {
-        //Get All Post Data
+        $data['moisture_level'] = $moisture_level = $request->moisture_level;
+
+        if($moisture_level >= 0)
+        {
+            //Get All Post Data
+            $request->validate([
+                'moisture_level'    => 'required',
+            ]);
+        }
+
         $request->validate([
             'case_id'    => 'unique:apna_case_quality_claim',
-            'moisture_level'    => 'required',
-            'report_file'    => 'required',
-            'second_report_file'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
-        $data['moisture_level'] = $moisture_level = $request->moisture_level;
         $data['thousand_crown_w'] = $thousand_crown_w = $request->thousand_crown_w;
         $data['broken'] = $broken = $request->broken;
         $data['foreign_matter'] = $foreign_matter = $request->foreign_matter;

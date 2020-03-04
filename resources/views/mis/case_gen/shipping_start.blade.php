@@ -70,14 +70,14 @@ $role_id = $role->role_id;
     	                                <tr class="gradeX">
                                             <td>{{ ++$key }}</td>
                                             <td>
-                                                @if($shipping_start->location)
+                                                @if($shipping_start->s_s_case_id)
                                                     <span class="text-navy">Done</span>
                                                 @else
-                                                    @if($role_id == 1 || $role_id == 6 || $role_id == 8)
-                                                        @if(($check_status) && ($currentuserid == $shipping_start->lead_conv_uid || $role_id == 1 || $role_id == 8 || $role_id == 6))
+                                                    @if($role_id == 1 || $currentuserid == $shipping_start->lead_conv_uid || $role_id == 8)
+                                                        @if($check_status)
                                                             <a data-id="{!! $shipping_start->case_id !!}" id='{!! $shipping_start->cust_fname." ".$shipping_start->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Shipping Start</a>
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
                                                     @else
                                                         <span class="text-navy">In Process</span>
@@ -98,15 +98,15 @@ $role_id = $role->role_id;
                                         <tr class="gradeX">
                                             <td>{{ ++$key }}</td>
                                             <td>
-                                                @if($shipping_start->location)
+                                                @if($shipping_start->s_s_case_id)
                                                     <span class="text-navy">Done</span>
                                                 @else
                                                     @if($role_id == 1 || $role_id == 11
                                                     )
-                                                        @if(($check_status) && ($role_id == 1 || $role_id == 11))
+                                                        @if($check_status)
                                                             <a data-id="{!! $shipping_start->case_id !!}" id='{!! $shipping_start->cust_fname." ".$shipping_start->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Shipping Start</a>
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
                                                     @else
                                                         <span class="text-navy">In Process</span>

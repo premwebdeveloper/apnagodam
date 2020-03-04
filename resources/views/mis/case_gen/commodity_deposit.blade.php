@@ -68,14 +68,14 @@ $role_id = $role->role_id;
                                         <tr class="gradeX">
                                             <td>{{ ++$key }}</td>
                                             <td>
-                                                @if($pricing->file)
+                                                @if($pricing->cdf_case_id)
                                                     <span class="text-navy">Done</span>
                                                 @else
                                                     @if($role_id == 1 || $role_id == 7 || $role_id == 8)
                                                         @if($check_status)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Commodity Deposit</a>
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
                                                     @else
                                                         <span class="text-navy">In Process</span>
@@ -131,7 +131,7 @@ $role_id = $role->role_id;
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
                                     {!! Form::label('report_file', 'File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
+                                    {!! Form::file('report_file', ['class' => 'form-control', 'onchange' => "loadFile(event)", 'autocomplete' => 'off']) !!}
 
                                     @if($errors->has('report_file'))
                                         <span class="text-red" role="alert">
@@ -155,6 +155,10 @@ $role_id = $role->role_id;
                     <div class="row">
                         <div class="col-md-12">
                             {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
+                        </div>
+                        <div class="col-md-12 m-t-20">
+                            <h3 id="file_preview_title" class="hide">File Preview</h3>
+                            <object type="" class="hide"  style="width:100%;min-height:450px;" data="" id="file_preview"></object>
                         </div>
                     </div>
                 {!! Form::close() !!}

@@ -72,7 +72,7 @@ $role_id = $role->role_id;
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
-                                            @if($labour_book->labour_contractor)
+                                            @if($labour_book->l_b_case_id)
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($labour_book->in_out == 'IN')
@@ -80,7 +80,7 @@ $role_id = $role->role_id;
                                                         @if($check_status)
                                                             <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Labour</a>
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
                                                     @else
                                                         <span class="text-navy">In Process</span>
@@ -90,7 +90,7 @@ $role_id = $role->role_id;
                                                         @if($check_status)
                                                             <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Labour</a>
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
                                                     @else
                                                         <span class="text-navy">In Process</span>
@@ -100,7 +100,7 @@ $role_id = $role->role_id;
                                                         @if($check_status)
                                                             <a data-id="{!! $labour_book->case_id !!}" id='{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Labour</a>
                                                         @else
-                                                            <span class="text-navy">Processing...</span>
+                                                            <span class="text-warning">Processing...</span>
                                                         @endif
                                                     @else
                                                         <span class="text-navy">In Process</span>

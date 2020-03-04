@@ -71,6 +71,15 @@
             // submit the form    
             btn.form.submit();
         }
+        var loadFile = function(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                $('#file_preview').attr('data', reader.result);
+                $('#file_preview_title').removeClass('hide');
+                $('#file_preview').removeClass('hide');
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
     </script>
 
     @if($role->role_id != 2  && $role->role_id != 1 && $role->role_id != 4)

@@ -29,8 +29,6 @@ if(isset($output['results'][0]))
     </div>
 </section>
 
-
-
 <section id="about" class="m-t-20 p-50">
     <div class="container-fluid">
         <div class="row">
