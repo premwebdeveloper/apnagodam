@@ -428,7 +428,11 @@ $role_id = $role->role_id;
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });
-        $('.datetimepicker').datetimepicker();
+        $('.datetimepicker').datetimepicker({
+            format: "dd MM yyyy - HH:ii P",
+            showMeridian: true,
+            autoclose: true,
+        });
     });
 </script>
 <link rel="stylesheet" href="{{ asset('resources/assets/datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />

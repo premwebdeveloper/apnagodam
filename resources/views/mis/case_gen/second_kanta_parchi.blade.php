@@ -235,7 +235,11 @@ $role_id = $role->role_id;
             $('#object_data').attr('data', full_url);
             $('#viewQualityReport').modal('show');
         });
-        $('.datetimepicker').datetimepicker();
+        $('.datetimepicker').datetimepicker({
+            format: "dd MM yyyy - HH:ii P",
+            showMeridian: true,
+            autoclose: true,
+        });
     });
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />

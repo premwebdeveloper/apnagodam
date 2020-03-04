@@ -219,7 +219,11 @@ $role_id = $role->role_id;
             $('#cust_name').html(name);
             $('#setCasePrice').modal('show');
         });
-        $('.datetimepicker').datetimepicker();
+        $('.datetimepicker').datetimepicker({
+            format: "dd MM yyyy - HH:ii P",
+            showMeridian: true,
+            autoclose: true,
+        });
     });
 </script>
 <link rel="stylesheet" href="{{ asset('resources/assets/datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
