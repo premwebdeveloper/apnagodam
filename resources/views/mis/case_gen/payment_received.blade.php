@@ -64,7 +64,7 @@ $role_id = $role->role_id;
                                     <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
                                         <td>
-                                            @if($pricing->file)
+                                            @if($pricing->p_r_case_id)
                                                 <span class="text-navy">Done</span>
                                             @else
                                                 @if($pricing->in_out == 'PASS' || $pricing->in_out == 'OUT')
