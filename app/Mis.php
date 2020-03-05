@@ -54,6 +54,7 @@ class Mis extends Model
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
+            'terminal' => $data['terminal'],
             'designation' => $data['designation'],
             'created_at' => $date,
             'updated_at' => $date,
@@ -75,6 +76,7 @@ class Mis extends Model
 			            'last_name' => $data['last_name'],
 			            'email' => $data['email'],
 			            'phone' => $data['phone'],
+                        'terminal' => $data['terminal'],
 			            'designation' => $data['designation'],
 			            'updated_at' => $date]);
 

@@ -168,6 +168,17 @@
                         <span class="nav-label">Enquiries</span>
                     </a>
                 </li>
+                <li>
+                    <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">CMS</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-globe" title=""></i>
+                                <span class="nav-label">Website</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endif
             @if($role->role_id == 1 || $role->role_id == 4)
                 <li>

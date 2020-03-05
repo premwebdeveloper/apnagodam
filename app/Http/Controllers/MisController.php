@@ -44,7 +44,21 @@ class MisController extends Controller
                 $role_arr[$role->id] = $role->role;
             }
         }
-        return view('mis.employees.index', array('employees' => $employees, 'roles' => $role_arr));
+
+        //Get All Terminals 
+        $res = DB::table('warehouses')
+            ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+            ->where('warehouses.status', 1)
+            ->select('warehouses.*', 'warehouse_rent_rates.location')
+            ->groupBy('warehouses.id')
+            ->get();
+        $terminals = array('' => 'Select Terminal');
+        foreach($res as $terminal)
+        {
+            $terminals[$terminal->id] = $terminal->name." (".$terminal->location.")";
+        }
+
+        return view('mis.employees.index', array('employees' => $employees, 'terminals' => $terminals, 'roles' => $role_arr));
     }
 
     /**
@@ -93,6 +107,7 @@ class MisController extends Controller
         $data['lname'] = $last_name = $request->last_name;
         $data['email'] = $email = $request->email;
         $data['phone'] = $phone = $request->phone;
+        $data['terminal'] = $terminal = $request->terminal;
         $data['role_id'] = $role_id = $request->role_id;
         $data['designation'] = $designation = $request->designation;
         $data['password'] = $password = Hash::make(123456);
@@ -196,6 +211,7 @@ class MisController extends Controller
         $data['email'] = $edit_email = $request->email;
         $data['phone'] = $edit_phone = $request->phone;
         $data['role_id'] = $edit_role_id = $request->edit_role_id;
+        $data['terminal'] = $edit_terminal = $request->edit_terminal;
         $data['designation'] = $edit_designation = $request->edit_designation;
         
         # Update User in Users Table

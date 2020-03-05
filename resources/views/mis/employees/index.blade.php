@@ -167,6 +167,17 @@
                             @endif
                         </div>
                     </div>
+                    <div class="row hide" id="terminal_edit">
+                        <div class="col-md-12">
+                            {!! Form::label('edit_terminal', 'Terminal', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::select('edit_terminal', $terminals, '', ['class' => 'form-control', 'id' => 'edit_terminal']); !!}
+                            @if($errors->has('edit_terminal'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('edit_terminal') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
@@ -256,6 +267,17 @@
                             @endif
                         </div>
                     </div>
+                    <div class="row hide" id="terminal">
+                        <div class="col-md-12">
+                            {!! Form::label('terminal', 'Terminal', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::select('terminal', $terminals, '', ['class' => 'form-control']); !!}
+                            @if($errors->has('terminal'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('terminal') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info']) !!}
@@ -303,6 +325,17 @@
                     $('#email').val(data.email);
                     $('#edit_designation').val(data.designation);
                     $('#edit_role_id').val(data.role_id);
+                    $('#edit_terminal').val(data.terminal);
+
+                    if(data.role_id == 7 || data.role_id == 11)
+                    {
+                        $('#terminal_edit').addClass('show');
+                        $('#terminal_edit').removeClass('hide');
+                    }else{
+                        $('#terminal_edit').removeClass('show');
+                        $('#terminal_edit').addClass('hide');
+                    }
+
                     $('#editEmployee').modal('show');
                 },
                 error: function(data)
@@ -315,6 +348,30 @@
 
         $('#addEmp').on('click', function(){
             $('#addEmployee').modal('show');
+        });
+
+        $('#role_id').on('change', function(){
+            var role = $(this).val();
+            if(role == 7 || role == 11)
+            {
+                $('#terminal').addClass('show');
+                $('#terminal').removeClass('hide');
+            }else{
+                $('#terminal').removeClass('show');
+                $('#terminal').addClass('hide');
+            }
+        });
+
+        $('#edit_role_id').on('change', function(){
+            var role = $(this).val();
+            if(role == 7 || role == 11)
+            {
+                $('#terminal_edit').addClass('show');
+                $('#terminal_edit').removeClass('hide');
+            }else{
+                $('#terminal_edit').removeClass('show');
+                $('#terminal_edit').addClass('hide');
+            }
         });
     });
 </script>
