@@ -1983,7 +1983,7 @@ class CaseGenController extends Controller
             $img_name .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
 
             if(! in_array($ext, $extensions))
             {

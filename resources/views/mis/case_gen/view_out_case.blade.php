@@ -243,7 +243,7 @@ $role_id = $role->role_id;
                                 <h3 class="f-s-20">CCTV</h3>
                                 <ul class="list-unstyled file-list">
                                     <li class="col-md-2 f-s-14">File : <b>{!! ($case_gen->cctv_file)?'<a style="color:#1ab394;" href="'.url('/').'/resources/assets/upload/cctv/'.$case_gen->cctv_file.'" target="_blank">View</a>':'N/A' !!}</b></li>
-                                    <li class="col-md-10 f-s-14">Notes : <b>{{ ($case_gen->t_p_notes)?$case_gen->t_p_notes:'N/A' }}</b></li>
+                                    <li class="col-md-10 f-s-14">Notes : <b>{{ ($case_gen->cctv_notes)?$case_gen->cctv_notes:'N/A' }}</b></li>
                                 </ul>
                             </div>
                         </div>
@@ -253,8 +253,8 @@ $role_id = $role->role_id;
                             <div class="ibox">
                                 <h3 class="f-s-20">Commodity Withdrawal</h3>
                                 <ul class="list-unstyled file-list">
-                                    <li class="col-md-2 f-s-14">File : <b>{!! ($case_gen->cctv_file)?'<a style="color:#1ab394;" href="'.url('/').'/resources/assets/upload/commodity_withdrawal/'.$case_gen->cctv_file.'" target="_blank">View</a>':'N/A' !!}</b></li>
-                                    <li class="col-md-10 f-s-14">Notes : <b>{{ ($case_gen->t_p_notes)?$case_gen->t_p_notes:'N/A' }}</b></li>
+                                    <li class="col-md-2 f-s-14">File : <b>{!! ($case_gen->c_w_file)?'<a style="color:#1ab394;" href="'.url('/').'/resources/assets/upload/commodity_withdrawal/'.$case_gen->c_w_file.'" target="_blank">View</a>':'N/A' !!}</b></li>
+                                    <li class="col-md-10 f-s-14">Notes : <b>{{ ($case_gen->c_w_notes)?$case_gen->c_w_notes:'N/A' }}</b></li>
                                 </ul>
                             </div>
                         </div>
