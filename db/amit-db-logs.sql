@@ -105,3 +105,6 @@ ALTER TABLE `apna_case` ADD `approved_remark` TEXT NULL AFTER `purpose`;
 -- ------------------- ALTER TABLE `apna_case_quality_claim` at 20-02-2020 ------------------
 ALTER TABLE `apna_case_quality_claim` ADD `quality_discount_value` VARCHAR(50) NULL AFTER `live_insects`;
 ALTER TABLE `apna_case_accounts` ADD `inventory` VARCHAR(10) NULL AFTER `whs_issulation`;
+
+-- ------------------- ALTER TABLE `apna_employees` at 13-03-2020 ------------------
+ALTER TABLE `apna_employees` ADD `personal_phone` VARCHAR(20) NULL AFTER `email`, ADD `address` TEXT NULL AFTER `personal_phone`;
