@@ -5,20 +5,6 @@ $currentuserid = Auth::user()->id;
 $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
 $role_id = $role->role_id;
 ?>
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-6">
-        <h2>Pricing </h2>
-        <ol class="breadcrumb">
-            <li>
-                <a href="{{ route('dashboard') }}">Home</a>
-            </li>
-            <li class="active">
-                <strong>Pricing </strong>
-            </li>
-        </ol>
-    </div>
-</div>
-
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
@@ -54,6 +40,8 @@ $role_id = $role->role_id;
                                     <th>Set Price</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>Phone</th>
                                     <th>Transaction Type</th>
                                     <th>Approx Qty.(Qtl.)</th>
@@ -108,6 +96,8 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $pricing->case_id !!}</td>
                                         <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
+                                        <td><b>User : </b>{!! ($pricing->fpo_user_id)?$pricing->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($pricing->gate_pass_cdf_user_name)?$pricing->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($pricing->coldwin_name)?$pricing->coldwin_name:'N/A' !!}</td>
+                                        <td><b>Purchase Details: </b>{!! ($pricing->purchase_name)?$pricing->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($pricing->loan_name)?$pricing->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($pricing->sale_name)?$pricing->sale_name:'N/A' !!}</td>
                                         <td>{!! $pricing->phone !!}</td>
                                         <td>{!! $pricing->transaction_type !!}</td>
                                         <td>{!! $pricing->total_weight !!}</td>
@@ -171,7 +161,7 @@ $role_id = $role->role_id;
                                 </span>
                             @endif
                         </div>
-                        <div class="col-md-9 p-0">
+                        <div class="col-md-8 p-0">
                             <div class="col-md-6">
                                 {!! Form::label('price', 'Price', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                 {!! Form::number('price', '', ['class' => 'form-control', 'step'=>'any', 'autocomplete' => 'off', 'placeholder' => 'Enter Price']) !!}
@@ -233,13 +223,75 @@ $role_id = $role->role_id;
                                 @endif
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                             {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'rows' => '9', 'placeholder' => 'Enter Notes']) !!}
 
                             @if($errors->has('notes'))
                                 <span class="text-red" role="alert">
                                     <strong class="red">{{ $errors->first('notes') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            {!! Form::label('fpo_user_id', 'UserName', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::text('fpo_user_id', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter User Name']) !!}
+                        
+                            @if($errors->has('fpo_user_id'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('fpo_user_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-md-4">
+                            {!! Form::label('gate_pass_cdf_user_name', 'User Name for GatePass / CDF', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::text('gate_pass_cdf_user_name', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter User Name for GatePass / CDF']) !!}
+                        
+                            @if($errors->has('gate_pass_cdf_user_name'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('gate_pass_cdf_user_name') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-md-4">
+                            {!! Form::label('coldwin_name', 'User Name for Coldwin', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::text('coldwin_name', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter User Name for Coldwin']) !!}
+                        
+                            @if($errors->has('coldwin_name'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('coldwin_name') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-md-4">
+                            {!! Form::label('purchase_name', 'Details for Tally (Purchase)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::text('purchase_name', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Entry Details for Tally (Purchase)']) !!}
+                        
+                            @if($errors->has('purchase_name'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('purchase_name') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-md-4">
+                            {!! Form::label('loan_name', 'Details for Tally (Loan)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::text('loan_name', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Entry Details for Tally (Loan)']) !!}
+                        
+                            @if($errors->has('loan_name'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('loan_name') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-md-4">
+                            {!! Form::label('sale_name', 'Details for Tally (Sale)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::text('sale_name', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Entry Details for Tally (Sale)']) !!}
+                        
+                            @if($errors->has('sale_name'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('sale_name') }}</strong>
                                 </span>
                             @endif
                         </div>

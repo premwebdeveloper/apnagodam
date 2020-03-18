@@ -54,6 +54,8 @@ $role_id = $role->role_id;
                                     <th>Shipping</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>Location</th>
                                     <th>Date Time</th>
                                     <th>Notes</th>
@@ -86,6 +88,8 @@ $role_id = $role->role_id;
                                             </td>
                                             <td>{!! $shipping_start->case_id !!}</td>
                                             <td>{!! $shipping_start->cust_fname." ".$shipping_start->cust_lname !!}</td>
+                                            <td><b>User : </b>{!! ($shipping_start->fpo_user_id)?$shipping_start->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($shipping_start->gate_pass_cdf_user_name)?$shipping_start->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($shipping_start->coldwin_name)?$shipping_start->coldwin_name:'N/A' !!}</td>
+                                            <td><b>Purchase Details: </b>{!! ($shipping_start->purchase_name)?$shipping_start->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($shipping_start->loan_name)?$shipping_start->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($shipping_start->sale_name)?$shipping_start->sale_name:'N/A' !!}</td>
                                             <td>{!! $shipping_start->date_time !!}</td>
                                             <td>{!! $shipping_start->location !!}</td> 
                                             <td>{!! $shipping_start->notes !!}</td>

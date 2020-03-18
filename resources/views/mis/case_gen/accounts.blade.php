@@ -54,6 +54,8 @@ $role_id = $role->role_id;
                                     <th>Accounts</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>Phone</th>
                                     <th>Vikray Parchi</th>
                                     <th>Inventory Update</th>
@@ -155,6 +157,8 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $accounts->case_id !!}</td>
                                         <td>{!! $accounts->cust_fname." ".$accounts->cust_lname !!}</td>
+                                        <td><b>User : </b>{!! ($accounts->fpo_user_id)?$accounts->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($accounts->gate_pass_cdf_user_name)?$accounts->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($accounts->coldwin_name)?$accounts->coldwin_name:'N/A' !!}</td>
+                                        <td><b>Purchase Details: </b>{!! ($accounts->purchase_name)?$accounts->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($accounts->loan_name)?$accounts->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($accounts->sale_name)?$accounts->sale_name:'N/A' !!}</td>
                                         <td>{!! $accounts->phone !!}</td>
                                         <td>{!! $accounts->vikray_parchi !!}</td>
                                         <td>{!! $accounts->inventory !!}</td>
@@ -323,6 +327,9 @@ $role_id = $role->role_id;
             </div>
             <div class="modal-body">                
                 <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-xd" download id="download_file">Download</a>
+                    </div>
                     <div class="col-md-12">
                         <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
                         </object>
@@ -355,6 +362,7 @@ $role_id = $role->role_id;
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/accounts/"+file
             $('#object_data').attr('data', full_url);
+            $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
     });

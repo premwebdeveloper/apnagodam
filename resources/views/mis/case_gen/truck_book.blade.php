@@ -54,6 +54,8 @@ $role_id = $role->role_id;
                                     <th>Truck Book</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>Transporter</th>
                                     <th>Vehicle No.</th>
                                     <th>Driver Name</th>
@@ -127,6 +129,8 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $truck_book->case_id !!}</td>
                                         <td>{!! $truck_book->cust_fname." ".$truck_book->cust_lname !!}</td>
+                                        <td><b>User : </b>{!! ($truck_book->fpo_user_id)?$truck_book->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($truck_book->gate_pass_cdf_user_name)?$truck_book->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($truck_book->coldwin_name)?$truck_book->coldwin_name:'N/A' !!}</td>
+                                        <td><b>Purchase Details: </b>{!! ($truck_book->purchase_name)?$truck_book->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($truck_book->loan_name)?$truck_book->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($truck_book->sale_name)?$truck_book->sale_name:'N/A' !!}</td>
                                         <td>{!! $truck_book->transporter !!}</td>
                                         <td>{!! $truck_book->vehicle !!}</td>
                                         <td>{!! $truck_book->driver_name !!}</td>
@@ -382,6 +386,9 @@ $role_id = $role->role_id;
             </div>
             <div class="modal-body">                
                 <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-xd" download id="download_file">Download</a>
+                    </div>
                     <div class="col-md-12">
                         <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
                         </object>
@@ -426,6 +433,7 @@ $role_id = $role->role_id;
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/kanta_parchi/"+file
             $('#object_data').attr('data', full_url);
+            $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
         $('.datetimepicker').datetimepicker({

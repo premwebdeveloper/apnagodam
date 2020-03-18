@@ -3,6 +3,7 @@
 <?php
 $currentuserid = Auth::user()->id;
 $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
+$emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first();
 $role_id = $role->role_id;
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -54,6 +55,8 @@ $role_id = $role->role_id;
                                     <th>Quality Report</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>Total Weight(Qtl)</th>
                                     <th>Moisture Level(%)</th>
                                     <th>TCW</th>
@@ -64,6 +67,7 @@ $role_id = $role->role_id;
                                     <th>Discolour (%)</th>
                                     <th>Infested (%)</th>
                                     <th>Live Insects</th>
+                                    <th>Packaging Type</th>
                                     <th>Report</th>
                                     <th>Notes</th>
 	                            </tr>
@@ -84,7 +88,7 @@ $role_id = $role->role_id;
                                                         <span class="text-navy">In Process</span>
                                                     @endif
                                                 @elseif($pricing->in_out == 'IN')
-                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
                                                         <?php
                                                         $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $pricing->case_id)->first();
                                                         ?>
@@ -97,7 +101,7 @@ $role_id = $role->role_id;
                                                         <span class="text-navy">In Process</span>
                                                     @endif
                                                 @elseif($pricing->in_out == 'OUT')
-                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
                                                         <?php
                                                         $check_status = DB::table('apna_labour_book')->where('case_id', $pricing->case_id)->first();
                                                         ?>
@@ -115,6 +119,8 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $pricing->case_id !!}</td>
                                         <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
+                                        <td><b>User : </b>{!! ($pricing->fpo_user_id)?$pricing->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($pricing->gate_pass_cdf_user_name)?$pricing->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($pricing->coldwin_name)?$pricing->coldwin_name:'N/A' !!}</td>
+                                        <td><b>Purchase Details: </b>{!! ($pricing->purchase_name)?$pricing->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($pricing->loan_name)?$pricing->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($pricing->sale_name)?$pricing->sale_name:'N/A' !!}</td>
                                         <td>{!! $pricing->total_weight !!}</td>
                                         <td>{!! $pricing->moisture_level !!}</td>
                                         <td>{!! $pricing->thousand_crown_w !!}</td>
@@ -125,6 +131,7 @@ $role_id = $role->role_id;
                                         <td>{!! $pricing->black_smith !!}</td>
                                         <td>{!! $pricing->infested !!}</td>
                                         <td>{!! $pricing->live_insects !!}</td>
+                                        <td>{!! $pricing->packaging_type !!}</td>
                                         <td>
                                             @if($pricing->imge)
                                             <a class="view_report" data-id="{{ $pricing->imge }}"><i class="fa fa-eye"></i></a>
@@ -259,6 +266,15 @@ $role_id = $role->role_id;
                                     </span>
                                 @endif
                             </div>
+                            <div class="col-md-3">
+                                {!! Form::label('packaging_type', 'Packaging Type', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::select('packaging_type', array('Loose' => 'Loose', 'Jute Bag' => 'Jute Bag', 'Plastic Bag' => 'Plastic Bag'), '', ['class' => 'form-control', 'id' => 'packaging_type', 'required' => 'required']); !!}
+                                @if($errors->has('packaging_type'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('packaging_type') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <div class="col-md-12">
@@ -309,6 +325,9 @@ $role_id = $role->role_id;
             </div>
             <div class="modal-body">                
                 <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-xd" download id="download_file">Download</a>
+                    </div>
                     <div class="col-md-12">
                         <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
                         </object>
@@ -320,7 +339,7 @@ $role_id = $role->role_id;
 </div>
 
 
-@if($errors->has('price') || $errors->has('processing_fees') || $errors->has('rent') || $errors->has('labour_rate') || $errors->has('interest_rate') || $errors->has('case_id'))
+@if($errors->has('price') || $errors->has('processing_fees') || $errors->has('rent') || $errors->has('labour_rate') || $errors->has('interest_rate') || $errors->has('case_id') || $errors->has('packaging_type'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');
@@ -342,6 +361,7 @@ $role_id = $role->role_id;
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/quality_report/"+file
             $('#object_data').attr('data', full_url);
+            $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
     });

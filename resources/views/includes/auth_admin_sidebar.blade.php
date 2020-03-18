@@ -91,7 +91,7 @@
             @endif
             @if($role->role_id == 1)
                 <li>
-                    <a href="{{ route('employees') }}">
+                    <a href="{{ route('leads') }}">
                         <i class="fa fa-database" title=""></i>
                         <span class="nav-label">MIS</span>
                     </a>
@@ -136,6 +136,12 @@
                     <a href="{{ route('users') }}">
                         <i class="fa fa-users" title=""></i>
                         <span class="nav-label">Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('employees') }}">
+                        <i class="fa fa-users" title=""></i>
+                        <span class="nav-label">Employees</span>
                     </a>
                 </li>
                 <li>

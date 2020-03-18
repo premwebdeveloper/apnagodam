@@ -25,7 +25,7 @@
 
                 <div class="ibox-content">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-2 hidden-xs">
                             <div class="ibox">
                                 <div class="ibox-content categoory-list">
                                     @foreach($categories as $key => $category)

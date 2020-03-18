@@ -54,6 +54,8 @@ $role_id = $role->role_id;
                                     <th>Labour Book</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>Labour Contractor</th>
                                     <th>Contractor Phone</th>
                                     <th>Labour Rate / Bag</th>
@@ -112,6 +114,8 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $labour_book->case_id !!}</td>
                                         <td>{!! $labour_book->cust_fname." ".$labour_book->cust_lname !!}</td>
+                                        <td><b>User : </b>{!! ($labour_book->fpo_user_id)?$labour_book->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($labour_book->gate_pass_cdf_user_name)?$labour_book->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($labour_book->coldwin_name)?$labour_book->coldwin_name:'N/A' !!}</td>
+                                        <td><b>Purchase Details: </b>{!! ($labour_book->purchase_name)?$labour_book->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($labour_book->loan_name)?$labour_book->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($labour_book->sale_name)?$labour_book->sale_name:'N/A' !!}</td>
                                         <td>{!! $labour_book->labour_contractor !!}</td>
                                         <td>{!! $labour_book->contractor_no !!}</td>
                                         <td>{!! $labour_book->labour_rate_per_bags !!}</td>
@@ -264,6 +268,9 @@ $role_id = $role->role_id;
             </div>
             <div class="modal-body">                
                 <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-xd" download id="download_file">Download</a>
+                    </div>
                     <div class="col-md-12">
                         <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
                         </object>
@@ -296,6 +303,7 @@ $role_id = $role->role_id;
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/kanta_parchi/"+file
             $('#object_data').attr('data', full_url);
+            $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
         $('.datetimepicker').datetimepicker({

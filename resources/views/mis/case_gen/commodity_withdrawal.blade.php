@@ -3,6 +3,7 @@
 <?php
 $currentuserid = Auth::user()->id;
 $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
+$emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first();
 $role_id = $role->role_id;
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -54,6 +55,8 @@ $role_id = $role->role_id;
                                     <th>CWF</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>CWF File</th>
                                     <th>Notes</th>
                                 </tr>
@@ -71,7 +74,7 @@ $role_id = $role->role_id;
                                                 @if($pricing->c_w_case_id)
                                                     <span class="text-navy">Done</span>
                                                 @else
-                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
                                                         @if($check_status)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update CWF</a>
                                                         @else
@@ -84,6 +87,8 @@ $role_id = $role->role_id;
                                             </td>
                                             <td>{!! $pricing->case_id !!}</td>
                                             <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
+                                            <td><b>User : </b>{!! ($pricing->fpo_user_id)?$pricing->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($pricing->gate_pass_cdf_user_name)?$pricing->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($pricing->coldwin_name)?$pricing->coldwin_name:'N/A' !!}</td>
+                                            <td><b>Purchase Details: </b>{!! ($pricing->purchase_name)?$pricing->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($pricing->loan_name)?$pricing->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($pricing->sale_name)?$pricing->sale_name:'N/A' !!}</td>
                                             <td>
                                                 @if($pricing->file)
                                                     <a class="view_report" data-id="{{ $pricing->file }}"><i class="fa fa-eye"></i></a>
@@ -178,6 +183,9 @@ $role_id = $role->role_id;
             </div>
             <div class="modal-body">                
                 <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-xd" download id="download_file">Download</a>
+                    </div>
                     <div class="col-md-12">
                         <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
                         </object>
@@ -211,6 +219,7 @@ $role_id = $role->role_id;
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/commodity_withdrawal/"+file
             $('#object_data').attr('data', full_url);
+            $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
     });

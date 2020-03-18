@@ -19,7 +19,7 @@ $role_id = $role->role_id;
     </div>
 </div>
 
-@if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8)
+@if($role_id == 1 || $role_id == 6 || $role_id == 7 || $role_id == 8 || $role_id == 11)
 <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom: 0px;">
     <div class="row">
         <div class="col-lg-12">

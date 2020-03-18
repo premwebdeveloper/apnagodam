@@ -50,6 +50,7 @@
                                     <th>Terminal Code</th>
                                     <th>Name</th>
                                     <th>Address</th>
+                                    <th>Village / Town</th>
                                     <th>District</th>
                                     <th>Area (SQ. FT.)</th>
                                     <th>Rent (/Month)</th>
@@ -64,6 +65,7 @@
                                         <td>{!! $warehouse->warehouse_code !!}</td>
                                         <td>{!! $warehouse->name !!}</td>
                                         <td>{!! $warehouse->address !!}</td>
+                                        <td>{!! $warehouse->location !!}</td>
                                         <td>{!! $warehouse->district !!}</td>
                                         <td>{!! $warehouse->area_sqr_ft !!}</td>
                                         <td>{!! $warehouse->rent_per_month !!}</td>

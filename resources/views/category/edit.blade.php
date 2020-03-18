@@ -71,8 +71,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('commossion', 'Commossion') !!}
-                                    {!! Form::number('commossion', $category->commossion, ['class' => 'form-control', 'id' => 'commossion', 'placeholder' => 'Commosion', 'step' => '0.01']) !!}
+                                    {!! Form::label('commossion', 'Commission') !!}
+                                    {!! Form::number('commossion', $category->commossion, ['class' => 'form-control', 'id' => 'commossion', 'placeholder' => 'Commission', 'step' => '0.01']) !!}
 
                                     @if($errors->has('commossion'))
                                         <span class="help-block red">

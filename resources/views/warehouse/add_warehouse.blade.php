@@ -83,8 +83,8 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('location', 'Location') !!}
-                                    {!! Form::text('location', '', ['class' => 'form-control', 'id' => 'location', 'placeholder' => 'Location']) !!}
+                                    {!! Form::label('location', 'Village / Town') !!}
+                                    {!! Form::text('location', '', ['class' => 'form-control', 'id' => 'location', 'placeholder' => 'Village / Town']) !!}
 
                                     @if($errors->has('location'))
                                         <span class="help-block red">

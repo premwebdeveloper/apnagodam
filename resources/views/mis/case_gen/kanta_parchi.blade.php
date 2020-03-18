@@ -3,6 +3,7 @@
 <?php
 $currentuserid = Auth::user()->id;
 $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
+$emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first();
 $role_id = $role->role_id;
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -13,7 +14,7 @@ $role_id = $role->role_id;
                 <a href="{{ route('dashboard') }}">Home</a>
             </li>
             <li class="active">
-                <strong>Kanta Parchi </strong>
+                <strong>Kanta Parchi</strong>
             </li>
         </ol>
     </div>
@@ -54,6 +55,8 @@ $role_id = $role->role_id;
                                     <th>Kanta Parchi</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <!-- <th>RST. No.</th>
                                     <th>Bags</th>
                                     <th>Gross Weight</th>
@@ -92,7 +95,7 @@ $role_id = $role->role_id;
                                                         <span class="text-navy">In Process</span>
                                                     @endif
                                                 @elseif($kanta_parchi->in_out == 'OUT')
-                                                     @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                     @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $kanta_parchi->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
                                                         @if($check_status)
                                                             <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
                                                         @else
@@ -102,7 +105,7 @@ $role_id = $role->role_id;
                                                         <span class="text-navy">In Process</span>
                                                     @endif
                                                 @elseif($kanta_parchi->in_out == 'IN')
-                                                     @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                     @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $kanta_parchi->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
                                                         @if($check_status)
                                                             <a data-id="{!! $kanta_parchi->case_id !!}" id='{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Upload Kanta Parchi</a>
                                                         @else
@@ -116,6 +119,8 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $kanta_parchi->case_id !!}</td>
                                         <td>{!! $kanta_parchi->cust_fname." ".$kanta_parchi->cust_lname !!}</td>
+                                        <td><b>User : </b>{!! ($kanta_parchi->fpo_user_id)?$kanta_parchi->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($kanta_parchi->gate_pass_cdf_user_name)?$kanta_parchi->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($kanta_parchi->coldwin_name)?$kanta_parchi->coldwin_name:'N/A' !!}</td>
+                                        <td><b>Purchase Details: </b>{!! ($kanta_parchi->purchase_name)?$kanta_parchi->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($kanta_parchi->loan_name)?$kanta_parchi->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($kanta_parchi->sale_name)?$kanta_parchi->sale_name:'N/A' !!}</td>
                                         <!-- <td>{!! $kanta_parchi->rst_no !!}</td>
                                         <td>{!! $kanta_parchi->bags !!}</td>
                                         <td>{!! $kanta_parchi->gross_weight !!}</td>
@@ -321,6 +326,9 @@ $role_id = $role->role_id;
             </div>
             <div class="modal-body">                
                 <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-xd" download id="download_file">Download</a>
+                    </div>
                     <div class="col-md-12">
                         <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
                         </object>
@@ -353,6 +361,7 @@ $role_id = $role->role_id;
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/kanta_parchi/"+file
             $('#object_data').attr('data', full_url);
+            $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
         $('.datetimepicker').datetimepicker({

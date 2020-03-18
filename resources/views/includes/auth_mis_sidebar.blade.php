@@ -63,15 +63,9 @@
                         <i class="fa fa-dashboard" title="Dashboard"></i>
                         <span class="nav-label">Back to Dashboard</span>
                     </a>
-                </li>
-                <li>
-                    <a href="{{ route('employees') }}">
-                        <i class="fa fa-users" title=""></i>
-                        <span class="nav-label">Employees</span>
-                    </a>
-                </li>
+                </li>                
             @endif
-            @if($role->role_id == 1 || $role->role_id == 3 || $role->role_id == 6 || $role->role_id == 8 || $role->role_id == 7 || $role->role_id == 9)
+            @if($role->role_id == 1 || $role->role_id == 3 || $role->role_id == 6 || $role->role_id == 8 || $role->role_id == 7 || $role->role_id == 9 || $role->role_id == 11)
                 <li>
                     <a href="{{ route('leads') }}">
                         <i class="fa fa-book" title=""></i>
@@ -450,30 +444,30 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-line-chart"></i> <span class="nav-label">Cases Status</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse" aria-expanded="false">
-                            <li>
-                                <a href="{{ route('casesStatusPass') }}">
-                                    <i class="fa fa-money" title=""></i>
-                                    <span class="nav-label">PASS</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('casesStatusIn') }}">
-                                    <i class="fa fa-truck" title=""></i>
-                                    <span class="nav-label">IN</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('casesStatusOut') }}">
-                                    <i class="fa fa-truck" title=""></i>
-                                    <span class="nav-label">OUT</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                 @endif
+                <li>
+                    <a href="#"><i class="fa fa-line-chart"></i> <span class="nav-label">Cases Status</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('casesStatusPass') }}">
+                                <i class="fa fa-money" title=""></i>
+                                <span class="nav-label">PASS</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('casesStatusIn') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">IN</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('casesStatusOut') }}">
+                                <i class="fa fa-truck" title=""></i>
+                                <span class="nav-label">OUT</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li>
                     <a href="{{ route('completedCases') }}">
                         <i class="fa fa-check-square-o" title=""></i>
@@ -486,6 +480,22 @@
                         <span class="nav-label">Cancelled Cases</span>
                     </a>
                 </li>
+                @if($role->role_id == 1)
+                    <li>
+                        <a href="{{ route('user_permissions') }}">
+                            <i class="fa fa-users" title=""></i>
+                            <span class="nav-label">User Permissions</span>
+                        </a>
+                    </li>
+                @endif
+                @if($role->role_id == 1 || $role->role_id == 14)
+                    <li>
+                        <a href="{{ route('cancelledCases') }}">
+                            <i class="fa fa-camera" title=""></i>
+                            <span class="nav-label">CCTV Audit</span>
+                        </a>
+                    </li>
+                @endif
             @endif
 		</ul>
 	</div>

@@ -3,6 +3,7 @@
 <?php
 $currentuserid = Auth::user()->id;
 $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
+$emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first();
 $role_id = $role->role_id;
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -54,6 +55,8 @@ $role_id = $role->role_id;
                                     <th>Quality Report</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>Total Weight(Qtl)</th>
                                     <th>Moisture Level(%)</th>
                                     <th>TCW</th>
@@ -79,7 +82,7 @@ $role_id = $role->role_id;
                                             <span class="text-navy">Done</span>
                                             @else
                                                 @if($quality_report->in_out == 'PASS')
-                                                    @if($role_id == 1 || $currentuserid == $quality_report->lead_conv_uid || $role_id == 8)
+                                                    @if($role_id == 1 || $currentuserid == $quality_report->lead_conv_uid || ($role_id == 8 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
                                                         <?php
                                                             $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>
@@ -92,7 +95,7 @@ $role_id = $role->role_id;
                                                         <span class="text-navy">In Process</span>
                                                     @endif
                                                 @elseif($quality_report->in_out == 'IN')
-                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
                                                         <?php
                                                             $check_status = DB::table('apna_case_second_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>
@@ -105,7 +108,7 @@ $role_id = $role->role_id;
                                                         <span class="text-navy">In Process</span>
                                                     @endif
                                                 @elseif( $quality_report->in_out == 'OUT')
-                                                    @if($role_id == 1 || $role_id == 7 || $role_id == 8)
+                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
                                                         <?php
                                                             $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>
@@ -123,6 +126,8 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $quality_report->case_id !!}</td>
                                         <td>{!! $quality_report->cust_fname." ".$quality_report->cust_lname !!}</td>
+                                        <td><b>User : </b>{!! ($quality_report->fpo_user_id)?$quality_report->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($quality_report->gate_pass_cdf_user_name)?$quality_report->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($quality_report->coldwin_name)?$quality_report->coldwin_name:'N/A' !!}</td>
+                                        <td><b>Purchase Details: </b>{!! ($quality_report->purchase_name)?$quality_report->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($quality_report->loan_name)?$quality_report->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($quality_report->sale_name)?$quality_report->sale_name:'N/A' !!}</td>
                                         <td>{!! $quality_report->total_weight !!}</td>
                                         <td>{!! $quality_report->moisture_level !!}</td>
                                         <td>{!! $quality_report->thousand_crown_w !!}</td>
@@ -317,6 +322,9 @@ $role_id = $role->role_id;
             </div>
             <div class="modal-body">                
                 <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-xd" download id="download_file">Download</a>
+                    </div>
                     <div class="col-md-12">
                         <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
                         </object>
@@ -350,6 +358,7 @@ $role_id = $role->role_id;
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/quality_report/"+file
             $('#object_data').attr('data', full_url);
+            $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
     });

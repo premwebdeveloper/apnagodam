@@ -54,6 +54,8 @@ $role_id = $role->role_id;
                                     <th>Quality Claim</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
+                                    <th>UserName</th>
+                                    <th>Details in Tally</th>
                                     <th>Total Weight(Qtl)</th>
                                     <th>Moisture Level(%)</th>
                                     <th>TCW</th>
@@ -119,7 +121,7 @@ $role_id = $role->role_id;
                                                             <span class="text-navy">In Process</span>
                                                         @endif
                                                     @else
-                                                        @if($role_id == 1 || $role_id == 8 || $role_id == 7))
+                                                        @if($role_id == 1 || $role_id == 8 || $role_id == 7)
                                                             <span class="text-warning">Processing...</span>
                                                         @else
                                                             <span class="text-navy">In Process</span>
@@ -145,6 +147,8 @@ $role_id = $role->role_id;
                                         </td>
                                         <td>{!! $quality_claim->case_id !!}</td>
                                         <td>{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}</td>
+                                        <td><b>User : </b>{!! ($quality_claim->fpo_user_id)?$quality_claim->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($quality_claim->gate_pass_cdf_user_name)?$quality_claim->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($quality_claim->coldwin_name)?$quality_claim->coldwin_name:'N/A' !!}</td>
+                                        <td><b>Purchase Details: </b>{!! ($quality_claim->purchase_name)?$quality_claim->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($quality_claim->loan_name)?$quality_claim->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($quality_claim->sale_name)?$quality_claim->sale_name:'N/A' !!}</td>
                                         <td>{!! $quality_claim->total_weight !!}</td>
                                         <td>{!! $quality_claim->moisture_level !!}</td>
                                         <td>{!! $quality_claim->thousand_crown_w !!}</td>
@@ -366,6 +370,9 @@ $role_id = $role->role_id;
             </div>
             <div class="modal-body">                
                 <div class="row">
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-xd" download id="download_file">Download</a>
+                    </div>
                     <div class="col-md-12">
                         <object type=""  style="width:100%;min-height:450px;" data="" id="object_data">
                         </object>
@@ -399,6 +406,7 @@ $role_id = $role->role_id;
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/quality_claim/"+file
             $('#object_data').attr('data', full_url);
+            $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
     });

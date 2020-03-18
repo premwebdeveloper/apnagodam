@@ -46,6 +46,12 @@ $role_id = $role->role_id;
                                     <li class="col-md-4 f-s-14">Lead Convertor  :  <b>{{ ($case_gen->lead_conv_fname)?$case_gen->lead_conv_fname:'N/A' }}</b></li>
                                     <li class="col-md-4 f-s-14">Commodity Type  :  <b>{{ ($case_gen->commodity_type)?$case_gen->commodity_type:'N/A' }}</b></li>
                                     <li class="col-md-4 f-s-14">Purpose  :  <b>{{ ($case_gen->purpose)?$case_gen->purpose:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">UserName  :  <b>{{ ($case_gen->fpo_user_id)?$case_gen->fpo_user_id:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">Name in Gatepass / CDF :  <b>{{ ($case_gen->gate_pass_cdf_user_name)?$case_gen->gate_pass_cdf_user_name:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">Name in Coldwin  :  <b>{{ ($case_gen->coldwin_name)?$case_gen->coldwin_name:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">Purchase Details in Tally  :  <b>{{ ($case_gen->purchase_name)?$case_gen->purchase_name:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">Loan Details in Tally  :  <b>{{ ($case_gen->loan_name)?$case_gen->loan_name:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">Sale Details in Tally  :  <b>{{ ($case_gen->sale_name)?$case_gen->sale_name:'N/A' }}</b></li>
                                 </ul>
                             </div>
                         </div>
