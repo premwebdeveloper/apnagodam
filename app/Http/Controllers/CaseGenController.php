@@ -178,6 +178,7 @@ class CaseGenController extends Controller
         $data['commodity_id'] = $commodity_id = $request->commodity_id;
         $data['vehicle_no'] = $vehicle_no = $request->vehicle_no;
         $data['purpose'] = $purpose = $request->purpose;
+        $data['fpo_users'] = $fpo_users = $request->fpo_users;
         
         //Get User Id by Number
         $customer =DB::table('users')->where('phone', $customer_phone)->first();
@@ -269,8 +270,19 @@ class CaseGenController extends Controller
         $data['labour_rate'] = $labour_rate = $request->labour_rate;
         $data['notes'] = $notes = $request->notes;
 
+        $user_data = array();
+        $user_data['fpo_user_id'] = $fpo_user_id = $request->fpo_user_id;
+        $user_data['gate_pass_cdf_user_name'] = $gate_pass_cdf_user_name = $request->gate_pass_cdf_user_name;
+        $user_data['coldwin_name'] = $coldwin_name = $request->coldwin_name;
+        $user_data['purchase_name'] = $purchase_name = $request->purchase_name;
+        $user_data['loan_name'] = $loan_name = $request->loan_name;
+        $user_data['sale_name'] = $sale_name = $request->sale_name;
+
         //Insert Data
         $insert = CaseGen::setPrice($data);
+
+        //Update Case Record
+        $update = CaseGen::updateCaseUserDetails($user_data, $case_id);
 
         if($insert)
         {
@@ -298,7 +310,8 @@ class CaseGenController extends Controller
         //Get All Post Data
         $request->validate([
             'case_id'    => 'unique:apna_case_quality_report',
-            'moisture_level'    => 'required'
+            'moisture_level'    => 'required',
+            'packaging_type'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -311,6 +324,7 @@ class CaseGenController extends Controller
         $data['thin'] = $thin = $request->thin;
         $data['damage'] = $damage = $request->damage;
         $data['black_smith'] = $black_smith = $request->black_smith;
+        $data['packaging_type'] = $packaging_type = $request->packaging_type;
         $data['infested'] = $infested = $request->infested;
         $data['live_insects'] = $live_insects = $request->live_insects;
         $data['notes'] = $notes = $request->notes;
@@ -450,7 +464,7 @@ class CaseGenController extends Controller
          return redirect('gate_pass')->with('status', $status);  
     }
 
-    // Kanta Parchi
+    // Cloase Case
     public function close_case(Request $request)
     {
         $case_id = $request->id;
@@ -1523,7 +1537,7 @@ class CaseGenController extends Controller
             $img_name .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+            $extensions = ['jpg', 'jpeg', 'png','bmp','pdf'];
 
             if(! in_array($ext, $extensions))
             {
@@ -1601,7 +1615,7 @@ class CaseGenController extends Controller
             $img_name .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+            $extensions = ['jpg', 'jpeg', 'png','bmp','pdf'];
 
             if(! in_array($ext, $extensions))
             {
@@ -1753,7 +1767,7 @@ class CaseGenController extends Controller
             $img_name .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+            $extensions = ['jpg', 'jpeg', 'png','bmp','pdf'];
 
             if(! in_array($ext, $extensions))
             {
@@ -1804,7 +1818,6 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_release_order',
-            'report_file'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -1827,7 +1840,7 @@ class CaseGenController extends Controller
             $img_name .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
 
             if(! in_array($ext, $extensions))
             {
@@ -1846,10 +1859,6 @@ class CaseGenController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/release_order/';
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
-        }else{
-
-            $status = 'Please Upload file.';
-            return redirect('release_order')->with('error', $status);  
         }
 
         $data['file'] = $img_name;
@@ -1882,7 +1891,6 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_delivery_order',
-            'report_file'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -1905,7 +1913,7 @@ class CaseGenController extends Controller
             $img_name .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png','bmp'];
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
 
             if(! in_array($ext, $extensions))
             {
@@ -1924,10 +1932,6 @@ class CaseGenController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/delivery_order/';
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
-        }else{
-
-            $status = 'Please Upload file.';
-            return redirect('delivery_order')->with('error', $status);  
         }
 
         $data['file'] = $img_name;

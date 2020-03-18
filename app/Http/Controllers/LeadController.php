@@ -51,7 +51,7 @@ class LeadController extends Controller
         $employees = array('' => 'Select Employee');
         foreach($res as $emp)
         {
-            if($emp->role_id == 6 || $emp->role_id == 8 || $emp->role_id == 9)
+            if($emp->role_id == 6 || $emp->role_id == 7 || $emp->role_id == 8 || $emp->role_id == 9)
             {
                 $employees[$emp->user_id] = $emp->first_name." ".$emp->last_name."(".$emp->emp_id.")";
             }

@@ -31,11 +31,13 @@ class MisController extends Controller
     public function index()
     {
         $this->middleware('adminOnly');
+
         //Get All Employees vie Model
         $employees = Mis::getEmployess();
 
         //Get All User Roles
         $roles = DB::table('roles')->get();
+
         $role_arr = array();
         foreach($roles as $role)
         {
@@ -45,20 +47,39 @@ class MisController extends Controller
             }
         }
 
+        //Get All Levels
+        $levels = DB::table('levels')->get();
+
+        $levels_arr = array();
+        foreach($levels as $level)
+        {
+            $levels_arr[$level->id] = $level->name;
+        }
+
+        //Get States
+        $states = DB::table('states')->get();
+
+        $states_arr = array('' => 'Select State');
+        foreach($states as $state)
+        {
+            $states_arr[$state->code] = $state->name;
+        }
+
         //Get All Terminals 
         $res = DB::table('warehouses')
             ->join('warehouse_rent_rates','warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('warehouses.status', 1)
-            ->select('warehouses.*', 'warehouse_rent_rates.location')
+            ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location')
             ->groupBy('warehouses.id')
             ->get();
-        $terminals = array('' => 'Select Terminal');
+
+        $terminals = array('' => 'Select Location');
         foreach($res as $terminal)
         {
-            $terminals[$terminal->id] = $terminal->name." (".$terminal->location.")";
+            $terminals[$terminal->id] = $terminal->address.", ".$terminal->location;
         }
 
-        return view('mis.employees.index', array('employees' => $employees, 'terminals' => $terminals, 'roles' => $role_arr));
+        return view('mis.employees.index', array('employees' => $employees, 'terminals' => $terminals, 'roles' => $role_arr, 'levels' => $levels_arr, 'states' => $states_arr));
     }
 
     /**
@@ -82,13 +103,42 @@ class MisController extends Controller
 
         //Get All Post Data
         $request->validate([
-            'first_name'   => 'required',
-            'last_name'    => 'required',
-            'email'        => 'required|email|unique:users',
-            'phone'        => 'required|numeric|digits:10|unique:users',
-            'role_id'      => 'required|numeric',
-            'designation'  => 'required',
+            'first_name'     => 'required',
+            'last_name'      => 'required',
+            'email'          => 'required|email|unique:users',
+            'phone'          => 'required|numeric|digits:10|unique:users',
+            'role_id'        => 'required|numeric',
+            'designation'    => 'required',
+            'level_id'       => 'required',
+            'address'        => 'required',
+            'personal_phone' => 'required',
         ]);
+
+        $level_id = $request->level_id;
+        $terminal = $request->terminal;
+        $states = $request->states;
+        $district = $request->district;
+
+        if($level_id == 2){
+           $request->validate([
+                'states'     => 'required',
+            ]);
+        }else if($level_id == 3){
+           $request->validate([
+                'district'     => 'required',
+            ]);
+        }else if($level_id == 4){
+           $request->validate([
+                'terminal'     => 'required',
+            ]);
+
+           //Get Terminal Address
+           $terminal_data = DB::table('warehouse_rent_rates')->where('warehouse_id', $terminal)->first();
+
+           $states = $terminal_data->state;
+           $district = $terminal_data->district;
+
+        }
 
         $emp_id = 'AG0001';
 
@@ -107,10 +157,17 @@ class MisController extends Controller
         $data['lname'] = $last_name = $request->last_name;
         $data['email'] = $email = $request->email;
         $data['phone'] = $phone = $request->phone;
-        $data['terminal'] = $terminal = $request->terminal;
+        $data['personal_phone'] = $personal_phone = $request->personal_phone;
+        $data['address'] = $address = $request->address;
+        $data['terminal'] = $terminal;
         $data['role_id'] = $role_id = $request->role_id;
         $data['designation'] = $designation = $request->designation;
         $data['password'] = $password = Hash::make(123456);
+        $data['state_id'] = $states;
+        $data['district_id'] = $district;
+        $data['level_id'] = $level_id;
+        $data['country_id'] = 1;
+        $data['location'] = $terminal;
 
         # Add User in Users Table
         $user = User::addUser($data);
@@ -125,6 +182,9 @@ class MisController extends Controller
 
         # Create Employees Details
         $employee = Mis::addEmployee($data);
+
+        # Create Level For Employee
+        $employee = Mis::addEmpLevel($data);
 
         if($employee)
         {
@@ -177,6 +237,32 @@ class MisController extends Controller
             }
         });
 
+        $level_id = $request->edit_level_id;
+        $terminal = $request->edit_terminal;
+        $states = $request->edit_states;
+        $district = $request->edit_district;
+
+        if($level_id == 2){
+           $request->validate([
+                'edit_states'     => 'required',
+            ]);
+        }else if($level_id == 3){
+           $request->validate([
+                'edit_district'     => 'required',
+            ]);
+        }else if($level_id == 4){
+           $request->validate([
+                'edit_terminal'     => 'required',
+            ]);
+
+           //Get Terminal Address
+           $terminal_data = DB::table('warehouse_rent_rates')->where('warehouse_id', $terminal)->first();
+
+           $states = $terminal_data->state;
+           $district = $terminal_data->district;
+
+        }
+
         $data = array();
         $data['user_id'] = $user_id = $request->user_id;
 
@@ -201,30 +287,52 @@ class MisController extends Controller
         $request->validate([
             'edit_first_name'   => 'required',
             'edit_last_name'    => 'required',
-            'edit_role_id'      => 'required|numeric|in_role',
             'edit_designation'  => 'required',
+            'edit_level_id'       => 'required',
+            'edit_address'        => 'required',
+            'edit_personal_phone' => 'required',
         ]);
        
 
         $data['first_name'] = $edit_first_name = $request->edit_first_name;
         $data['last_name'] = $edit_last_name = $request->edit_last_name;
-        $data['email'] = $edit_email = $request->email;
-        $data['phone'] = $edit_phone = $request->phone;
-        $data['role_id'] = $edit_role_id = $request->edit_role_id;
+        $data['email'] = $email;
+        $data['phone'] = $phone;
         $data['terminal'] = $edit_terminal = $request->edit_terminal;
+        $data['personal_phone'] = $edit_personal_phone = $request->edit_personal_phone;
+        $data['address'] = $edit_address = $request->edit_address;
         $data['designation'] = $edit_designation = $request->edit_designation;
+        $data['state_id'] = $states;
+        $data['district_id'] = $district;
+        $data['level_id'] = $level_id;
+        $data['country_id'] = 1;
+        $data['location'] = $terminal;
         
         # Update User in Users Table
         $user = User::where('id', $user_id)
-          ->update(['fname' => $edit_first_name, 'lname' => $edit_last_name, 'email' => $edit_email, 'phone' => $edit_phone]);
+          ->update(['fname' => $edit_first_name, 'lname' => $edit_last_name, 'email' => $email, 'phone' => $phone]);
 
         $date = date('Y-m-d H:i:s');
 
-        # Update user role in users role table
-        $user_role = user_roles::updateUserRole($data, $user_id);
+        # Update user role in users role Table
+        /*$user_role = user_roles::updateUserRole($data, $user_id);*/
 
         # Update Employees Details
         $employee = Mis::updateEmployee($data, $user_id);
+
+        //Check and Upload
+        $userLevelEntry = Mis::getUserLevelEntry($user_id);
+
+        if($userLevelEntry){
+
+            //Update Level
+            $updateUserLevel = Mis::updateUserLevel($data, $user_id);
+
+        }else{
+
+            //Add Level
+            $employee = Mis::addEmpLevel($data);
+        }
 
         if($employee)
         {
@@ -285,8 +393,52 @@ class MisController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function user_permissions()
     {
-        //
+        //Permissions
+        $permissions = Mis::getPermissions();
+
+        //Get User Permissions
+        $user_permissions = Mis::getUserPermissions();
+
+        //Get All Employees 
+        $res = Mis::getEmployess();
+        $employees = array('' => 'Select Employee');
+
+        foreach($res as $emp)
+        {
+            if($emp->role_id != 2 || $emp->role_id != 4)
+            {
+                $employees[$emp->user_id] = $emp->first_name." ".$emp->last_name."(".$emp->emp_id.")";
+            }
+        }
+
+        return view('mis.user_permissions', array('permissions' => $permissions, 'user_permissions' => $user_permissions, 'employees' => $employees));
+    }
+
+    public function add_user_permission(Request $request)
+    {
+        //Get All Post Data
+        $request->validate([
+            'user_id'   => 'required',
+            'permissions'    => 'required',
+        ]);
+       
+        $data['user_id'] = $user_id = $request->user_id;
+        $permissions = $request->permissions;
+        $data['permission_id'] = $done = json_encode($permissions);
+
+        $user_permissions = Mis::addUserPermission($data);
+
+        if($user_permissions)
+        {
+            $status = 'User permissions set successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('user_permissions')->with('status', $status);
     }
 }

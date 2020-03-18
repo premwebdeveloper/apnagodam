@@ -65,6 +65,7 @@ class CaseGen extends Model
             'terminal_id' => $data['terminal_id'],
             'lead_gen_uid' => $data['lead_generator'],
             'lead_conv_uid' => $data['conv_user_id'],
+            'fpo_users' => $data['fpo_users'],
             'created_at' => $date,
             'updated_at' => $date,
             'status' => 1
@@ -110,6 +111,7 @@ class CaseGen extends Model
                 'apna_case_gate_pass.case_id as gate_pass_case_id',
                 'apna_case_e_mandi.case_id as e_mandi_case_id',
                 'apna_case_accounts.case_id as accounts_case_id',
+                'apna_case_pricing.transaction_type',
                 'apna_case_shipping_start.case_id as shipping_start_case_id',
                 'apna_case_shipping_end.case_id as shipping_end_case_id',
                 'apna_case_quality_claim.case_id as quality_claim_case_id',
@@ -168,6 +170,7 @@ class CaseGen extends Model
                 'apna_case_release_order.case_id as release_order_case_id',
                 'apna_case_delivery_order.case_id as delivery_order_case_id',
                 'apna_truck_book.case_id as truck_book_case_id',
+                'apna_case_pricing.transaction_type',
                 'apna_labour_book.case_id as labour_book_case_id',
                 'apna_case_kanta_parchi.case_id as kanta_parchi_case_id',
                 'apna_case_second_quality_report.case_id as second_quality_report_case_id',
@@ -229,6 +232,7 @@ class CaseGen extends Model
                 'customer.fname as cust_fname',
                 'customer.lname as cust_lname',
                 'apna_case_pricing.case_id as pricing_case_id',
+                'apna_case_pricing.transaction_type',
                 'apna_truck_book.case_id as truck_book_case_id',
                 'apna_labour_book.case_id as labour_book_case_id',
                 'apna_case_kanta_parchi.case_id as kanta_parchi_case_id',
@@ -365,6 +369,27 @@ class CaseGen extends Model
         return $price;
     }
 
+    // Set Case Price
+    public function scopeupdateCaseUserDetails($query, $data, $case_id)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Generate Case ID
+
+        $price = DB::table('apna_case')
+            ->where('case_id', $case_id)
+            ->update([
+                'fpo_user_id' => $data['fpo_user_id'],
+                'gate_pass_cdf_user_name' => $data['gate_pass_cdf_user_name'],
+                'coldwin_name' => $data['coldwin_name'],
+                'purchase_name' => $data['purchase_name'],
+                'loan_name' => $data['loan_name'],
+                'sale_name' => $data['sale_name'],
+                'updated_at' => $date,
+            ]);
+        return $price;
+    }
+
     // Set First Quality Report
     public function scopeupdateQualityReport($query, $data)
     {
@@ -375,6 +400,7 @@ class CaseGen extends Model
             'user_id' => $data['user_id'],
             'case_id' => $data['case_id'],
             'moisture_level' => $data['moisture_level'],
+            'packaging_type' => $data['packaging_type'],
             'thousand_crown_w' => $data['thousand_crown_w'],
             'broken' => $data['broken'],
             'foreign_matter' => $data['foreign_matter'],
@@ -398,7 +424,7 @@ class CaseGen extends Model
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_quality_report', 'apna_case_quality_report.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_quality_report.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_report.case_id as q_r_case_id', 'apna_case_quality_report.moisture_level', 'apna_case_quality_report.thousand_crown_w', 'apna_case_quality_report.broken', 'apna_case_quality_report.foreign_matter', 'apna_case_quality_report.thin', 'apna_case_quality_report.damage', 'apna_case_quality_report.black_smith', 'apna_case_quality_report.infested',  'apna_case_quality_report.live_insects', 'apna_case_quality_report.imge',  'apna_case_quality_report.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_report.case_id as q_r_case_id', 'apna_case_quality_report.moisture_level', 'apna_case_quality_report.thousand_crown_w', 'apna_case_quality_report.broken', 'apna_case_quality_report.foreign_matter', 'apna_case_quality_report.thin', 'apna_case_quality_report.damage', 'apna_case_quality_report.black_smith', 'apna_case_quality_report.infested',  'apna_case_quality_report.live_insects', 'apna_case_quality_report.packaging_type', 'apna_case_quality_report.imge',  'apna_case_quality_report.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->groupBy('apna_case.case_id')
