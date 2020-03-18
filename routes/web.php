@@ -387,3 +387,11 @@ Route::post('/addCommodityWithdrawal', 'CaseGenController@addCommodityWithdrawal
 
 Route::post('/caseApprove', 'CaseGenController@caseApprove')->name('caseApprove');
 Route::get('/viewCase/{case_id}', 'CaseGenController@viewCase')->name('viewCase');
+
+
+/*************************************************************************************/
+/*********************************  User Permissions *********************************/
+/*************************************************************************************/
+
+Route::get('/user_permissions', 'MisController@user_permissions')->name('user_permissions');
+Route::post('/add_user_permission', 'MisController@add_user_permission')->name('add_user_permission');
