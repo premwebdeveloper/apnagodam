@@ -95,7 +95,7 @@ $role_id = $role->role_id;
                                                     <?php
                                                     $check_status = DB::table('apna_case_second_quality_report')->where('case_id', $pricing->case_id)->first();
                                                     ?>
-                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
+                                                    @if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3))
                                                         @if($check_status)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Gate Pass</a>
                                                         @else

@@ -74,7 +74,7 @@ $role_id = $role->role_id;
                                                 @if($pricing->c_w_case_id)
                                                     <span class="text-navy">Done</span>
                                                 @else
-                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
+                                                    @if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3))
                                                         @if($check_status)
                                                             <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update CWF</a>
                                                         @else

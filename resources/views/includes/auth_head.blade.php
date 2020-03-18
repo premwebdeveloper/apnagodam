@@ -27,4 +27,5 @@
 </head>
 
 <body>
+    <audio id="notification_bell" src="{{ asset('resources/assets/notification.mp3') }}" loop="false"></audio>
     <div id="wrapper">

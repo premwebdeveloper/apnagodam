@@ -70,28 +70,48 @@
                                         <td>{!! $lead->cate_name ." (".$lead->commodity_type.")"  !!}</td>
                                         <td>{!! $lead->terminal_name !!}</td>
 
-                                        <td>{!! ($lead->pricing_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->release_order_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->delivery_order_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->truck_book_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->labour_book_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->quality_report_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->second_quality_report_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->second_kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->gate_pass_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->transaction_type == 'E-Mandi')?(($lead->e_mandi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>'):'<span class="text-info">Completed</span>' !!}</td>
-                                        <td>{!! ($lead->cctv_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->commodity_withdrawal_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->accounts_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->shipping_start_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->shipping_end_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->quality_claim_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->truck_payment_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->labour_payment_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-                                        <td>{!! ($lead->payment_received_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}</td>
-
-
+                                        <td>{!! ($lead->pricing_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->pricing_update_time)?date('g:i A', strtotime($lead->pricing_update_time)):'' }}</td>
+                                        <td>{!! ($lead->release_order_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->release_order_update_time)?date('g:i A', strtotime($lead->release_order_update_time)):'' }}</td>
+                                        <td>{!! ($lead->delivery_order_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->delivery_order_update_time)?date('g:i A', strtotime($lead->delivery_order_update_time)):'' }}</td>
+                                        <td>{!! ($lead->truck_book_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->truck_book_update_time)?date('g:i A', strtotime($lead->truck_book_update_time)):'' }}</td>
+                                        <td>{!! ($lead->labour_book_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->labour_book_update_time)?date('g:i A', strtotime($lead->labour_book_update_time)):'' }}</td>
+                                        <td>{!! ($lead->quality_report_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->quality_report_update_time)?date('g:i A', strtotime($lead->quality_report_update_time)):'' }}</td>
+                                        <td>{!! ($lead->kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->kanta_parchi_update_time)?date('g:i A', strtotime($lead->kanta_parchi_update_time)):'' }}</td>
+                                        <td>{!! ($lead->second_quality_report_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->second_quality_report_update_time)?date('g:i A', strtotime($lead->second_quality_report_update_time)):'' }}</td>
+                                        <td>{!! ($lead->second_kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->second_kanta_parchi_update_time)?date('g:i A', strtotime($lead->second_kanta_parchi_update_time)):'' }}</td>
+                                        <td>{!! ($lead->gate_pass_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->gate_pass_update_time)?date('g:i A', strtotime($lead->gate_pass_update_time)):'' }}</td>
+                                        
+                                        <td>{!! ($lead->transaction_type == 'E-Mandi')?(($lead->e_mandi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>'):'<span class="text-info">Not for E-Mandi</span>' !!}<br>{{ ($lead->transaction_type == 'E-Mandi')?(($lead->e_mandi_update_time)?date('g:i A', strtotime($lead->e_mandi_update_time)):''):'' }}
+                                        </td>
+                                        
+                                        <td>{!! ($lead->cctv_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->cctv_update_time)?date('g:i A', strtotime($lead->cctv_update_time)):'' }}</td>
+                                        <td>{!! ($lead->commodity_withdrawal_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->commodity_withdrawal_update_time)?date('g:i A', strtotime($lead->commodity_withdrawal_update_time)):'' }}</td>
+                                        <td>{!! ($lead->accounts_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->accounts_update_time)?date('g:i A', strtotime($lead->accounts_update_time)):'' }}</td>
+                                        <td>{!! ($lead->shipping_start_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->shipping_start_update_time)?date('g:i A', strtotime($lead->shipping_start_update_time)):'' }}</td>
+                                        <td>{!! ($lead->shipping_end_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->shipping_end_update_time)?date('g:i A', strtotime($lead->shipping_end_update_time)):'' }}</td>
+                                        <td>{!! ($lead->quality_claim_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->quality_claim_update_time)?date('g:i A', strtotime($lead->quality_claim_update_time)):'' }}</td>
+                                        <td>{!! ($lead->truck_payment_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->truck_payment_update_time)?date('g:i A', strtotime($lead->truck_payment_update_time)):'' }}</td>
+                                        <td>{!! ($lead->labour_payment_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->labour_payment_update_time)?date('g:i A', strtotime($lead->labour_payment_update_time)):'' }}</td>
+                                        <td>{!! ($lead->payment_received_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->payment_received_update_time)?date('g:i A', strtotime($lead->payment_received_update_time)):'' }}</td>
                                         <td>{!! date('d M Y', strtotime($lead->created_at)) !!}</td>
 	                                </tr>
                                 @endforeach

@@ -82,7 +82,7 @@ $role_id = $role->role_id;
                                             <span class="text-navy">Done</span>
                                             @else
                                                 @if($quality_report->in_out == 'PASS')
-                                                    @if($role_id == 1 || $currentuserid == $quality_report->lead_conv_uid || ($role_id == 8 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
+                                                    @if($role_id == 1 || $currentuserid == $quality_report->lead_conv_uid || ($role_id == 7 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3))
                                                         <?php
                                                             $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>
@@ -95,7 +95,7 @@ $role_id = $role->role_id;
                                                         <span class="text-navy">In Process</span>
                                                     @endif
                                                 @elseif($quality_report->in_out == 'IN')
-                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
+                                                    @if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3))
                                                         <?php
                                                             $check_status = DB::table('apna_case_second_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>
@@ -108,7 +108,7 @@ $role_id = $role->role_id;
                                                         <span class="text-navy">In Process</span>
                                                     @endif
                                                 @elseif( $quality_report->in_out == 'OUT')
-                                                    @if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
+                                                    @if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $quality_report->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3))
                                                         <?php
                                                             $check_status = DB::table('apna_case_kanta_parchi')->where('case_id', $quality_report->case_id)->first();
                                                         ?>

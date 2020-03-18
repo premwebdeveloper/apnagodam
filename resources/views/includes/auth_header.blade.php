@@ -55,7 +55,7 @@
                 }
             }
             elseif($case->in_out == 'IN'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_case_kanta_parchi')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -63,7 +63,7 @@
                     }
                 }
             }elseif($case->in_out == 'OUT'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_labour_book')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -96,7 +96,7 @@
                     }
                 }
             }elseif($case->in_out == 'IN'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_case_second_quality_report')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -106,7 +106,7 @@
             }
             elseif($case->in_out == 'OUT')
             {
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3))
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3))
                 {
                     $res = DB::table('apna_case_second_quality_report')->where('case_id', $case->case_id)->first();
                     if($res)
@@ -142,14 +142,14 @@
                     }
                 }
             }elseif($case->in_out == 'IN'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     if($res){
                         $notifications++;
                         $n++;
                     }
                 }
             }elseif($case->in_out == 'OUT'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     if($res){
                         $notifications++;
                         $n++;
@@ -165,7 +165,7 @@
         }else{
             $case_spl = 'Case';
         }
-        $noti_link .= '<li><a href="'.url('/gate_pass').'" class="dropdown-item"><div><span class="label label-danger">'.$n.'</span> &nbsp;&nbsp;&nbsp;&nbsp;<b>New '.$case_spl.' for First Kanta Parchi </b></div></a></li><li class="dropdown-divider"></li>';
+        $noti_link .= '<li><a href="'.url('/kanta_parchi').'" class="dropdown-item"><div><span class="label label-danger">'.$n.'</span> &nbsp;&nbsp;&nbsp;&nbsp;<b>New '.$case_spl.' for First Kanta Parchi </b></div></a></li><li class="dropdown-divider"></li>';
     }
 
     $case_gen = CaseGen::getCaseTruckBook();
@@ -261,7 +261,7 @@
                     }
                 }
             }elseif($case->in_out == 'IN'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_case_second_kanta_parchi')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -269,7 +269,7 @@
                     }
                 }
             }elseif($case->in_out == 'OUT'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_case_kanta_parchi')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -302,7 +302,7 @@
                     }
                 }
             }elseif($case->in_out == 'IN'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_case_quality_report')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -310,7 +310,7 @@
                     }
                 }
             }elseif($case->in_out == 'OUT'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_case_quality_report')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -656,7 +656,7 @@
     foreach($case_gen as $key => $case){        
         if(!$case->cdf_case_id){
             if($case->in_out == 'IN'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_case_cctv')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -781,7 +781,7 @@
     foreach($case_gen as $key => $case){
         if(!$case->c_w_case_id){
             if($case->in_out == 'OUT'){
-                if($role_id == 1 || $role_id == 7 || ($role_id == 8 && $emp_levels->location == $case->terminal_id) || ($role_id == 8 && $emp_levels->level_id < 3)){
+                if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $case->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3)){
                     $res = DB::table('apna_case_cctv')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -842,6 +842,19 @@
         $noti_link .= '<li><a href="'.url('/payment_received').'" class="dropdown-item"><div><span class="label label-danger">'.$n.'</span> &nbsp;&nbsp;&nbsp;&nbsp;<b>New '.$case_spl.' for Payment Received </b></div></a></li><li class="dropdown-divider"></li>';
     }
 
+
+    //Notification Bell
+    if($notifications > 0)
+    {
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#notification_bell").get(0).play();
+                setTimeout(function(){ $("#notification_bell").get(0).pause(); }, 2000);
+            });
+        </script>
+        <?php
+    }
 
 ?>
 <div id="page-wrapper" class="gray-bg dashbard-1">
