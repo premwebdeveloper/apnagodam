@@ -160,7 +160,7 @@
                                         </tr>
                                         <tr class="gradeX">
                                             <td>Broken</td>
-                                            <td><span id="bro_normal">4</span>%</td>
+                                            <td><span id="bro_normal">5</span>%</td>
                                             <td><span id="bro_extreme">6</span>%</td>
                                             <td><input type="number" id="bro_actual" style="width:80px; float:left;" class="form-control" >%</td>
                                             <td><span id="bro_price"></span></td>
@@ -321,7 +321,7 @@
                                         </tr>
                                         <tr class="gradeX">
                                             <td>Broken</td>
-                                            <td><span id="cm_bro_normal">4</span>%</td>
+                                            <td><span id="cm_bro_normal">5</span>%</td>
                                             <td><span id="cm_bro_extreme">6</span>%</td>
                                             <td><input type="number" id="cm_bro_actual" style="width:80px; float:left;" class="form-control" >%</td>
                                             <td><span id="cm_bro_price"></span></td>
@@ -500,7 +500,7 @@
                 if(mos_actual_val > mos_extreme)
                 {
                     pri_diff =  ((mos_actual_val - mos_normal)/ 100) * n_main_price;
-                    pri_diff =  2 * parseFloat(pri_diff);
+                    pri_diff =  parseFloat(pri_diff);
                 }
                 if(mos_actual_val <= mos_normal)
                 {
@@ -826,7 +826,7 @@
                 if(mos_actual_val > mos_extreme)
                 {
                     pri_diff =  ((mos_actual_val - mos_normal)/ 100) * n_main_price;
-                    pri_diff =  2 * parseFloat(pri_diff);
+                    pri_diff =  parseFloat(pri_diff);
                 }
                 if(mos_actual_val <= mos_normal)
                 {

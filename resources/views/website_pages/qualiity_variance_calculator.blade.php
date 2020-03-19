@@ -53,7 +53,7 @@
                                     </tr>
                                     <tr class="gradeX">
                                         <td class="f-w-800 f-s-18">Broken</td>
-                                        <td><span class="f-w-800 f-s-18" id="bro_normal">4</span>%</td>
+                                        <td><span class="f-w-800 f-s-18" id="bro_normal">5</span>%</td>
                                         <td><span class="f-w-800 f-s-18" id="bro_extreme">6</span>%</td>
                                         <td><input type="number" id="bro_actual" style="width:60px; float:left;" class="form-control" >%</td>
                                         <td><span class="f-w-800 f-s-18" id="bro_price"></span></td>
@@ -133,7 +133,7 @@
                 if(mos_actual_val > mos_extreme)
                 {
                     pri_diff =  ((mos_actual_val - mos_normal)/ 100) * n_main_price;
-                    pri_diff =  2 * parseFloat(pri_diff);
+                    pri_diff =  parseFloat(pri_diff);
                 }
                 if(mos_actual_val <= mos_normal)
                 {
@@ -370,7 +370,7 @@
                     if(mos_actual_val > mos_extreme)
                     {
                         pri_diff =  ((mos_actual_val - mos_normal)/ 100) * n_main_price;
-                        pri_diff =  2 * parseFloat(pri_diff);
+                        pri_diff =  parseFloat(pri_diff);
                     }
                     if(mos_actual_val <= mos_normal)
                     {
