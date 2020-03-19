@@ -39,6 +39,7 @@ $role_id = $role->role_id;
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
+                                    <th>Action</th>
                                     <th>Case ID</th>
                                     <th>Customer Name</th>
                                     <th>UserName</th>
@@ -52,13 +53,15 @@ $role_id = $role->role_id;
                                     <th>Terminal</th>
                                     <th>Purpose</th>
                                     <th>Created On</th>
-                                    <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
                                 @foreach($case_gen as $key => $lead)
 	                                <tr class="gradeX">
                                         <td>{{ ++$key }}</td>
+                                        <td>
+                                            <a data-id="{!! $lead->case_id !!}" id='{!! $lead->cust_fname." ".$lead->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Approve</a>
+                                        </td>
                                         <td>{!! $lead->case_id !!}</td>
                                         <td>{!! $lead->cust_fname." ".$lead->cust_lname !!}</td>
                                         <td><b>User : </b>{!! ($lead->fpo_user_id)?$lead->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($lead->gate_pass_cdf_user_name)?$lead->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($lead->coldwin_name)?$lead->coldwin_name:'N/A' !!}</td>
@@ -73,9 +76,6 @@ $role_id = $role->role_id;
                                         <td>{!! $lead->terminal_name !!}</td>
                                         <td>{!! $lead->purpose !!}</td>
                                         <td>{!! date('d M Y', strtotime($lead->created_at)) !!}</td>
-                                        <td>
-                                            <a data-id="{!! $lead->case_id !!}" id='{!! $lead->cust_fname." ".$lead->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Approve</a>
-                                        </td>
 	                                </tr>
                                 @endforeach
 	                        </tbody>
