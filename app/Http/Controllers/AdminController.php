@@ -296,7 +296,17 @@ class AdminController extends Controller
         // Get user details by user id
         $user = DB::table('user_details')->where('user_id', $user_id)->first();
 
-        return view('admin.user_view', array('user' => $user));
+        $role = DB::table('user_roles')->where('user_id', $user_id)->first();
+
+        //Get State
+        $state = DB::table('states')->get();
+        $states = array();
+        foreach($state as $key => $value)
+        {
+            $states[$value->name] = $value->name;
+        }
+
+        return view('admin.user_view', array('user' => $user, 'role' => $role, 'states' => $states));
     }
 
     // User Edit view
@@ -311,102 +321,196 @@ class AdminController extends Controller
     }
 
     // User edit
-    public function user_edit(Request $request){
+    public function updateUserProfile(Request $request){
 
-        # Set validation for
-        $this->validate($request, [
-            'fname' => 'required',
-            'phone' => 'required|numeric|digits:10',
-            'power' => 'required|numeric',
-        ]);
-
-        $user_id = $request->user_id;
-        $fname = $request->fname;
-        //$lname = $request->lname;
-        $email = $request->email;
-        //$password = Hash::make($request->password);
-        $phone = $request->phone;
-        $father_name = $request->father_name;
-        $khasra = $request->khasra;
-        $village = $request->village;
-        $tehsil = $request->tehsil;
-        $district = $request->district;
-        $category = $request->category;
-        $khasra_no = $request->khasra;
-        $gst_number = $request->gst;
-        $power = $request->power;
-        $transfer_amount = $request->transfer_amount;
         $date = date('Y-m-d H:i:s');
-
-        // First get users data from user details table
-        $user = DB::table('user_details')->where('user_id', $user_id)->first();
-        $filename = $user->image;
+        $user_id = $request->user_id;
 
         # If user profile image uploaded then
-        if($request->hasFile('image')) {
+        if($request->hasFile('profile_image')) {
 
-            $file = $request->image;
+            $file = $request->profile_image;
 
-            $filename = $file->getClientOriginalName();
+            $profile_image = $file->getClientOriginalName();
 
-            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+            $ext = pathinfo($profile_image, PATHINFO_EXTENSION);
 
-            $filename = substr(md5(microtime()),rand(0,26),6);
+            $profile_image = substr(md5(microtime()),rand(0,26),6);
 
-            $filename .= '.'.$ext;
+            $profile_image .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+            $extensions = ['JPG', 'jpg', 'JPEG', 'jpeg', 'PNG', 'png', 'gig', 'bmp'];
 
             if(! in_array($ext, $extensions))
             {
                 $status = 'File type is not allowed you have uploaded. Please upload any image !';
-                return redirect('user_edit_view/'.$user_id)->with('status', $status);
+                return redirect()->back()->with('error', $status);
             }
 
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 1052030){
-                $status = 'File size is too large. Please upload file less than 1MB !';
-                return redirect('user_edit_view/'.$user_id)->with('status', $status);
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect()->back()->with('error', $status);
             }
 
             $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
-            $file->move($destinationPath,$filename);
-            $filepath = $destinationPath.$filename;
+            $file->move($destinationPath,$profile_image);
+            $filepath = $destinationPath.$profile_image;
+        }else{
+            $profile_image = $request->profile_img;
         }
 
-        // User update in users table
-        $user_edit = DB::table('users')->where('id', $user_id)->update([
+        $user_type = $request->user_type;
+        if($user_type == 1)
+        {
+            $data['father_name'] = $father_name = $request->father_name;
+        }
+        if($user_type == 2)
+        {
+            $data['mandi_license'] = $mandi_license = $request->license;
+            $data['gst_number'] = $gst_number = $request->gst;
+        }
 
-            'fname' => $fname,
-            'email' => $email,
-            'phone' => $phone,
-            'updated_at' => $date
-        ]);
+        $data['aadhar_no'] = $aadhar_no = $request->aadhar_no;
+        $data['pancard_no'] = $pancard_no = $request->pancard_no;
+        $data['address'] = $address = $request->address;
+        $data['area_vilage'] = $area_vilage = $request->area_vilage;
+        $data['district'] = $district = $request->district;
+        $data['state'] = $state = $request->state;
+        $data['pincode'] = $pincode = $request->pincode;
+        $data['user_type'] = $user_type = $request->user_type;
+        $data['bank_name'] = $bank_name = $request->bank_name;
+        $data['bank_branch'] = $bank_branch = $request->bank_branch;
+        $data['bank_acc_no'] = $bank_acc_no = $request->bank_acc_no;
+        $data['bank_ifsc_code'] = $bank_ifsc_code = $request->bank_ifsc_code;
 
-        // User details update in user details table
-        $edit = DB::table('user_details')->where('user_id', $user_id)->update([
+        # If user profile image uploaded then
+        if($request->hasFile('aadhar_image')) {
 
-            'fname' => $fname,
-            'email' => $email,
-            'phone' => $phone,
-            'father_name' => $father_name,
-            'khasra_no' => $khasra,
-            'village' => $village,
-            'tehsil' => $tehsil,
-            'district' => $district,
-            'category' => $category,
-            'khasra_no' => $khasra_no,
-            'gst_number' => $gst_number,
-            'image' => $filename,
-            'power' => $power,
-            'transfer_amount' => $transfer_amount,
-            'updated_at' => $date
-        ]);
+            $file = $request->aadhar_image;
 
-        if($edit)
+            $aadhar_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($aadhar_name, PATHINFO_EXTENSION);
+
+            $aadhar_name = substr(md5(microtime()),rand(0,26),6);
+
+            $aadhar_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['JPG', 'jpg', 'JPEG', 'jpeg', 'PNG', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect()->back()->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect()->back()->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
+            $file->move($destinationPath,$aadhar_name);
+            $filepath = $destinationPath.$aadhar_name;
+        }else{
+            $aadhar_name = $request->aadhar_img;
+        }
+
+        # If user profile image uploaded then
+        if($request->hasFile('cheque_image')) {
+
+            $file = $request->cheque_image;
+
+            $cheque_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($cheque_name, PATHINFO_EXTENSION);
+
+            $cheque_name = substr(md5(microtime()),rand(0,26),6);
+
+            $cheque_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['JPG', 'jpg', 'JPEG', 'jpeg', 'PNG', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect()->back()->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect()->back()->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
+            $file->move($destinationPath,$cheque_name);
+            $filepath = $destinationPath.$cheque_name;
+        }else{
+            $cheque_name = $request->cheque_img;
+        }
+
+        if($user_type == 1)
+        {
+            $update = DB::table('user_details')
+                        ->where('user_id', $user_id)
+                        ->update([
+                                'father_name' => $father_name,
+                                'aadhar_no' => $aadhar_no,
+                                'pancard_no' => $pancard_no,
+                                'address' => $address,
+                                'area_vilage' => $area_vilage,
+                                'city' => $district,
+                                'state' => $state,
+                                'pincode' => $pincode,
+                                'bank_name' => $bank_name,
+                                'bank_branch' => $bank_branch,
+                                'bank_acc_no' => $bank_acc_no,
+                                'bank_ifsc_code' => $bank_ifsc_code,
+                                'image' => $profile_image,
+                                'aadhar_image' => $aadhar_name,
+                                'cheque_image' => $cheque_name,
+                                'updated_at' => $date,
+                        ]);
+        }
+
+        if($user_type == 2)
+        {
+            $update = DB::table('user_details')
+                        ->where('user_id', $user_id)
+                        ->update([
+                                'mandi_license' => $mandi_license,
+                                'gst_number' => $gst_number,
+                                'aadhar_no' => $aadhar_no,
+                                'pancard_no' => $pancard_no,
+                                'address' => $address,
+                                'area_vilage' => $area_vilage,
+                                'city' => $district,
+                                'state' => $state,
+                                'pincode' => $pincode,
+                                'bank_name' => $bank_name,
+                                'bank_branch' => $bank_branch,
+                                'bank_acc_no' => $bank_acc_no,
+                                'bank_ifsc_code' => $bank_ifsc_code,
+                                'image' => $profile_image,
+                                'aadhar_image' => $aadhar_name,
+                                'cheque_image' => $cheque_name,
+                                'updated_at' => $date,
+                        ]);
+        }
+
+        if($update)
         {
             $status = 'User Updated successfully.';
         }

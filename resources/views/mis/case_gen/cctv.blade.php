@@ -57,6 +57,7 @@ $role_id = $role->role_id;
                                     <th>UserName</th>
                                     <th>Details in Tally</th>
                                     <th>CCTV File</th>
+                                    <th>CCTV File 2</th>
                                     <th>Notes</th>
                                 </tr>
                             </thead>
@@ -91,6 +92,12 @@ $role_id = $role->role_id;
                                             <td>
                                                 @if($pricing->file)
                                                     <a class="view_report" data-id="{{ $pricing->file }}"><i class="fa fa-eye"></i></a>
+                                                @else
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($pricing->file_2)
+                                                    <a class="view_report" data-id="{{ $pricing->file_2 }}"><i class="fa fa-eye"></i></a>
                                                 @else
                                                 @endif
                                             </td>
@@ -130,6 +137,12 @@ $role_id = $role->role_id;
                                             <td>
                                                 @if($pricing->file)
                                                     <a class="view_report" data-id="{{ $pricing->file }}"><i class="fa fa-eye"></i></a>
+                                                @else
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($pricing->file_2)
+                                                    <a class="view_report" data-id="{{ $pricing->file_2 }}"><i class="fa fa-eye"></i></a>
                                                 @else
                                                 @endif
                                             </td>
@@ -183,7 +196,19 @@ $role_id = $role->role_id;
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-4">
+                                <div class="col-md-12 p-0">
+                                    {!! Form::label('report_file_2', 'CCTV File 2', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::file('report_file_2', ['class' => 'form-control', 'onchange' => "loadFile(event)", 'autocomplete' => 'off']) !!}
+
+                                    @if($errors->has('report_file_2'))
+                                        <span class="text-red" role="alert">
+                                            <strong class="red">{{ $errors->first('report_file_2') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                                 {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
 
@@ -235,7 +260,7 @@ $role_id = $role->role_id;
 </div>
 
 
-@if($errors->has('notes') || $errors->has('report_file') || $errors->has('case_id'))
+@if($errors->has('notes') || $errors->has('report_file') || $errors->has('report_file_2') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');

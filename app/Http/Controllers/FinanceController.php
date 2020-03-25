@@ -14,7 +14,7 @@ class FinanceController extends Controller
 
 		// Only authenticarte and admin user can enter here
 		$this->middleware('auth');
-		$this->middleware('adminOnly');
+		//$this->middleware('adminOnly');
 	}
 
     // Finance Department

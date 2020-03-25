@@ -1,4 +1,4 @@
-@extends('layouts.auth_app')
+ @extends('layouts.auth_app')
 
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -46,6 +46,7 @@
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
+                                    <th>Case ID</th>
                                     <th>Seller</th>
                                     <th>Terminal</th>
                                     <th>Gate Pass / WR No.</th>
@@ -60,13 +61,14 @@
                                 @foreach($inventories as $key => $inventory)
 	                                <tr class="gradeX">
                                         <td>{!! ++$key !!}</td>
+                                        <td>{!! $inventory->case_id !!}</td>
                                         <td>{!! $inventory->fname !!} {!! $inventory->lname !!} ({!! $inventory->phone !!})</td>
                                         <td>{!! $inventory->warehouse !!} ({!! $inventory->warehouse_code !!})</td>
                                         <td>{!! $inventory->gate_pass_wr !!}</td>
                                         <td>{!! $inventory->category !!}</td>
+                                        <td>{!! $inventory->quantity !!}</td>
                                         <!-- <td>{!! $inventory->net_weight !!}</td> -->
                                         <td>{!! $inventory->created_at !!}</td>
-                                        <td>{!! $inventory->quantity !!}</td>
                                         <td>
                                             <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>

@@ -1,3 +1,7 @@
+<?php
+$currentuserid = Auth::user()->id;
+$emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first();
+?>
 <style type="text/css">
     .nav-header
     {
@@ -64,6 +68,28 @@
                         <span class="nav-label">Back to Dashboard</span>
                     </a>
                 </li>                
+            @endif
+            @if($role->role_id == 3 && $emp_levels->level_id == 1)
+                <li>
+                    <a href="{{ route('all-users') }}">
+                        <i class="fa fa-users" title=""></i>
+                        <span class="nav-label">Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('finance') }}" title="Finance / Loan" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-money"></i>
+                        <span class="nav-label">Finance / Loan</span>
+                    </a>
+                </li>
+            @endif
+            @if($role->role_id == 5)
+                <li>
+                    <a href="{{ route('inventory') }}">
+                        <i class="fa fa-houzz" title=""></i>
+                        <span class="nav-label">Inventory</span>
+                    </a>
+                </li>
             @endif
             @if($role->role_id == 1 || $role->role_id == 3 || $role->role_id == 6 || $role->role_id == 8 || $role->role_id == 7 || $role->role_id == 9 || $role->role_id == 11)
                 <li>

@@ -35,7 +35,7 @@ $role_id = $role->role_id;
 	            <div class="ibox-content">
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table class="table table-striped table-bordered table-hover" id="example-table">
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
@@ -62,7 +62,7 @@ $role_id = $role->role_id;
                                         <td>
                                             <a data-id="{!! $lead->case_id !!}" id='{!! $lead->cust_fname." ".$lead->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Approve</a>
                                         </td>
-                                        <td>{!! $lead->case_id !!}</td>
+                                        <td><a href="{{ route('viewCase', ['case_id' => $lead->case_id]) }}">{!! $lead->case_id !!}</a></td>
                                         <td>{!! $lead->cust_fname." ".$lead->cust_lname !!}</td>
                                         <td><b>User : </b>{!! ($lead->fpo_user_id)?$lead->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($lead->gate_pass_cdf_user_name)?$lead->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($lead->coldwin_name)?$lead->coldwin_name:'N/A' !!}</td>
                                         <td><b>Purchase Details: </b>{!! ($lead->purchase_name)?$lead->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($lead->loan_name)?$lead->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($lead->sale_name)?$lead->sale_name:'N/A' !!}</td>
@@ -136,6 +136,10 @@ $role_id = $role->role_id;
             $('#cust_name').html(name);
             $('#setCasePrice').modal('show');
         });
-    });
+
+        $('#example-table').DataTable( {
+            "lengthMenu": [[3, 5, 10, 20, -1], [3, 5, 10, 20, "All"]]
+        } );
+    } );
 </script>
 @endsection

@@ -14,7 +14,7 @@ class InventoryController extends Controller
 
 		// Only authenticarte and admin user can enter here
 		$this->middleware('auth');
-		$this->middleware('adminOnly');
+		//$this->middleware('adminOnly');
 	}
 
 	// Show all inventory
@@ -188,7 +188,7 @@ class InventoryController extends Controller
             {
                 $temp = 1;
                 foreach ($data as $key => $value) {
-                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_name) && !empty($value->commodity) && !empty($value->price) && !empty($value->quality_category) && !empty($value->commodity_type))
+                    if(!empty($value->seller_mobile_no) && !empty($value->gate_pass_wr_no) && !empty($value->weight_bridge_sr_no) && !empty($value->truck_no) && !empty($value->stack_no)  && !empty($value->lot_no) && !empty($value->net_weight) && !empty($value->terminal_id) && !empty($value->commodity) && !empty($value->price) && !empty($value->quality_category) && !empty($value->commodity_type))
                     {
                         //CHeck this is number is active or not
                         $check_number = DB::table('users')->where('phone', $value->seller_mobile_no)->first();
@@ -199,7 +199,7 @@ class InventoryController extends Controller
                             if(empty($check_gate_pass))
                             {
                                 // Check Werehouse is exist or not
-                                $check_warehouse = DB::table('warehouses')->where('name', $value->terminal_name)->first();
+                                $check_warehouse = DB::table('warehouses')->where('warehouse_code', $value->terminal_id)->first();
                                 if(!empty($check_warehouse))
                                 {
                                     //Check Commodity 
@@ -221,7 +221,7 @@ class InventoryController extends Controller
                                         $stack_no            =  $value->stack_no;
                                         $lot_no              =  $value->lot_no;
                                         $net_weight          =  $value->net_weight;
-                                        $terminal_name       =  $value->terminal_name;
+                                        $terminal_id         =  $value->terminal_id;
                                         $commodity           =  $value->commodity;
                                         //$quantity            =  $value->quantity_bags;
                                         $price               =  $value->price;
@@ -264,7 +264,7 @@ class InventoryController extends Controller
                                         break;
                                     }
                                 }else{
-                                    $msg .= 'Terminal Name is wrong in row no. '.$temp."<br />";
+                                    $msg .= 'Terminal ID is wrong in row no. '.$temp."<br />";
                                     break;
                                 }
 

@@ -321,6 +321,21 @@ $role_id = $role->role_id;
         $('.setPrice').on('click', function(){
             var case_id = $(this).attr('data-id');
             var name = $(this).attr('id');
+
+            //Check vechile number is already exist
+            $.ajax({
+                method : 'post',
+                url: "{{ route('checkVehicleNo') }}",
+                async : true,
+                data : {"_token": "{{ csrf_token() }}", 'case_id' : case_id},
+                success:function(response)
+                {
+                    if(response){
+                        alert('Vechile Number is duplicate. Please Check this Case.');
+                    }
+                }
+            });
+
             $('#case_id_val').html(case_id);
             $('#hidden_case_id').val(case_id);
             $('#cust_name').html(name);

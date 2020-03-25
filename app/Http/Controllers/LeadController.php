@@ -28,6 +28,40 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+            // Show all users
+    public function all_users()
+    {
+        $users = DB::table('user_details')
+                ->join('user_roles', 'user_roles.user_id', '=', 'user_details.user_id')
+                ->select('user_details.*', 'user_roles.role_id')
+                ->where('status', 1)
+                ->where('user_details.user_id', '!=', 1)
+                ->get();
+        return view('mis.users', array('users' => $users));
+    }
+
+    // User view
+    public function user_view_by_account(Request $request){
+
+        $user_id = $request->user_id;
+
+        // Get user details by user id
+        $user = DB::table('user_details')->where('user_id', $user_id)->first();
+
+        $role = DB::table('user_roles')->where('user_id', $user_id)->first();
+
+        //Get State
+        $state = DB::table('states')->get();
+        $states = array();
+        foreach($state as $key => $value)
+        {
+            $states[$value->name] = $value->name;
+        }
+
+        return view('mis.user_view', array('user' => $user, 'role' => $role, 'states' => $states));
+    }
+
     public function index()
     {
         //Get All Terminals 

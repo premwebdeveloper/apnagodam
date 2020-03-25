@@ -93,6 +93,9 @@ Route::post('/getWarehouseDistance', 'AjaxController@getWarehouseDistance')->nam
 /* ********************** Admin routes start here *************************** */
 /* ************************************************************************** */
 
+// Update User Profile by Admin
+Route::any('/updateUserProfile', 'AdminController@updateUserProfile')->name('updateUserProfile');
+
 // Change password view
 Route::get('/change_password_view', 'AdminController@change_password_view')->name('change_password_view');
 Route::post('/change_password', 'AdminController@change_password')->name('change_password');
@@ -286,6 +289,9 @@ Route::get('/delete_mandi_samiti/{id}', 'AdminController@delete_mandi_samiti')->
 /*************************************************************************************/
 /*************************************************************************************/
 
+Route::get('/all-users', 'LeadController@all_users')->name('all-users');
+Route::get('/user_view_by_account/{user_id}', 'LeadController@user_view_by_account')->name('user_view_by_account');
+
 Route::get('/employees', 'MisController@index')->name('employees');
 Route::post('/getEmp', 'MisController@getEmp')->name('getEmp');
 Route::post('/addEmployee', 'MisController@addEmployee')->name('addEmployee');
@@ -315,6 +321,7 @@ Route::get('/cancelledCases', 'CaseGenController@cancelledCases')->name('cancell
 Route::any('/emp-profile/{id}', 'MisController@emp_profile')->name('emp-profile');
 Route::any('/getDistrict', 'HomeController@getDistrict')->name('getDistrict');
 
+Route::any('/checkVehicleNo', 'CaseGenController@checkVehicleNo')->name('checkVehicleNo');
 Route::get('/pricing', 'CaseGenController@pricing')->name('pricing');
 Route::post('/addPrice', 'CaseGenController@addPrice')->name('addPrice');
 Route::get('/close_case/{id}', 'CaseGenController@close_case')->name('close_case');

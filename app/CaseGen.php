@@ -30,6 +30,19 @@ class CaseGen extends Model
         return $data;
     }
 
+    //Get Case By Id Status 1
+    public function scopegetSingleCaseByIdStatus($query, $id)
+    {
+        $data = DB::table('apna_case')->where(['case_id' => $id, 'status' => 1])->first();
+        return $data;
+    }
+
+    //Get Case By Vehicle Status 1
+    public function scopegetSingleCaseByVehicleStatus($query, $vehicle_no)
+    {
+        $data = DB::table('apna_case')->where(['vehicle_no' => $vehicle_no, 'status' => 1])->first();
+        return $data;
+    }
 
     // Get lead User Data
     public function scopegetleadUserData($query, $phone)
@@ -134,6 +147,19 @@ class CaseGen extends Model
                 'apna_case_truck_payment.created_at as truck_payment_update_time',
                 'apna_case_labour_payment.created_at as labour_payment_update_time',
                 'apna_case_payment_received.created_at as payment_received_update_time',
+
+                'apna_case_kanta_parchi.file as kanta_parchi_file',
+                'apna_case_quality_report.imge as quality_report_file',
+                'apna_case_second_kanta_parchi.file as second_kanta_parchi_file',
+                'apna_case_second_quality_report.imge as second_quality_report_file',
+                'apna_case_gate_pass.file as gate_pass_file',
+                'apna_case_e_mandi.file as e_mandi_file',
+                'apna_case_quality_claim.imge as quality_claim_file',
+                'apna_case_accounts.invoice as accounts_file',
+                'apna_case_truck_payment.file as truck_payment_file',
+                'apna_case_labour_payment.file as labour_payment_file',
+                'apna_case_payment_received.file as payment_received_file',
+
                 'lead_generator.fname as lead_gen_fname',
                 'lead_generator.lname as lead_gen_lname',
                 'lead_conv.fname as lead_conv_fname',
@@ -222,6 +248,22 @@ class CaseGen extends Model
                 'apna_case_truck_payment.created_at as truck_payment_update_time',
                 'apna_case_labour_payment.created_at as labour_payment_update_time',
                 'apna_case_payment_received.created_at as payment_received_update_time',
+                'apna_case_kanta_parchi.file as kanta_parchi_file',
+                'apna_case_quality_report.imge as quality_report_file',
+                'apna_case_second_kanta_parchi.file as second_kanta_parchi_file',
+                'apna_case_second_quality_report.imge as second_quality_report_file',
+                'apna_case_release_order.file as release_order_file',
+                'apna_case_delivery_order.file as delivery_order_file',
+                'apna_case_gate_pass.file as gate_pass_file',
+                'apna_case_e_mandi.file as e_mandi_file',
+                'apna_case_quality_claim.imge as quality_claim_file',
+                'apna_case_cctv.file as cctv_file',
+                'apna_case_cctv.file_2 as cctv_file_2',
+                'apna_case_commodity_withdrawal.file as commodity_withdrawal_file',
+                'apna_case_accounts.invoice as accounts_file',
+                'apna_case_truck_payment.file as truck_payment_file',
+                'apna_case_labour_payment.file as labour_payment_file',
+                'apna_case_payment_received.file as payment_received_file',
                 'lead_generator.fname as lead_gen_fname',
                 'lead_generator.lname as lead_gen_lname',
                 'lead_conv.fname as lead_conv_fname',
@@ -304,6 +346,22 @@ class CaseGen extends Model
                 'apna_case_payment_received.created_at as payment_received_update_time',
                 'apna_case_warehouse_receipt.created_at as warehouse_receipt_update_time',
                 'apna_case_storage_receipt.created_at as storage_receipt_update_time',
+                'apna_case_kanta_parchi.file as kanta_parchi_file',
+                'apna_case_quality_report.imge as quality_report_file',
+                'apna_case_second_kanta_parchi.file as second_kanta_parchi_file',
+                'apna_case_second_quality_report.imge as second_quality_report_file',
+                'apna_case_gate_pass.file as gate_pass_file',
+                'apna_case_e_mandi.file as e_mandi_file',
+                'apna_case_quality_claim.imge as quality_claim_file',
+                'apna_case_cctv.file as cctv_file',
+                'apna_case_cctv.file_2 as cctv_file_2',
+                'apna_case_cdf.file as cdf_file',
+                'apna_case_accounts.invoice as accounts_file',
+                'apna_case_truck_payment.file as truck_payment_file',
+                'apna_case_labour_payment.file as labour_payment_file',
+                'apna_case_payment_received.file as payment_received_file',
+                'apna_case_warehouse_receipt.file as warehouse_receipt_file',
+                'apna_case_storage_receipt.file as storage_receipt_file',
                 'lead_generator.fname as lead_gen_fname',
                 'lead_generator.lname as lead_gen_lname',
                 'lead_conv.fname as lead_conv_fname',
@@ -1030,7 +1088,7 @@ class CaseGen extends Model
             ->leftjoin('apna_case_cctv', 'apna_case_cctv.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_pricing', 'apna_case_pricing.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_cctv.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_cctv.case_id as cctv_case_id', 'apna_case_cctv.file', 'apna_case_pricing.transaction_type', 'apna_case_cctv.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_cctv.case_id as cctv_case_id', 'apna_case_cctv.file',  'apna_case_cctv.file_2', 'apna_case_pricing.transaction_type', 'apna_case_cctv.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->groupBy('apna_case.case_id')
@@ -1048,6 +1106,7 @@ class CaseGen extends Model
             'user_id' => $data['user_id'],
             'case_id' => $data['case_id'],
             'file' => $data['file'],
+            'file_2' => $data['file_2'],
             'notes' => $data['notes'],
             'created_at' => $date,
             'updated_at' => $date,
@@ -1254,7 +1313,7 @@ class CaseGen extends Model
         return $price;
     }
 
-    // Update Labour Payment
+    // Get Completed Cases
     public function scopecompleteCase($query, $case_id, $notes)
     {
         $date = date('Y-m-d H:i:s');
@@ -1268,7 +1327,7 @@ class CaseGen extends Model
         return $price;
     }
 
-    // Get Approval Cases for Pass Cases
+    // Get Case Details
     public function scopegetPassCaseDetails($query, $case_id)
     {
         $case = DB::table('apna_case')

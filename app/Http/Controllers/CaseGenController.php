@@ -1562,7 +1562,42 @@ class CaseGenController extends Controller
             return redirect('cctv')->with('error', $status);  
         }
 
+        if($request->hasFile('report_file_2')) {
+
+            $file = $request->report_file_2;
+
+            $img_name_2 = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name_2, PATHINFO_EXTENSION);
+
+            $img_name_2 = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name_2 .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png','bmp','pdf'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('cctv')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 3052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('cctv')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/cctv/';
+            $file->move($destinationPath,$img_name_2);
+            $filepath = $destinationPath.$img_name_2;
+        }
+
         $data['file'] = $img_name;
+        $data['file_2'] = $img_name_2;
 
         //Insert Data
         $insert = CaseGen::updateCCTV($data);
@@ -2050,9 +2085,8 @@ class CaseGenController extends Controller
         else
         {
             $status = 'Something went wrong !';
-        }
-        
-        return redirect('completedCases')->with('status', $status);  
+        }        
+        return redirect()->back()->with('status', $status);  
     }
 
     //View Case 
@@ -2084,4 +2118,20 @@ class CaseGenController extends Controller
 
     }
 
+    //check Vehicle No.
+    public function checkVehicleNo(Request $request)
+    {
+        $case_id = $request->case_id;
+
+        //Get Case Id Details for Pass / In / Out
+        $case = CaseGen::getSingleCaseByIdStatus($case_id);
+
+        //Get Same Vehicle No 
+        $cases = CaseGen::getSingleCaseByVehicleStatus($case->vehicle_no);
+        if(count((array)$cases) > 1){
+            echo 1;
+        }else{            
+            echo 0;
+        }
+    }
 }

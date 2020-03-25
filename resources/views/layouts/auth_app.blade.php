@@ -15,7 +15,7 @@ $temp = explode('@', $controllerAction);
 
 @include('includes.auth_head')
 
-@if($temp[0] == 'LeadController' || $temp[0] == 'CaseGenController')
+@if($temp[0] == 'LeadController' || $temp[0] == 'InventoryController' || $temp[0] == 'FinanceController' || $temp[0] == 'CaseGenController')
 	@include('includes.auth_mis_sidebar')
 @else
 	@if($role->role_id == 1 || $role->role_id == 2 || $role->role_id == 4)

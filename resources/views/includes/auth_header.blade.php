@@ -170,7 +170,7 @@
 
     $case_gen = CaseGen::getCaseTruckBook();
     $n = 0;
-    foreach($case_gen as $key => $case){        
+    foreach($case_gen as $key => $case){
         if(!$case->t_b_case_id){
             if($case->in_out == 'PASS'){
                 if($role_id == 1 || $role_id == 8 || $role_id == 6){
@@ -543,7 +543,7 @@
                 }
             }elseif($case->in_out == 'IN'){
                 if($role_id == 1 || $role_id == 8 || $role_id == 3){
-                    $res = DB::table('apna_case_e_mandi')->where('case_id', $case->case_id)->first();
+                    $res = DB::table('apna_case_accounts')->where('case_id', $case->case_id)->first();
                     if($res)
                     {
                         $notifications++;
@@ -754,11 +754,15 @@
     $case_gen = CaseGen::getDeliveryOrder();
     $n = 0;
     foreach($case_gen as $key => $case){
-        if(!$case->d_o_case_id){
-            if($case->in_out == 'OUT'){
-                if($role_id == 1 || $role_id == 9 || $role_id == 8){
+        if(!$case->d_o_case_id)
+        {
+            if($case->in_out == 'OUT')
+            {
+                if($role_id == 1 || $role_id == 9 || $role_id == 8)
+                {
                     $res = DB::table('apna_case_release_order')->where('case_id', $case->case_id)->first();
-                    if($res){
+                    if($res)
+                    {
                         $notifications++;
                         $n++;
                     }            
@@ -844,7 +848,7 @@
 
 
     //Notification Bell
-    if($notifications > 0)
+    /*if($notifications > 0)
     {
         ?>
         <script type="text/javascript">
@@ -854,7 +858,7 @@
             });
         </script>
         <?php
-    }
+    }*/
 
 ?>
 <div id="page-wrapper" class="gray-bg dashbard-1">

@@ -60,10 +60,12 @@
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
+                                    <th>Action</th>
                                     <th>Name</th>
                                     <th>Phone</th>
                                     <th>Father</th>
                                     <th>Aadhar Number</th>
+                                    <th>Pancard Number</th>
                                     <th>Bank Name</th>
                                     <th>Bank Branch</th>
                                     <th>Bank Ac No</th>
@@ -73,17 +75,25 @@
                                     <th>District</th>
                                     <th>Referral Code</th>
                                     <th>Transfer Amount</th>
-                                    <th>Action</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
                                 @foreach($users as $key => $user)
 	                                <tr class="gradeX">
                                         <td><input type="checkbox" class="" id="user_group" value="{!! $user->user_id !!}" name="user_ids[]"></td>
+                                        <td>
+                                            <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" title="View">
+                                                Update/View
+                                            </a>
+                                            <!-- <a href="{!! route('user_delete', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete User">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a> -->
+                                        </td>
                                         <td>{!! $user->fname . $user->lname !!}</td>
                                         <td>{!! $user->phone !!}</td>
                                         <td>{!! $user->father_name !!}</td>
                                         <td>{!! $user->aadhar_no !!}</td>
+                                        <td>{!! $user->pancard_no !!}</td>
                                         <td>{!! $user->bank_name !!}</td>
                                         <td>{!! $user->bank_branch !!}</td>
                                         <td>{!! $user->bank_acc_no !!}</td>
@@ -93,19 +103,6 @@
                                         <td>{!! $user->district !!}</td>
                                         <td><a class="referred_by" href="javascript:;" id="{!! $user->referral_code !!}">{!! $user->referral_code !!}</a></td>
                                         <td>{!! $user->transfer_amount !!}</td>
-                                        <td>
-                                            <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" title="View">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
-                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2)
-                                            <a href="{!! route('user_edit_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" title="Edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{!! route('user_delete', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete User">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                            @endif
-                                        </td>
 	                                </tr>
                                 @endforeach
 	                        </tbody>

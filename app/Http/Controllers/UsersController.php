@@ -31,16 +31,20 @@ class UsersController extends Controller
         $user = DB::table('user_details')->where('user_id', $currentuserid)->first();
         $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
 
-        return view("user.profile", array('user' => $user, 'role' => $role));
+        //Get State
+        $state = DB::table('states')->get();
+        $states = array();
+        foreach($state as $key => $value)
+        {
+            $states[$value->name] = $value->name;
+        }
+
+        return view("user.profile", array('user' => $user, 'role' => $role, 'states' => $states));
     }
 
     // User profile view
     public function updateProfileImage(Request $request)
     {
-        $request->validate([
-            'profile_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
         $date = date('Y-m-d H:i:s');
         $user_id = Auth::user()->id;
 
@@ -77,12 +81,159 @@ class UsersController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
             $file->move($destinationPath,$profile_image);
             $filepath = $destinationPath.$profile_image;
-            $update = DB::table('user_details')->where('user_id', $user_id)->update(['image' => $profile_image, 'updated_at' => $date]);
-            return redirect('profile')->with('success', 'Profile Image updated successfully.');
         }else{
-            return redirect('profile')->with('success', 'Something went wrong.');
+            $profile_image = $request->profile_img;
         }
 
+        $user_type = $request->user_type;
+        if($user_type == 1)
+        {
+            $data['father_name'] = $father_name = $request->father_name;
+        }
+        if($user_type == 2)
+        {
+            $data['mandi_license'] = $mandi_license = $request->license;
+            $data['gst_number'] = $gst_number = $request->gst;
+        }
+
+        $data['aadhar_no'] = $aadhar_no = $request->aadhar_no;
+        $data['pancard_no'] = $pancard_no = $request->pancard_no;
+        $data['address'] = $address = $request->address;
+        $data['area_vilage'] = $area_vilage = $request->area_vilage;
+        $data['district'] = $district = $request->district;
+        $data['state'] = $state = $request->state;
+        $data['pincode'] = $pincode = $request->pincode;
+        $data['user_type'] = $user_type = $request->user_type;
+        $data['bank_name'] = $bank_name = $request->bank_name;
+        $data['bank_branch'] = $bank_branch = $request->bank_branch;
+        $data['bank_acc_no'] = $bank_acc_no = $request->bank_acc_no;
+        $data['bank_ifsc_code'] = $bank_ifsc_code = $request->bank_ifsc_code;
+
+        # If user profile image uploaded then
+        if($request->hasFile('aadhar_image')) {
+
+            $file = $request->aadhar_image;
+
+            $aadhar_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($aadhar_name, PATHINFO_EXTENSION);
+
+            $aadhar_name = substr(md5(microtime()),rand(0,26),6);
+
+            $aadhar_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('farmer_register')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('farmer_register')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
+            $file->move($destinationPath,$aadhar_name);
+            $filepath = $destinationPath.$aadhar_name;
+        }else{
+            $aadhar_name = $request->aadhar_img;
+        }
+
+        # If user profile image uploaded then
+        if($request->hasFile('cheque_image')) {
+
+            $file = $request->cheque_image;
+
+            $cheque_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($cheque_name, PATHINFO_EXTENSION);
+
+            $cheque_name = substr(md5(microtime()),rand(0,26),6);
+
+            $cheque_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('farmer_register')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 2052030){
+                $status = 'File size is too large. Please upload file less than 2MB !';
+                return redirect('farmer_register')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/frontend_assets/uploads/';
+            $file->move($destinationPath,$cheque_name);
+            $filepath = $destinationPath.$cheque_name;
+        }else{
+            $cheque_name = $request->cheque_img;
+        }
+
+        if($user_type == 1)
+        {
+            $update = DB::table('user_details')
+                        ->where('user_id', $user_id)
+                        ->update([
+                                'father_name' => $father_name,
+                                'aadhar_no' => $aadhar_no,
+                                'pancard_no' => $pancard_no,
+                                'address' => $address,
+                                'area_vilage' => $area_vilage,
+                                'city' => $district,
+                                'state' => $state,
+                                'pincode' => $pincode,
+                                'bank_name' => $bank_name,
+                                'bank_branch' => $bank_branch,
+                                'bank_acc_no' => $bank_acc_no,
+                                'bank_ifsc_code' => $bank_ifsc_code,
+                                'image' => $profile_image,
+                                'aadhar_image' => $aadhar_name,
+                                'cheque_image' => $cheque_name,
+                                'updated_at' => $date,
+                        ]);
+        }
+
+        if($user_type == 2)
+        {
+            $update = DB::table('user_details')
+                        ->where('user_id', $user_id)
+                        ->update([
+                                'mandi_license' => $mandi_license,
+                                'gst_number' => $gst_number,
+                                'aadhar_no' => $aadhar_no,
+                                'pancard_no' => $pancard_no,
+                                'address' => $address,
+                                'area_vilage' => $area_vilage,
+                                'city' => $district,
+                                'state' => $state,
+                                'pincode' => $pincode,
+                                'bank_name' => $bank_name,
+                                'bank_branch' => $bank_branch,
+                                'bank_acc_no' => $bank_acc_no,
+                                'bank_ifsc_code' => $bank_ifsc_code,
+                                'image' => $profile_image,
+                                'aadhar_image' => $aadhar_name,
+                                'cheque_image' => $cheque_name,
+                                'updated_at' => $date,
+                        ]);
+        }
+
+
+        return redirect('profile')->with('success', 'Profile updated successfully.');
     }
 
     // get_total_loan_amount
