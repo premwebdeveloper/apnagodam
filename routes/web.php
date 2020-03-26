@@ -302,6 +302,7 @@ Route::get('/leads', 'LeadController@index')->name('leads');
 Route::post('/get_lead', 'LeadController@get_lead')->name('get_lead');
 Route::post('/createLead', 'LeadController@create')->name('createLead');
 Route::post('/update_lead', 'LeadController@update_lead')->name('update_lead');
+Route::any('/getLastGatePass', 'LeadController@getLastGatePass')->name('getLastGatePass');
 
 Route::get('/caseGen', 'CaseGenController@index')->name('caseGen');
 Route::post('/getLeadGenRec', 'CaseGenController@getLeadGenRec')->name('getLeadGenRec');
@@ -391,6 +392,9 @@ Route::post('/addDeliveryOrder', 'CaseGenController@addDeliveryOrder')->name('ad
 
 Route::get('/commodity_withdrawal', 'CaseGenController@commodity_withdrawal')->name('commodity_withdrawal');
 Route::post('/addCommodityWithdrawal', 'CaseGenController@addCommodityWithdrawal')->name('addCommodityWithdrawal');
+
+Route::get('/ivr_tagging', 'CaseGenController@ivr_tagging')->name('ivr_tagging');
+Route::post('/addIvrTagging', 'CaseGenController@addIvrTagging')->name('addIvrTagging');
 
 Route::post('/caseApprove', 'CaseGenController@caseApprove')->name('caseApprove');
 Route::get('/viewCase/{case_id}', 'CaseGenController@viewCase')->name('viewCase');
