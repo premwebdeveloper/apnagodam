@@ -235,9 +235,25 @@ class LeadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function getLastGatePass(Request $request)
     {
-        //
+        $terminal_id = $request->terminal_id;
+
+        //Get Last Gatepass Number
+        $termianl_gate_pass = DB::table('apna_case')
+                            ->where('terminal_id', $terminal_id)
+                            ->orderBy('gate_pass', 'DESC')
+                            ->first();
+        if($termianl_gate_pass){
+            echo $gate_pass = ++$termianl_gate_pass->gate_pass;
+        }else{
+            $terminal = DB::table('warehouses')->where('id', $terminal_id)->first();
+            if($terminal){
+                echo $terminal->gatepass_start;
+            }else{
+                echo 0;
+            }
+        }
     }
 
     /**

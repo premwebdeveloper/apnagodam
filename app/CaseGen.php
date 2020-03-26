@@ -101,6 +101,7 @@ class CaseGen extends Model
             ->leftjoin('apna_case_gate_pass', 'apna_case_gate_pass.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_e_mandi', 'apna_case_e_mandi.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_accounts', 'apna_case_accounts.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_ivr_tagging', 'apna_case_ivr_tagging.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_start', 'apna_case_shipping_start.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_end', 'apna_case_shipping_end.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_quality_claim', 'apna_case_quality_claim.case_id', '=', 'apna_case.case_id')
@@ -125,6 +126,7 @@ class CaseGen extends Model
                 'apna_case_e_mandi.case_id as e_mandi_case_id',
                 'apna_case_accounts.case_id as accounts_case_id',
                 'apna_case_pricing.transaction_type',
+                'apna_case_ivr_tagging.case_id as ivr_tagging_case_id',
                 'apna_case_shipping_start.case_id as shipping_start_case_id',
                 'apna_case_shipping_end.case_id as shipping_end_case_id',
                 'apna_case_quality_claim.case_id as quality_claim_case_id',
@@ -141,6 +143,7 @@ class CaseGen extends Model
                 'apna_case_gate_pass.created_at as gate_pass_update_time',
                 'apna_case_e_mandi.created_at as e_mandi_update_time',
                 'apna_case_accounts.created_at as accounts_update_time',
+                'apna_case_ivr_tagging.created_at as ivr_tagging_update_time',
                 'apna_case_shipping_start.created_at as shipping_start_update_time',
                 'apna_case_shipping_end.created_at as shipping_end_update_time',
                 'apna_case_quality_claim.created_at as quality_claim_update_time',
@@ -154,6 +157,7 @@ class CaseGen extends Model
                 'apna_case_second_quality_report.imge as second_quality_report_file',
                 'apna_case_gate_pass.file as gate_pass_file',
                 'apna_case_e_mandi.file as e_mandi_file',
+                'apna_case_ivr_tagging.file as ivr_tagging_file',
                 'apna_case_quality_claim.imge as quality_claim_file',
                 'apna_case_accounts.invoice as accounts_file',
                 'apna_case_truck_payment.file as truck_payment_file',
@@ -194,6 +198,7 @@ class CaseGen extends Model
             ->leftjoin('apna_case_cctv', 'apna_case_cctv.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_commodity_withdrawal', 'apna_case_commodity_withdrawal.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_accounts', 'apna_case_accounts.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_ivr_tagging', 'apna_case_ivr_tagging.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_start', 'apna_case_shipping_start.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_end', 'apna_case_shipping_end.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_quality_claim', 'apna_case_quality_claim.case_id', '=', 'apna_case.case_id')
@@ -223,6 +228,7 @@ class CaseGen extends Model
                 'apna_case_commodity_withdrawal.case_id as commodity_withdrawal_case_id',
                 'apna_case_accounts.case_id as accounts_case_id',
                 'apna_case_shipping_start.case_id as shipping_start_case_id',
+                'apna_case_ivr_tagging.case_id as ivr_tagging_case_id',
                 'apna_case_shipping_end.case_id as shipping_end_case_id',
                 'apna_case_quality_claim.case_id as quality_claim_case_id',
                 'apna_case_truck_payment.case_id as truck_payment_case_id',
@@ -242,6 +248,7 @@ class CaseGen extends Model
                 'apna_case_cctv.created_at as cctv_update_time',
                 'apna_case_commodity_withdrawal.created_at as commodity_withdrawal_update_time',
                 'apna_case_accounts.created_at as accounts_update_time',
+                'apna_case_ivr_tagging.created_at as ivr_tagging_update_time',
                 'apna_case_shipping_start.created_at as shipping_start_update_time',
                 'apna_case_shipping_end.created_at as shipping_end_update_time',
                 'apna_case_quality_claim.created_at as quality_claim_update_time',
@@ -257,6 +264,7 @@ class CaseGen extends Model
                 'apna_case_gate_pass.file as gate_pass_file',
                 'apna_case_e_mandi.file as e_mandi_file',
                 'apna_case_quality_claim.imge as quality_claim_file',
+                'apna_case_ivr_tagging.file as ivr_tagging_file',
                 'apna_case_cctv.file as cctv_file',
                 'apna_case_cctv.file_2 as cctv_file_2',
                 'apna_case_commodity_withdrawal.file as commodity_withdrawal_file',
@@ -297,6 +305,7 @@ class CaseGen extends Model
             ->leftjoin('apna_case_cctv', 'apna_case_cctv.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_cdf', 'apna_case_cdf.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_accounts', 'apna_case_accounts.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_ivr_tagging', 'apna_case_ivr_tagging.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_truck_payment', 'apna_case_truck_payment.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_labour_payment', 'apna_case_labour_payment.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_payment_received', 'apna_case_payment_received.case_id', '=', 'apna_case.case_id')
@@ -323,6 +332,7 @@ class CaseGen extends Model
                 'apna_case_cctv.case_id as cctv_case_id',
                 'apna_case_cdf.case_id as cdf_case_id',
                 'apna_case_accounts.case_id as accounts_case_id',
+                'apna_case_ivr_tagging.case_id as ivr_tagging_case_id',
                 'apna_case_truck_payment.case_id as truck_payment_case_id',
                 'apna_case_labour_payment.case_id as labour_payment_case_id',
                 'apna_case_payment_received.case_id as payment_received_case_id',
@@ -341,6 +351,7 @@ class CaseGen extends Model
                 'apna_case_cctv.created_at as cctv_update_time',
                 'apna_case_cdf.created_at as cdf_update_time',
                 'apna_case_accounts.created_at as accounts_update_time',
+                'apna_case_ivr_tagging.created_at as ivr_tagging_update_time',
                 'apna_case_truck_payment.created_at as truck_payment_update_time',
                 'apna_case_labour_payment.created_at as labour_payment_update_time',
                 'apna_case_payment_received.created_at as payment_received_update_time',
@@ -357,6 +368,7 @@ class CaseGen extends Model
                 'apna_case_cctv.file_2 as cctv_file_2',
                 'apna_case_cdf.file as cdf_file',
                 'apna_case_accounts.invoice as accounts_file',
+                'apna_case_ivr_tagging.file as ivr_tagging_file',
                 'apna_case_truck_payment.file as truck_payment_file',
                 'apna_case_labour_payment.file as labour_payment_file',
                 'apna_case_payment_received.file as payment_received_file',
@@ -634,7 +646,7 @@ class CaseGen extends Model
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_kanta_parchi', 'apna_case_kanta_parchi.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_kanta_parchi.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_kanta_parchi.case_id as k_p_case_id', 'apna_case_kanta_parchi.rst_no', 'apna_case_kanta_parchi.bags', 'apna_case_kanta_parchi.gross_weight', 'apna_case_kanta_parchi.tare_weight', 'apna_case_kanta_parchi.net_weight', 'apna_case_kanta_parchi.gross_date_time', 'apna_case_kanta_parchi.tare_date_time', 'apna_case_kanta_parchi.charges', 'apna_case_kanta_parchi.vehicle_no', 'apna_case_kanta_parchi.kanta_name', 'apna_case_kanta_parchi.kanta_place', 'apna_case_kanta_parchi.file', 'apna_case_kanta_parchi.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_kanta_parchi.case_id as k_p_case_id', 'apna_case_kanta_parchi.rst_no', 'apna_case_kanta_parchi.bags', 'apna_case_kanta_parchi.gross_weight', 'apna_case_kanta_parchi.tare_weight', 'apna_case_kanta_parchi.net_weight', 'apna_case_kanta_parchi.gross_date_time', 'apna_case_kanta_parchi.tare_date_time', 'apna_case_kanta_parchi.charges', 'apna_case_kanta_parchi.vehicle_no', 'apna_case_kanta_parchi.kanta_name', 'apna_case_kanta_parchi.kanta_place', 'apna_case_kanta_parchi.file', 'apna_case_kanta_parchi.file_2', 'apna_case_kanta_parchi.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->groupBy('apna_case.case_id')
@@ -662,6 +674,7 @@ class CaseGen extends Model
             'kanta_name' => $data['kanta_name'],
             'kanta_place' => $data['kanta_place'],*/
             'file' => $data['file'],
+            'file_2' => $data['file_2'],
             'notes' => $data['notes'],
             'created_at' => $date,
             'updated_at' => $date,
@@ -758,7 +771,7 @@ class CaseGen extends Model
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_second_kanta_parchi', 'apna_case_second_kanta_parchi.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_second_kanta_parchi.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_second_kanta_parchi.case_id as s_k_p_case_id', 'apna_case_second_kanta_parchi.rst_no', 'apna_case_second_kanta_parchi.bags', 'apna_case_second_kanta_parchi.gross_weight', 'apna_case_second_kanta_parchi.tare_weight', 'apna_case_second_kanta_parchi.net_weight', 'apna_case_second_kanta_parchi.gross_date_time', 'apna_case_second_kanta_parchi.tare_date_time', 'apna_case_second_kanta_parchi.charges', 'apna_case_second_kanta_parchi.vehicle_no', 'apna_case_second_kanta_parchi.kanta_name', 'apna_case_second_kanta_parchi.kanta_place', 'apna_case_second_kanta_parchi.file', 'apna_case_second_kanta_parchi.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_second_kanta_parchi.case_id as s_k_p_case_id', 'apna_case_second_kanta_parchi.rst_no', 'apna_case_second_kanta_parchi.bags', 'apna_case_second_kanta_parchi.gross_weight', 'apna_case_second_kanta_parchi.tare_weight', 'apna_case_second_kanta_parchi.net_weight', 'apna_case_second_kanta_parchi.gross_date_time', 'apna_case_second_kanta_parchi.tare_date_time', 'apna_case_second_kanta_parchi.charges', 'apna_case_second_kanta_parchi.vehicle_no', 'apna_case_second_kanta_parchi.kanta_name', 'apna_case_second_kanta_parchi.kanta_place', 'apna_case_second_kanta_parchi.file', 'apna_case_second_kanta_parchi.file_2', 'apna_case_second_kanta_parchi.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->groupBy('apna_case.case_id')
@@ -786,6 +799,7 @@ class CaseGen extends Model
             'kanta_name' => $data['kanta_name'],
             'kanta_place' => $data['kanta_place'],*/
             'file' => $data['file'],
+            'file_2' => $data['file_2'],
             'notes' => $data['notes'],
             'created_at' => $date,
             'updated_at' => $date,
@@ -1302,6 +1316,39 @@ class CaseGen extends Model
 
         //Inset Data
         $price = DB::table('apna_case_commodity_withdrawal')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
+    // IVR Tagging
+    public function scopegetIvrTagging()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_ivr_tagging', 'apna_case_ivr_tagging.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_ivr_tagging.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_ivr_tagging.case_id as i_t_case_id', 'apna_case_ivr_tagging.file', 'apna_case_ivr_tagging.notes', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
+            ->get();
+        return $case;
+    }
+
+    // Update IVR Tagging
+    public function scopeupdateIvrTagging($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_ivr_tagging')->insert([
             'user_id' => $data['user_id'],
             'case_id' => $data['case_id'],
             'file' => $data['file'],

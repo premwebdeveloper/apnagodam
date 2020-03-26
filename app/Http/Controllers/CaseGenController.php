@@ -165,13 +165,24 @@ class CaseGenController extends Controller
             'in_out'      => 'required',
             'purpose'      => 'required',
         ]);
+        $data['gate_pass'] = $gate_pass = strtoupper($request->gate_pass);
 
+        //Check Gate Pass in Between or Not
+        $checked = DB::table('warehouses')
+                    ->where('gatepass_start', '>=', $gate_pass)
+                    ->where('gatepass_end', '<=', $gate_pass)
+                    ->first();
+        if(!$checked)
+        {
+            $status = 'Gate pass number is not in series! please contact to admin.';
+            return redirect()->back()->with('error', $status);
+        }
+        
         $currentuserid = Auth::user()->id;
 
         $data['user_id'] = $user_id = $currentuserid;
         $data['terminal_id'] = $terminal_id = $request->terminal_id;
         $data['in_out'] = $in_out = $request->in_out;
-        $data['gate_pass'] = $gate_pass = strtoupper($request->gate_pass);
         $customer_phone = $request->customer_uid;
         $data['quantity'] = $quantity = $request->quantity;
         $data['location'] = $location = ucfirst($request->location);
@@ -355,7 +366,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('quality_report')->with('status', $status);
             }
@@ -433,7 +444,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('gate_pass')->with('error', $status);
             }
@@ -488,7 +499,7 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_kanta_parchi',
-            'report_file'    => 'required',
+            'file'    => 'required',
         ]);
         /*$request->validate([
             'bags'    => 'required',
@@ -519,9 +530,9 @@ class CaseGenController extends Controller
 
         $img_name = null;
 
-        if($request->hasFile('report_file')) {
+        if($request->hasFile('file')) {
 
-            $file = $request->report_file;
+            $file = $request->file;
 
             $img_name = $file->getClientOriginalName();
 
@@ -543,7 +554,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('kanta_parchi')->with('status', $status);
             }
@@ -554,6 +565,42 @@ class CaseGenController extends Controller
         }
 
         $data['file'] = $img_name;
+
+        if($request->hasFile('file_2')) {
+
+            $file = $request->file_2;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('kanta_parchi')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 4052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('kanta_parchi')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/kanta_parchi/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }
+
+        $data['file_2'] = $img_name;
 
         //Insert Data
         $insert = CaseGen::updateKantaParchi($data);
@@ -810,7 +857,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('second_quality_report')->with('status', $status);
             }
@@ -850,7 +897,8 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_second_kanta_parchi',
-            'report_file'    => 'required',
+            'file'    => 'required',
+            'file_2'    => 'required',
         ]);
         
         $currentuserid = Auth::user()->id;
@@ -860,9 +908,9 @@ class CaseGenController extends Controller
 
         $img_name = null;
 
-        if($request->hasFile('report_file')) {
+        if($request->hasFile('file')) {
 
-            $file = $request->report_file;
+            $file = $request->file;
 
             $img_name = $file->getClientOriginalName();
 
@@ -884,7 +932,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('second_kanta_parchi')->with('status', $status);
             }
@@ -895,6 +943,42 @@ class CaseGenController extends Controller
         }
 
         $data['file'] = $img_name;
+
+        if($request->hasFile('file_2')) {
+
+            $file = $request->file_2;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('second_kanta_parchi')->with('status', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 4052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('second_kanta_parchi')->with('status', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/second_kanta_parchi/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }
+
+        $data['file_2'] = $img_name;
 
         //Insert Data
         $insert = CaseGen::updateSecondKantaParchi($data);
@@ -958,7 +1042,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('e_mandi')->with('error', $status);
             }
@@ -1035,7 +1119,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('accounts')->with('status', $status);
             }
@@ -1217,7 +1301,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('quality_claim')->with('status', $status);
             }
@@ -1253,7 +1337,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('quality_claim')->with('status', $status);
             }
@@ -1326,7 +1410,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('truck_payment')->with('error', $status);
             }
@@ -1400,7 +1484,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('labour_payment')->with('error', $status);
             }
@@ -1474,7 +1558,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('payment_received')->with('error', $status);
             }
@@ -1548,7 +1632,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('cctv')->with('error', $status);
             }
@@ -1586,7 +1670,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('cctv')->with('error', $status);
             }
@@ -1661,7 +1745,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('commodity_deposit')->with('error', $status);
             }
@@ -1739,7 +1823,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('warehouse_receipt')->with('error', $status);
             }
@@ -1813,7 +1897,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('storage_receipt')->with('error', $status);
             }
@@ -1886,7 +1970,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('release_order')->with('error', $status);
             }
@@ -1959,7 +2043,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('delivery_order')->with('error', $status);
             }
@@ -2033,7 +2117,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 3052030){
+            if($filesize > 4052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('commodity_withdrawal')->with('error', $status);
             }
@@ -2062,6 +2146,84 @@ class CaseGenController extends Controller
         }
         
          return redirect('commodity_withdrawal')->with('status', $status);  
+    }
+
+    // TVR Tagging Form
+    public function ivr_tagging()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getIvrTagging();
+        return view('mis.case_gen.ivr_tagging', array('case_gen' => $case_gen));
+    }
+
+    // Add TVR Tagging Form
+    public function addIvrTagging(Request $request)
+    {
+        $request->validate([
+            'case_id'    => 'unique:apna_case_ivr_tagging',
+            'file'    => 'required|mimes:mp3',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['notes'] = $notes = $request->notes;
+
+        $img_name = null;
+
+        if($request->hasFile('file')) {
+
+            $file = $request->file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['mp3'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload IVR Audio File .mp3!';
+                return redirect('ivr_tagging')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 4502030){
+                $status = 'File size is too large. Please upload file less than 4MB !';
+                return redirect('ivr_tagging')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/ivr_tagging/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('ivr_tagging')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        //Insert Data
+        $insert = CaseGen::updateIvrTagging($data);
+
+        if($insert)
+        {
+            $status = 'IVR Tagging Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+         return redirect('ivr_tagging')->with('status', $status);  
     }
 
     // Case Approve

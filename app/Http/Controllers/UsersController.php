@@ -715,12 +715,41 @@ class UsersController extends Controller
 
         // first check buyer power / buyer can puchase or not
         $buyer_info = DB::table('user_details')->where('user_id', $currentuserid)->first();
-        
-        // If the buyer so not have enough power then hit error
-        if($buyer_info->power < $inventory_info->sell_quantity * $my_bid){
 
-            return redirect('bidding/'.$inventory_id)->with('status', 'You do not have the power to bid this amount! Please contact to administrator.');
+
+        //Get Already Bid on other Inventory or Same Inventory
+        $buysell = DB::table('buy_sell_conversations')
+                    ->join('buy_sells', 'buy_sell_conversations.buy_sell_id', '=', 'buy_sells.id')
+                    ->where('buy_sell_conversations.user_id', $currentuserid)
+                    ->select('buy_sell_conversations.*', 'buy_sells.quantity')
+                    ->get();
+
+        //Check Bid Power
+        if($buysell)
+        {
+            $total_amount = 0;
+            foreach($buysell as $key => $bid){
+                $total_amount = $total_amount + ($bid->quantity * $bid->price);
+            }
+
+            // If the buyer so not have enough power then hit error
+            if($buyer_info->power < $total_amount){
+                return redirect('bidding/'.$inventory_id)->with('status', 'You do not have the power to bid this amount! Please contact to Administrator.');
+            }else{
+                $total_amount = $total_amount + ($inventory_info->sell_quantity * $my_bid);
+
+                if($buyer_info->power < $total_amount){
+                    return redirect('bidding/'.$inventory_id)->with('status', 'You do not have the power to bid this amount! Please contact to Administrator.');
+                }
+            }
+        }else{
+            // If the buyer so not have enough power then hit error
+            if($buyer_info->power < $inventory_info->sell_quantity * $my_bid){
+                return redirect('bidding/'.$inventory_id)->with('status', 'You do not have the power to bid this amount! Please contact to Administrator.');
+            }
         }
+
+        //die;
 
         // First check if this commodity already exist in buy_sell table with active bid or not
         $exist_active_bid = DB::table('buy_sells')
@@ -797,7 +826,7 @@ class UsersController extends Controller
             }
         }
 
-        $new_power = $user->power - ($quantity * $my_bid);
+        $new_power = $buyer_info->power - ($inventory_info->quantity * $my_bid);
 
         //Update Power of Trader
         $user_power_update = DB::table('user_details')->where('user_id', $currentuserid)->update([

@@ -340,7 +340,45 @@ class HomeController extends Controller
                 }
             }
 
+            
             # If user profile image uploaded then
+            if($request->hasFile('profile_image')) {
+
+                $file = $request->profile_image;
+
+                $profile_image = $file->getClientOriginalName();
+
+                $ext = pathinfo($profile_image, PATHINFO_EXTENSION);
+
+                $profile_image = substr(md5(microtime()),rand(0,26),6);
+
+                $profile_image .= '.'.$ext;
+
+                // First check file extension if file is not image then hit error
+                $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+                if(! in_array($ext, $extensions))
+                {
+                    $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                    return redirect('profile')->with('error', $status);
+                }
+
+                $filesize = $file->getClientSize();
+
+                // first check file size if greater than 1mb than hit error
+                if($filesize > 2052030){
+                    $status = 'File size is too large. Please upload file less than 2MB !';
+                    return redirect('profile')->with('error', $status);
+                }
+
+                $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
+                $file->move($destinationPath,$profile_image);
+                $filepath = $destinationPath.$profile_image;
+            }else{
+                $profile_image = "user.png";
+            }
+
+            # If user aadhar image uploaded then
             if($request->hasFile('aadhar_image')) {
 
                 $file = $request->aadhar_image;
@@ -375,7 +413,7 @@ class HomeController extends Controller
                 $filepath = $destinationPath.$aadhar_name;
             }
 
-            # If user profile image uploaded then
+            # If user cheque image uploaded then
             if($request->hasFile('cheque_image')) {
 
                 $file = $request->cheque_image;
@@ -449,7 +487,8 @@ class HomeController extends Controller
                     'bank_branch' => $bank_branch,
                     'bank_acc_no' => $bank_acc_no,
                     'bank_ifsc_code' => $bank_ifsc_code,
-                    'image' => "user.png",
+                    'image' => $profile_image,
+                    'profile_image' => $profile_image,
                     'aadhar_image' => $aadhar_name,
                     'cheque_image' => $cheque_name,
                     'referral_by' => $ref_referral_code,
@@ -612,6 +651,42 @@ class HomeController extends Controller
                 }
             }
 
+            # If user profile image uploaded then
+            if($request->hasFile('profile_image')) {
+
+                $file = $request->profile_image;
+
+                $profile_image = $file->getClientOriginalName();
+
+                $ext = pathinfo($profile_image, PATHINFO_EXTENSION);
+
+                $profile_image = substr(md5(microtime()),rand(0,26),6);
+
+                $profile_image .= '.'.$ext;
+
+                // First check file extension if file is not image then hit error
+                $extensions = ['jpg', 'jpeg', 'png', 'gig', 'bmp'];
+
+                if(! in_array($ext, $extensions))
+                {
+                    $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                    return redirect('profile')->with('error', $status);
+                }
+
+                $filesize = $file->getClientSize();
+
+                // first check file size if greater than 1mb than hit error
+                if($filesize > 2052030){
+                    $status = 'File size is too large. Please upload file less than 2MB !';
+                    return redirect('profile')->with('error', $status);
+                }
+
+                $destinationPath = base_path() . '/resources/assets/upload/profile_image/';
+                $file->move($destinationPath,$profile_image);
+                $filepath = $destinationPath.$profile_image;
+            }else{
+                $profile_image = "user.png";
+            }
 
             $user = User::create([
                 'fname' => $full_name,
@@ -650,7 +725,8 @@ class HomeController extends Controller
                     'pincode' => $pincode,
                     'mandi_license' => $mandi_license,
                     'gst_number' => $gst,
-                    'image' => "user.png",
+                    'image' => $profile_image,
+                    'profile_image' => $profile_image,
                     'referral_by' => $ref_referral_code,
                     'power' => 1,
                     'created_at' => $date,

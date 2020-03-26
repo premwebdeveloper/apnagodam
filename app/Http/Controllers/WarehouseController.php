@@ -127,6 +127,8 @@ class WarehouseController extends Controller
         $rent_per_month = $request->rent_per_month;
         $capacity_in_mt = $request->capacity_in_mt;
         $facilities = $request->facilities;
+        $gatepass_start = $request->gatepass_start;
+        $gatepass_end = $request->gatepass_end;
         $banks = $request->banks;
         $date = date('Y-m-d H:i:s');
 
@@ -201,6 +203,8 @@ class WarehouseController extends Controller
             'facility_ids' => $facilities,
             'bank_ids' => $banks,
             'image' => $img_name,
+            'gatepass_start' => $gatepass_start,
+            'gatepass_end' => $gatepass_end,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date
@@ -377,6 +381,8 @@ class WarehouseController extends Controller
         $rent_per_month = $request->rent_per_month;
         $capacity_in_mt = $request->capacity_in_mt;
         $facilities = $request->facilities;
+        $gatepass_start = $request->gatepass_start;
+        $gatepass_end = $request->gatepass_end;
         $banks = $request->banks;
         $date = date('Y-m-d H:i:s');
 
@@ -439,6 +445,8 @@ class WarehouseController extends Controller
             'facility_ids' => $facilities,
             'bank_ids' => $banks,
             'image' => $img_name,
+            'gatepass_start' => $gatepass_start,
+            'gatepass_end' => $gatepass_end,
             'updated_at' => $date
         ]);
 

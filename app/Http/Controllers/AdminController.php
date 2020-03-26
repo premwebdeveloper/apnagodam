@@ -386,6 +386,7 @@ class AdminController extends Controller
         $data['bank_branch'] = $bank_branch = $request->bank_branch;
         $data['bank_acc_no'] = $bank_acc_no = $request->bank_acc_no;
         $data['bank_ifsc_code'] = $bank_ifsc_code = $request->bank_ifsc_code;
+        $data['power'] = $power = $request->power;
 
         # If user profile image uploaded then
         if($request->hasFile('aadhar_image')) {
@@ -478,6 +479,7 @@ class AdminController extends Controller
                                 'bank_branch' => $bank_branch,
                                 'bank_acc_no' => $bank_acc_no,
                                 'bank_ifsc_code' => $bank_ifsc_code,
+                                'power' => $power,
                                 'image' => $profile_image,
                                 'aadhar_image' => $aadhar_name,
                                 'cheque_image' => $cheque_name,
@@ -503,6 +505,7 @@ class AdminController extends Controller
                                 'bank_branch' => $bank_branch,
                                 'bank_acc_no' => $bank_acc_no,
                                 'bank_ifsc_code' => $bank_ifsc_code,
+                                'power' => $power,
                                 'image' => $profile_image,
                                 'aadhar_image' => $aadhar_name,
                                 'cheque_image' => $cheque_name,
