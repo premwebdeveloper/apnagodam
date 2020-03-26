@@ -66,6 +66,7 @@
                                     <th>Father</th>
                                     <th>Aadhar Number</th>
                                     <th>Pancard Number</th>
+                                    <th>Bid Power</th>
                                     <th>Bank Name</th>
                                     <th>Bank Branch</th>
                                     <th>Bank Ac No</th>
@@ -94,6 +95,7 @@
                                         <td>{!! $user->father_name !!}</td>
                                         <td>{!! $user->aadhar_no !!}</td>
                                         <td>{!! $user->pancard_no !!}</td>
+                                        <td>{!! $user->power !!}</td>
                                         <td>{!! $user->bank_name !!}</td>
                                         <td>{!! $user->bank_branch !!}</td>
                                         <td>{!! $user->bank_acc_no !!}</td>

@@ -412,12 +412,20 @@
         $noti_link .= '<li><a href="'.url('/accounts').'" class="dropdown-item"><div><span class="label label-danger">'.$n.'</span> &nbsp;&nbsp;&nbsp;&nbsp;<b>New '.$case_spl.' for Accounts </b></div></a></li><li class="dropdown-divider"></li>';
     }
 
-    $case_gen = CaseGen::getCaseShippingStart();
+    $case_gen = CaseGen::getIvrTagging();
     $n = 0;
     foreach($case_gen as $key => $case){        
-        if(!$case->s_s_case_id){
+        if(!$case->i_t_case_id){
             if($case->in_out == 'PASS'){
-                if($role_id == 1 || $currentuserid == $case->lead_conv_uid || $role_id == 8){
+                if($role_id == 1 || $role_id == 8){
+                    $res = DB::table('apna_case_accounts')->where('case_id', $case->case_id)->first();
+                    if($res){
+                        $notifications++;
+                        $n++;
+                    }
+                }
+            }elseif($case->in_out == 'IN'){
+                if($role_id == 1 || $role_id == 8){
                     $res = DB::table('apna_case_accounts')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
@@ -425,8 +433,41 @@
                     }
                 }
             }elseif($case->in_out == 'OUT'){
-                if($role_id == 1 || $role_id == 11){
+                if($role_id == 1 || $role_id == 8){
                     $res = DB::table('apna_case_accounts')->where('case_id', $case->case_id)->first();
+                    if($res){
+                        $notifications++;
+                        $n++;
+                    }
+                }
+            }
+        }
+    }
+
+    if($n > 0){
+        if($n > 1){
+            $case_spl = 'Cases';
+        }else{
+            $case_spl = 'Case';
+        }
+        $noti_link .= '<li><a href="'.url('/ivr_tagging').'" class="dropdown-item"><div><span class="label label-danger">'.$n.'</span> &nbsp;&nbsp;&nbsp;&nbsp;<b>New '.$case_spl.' for IVR Tagging </b></div></a></li><li class="dropdown-divider"></li>';
+    }
+
+    $case_gen = CaseGen::getCaseShippingStart();
+    $n = 0;
+    foreach($case_gen as $key => $case){        
+        if(!$case->s_s_case_id){
+            if($case->in_out == 'PASS'){
+                if($role_id == 1 || $currentuserid == $case->lead_conv_uid || $role_id == 8){
+                    $res = DB::table('apna_case_ivr_tagging')->where('case_id', $case->case_id)->first();
+                    if($res){
+                        $notifications++;
+                        $n++;
+                    }
+                }
+            }elseif($case->in_out == 'OUT'){
+                if($role_id == 1 || $role_id == 11){
+                    $res = DB::table('apna_case_ivr_tagging')->where('case_id', $case->case_id)->first();
                     if($res){
                         $notifications++;
                         $n++;
@@ -543,7 +584,7 @@
                 }
             }elseif($case->in_out == 'IN'){
                 if($role_id == 1 || $role_id == 8 || $role_id == 3){
-                    $res = DB::table('apna_case_accounts')->where('case_id', $case->case_id)->first();
+                    $res = DB::table('apna_case_ivr_tagging')->where('case_id', $case->case_id)->first();
                     if($res)
                     {
                         $notifications++;

@@ -72,17 +72,7 @@ $role_id = $role->role_id;
                                             <strong class="red">{{ $errors->first('purpose') }}</strong>
                                         </span>
                                     @endif
-                                </div>
-                                <div class="col-md-3">
-                                    {!! Form::label('gate_pass', 'Gate Pass', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::text('gate_pass', '', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Gate Pass No.']) !!}
-
-                                    @if($errors->has('gate_pass'))
-                                        <span class="text-red" role="alert">
-                                            <strong class="red">{{ $errors->first('gate_pass') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                                </div>                                
                                 <div class="col-md-3">
                                     {!! Form::label('location', 'Location', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                     {!! Form::text('location', '', ['class' => 'form-control', 'required' => 'required', 'autocomplete' => 'off', 'placeholder' => 'Enter Location']) !!}
@@ -112,12 +102,24 @@ $role_id = $role->role_id;
                                         </span>
                                     @endif
                                 </div>
+
                                 <div class="col-md-3">
                                     {!! Form::label('terminal_id', 'Nearest Terminal', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
                                     {!! Form::select('terminal_id', $terminals, '', ['class' => 'form-control', 'required' => 'required']); !!}
                                     @if($errors->has('terminal_id'))
                                         <span class="text-red" role="alert">
                                             <strong class="red">{{ $errors->first('terminal_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="col-md-3">
+                                    {!! Form::label('gate_pass', 'Gate Pass', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                    {!! Form::text('gate_pass', '', ['class' => 'form-control', 'required' => 'required', 'disabled' => 'disabled', 'autocomplete' => 'off', 'placeholder' => 'Enter Gate Pass No.']) !!}
+
+                                    @if($errors->has('gate_pass'))
+                                        <span class="text-red" role="alert">
+                                            <strong class="red">{{ $errors->first('gate_pass') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -289,7 +291,6 @@ $role_id = $role->role_id;
             $('#addEmployee').modal('show');
         });
 
-
         //Get Lead Generator and Mobile Number of Customer
         $('#customer').on('change', function(){
             var id = $(this).val();
@@ -315,6 +316,33 @@ $role_id = $role->role_id;
                 },
             });
             //Get mobile number and 
+        });
+
+        //Get Lead Generator and Mobile Number of Customer
+        $('#terminal_id').on('change', function(){
+            var id = $(this).val();
+            if(id)
+            {
+                $.ajax({
+                    method : 'post',
+                    url: "{{ route('getLastGatePass') }}",
+                    async : true,
+                    data : {"_token": "{{ csrf_token() }}", 'terminal_id' : id},
+                    success:function(response)
+                    {
+                        $('#gate_pass').removeAttr('disabled');
+                        $('#gate_pass').val(response);
+                    },
+                    error: function(data)
+                    {
+                        //console.log(data);
+                        alert(data);
+                    },
+                });
+            }else{
+                $('#gate_pass').val('');
+                $('#gate_pass').attr('disabled', 'disabled');
+            }
         });
 
         //Change In / Out

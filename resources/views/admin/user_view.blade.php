@@ -83,6 +83,9 @@
                         <td>
                             Aadhar No. : <strong>{!! $user->aadhar_no !!}</strong> 
                         </td>
+                        <td>
+                            Power :<strong>{!! $user->power !!}</strong> 
+                        </td>
                     </tr>
                     <tr>
                     @if($user->user_type == 1)
@@ -91,7 +94,7 @@
                         </td>
                         <td>
                             Referral Code :<strong>{!! $user->referral_code !!}</strong> 
-                        </td>
+                        </td>                        
                     </tr>
                     @endif
                     @if($user->user_type == 2)
@@ -102,6 +105,8 @@
                             <td>
                                 Mandi License No. : <strong>{!! $user->mandi_license !!}</strong> 
                             </td>
+
+                        
                         </tr>
                         <tr>
                             <td>
@@ -133,7 +138,7 @@
         </div>
     </div>
 
-    @if()
+ 
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox">
@@ -306,6 +311,16 @@
                                             <strong>{{ $errors->first('aadhar_no') }}</strong>
                                         </span>
                                     @endif
+                                </div> 
+                                <div class="col-md-4">
+                                    {!! Form::label('power', 'Bid Power', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::text('power', $user->power, ['class' => 'form-control', 'id' => 'power', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Aadhar Number']) !!}
+                                
+                                    @if($errors->has('power'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('power') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="col-md-4">
                                     {!! Form::label('aadhar_image', 'Aadhar Card', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
@@ -338,7 +353,7 @@
             </div>
         </div>
     </div>
-    @endif
+   
 </div>
 <script type="text/javascript">
     $(document).ready(function(){

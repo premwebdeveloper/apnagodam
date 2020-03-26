@@ -58,6 +58,7 @@ $role_id = $role->role_id;
                                     <th>UserName</th>
                                     <th>Details in Tally</th>
                                     <th>Kanta Parchi File</th>
+                                    <th>Truck Image</th>
                                     <th>Notes</th>
 	                            </tr>
 	                        </thead>
@@ -119,6 +120,12 @@ $role_id = $role->role_id;
                                             @else
                                             @endif
                                         </td>
+                                        <td>
+                                            @if($kanta_parchi->file_2)
+                                                <a class="view_report" data-id="{{ $kanta_parchi->file_2 }}"><i class="fa fa-eye"></i></a>
+                                            @else
+                                            @endif
+                                        </td>
                                         <td>{!! $kanta_parchi->notes !!}</td>
 	                                </tr>
                                 @endforeach
@@ -159,12 +166,22 @@ $role_id = $role->role_id;
                            
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'Kanta Parchi File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                    {!! Form::file('report_file', ['class' => 'form-control', 'autocomplete' => 'off', 'onchange' => "loadFile(event)", 'required' => 'required']) !!}
+                                    {!! Form::label('file', 'Kanta Parchi File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::file('file', ['class' => 'form-control', 'autocomplete' => 'off', 'accept' => 'image/*', 'capture' => 'capture', 'onchange' => "loadFile(event)", 'required' => 'required']) !!}
 
-                                    @if($errors->has('report_file'))
+                                    @if($errors->has('file'))
                                         <span class="text-red" role="alert">
-                                            <strong class="red">{{ $errors->first('report_file') }}</strong>
+                                            <strong class="red">{{ $errors->first('file') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-md-12 p-0">
+                                    {!! Form::label('truck_image', 'Truck Image File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                                    {!! Form::file('truck_image', ['class' => 'form-control', 'autocomplete' => 'off', 'accept' => 'image/*', 'capture' => 'capture', 'onchange' => "loadFile(event)", 'required' => 'required']) !!}
+
+                                    @if($errors->has('truck_image'))
+                                        <span class="text-red" role="alert">
+                                            <strong class="red">{{ $errors->first('truck_image') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -219,7 +236,7 @@ $role_id = $role->role_id;
     </div>
 </div>
 
-@if($errors->has('rst_no') || $errors->has('bags') || $errors->has('gross_weight') || $errors->has('tare_weight') || $errors->has('net_weight') || $errors->has('gross_date_time') || $errors->has('tare_date_time') || $errors->has('charges') || $errors->has('kanta_name') || $errors->has('kanta_place') || $errors->has('notes') || $errors->has('file') || $errors->has('case_id'))
+@if($errors->has('truck_image') || $errors->has('notes') || $errors->has('file') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');

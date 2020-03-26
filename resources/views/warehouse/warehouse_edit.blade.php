@@ -160,10 +160,35 @@
                                </div>
                            </div>
 
-                           <div class="col-md-12">
+                           <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('image', 'Image') !!}<br />
                                     {{ Form::file('image', ['class' => 'form-control']) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('gatepass_start', 'Gatepass Series Start') !!}
+                                    {!! Form::text('gatepass_start', $warehouse->gatepass_start, ['class' => 'form-control', 'id' => 'gatepass_start', 'placeholder' => 'Enter Gatepass Series Start Number']) !!}
+
+                                    @if($errors->has('gatepass_start'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('gatepass_start') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('gatepass_end', 'Gatepass Series End') !!}
+                                    {!! Form::text('gatepass_end', $warehouse->gatepass_end, ['class' => 'form-control', 'id' => 'gatepass_end', 'placeholder' => 'Enter Gatepass Series End Number']) !!}
+
+                                    @if($errors->has('gatepass_end'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('gatepass_end') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 

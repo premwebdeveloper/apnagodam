@@ -48,6 +48,7 @@
                                     <th>Gate Pass</th>
                                     <th>E-Mandi</th>
                                     <th>Accounts</th>
+                                    <th>IVR Tagging</th>
                                     <th>Shipment Start</th>
                                     <th>Shipment End</th>
                                     <th>Quality Claim</th>
@@ -111,6 +112,10 @@
                                         <br>{{ ($lead->accounts_update_time)?date('g:i A', strtotime($lead->accounts_update_time)):'' }}
                                         <br/>
                                             {!! ($lead->accounts_file)?"<a class='view_file' data-id='accounts/".$lead->accounts_file."'><i class='fa fa-eye'></i></a>":'' !!}
+                                    </td>
+                                        <td>{!! ($lead->ivr_tagging_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->ivr_tagging_update_time)?date('g:i A', strtotime($lead->ivr_tagging_update_time)):'' }}
+                                            <br/>
+                                            {!! ($lead->ivr_tagging_file)?"<a class='view_file' data-id='truck_payment/".$lead->ivr_tagging_file."'><i class='fa fa-eye'></i></a>":'' !!}
                                     </td>
                                         <td>{!! ($lead->shipping_start_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
                                         <br>{{ ($lead->shipping_start_update_time)?date('g:i A', strtotime($lead->shipping_start_update_time)):'' }}

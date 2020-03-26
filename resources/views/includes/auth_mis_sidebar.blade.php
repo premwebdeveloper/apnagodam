@@ -171,6 +171,12 @@ $emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first()
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('ivr_tagging') }}">
+                                <i class="fa fa-pencil" title=""></i>
+                                <span class="nav-label">IVR Tagging</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('shipping_start') }}">
                                 <i class="fa fa-truck" title=""></i>
                                 <span class="nav-label">Shipment Start</span>
@@ -290,6 +296,12 @@ $emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first()
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('ivr_tagging') }}">
+                                <i class="fa fa-pencil" title=""></i>
+                                <span class="nav-label">IVR Tagging</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('truck_payment') }}">
                                 <i class="fa fa-money" title=""></i>
                                 <span class="nav-label">Truck Payment</span>
@@ -406,6 +418,12 @@ $emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first()
                             <a href="{{ route('accounts') }}">
                                 <i class="fa fa-pencil" title=""></i>
                                 <span class="nav-label">Accounts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('ivr_tagging') }}">
+                                <i class="fa fa-pencil" title=""></i>
+                                <span class="nav-label">IVR Tagging</span>
                             </a>
                         </li>
                         <li>

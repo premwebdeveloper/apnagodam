@@ -54,6 +54,7 @@
                                     <th>District</th>
                                     <th>Area (SQ. FT.)</th>
                                     <th>Rent (/Month)</th>
+                                    <th>Gatepass Series</th>
                                     <th>Capacity (MT)</th>
                                     <th>Action</th>
 	                            </tr>
@@ -69,6 +70,7 @@
                                         <td>{!! $warehouse->district !!}</td>
                                         <td>{!! $warehouse->area_sqr_ft !!}</td>
                                         <td>{!! $warehouse->rent_per_month !!}</td>
+                                        <td>{!! $warehouse->gatepass_start !!} - {!! $warehouse->gatepass_end !!}</td>                                        
                                         <td>{!! $warehouse->capacity_in_mt !!}</td>                                        
                                         <td>
                                             <a href="{!! route('warehouse_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="View">

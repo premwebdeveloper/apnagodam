@@ -67,7 +67,7 @@ $role_id = $role->role_id;
                                 @foreach($case_gen as $key => $shipping_start)
                                     @if($shipping_start->in_out == 'PASS')
                                         <?php
-                                            $check_status = DB::table('apna_case_accounts')->where('case_id', $shipping_start->case_id)->first();
+                                            $check_status = DB::table('apna_case_ivr_tagging')->where('case_id', $shipping_start->case_id)->first();
                                         ?>
     	                                <tr class="gradeX">
                                             <td>{{ ++$key }}</td>

@@ -51,6 +51,7 @@
                                     <th>CCTV</th>
                                     <th>Commodity Deposit</th>
                                     <th>Accounts</th>
+                                    <th>IVR Tagging</th>
                                     <th>Truck Payment</th>
                                     <th>Labour Payment</th>
                                     <th>Warehouse Receipt</th>
@@ -126,6 +127,11 @@
                                         <td>{!! ($lead->accounts_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->accounts_update_time)?date('g:i A', strtotime($lead->accounts_update_time)):'' }}
                                             <br/>
                                             {!! ($lead->accounts_file)?"<a class='view_file' data-id='accounts/".$lead->accounts_file."'><i class='fa fa-eye'></i></a>":'' !!}
+                                        </td>
+
+                                        <td>{!! ($lead->ivr_tagging_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->ivr_tagging_update_time)?date('g:i A', strtotime($lead->ivr_tagging_update_time)):'' }}
+                                            <br/>
+                                            {!! ($lead->ivr_tagging_file)?"<a class='view_file' data-id='truck_payment/".$lead->ivr_tagging_file."'><i class='fa fa-eye'></i></a>":'' !!}
                                         </td>
 
                                         <td>{!! ($lead->truck_payment_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->truck_payment_update_time)?date('g:i A', strtotime($lead->truck_payment_update_time)):'' }}

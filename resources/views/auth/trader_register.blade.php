@@ -62,6 +62,16 @@
                         </span>
                     @endif
                 </div>
+                <div class="col-md-6">
+                    {!! Form::label('profile_image', 'Upload Profile Image', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                    {!! Form::file('profile_image', ['class' => 'form-control',  'accept' => 'image/*', 'capture' => 'capture', 'id' => 'profile_image']) !!}
+                
+                    @if ($errors->has('profile_image'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('profile_image') }}</strong>
+                        </span>
+                    @endif
+                </div>
                 <!-- <div class="col-md-6">
                     {!! Form::label('address', 'Address', ['class' => 'm-t-20 col-form-label text-md-right']) !!}
                     {!! Form::text('address', '', ['class' => 'form-control', 'id' => 'address', 'autocomplete' => 'off', 'autofocus' => 'on', 'placeholder' => 'Enter your Street Address']) !!}
