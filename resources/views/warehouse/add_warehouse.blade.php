@@ -135,7 +135,7 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('rent_per_month', 'Rent Per Month Per MT')!!} <span class="red">*</span>
+                                    {!! Form::label('rent_per_month', 'Rent Per Month / MT')!!} <span class="red">*</span>
                                     {!! Form::text('rent_per_month', '', ['class' => 'form-control', 'id' => 'rent_per_month', 'placeholder' => 'Rent Per Month Per MT']) !!}
 
                                     @if($errors->has('rent_per_month'))
@@ -158,6 +158,7 @@
                                     @endif
                                 </div>
                             </div>
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('gatepass_start', 'Gatepass Series Start') !!}
@@ -182,12 +183,55 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('no_of_stacks', 'No. of Stack') !!}
+                                    {!! Form::number('no_of_stacks', '', ['class' => 'form-control', 'id' => 'no_of_stacks', 'placeholder' => 'No. of Stack']) !!}
+
+                                    @if($errors->has('no_of_stacks'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('no_of_stacks') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    {!! Form::label('labour_contractor', 'Labour Contractor') !!}
+                                    {!! Form::text('labour_contractor', '', ['class' => 'form-control', 'id' => 'labour_contractor', 'placeholder' => 'Enter Labour Contractor Name']) !!}
 
-                                    {!! Form::label('image', 'Image') !!}<br />
-                                    {{ Form::file('image', ['class' => 'form-control', 'required' => 'required']) }}
+                                    @if($errors->has('labour_contractor'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('labour_contractor') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('contractor_phone', 'Contractor Phone') !!}
+                                    {!! Form::text('contractor_phone', '', ['class' => 'form-control', 'id' => 'contractor_phone', 'placeholder' => 'Enter Contractor Phone']) !!}
+
+                                    @if($errors->has('contractor_phone'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('contractor_phone') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('labour_rate', 'Labour Rate') !!}
+                                    {!! Form::number('labour_rate', '', ['class' => 'form-control', 'id' => 'labour_rate', 'placeholder' => 'Labour Rate']) !!}
+
+                                    @if($errors->has('labour_rate'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('labour_rate') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -229,8 +273,28 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
 
-                            <div class="col-md-12">
+                                    {!! Form::label('image', 'Image') !!}<br />
+                                    {{ Form::file('image', ['class' => 'form-control', 'required' => 'required']) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('dharam_kanta', 'Dharam Kanta') !!}
+                                    {!! Form::select('dharam_kanta', $dharm_kanta, '',['class' => 'form-control', 'id' => 'dharam_kanta']) !!}
+
+                                    @if($errors->has('dharam_kanta'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('dharam_kanta') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-group">
 
                                     {!! Form::label('facilities', 'Facilities') !!}<br />

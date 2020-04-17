@@ -55,6 +55,11 @@
                                     <th>Area (SQ. FT.)</th>
                                     <th>Rent (/Month)</th>
                                     <th>Gatepass Series</th>
+                                    <th>No. of Stack</th>
+                                    <th>Dharam Kanta</th>
+                                    <th>Labour Contractor</th>
+                                    <th>Contractor Phone</th>
+                                    <th>Labour Rate</th>
                                     <th>Capacity (MT)</th>
                                     <th>Action</th>
 	                            </tr>
@@ -71,6 +76,11 @@
                                         <td>{!! $warehouse->area_sqr_ft !!}</td>
                                         <td>{!! $warehouse->rent_per_month !!}</td>
                                         <td>{!! $warehouse->gatepass_start !!} - {!! $warehouse->gatepass_end !!}</td>                                        
+                                        <td>{!! $warehouse->no_of_stacks !!}</td>                                        
+                                        <td>{!! $warehouse->dharam_kanta_name !!}</td>                                        
+                                        <td>{!! $warehouse->labour_contractor !!}</td>                                        
+                                        <td>{!! $warehouse->contractor_phone !!}</td>                                        
+                                        <td>{!! $warehouse->labour_rate !!}</td>                                        
                                         <td>{!! $warehouse->capacity_in_mt !!}</td>                                        
                                         <td>
                                             <a href="{!! route('warehouse_view', ['id' => $warehouse->id]) !!}" class="btn btn-info btn-sm" title="View">

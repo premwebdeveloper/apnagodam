@@ -57,12 +57,24 @@
                             </div> 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {!! Form::label('gst', 'GST (%)') !!}
-                                    {!! Form::number('gst', '', ['class' => 'form-control', 'id' => 'gst', 'placeholder' => 'GST', 'step' => '0.01']) !!}
+                                    {!! Form::label('gst', 'GST on Sell (%)') !!}
+                                    {!! Form::number('gst', '', ['class' => 'form-control', 'id' => 'gst', 'placeholder' => 'GST on Sell', 'step' => '0.01']) !!}
 
                                     @if($errors->has('gst'))
                                         <span class="help-block red">
                                             <strong>{{ $errors->first('gst') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('gst_on_rent', 'GST on Rent(%)') !!}
+                                    {!! Form::number('gst_on_rent', '', ['class' => 'form-control', 'id' => 'gst_on_rent', 'placeholder' => 'GST', 'step' => '0.01']) !!}
+
+                                    @if($errors->has('gst_on_rent'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('gst_on_rent') }}</strong>
                                         </span>
                                     @endif
                                 </div>

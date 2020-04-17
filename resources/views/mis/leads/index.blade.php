@@ -159,7 +159,7 @@ $role_id = $role->role_id;
                     @endif
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table class="table table-striped table-bordered table-hover leads_datatable">
 	                        <thead>
 	                            <tr>
                                     <th>Lead ID</th>
@@ -177,62 +177,6 @@ $role_id = $role->role_id;
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                @foreach($leads as $key => $lead)
-                                    @if($role_id == 1 || $role_id == 8)
-    	                                <tr class="gradeX">
-                                            <td>{{ $lead->id }}</td>
-                                            <td>{!! $lead->first_name." ".$lead->last_name !!}</td>
-                                            <td>{!! $lead->customer_name !!}</td>
-                                            <td>{!! $lead->phone !!}</td>
-                                            <td>{!! $lead->location !!}</td>
-                                            <td>{!! $lead->cate_name ." (".$lead->commodity_type.")"  !!}</td>
-                                            <td>{!! $lead->quantity !!}</td>
-                                            <td>{!! $lead->terminal_name !!}</td>
-                                            <td>{!! $lead->purpose !!}</td>
-                                            <td>{!! date('d M Y', strtotime($lead->commodity_date)) !!}</td>
-                                            <td>{!! date('d M Y', strtotime($lead->created_at)) !!}</td>
-                                            <td>
-                                                <?php
-                                                $end_date = date('Y-m-d H:i:s', strtotime($lead->created_at .'+60 minutes'));
-
-                                                $current_time = date('Y-m-d H:i:s');
-                                                ?>
-                                                @if($end_date >= $current_time)
-                                                    <a class="edit_lead" data-id="{{ $lead->id }}"><i class="fa fa-pencil"></i></a>
-                                                @else
-                                                    <span class="text-navy">Not Editable</span>
-                                                @endif
-                                            </td>
-    	                                </tr>
-                                    @else
-                                        @if($currentuserid == $lead->user_id)
-                                            <tr class="gradeX">
-                                                <td>{{ $lead->id }}</td>
-                                                <td>{!! $lead->first_name." ".$lead->last_name !!}</td>
-                                                <td>{!! $lead->customer_name !!}</td>
-                                                <td>{!! $lead->phone !!}</td>
-                                                <td>{!! $lead->location !!}</td>
-                                                <td>{!! $lead->cate_name ." (".$lead->commodity_type.")"  !!}</td>
-                                                <td>{!! $lead->quantity !!}</td>
-                                                <td>{!! $lead->terminal_name !!}</td>
-                                                <td>{!! $lead->purpose !!}</td>
-                                                <td>{!! date('d M Y', strtotime($lead->commodity_date)) !!}</td>
-                                                <td>{!! date('d M Y', strtotime($lead->created_at)) !!}</td>
-                                                <td>
-                                                    <?php
-                                                    $end_date = date('Y-m-d H:i:s', strtotime($lead->created_at .'+60 minutes'));
-                                                    $current_time = date('Y-m-d H:i:s');
-                                                    ?>
-                                                    @if($end_date >= $current_time)
-                                                        <a class="edit_lead" data-id="{{ $lead->id }}"><i class="fa fa-pencil"></i></a>
-                                                    @else
-                                                        <span class="btn-gray">Not Editable</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endif
-                                @endforeach
 	                        </tbody>
 	                    </table>
 	                </div>
@@ -405,6 +349,28 @@ $role_id = $role->role_id;
                 },
             });
             $('#editLead').modal('show');
+        });
+    });
+
+    $(document).ready(function(){
+        var pTable = $('.leads_datatable').dataTable({
+            "bDestroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{{ route('getAllLeads') }}",
+            "columns": [
+                {data: 'id', name: 'id'},
+                {data: 'generated_by', name: 'generated_by'},
+                {data: 'customer_name', name: 'customer_name'},
+                {data: 'phone', name: 'phone'},
+                {data: 'location', name: 'location'},
+                {data: 'commodity', name: 'commodity'},
+                {data: 'quantity', name: 'quantity'},
+                {data: 'terminal_name', name: 'terminal_name'},
+                {data: 'purpose', name: 'purpose'},
+                {data: 'commodity_date', name: 'commodity_date'},
+                {data: 'action', name: 'action'}
+            ],
         });
     });
 </script>

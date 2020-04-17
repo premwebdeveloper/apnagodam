@@ -38,7 +38,7 @@
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <table class="table table-striped table-bordered table-hover deals_datatable">
                             <thead>
                                 <tr>
                                     <th>Buyer Name</th>
@@ -52,56 +52,10 @@
                                     <th>Today's Price</th>
                                     <th>Bid Price</th>
                                     <th>Done Date</th>
-                                    @if($role->role_id == 1)
-                                        <th>Action</th>
-                                    @endif
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach($done_deals as $key => $done_deal)
-                                    <tr class="gradeX">
-                                        <td>{!! $done_deal->buyer_name !!}</td>
-                                        <td>{!! $done_deal->seller_name !!}</td>
-                                        <td>{!! $done_deal->gate_pass_wr !!}</td>
-                                        <td>
-                                            @if($done_deal->payment_ref_no)
-                                                {!! $done_deal->payment_ref_no !!}
-                                            @else
-                                                @if($role->role_id == 1)
-                                                    <a href="javascript:;" id="{!! $done_deal->id !!}" class="btn btn-warning btn-xs add_payment_ref" data-toggle="tooltip" title="Add Payment Ref. No.">
-                                                        <i class="fa fa-plus"></i>
-                                                    </a>
-                                                @endif
-                                            @endif
-                                        </td>
-                                        <td>{!! $done_deal->mandi_samiti_name !!}</td>
-                                        <td>{!! $done_deal->warehouse !!}</td>
-                                        <td>{!! $done_deal->category !!}</td>
-                                        <td>{!! $done_deal->quantity !!}</td>
-                                        <td>{!! $done_deal->todays_price !!}</td>
-                                        <td>{!! $done_deal->price !!}</td>
-                                        <td>{!! date('d M Y', strtotime($done_deal->updated_at)) !!}</td>
-
-                                        @if($role->role_id == 1)
-                                            <td>
-                                                @if($done_deal->status == 2)
-                                                    <a href="javascript:;" id="{!! $done_deal->id !!}_{!! $done_deal->gate_pass_wr !!}" class="btn btn-warning btn-xs edit_gate_pass" data-toggle="tooltip" title="Deal Done">
-                                                        Approve
-                                                    </a>
-                                                @else
-                                                    <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id, 'email' => 0]) !!}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">
-                                                        Download Vikray Parchi
-                                                    </a>
-                                                    <a href="{!! route('download_vikray_parchi', ['id' => $done_deal->id, 'email' => 1]) !!}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Send Pdf">
-                                                        Send Mail
-                                                    </a>
-                                                @endif
-                                            </td>
-                                        @endif
-                                    </tr>
-                                @endforeach
-
                             </tbody>
                         </table>
                     </div>
@@ -196,14 +150,35 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.edit_gate_pass').on('click', function(){
+        var pTable = $('.deals_datatable').dataTable({
+            "bDestroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{{ route('getAllDealsDoneByAjax') }}",
+            "columns": [
+                {data: 'buyer_name', name: 'buyer_name'},
+                {data: 'seller_name', name: 'seller_name'},
+                {data: 'gate_pass_wr', name: 'gate_pass_wr'},
+                {data: 'payment_ref_no', name: 'payment_ref_no'},
+                {data: 'mandi_samiti_name', name: 'mandi_samiti_name'},
+                {data: 'warehouse', name: 'warehouse'},
+                {data: 'category', name: 'category'},
+                {data: 'quantity', name: 'quantity'},
+                {data: 'todays_price', name: 'todays_price'},
+                {data: 'price', name: 'price'},
+                {data: 'done_date', name: 'done_date'},
+                {data: 'action', name: 'action'},
+            ],
+        });
+
+        pTable.on('click', '.edit_gate_pass', function(){
             var temp = $(this).attr('id');
             var data = temp.split('_');
             $('#payment_id').val(data[0]);
             $('#payment_gate_pass').val(data[1]);
             $('#gate_pass_edit').modal('show');
         });
-        $('.add_payment_ref').on('click', function(){
+        pTable.on('click', '.add_payment_ref', function(){
             var id = $(this).attr('id');
             $('#ref_payment_id').val(id);
             $('#add_payment_ref_modal').modal('show');

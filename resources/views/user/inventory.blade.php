@@ -41,7 +41,6 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Gate Pass</th>
-                                    <th>Truck No.</th>
                                     <th>Terminal</th>
                                     <th>Location</th>
                                     <th>Commodity</th>
@@ -56,8 +55,18 @@
                                     @if($inventory->quantity > 0)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $inventory->gate_pass_wr }}</td>
-                                            <td>{{ $inventory->truck_no }}</td>
+                                            <td><?php $i = 1; ?>
+                                                @foreach($inventory->case_id as $case)
+                                                    <?php
+                                                    $res = explode('-', $case->case_id);
+                                                    echo $res[5];
+                                                    if($i >= 2){
+                                                        echo ", ";
+                                                    }
+                                                    $i++;
+                                                    ?>
+                                                @endforeach
+                                            </td>
                                             <td>{{ $inventory->name }}</td>
                                             <td>{{ $inventory->location }}</td>
                                             <td>{{ $inventory->cat_name }}</td>
@@ -159,9 +168,8 @@
                     {
                         var res = temp[0]+"_"+temp[1];
                         $('#e_mandi').attr('data-id', res);
+                        $('#corporate_buying').attr('data-id', temp[0]);
                         $("#sell_for_change").modal('show');
-                        var url = '<?= url('/'); ?>/corporate_buying/'+temp[0];
-                        $('#corporate_buying').attr('href', url);
                     }else{
                         $("#edit_price").modal('show');
                     }
@@ -171,6 +179,26 @@
                 },
             });
 
+        });
+
+        $("#corporate_buying").on('click', function(){
+            var inv_id = $(this).attr('data-id');
+
+            $.ajax({
+                method : 'post',
+                url: "{{ route('get_corporate_users_ajax') }}",
+                async : true,
+                data : {"_token": "{{ csrf_token() }}"},
+                success:function(response){
+                    $("#corporate_users").html(response);
+                    $("#inv_id").val(inv_id);
+                    $('#sell_for_change').modal('hide');
+                    $('#corporate_users_modal').modal('show');
+                },
+                error: function(data){
+                    console.log(data);
+                },
+            });
         });
 
         // apply for loan class open modal
@@ -189,7 +217,7 @@
             // fill quantity of this commodity
             $("#quantity").val(quantity);
             $("#seller_inventory_id").val(temp[0]);
-            $('#apply_for_loan_modal').modal('show');            
+            $('#apply_for_loan_modal').modal('show');
         });
 
         // apply for loan id click button check all is well or not
@@ -247,6 +275,39 @@
     });
 </script>
 
+<div class="modal fade" id="corporate_users_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h2 class="modal-title" style="padding-left: 10px;">Corporate Buyer</h2>
+            </div>
+            {!! Form::open(array('url' => 'corporate_buying', 'class' => "", 'id' => 'empForm')) !!}
+                @csrf
+                {{ Form::hidden('inv_id', '', array('id' => 'inv_id')) }}
+                <div class="modal-body mx-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {!! Form::label('user_id', 'Buyer', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                            <select name="corporate_user" required="required" class="form-control" id="corporate_users">
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            {!! Form::label('user_id', 'Sell Quantity (Qtl.)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                            <input type="number" placeholder="Enter Sell Quantity" class="form-control" name="weight" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    {!! Form::submit('Submit', ['class' => 'btn btn-info b-info']) !!}
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                        Close
+                    </button>
+                </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="sell_for_change" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -256,10 +317,10 @@
             <div class="modal-body mx-3">
                 <div class="row">
                     <div class="col-md-12 m-b-10">
-                        <a style="width: 100%;" class="btn btn-sm btn-info e_mandi" title="">E-Mandi</a>
+                        <a style="width: 100%;" class="btn btn-sm btn-info e_mandi" id="e_mandi" title="">E-Mandi</a>
                     </div>
                     <div class="col-md-12">
-                        <a href="" style="width: 100%;" class="btn btn-sm btn-info" id="corporate_buying" title="">Corporate Buying</a>
+                        <a href="javascript:;" style="width: 100%;" class="btn btn-sm btn-info" id="corporate_buying" title="">Corporate Buying</a>
                     </div>
                 </div>
             </div>

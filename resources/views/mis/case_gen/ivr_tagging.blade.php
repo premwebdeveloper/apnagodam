@@ -47,15 +47,15 @@ $role_id = $role->role_id;
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <table class="table table-striped table-bordered table-hover dataTables-example1">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>IVR Tagging</th>
-                                    <th>Case ID</th>
+                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     <th>Customer Name</th>
                                     <th>UserName</th>
-                                    <th>Details in Tally</th>
+                                    <th>&nbsp;&nbsp;&nbsp;Details_in_Tally&nbsp;&nbsp;&nbsp;</th>
                                     <th>IVR Tagging Video File</th>
                                     <th>Notes</th>
                                 </tr>
@@ -63,7 +63,7 @@ $role_id = $role->role_id;
                             <tbody>
                                 <?php $currentuserid = Auth::user()->id; ?>
                                 @foreach($case_gen as $key => $pricing)
-                                    @if($pricing->in_out == 'IN')
+                                    @if($pricing->in_out == 'IN' || $pricing->in_out == 'OUT' || $pricing->in_out == 'PASS')
                                         <?php
                                             $check_status = DB::table('apna_case_accounts')->where('case_id', $pricing->case_id)->first();
                                         ?>
@@ -212,11 +212,17 @@ $role_id = $role->role_id;
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');
-            var full_url = "<?= url('/'); ?>/resources/assets/upload/storage_receipt/"+file
+            var full_url = "<?= url('/'); ?>/resources/assets/upload/ivr_tagging/"+file
             $('#object_data').attr('data', full_url);
             $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
+    });
+    $(document).ready( function () {
+        var table = $('.dataTables-example1').DataTable( {
+        pageLength : 3,
+        lengthMenu: [[3, 5, 10, 20, -1], [3, 5, 10, 20, 'All']]
+      });
     });
 </script>
 @endsection

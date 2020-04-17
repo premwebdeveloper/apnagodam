@@ -48,15 +48,15 @@ $role_id = $role->role_id;
                     @endif
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table class="table table-striped table-bordered table-hover dataTables-example1">
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
                                     <th>Kanta Parchi</th>
-                                    <th>Case ID</th>
+                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     <th>Customer Name</th>
                                     <th>UserName</th>
-                                    <th>Details in Tally</th>
+                                    <th>&nbsp;&nbsp;&nbsp;Details_in_Tally&nbsp;&nbsp;&nbsp;</th>
                                     <th>Kanta Parchi File</th>
                                     <th>Truck Image</th>
                                     <th>Notes</th>
@@ -167,7 +167,7 @@ $role_id = $role->role_id;
                             <div class="col-md-4">
                                 <div class="col-md-12 p-0">
                                     {!! Form::label('file', 'Kanta Parchi File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                    {!! Form::file('file', ['class' => 'form-control', 'autocomplete' => 'off', 'accept' => 'image/*', 'capture' => 'capture', 'onchange' => "loadFile(event)", 'required' => 'required']) !!}
+                                    {!! Form::file('file', ['class' => 'form-control', 'autocomplete' => 'off', 'capture' => 'capture', 'onchange' => "loadFile(event)", 'required' => 'required']) !!}
 
                                     @if($errors->has('file'))
                                         <span class="text-red" role="alert">
@@ -177,7 +177,7 @@ $role_id = $role->role_id;
                                 </div>
                                 <div class="col-md-12 p-0">
                                     {!! Form::label('truck_image', 'Truck Image File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                    {!! Form::file('truck_image', ['class' => 'form-control', 'autocomplete' => 'off', 'accept' => 'image/*', 'capture' => 'capture', 'onchange' => "loadFile(event)", 'required' => 'required']) !!}
+                                    {!! Form::file('truck_image', ['class' => 'form-control', 'autocomplete' => 'off', 'capture' => 'capture', 'onchange' => "loadFile(event)", 'required' => 'required']) !!}
 
                                     @if($errors->has('truck_image'))
                                         <span class="text-red" role="alert">
@@ -266,6 +266,12 @@ $role_id = $role->role_id;
             showMeridian: true,
             autoclose: true,
         });
+    });
+    $(document).ready( function () {
+        var table = $('.dataTables-example1').DataTable( {
+        pageLength : 3,
+        lengthMenu: [[3, 5, 10, 20, -1], [3, 5, 10, 20, 'All']]
+      });
     });
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />

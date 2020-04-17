@@ -47,15 +47,15 @@ $role_id = $role->role_id;
                     @endif
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table class="table dataTables_wrapper container-fluid dt-bootstrap4 no-footer table-striped table-bordered table-hover dataTables-example1">
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
                                     <th>Labour Book</th>
-                                    <th>Case ID</th>
+                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     <th>Customer Name</th>
                                     <th>UserName</th>
-                                    <th>Details in Tally</th>
+                                    <th>&nbsp;&nbsp;&nbsp;Details_in_Tally&nbsp;&nbsp;&nbsp;</th>
                                     <th>Labour Contractor</th>
                                     <th>Contractor Phone</th>
                                     <th>Labour Rate / Bag</th>
@@ -323,7 +323,12 @@ $role_id = $role->role_id;
                 $('.disable-cls').attr('required', 'true');
             }
         });
-
+    });
+    $(document).ready( function () {
+        var table = $('.dataTables-example1').DataTable( {
+        pageLength : 3,
+        lengthMenu: [[3, 5, 10, 20, -1], [3, 5, 10, 20, 'All']]
+      });
     });
 </script>
 <link rel="stylesheet" href="{{ asset('resources/assets/datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />

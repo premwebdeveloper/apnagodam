@@ -48,18 +48,18 @@ $role_id = $role->role_id;
                     @endif
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table class="table table-striped table-bordered table-hover dataTables-example1">
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
                                     <th>Gate Pass</th>
-                                    <th>Case ID</th>
+                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     <th>Customer Name</th>
                                     <th>UserName</th>
-                                    <th>Details in Tally</th>
-                                    <!-- <th>Total. Qty(Qtl)</th>
-                                    <th>Gate Pass No.</th>
-                                    <th>Bags</th>
+                                    <th>&nbsp;&nbsp;&nbsp;Details_in_Tally&nbsp;&nbsp;&nbsp;</th>
+                                    <th>No. of Bags</th>
+                                    <th>Total. Weight (Qtl)</th>
+                                    <!-- <th>Bags</th>
                                     <th>Stack No.</th>
                                     <th>Lot No.</th> -->
                                     <th>Gate Pass File</th>
@@ -112,9 +112,9 @@ $role_id = $role->role_id;
                                         <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
                                         <td><b>User : </b>{!! ($pricing->fpo_user_id)?$pricing->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($pricing->gate_pass_cdf_user_name)?$pricing->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($pricing->coldwin_name)?$pricing->coldwin_name:'N/A' !!}</td>
                                         <td><b>Purchase Details: </b>{!! ($pricing->purchase_name)?$pricing->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($pricing->loan_name)?$pricing->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($pricing->sale_name)?$pricing->sale_name:'N/A' !!}</td>
-                                       <!--  <td>{!! $pricing->total_weight !!}</td>
-                                       <td>{!! $pricing->gate_pass_no !!}</td>
-                                       <td>{!! $pricing->bags !!}</td>
+                                       <td>{!! $pricing->no_of_bags !!}</td>
+                                       <td>{!! $pricing->total_weight !!}</td>
+                                       <!--  <td>{!! $pricing->bags !!}</td>
                                        <td>{!! $pricing->stack_no !!}</td>
                                        <td>{!! $pricing->lot_no !!}</td> -->
                                         <td>
@@ -202,18 +202,36 @@ $role_id = $role->role_id;
                                     @endif
                                 </div> -->
                             <div class="col-md-4">
-                                <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'Gate Pass File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::file('report_file', ['class' => 'form-control', 'onchange' => "loadFile(event)", 'accept' => 'image/*', 'capture' => 'capture', 'autocomplete' => 'off']) !!}
+                                {!! Form::label('report_file', 'Gate Pass File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::file('report_file', ['class' => 'form-control', 'onchange' => "loadFile(event)", 'capture' => 'capture', 'autocomplete' => 'off']) !!}
 
-                                    @if($errors->has('report_file'))
-                                        <span class="text-red" role="alert">
-                                            <strong class="red">{{ $errors->first('report_file') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
+                                @if($errors->has('report_file'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('report_file') }}</strong>
+                                    </span>
+                                @endif
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-4">
+                                {!! Form::label('weight', 'Actual Weight(Qtl.)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::text('weight', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Actual Weight', 'required' => 'required']) !!}
+
+                                @if($errors->has('weight'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('weight') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                {!! Form::label('no_of_bags', 'Number of Bags', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::text('no_of_bags', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Number of Bags', 'required' => 'required']) !!}
+
+                                @if($errors->has('no_of_bags'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('no_of_bags') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="col-md-12">
                                 {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
                                 {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
 
@@ -265,7 +283,7 @@ $role_id = $role->role_id;
 </div>
 
 
-@if($errors->has('notes') || $errors->has('file') || $errors->has('case_id'))
+@if($errors->has('weight') || $errors->has('notes') || $errors->has('report_file') || $errors->has('case_id'))
     <script type="text/javascript">
         $(document).ready(function(){
             $('#setCasePrice').modal('show');
@@ -290,6 +308,12 @@ $role_id = $role->role_id;
             $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
+    });
+    $(document).ready( function () {
+        var table = $('.dataTables-example1').DataTable( {
+        pageLength : 3,
+        lengthMenu: [[3, 5, 10, 20, -1], [3, 5, 10, 20, 'All']]
+      });
     });
 </script>
 @endsection

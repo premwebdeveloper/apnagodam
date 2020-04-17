@@ -376,7 +376,7 @@
                         $notifications++;
                         $n++;
                     }else{
-                        $res = DB::table('apna_case_gate_pass')->where('case_id', $accounts->case_id)->first();
+                        $res = DB::table('apna_case_gate_pass')->where('case_id', $case->case_id)->first();
                         if($res){
                             $notifications++;
                             $n++;

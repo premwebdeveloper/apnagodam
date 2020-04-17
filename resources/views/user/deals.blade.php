@@ -57,6 +57,7 @@
                                         <th>Date</th>
                                         <th>Sell Type</th>
                                         <th>Status</th>
+                                        <th>Vikray Parchi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,45 +74,48 @@
                                             <td>{{ $buy->created_at }}</td>
                                             <td>{!! ($buy->sales_status == 1)?'<span class="label label-primary">Primary</span>': '<span class="label label-danger">Secondary</span>' !!}</td>
                                             <td><span class="label label-primary">Success</span></td>
+                                            <td><a href="{{ route('download_vikray_parchi', ['id' => $buy->id, 'email' => 0]) }}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">Download</a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         @else
-                        <table id="my_sell" class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Terminal</th>
-                                    <th>Location</th>
-                                    <th>Seller</th>
-                                    <th>Mandi Fee</th>
-                                    <th>Commodity</th>
-                                    <th>Net Weight (Qtl.)</th>
-                                    <th>Quality Grade</th>
-                                    <th>Price (Rs/Qtl.)</th>
-                                    <th>Date</th>
-                                    <th>Sell Type</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($buys as $key => $buy)
-                                    <tr class="gradeX">
-                                        <td>{{ $buy->name }}</td>
-                                        <td>{{ $buy->location }}</td>
-                                        <td>{{ $buy->fname }}</td>
-                                        <td>{{ ($buy->mandi_fees)?$buy->mandi_fees:'N/A' }}</td>
-                                        <td>{{ $buy->category }}</td>
-                                        <td>{{ $buy->quantity }}</td>
-                                        <td>{{ $buy->quality_category }}</td>
-                                        <td>{{ $buy->price }}</td>
-                                        <td>{{ $buy->created_at }}</td>
-                                        <td>{!! ($buy->sales_status == 1)?'<span class="label label-primary">Primary</span>': '<span class="label label-danger">Secondary</span>' !!}</td>
-                                        <td><span class="label label-primary">Success</span></td>
+                            <table id="my_sell" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Terminal</th>
+                                        <th>Location</th>
+                                        <th>Seller</th>
+                                        <th>Mandi Fee</th>
+                                        <th>Commodity</th>
+                                        <th>Net Weight (Qtl.)</th>
+                                        <th>Quality Grade</th>
+                                        <th>Price (Rs/Qtl.)</th>
+                                        <th>Date</th>
+                                        <th>Sell Type</th>
+                                        <th>Status</th>
+                                        <th>Vikray Parchi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach($buys as $key => $buy)
+                                        <tr class="gradeX">
+                                            <td>{{ $buy->name }}</td>
+                                            <td>{{ $buy->location }}</td>
+                                            <td>{{ $buy->fname }}</td>
+                                            <td>{{ ($buy->mandi_fees)?$buy->mandi_fees:'N/A' }}</td>
+                                            <td>{{ $buy->category }}</td>
+                                            <td>{{ $buy->quantity }}</td>
+                                            <td>{{ $buy->quality_category }}</td>
+                                            <td>{{ $buy->price }}</td>
+                                            <td>{{ $buy->created_at }}</td>
+                                            <td>{!! ($buy->sales_status == 1)?'<span class="label label-primary">Primary</span>': '<span class="label label-danger">Secondary</span>' !!}</td>
+                                            <td><span class="label label-primary">Success</span></td>
+                                            <td><a href="{{ route('download_user_vikray_parchi', ['id' => $buy->id]) }}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">Download</a></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @endif
                     </div>
 

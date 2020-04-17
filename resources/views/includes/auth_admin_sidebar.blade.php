@@ -127,6 +127,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('dharam_kanta') }}">
+                        <i class="fa fa-balance-scale" title=""></i>
+                        <span class="nav-label">Dharam Kanta</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('terminal_enquires') }}">
                         <i class="fa fa-envelope" title=""></i>
                         <span class="nav-label">Terminal Enquiries</span>
@@ -136,6 +142,12 @@
                     <a href="{{ route('users') }}">
                         <i class="fa fa-users" title=""></i>
                         <span class="nav-label">Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('corporate_users') }}">
+                        <i class="fa fa-users" title=""></i>
+                        <span class="nav-label">Corporate Buyer</span>
                     </a>
                 </li>
                 <li>
@@ -199,6 +211,12 @@
                     <a href="{{ route('users_otp') }}">
                         <i class="fa fa-key" title=""></i>
                         <span class="nav-label">User's OTP</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('reports') }}">
+                        <i class="fa fa-file" title=""></i>
+                        <span class="nav-label">Reports</span>
                     </a>
                 </li>
             @endif

@@ -49,7 +49,8 @@
                                     <th>S.No.</th>
                                     <th>Category Name</th>
                                     <th>Commodity Type</th>
-                                    <th>GST (%)</th>
+                                    <th>GST on Sell (%)</th>
+                                    <th>GST on Rent (%)</th>
                                     <th>Commission(%)</th>
                                     <th>Mandi Fees(%)</th>
                                     <th>Image</th>
@@ -63,6 +64,7 @@
                                         <td>{!! $category->category !!}</td>
                                         <td>{!! $category->commodity_type !!}</td>
                                         <td>{!! $category->gst !!}</td>
+                                        <td>{!! $category->gst_on_rent !!}</td>
                                         <td>{!! $category->commossion !!}</td>
                                         <td>{!! $category->mandi_fees !!}</td>
                                         <td><img src="{{ asset('resources/assets/upload/category/'.$category->image) }}" class="img-responsive" width="100" height="100"></td>

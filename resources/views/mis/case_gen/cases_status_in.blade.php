@@ -30,11 +30,11 @@
 	            <div class="ibox-content">
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table class="table table-striped table-bordered table-hover dataTables-example1">
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
-                                    <th>Case ID</th>
+                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     <th>Customer Name</th>
                                     <th>Commodity</th>
                                     <th>Terminal</th>
@@ -67,7 +67,7 @@
                                         <td>{!! $lead->case_id !!}</td>
                                         <td>{!! $lead->cust_fname." ".$lead->cust_lname !!}</td>
                                         <td>{!! $lead->cate_name ." (".$lead->commodity_type.")"  !!}</td>
-                                        <td>{!! $lead->terminal_name !!}</td>
+                                        <td>{!! $lead->terminal_name. " (".$lead->warehouse_code.")" !!}</td>
                                         <td>{!! ($lead->pricing_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->pricing_update_time)?date('g:i A', strtotime($lead->pricing_update_time)):'' }}
                                         </td>
 
@@ -80,6 +80,8 @@
                                         <td>{!! ($lead->kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->kanta_parchi_update_time)?date('g:i A', strtotime($lead->kanta_parchi_update_time)):'' }}
                                             <br/>
                                             {!! ($lead->kanta_parchi_file)?"<a class='view_file' data-id='kanta_parchi/".$lead->kanta_parchi_file."'><i class='fa fa-eye'></i></a>":'' !!}
+                                            &nbsp;&nbsp;&nbsp;
+                                            {!! ($lead->kanta_parchi_file_2)?"<a class='view_file' data-id='kanta_parchi/".$lead->kanta_parchi_file_2."'><i class='fa fa-eye'></i></a>":'' !!}
                                         </td>
 
                                         <td>{!! ($lead->quality_report_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->quality_report_update_time)?date('g:i A', strtotime($lead->quality_report_update_time)):'' }}
@@ -90,6 +92,8 @@
                                         <td>{!! ($lead->second_kanta_parchi_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->second_kanta_parchi_update_time)?date('g:i A', strtotime($lead->second_kanta_parchi_update_time)):'' }}
                                             <br/>
                                             {!! ($lead->second_kanta_parchi_file)?"<a class='view_file' data-id='second_kanta_parchi/".$lead->second_kanta_parchi_file."'><i class='fa fa-eye'></i></a>":'' !!}
+                                            &nbsp;&nbsp;&nbsp;
+                                            {!! ($lead->second_kanta_parchi_file_2)?"<a class='view_file' data-id='second_kanta_parchi/".$lead->second_kanta_parchi_file_2."'><i class='fa fa-eye'></i></a>":'' !!}
                                         </td>
 
                                         <td>{!! ($lead->second_quality_report_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->second_quality_report_update_time)?date('g:i A', strtotime($lead->second_quality_report_update_time)):'' }}
@@ -209,6 +213,12 @@
             $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
+    });
+    $(document).ready( function () {
+        var table = $('.dataTables-example1').DataTable( {
+        pageLength : 3,
+        lengthMenu: [[3, 5, 10, 20, -1], [3, 5, 10, 20, 'All']]
+      });
     });
 </script>
 @endsection

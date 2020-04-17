@@ -56,7 +56,7 @@
                     @endif
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table class="table table-striped table-bordered table-hover users_datatable">
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
@@ -79,34 +79,6 @@
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                @foreach($users as $key => $user)
-	                                <tr class="gradeX">
-                                        <td><input type="checkbox" class="" id="user_group" value="{!! $user->user_id !!}" name="user_ids[]"></td>
-                                        <td>
-                                            <a href="{!! route('user_view', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" title="View">
-                                                Update/View
-                                            </a>
-                                            <!-- <a href="{!! route('user_delete', ['user_id' => $user->user_id]) !!}" class="btn btn-info btn-xs" data-toggle="confirmation" data-placement="bottom" title="Delete User">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a> -->
-                                        </td>
-                                        <td>{!! $user->fname . $user->lname !!}</td>
-                                        <td>{!! $user->phone !!}</td>
-                                        <td>{!! $user->father_name !!}</td>
-                                        <td>{!! $user->aadhar_no !!}</td>
-                                        <td>{!! $user->pancard_no !!}</td>
-                                        <td>{!! $user->power !!}</td>
-                                        <td>{!! $user->bank_name !!}</td>
-                                        <td>{!! $user->bank_branch !!}</td>
-                                        <td>{!! $user->bank_acc_no !!}</td>
-                                        <td>{!! $user->bank_ifsc_code !!}</td>
-                                        <td>{!! $user->address !!}</td>
-                                        <td>{!! $user->village !!}</td>
-                                        <td>{!! $user->district !!}</td>
-                                        <td><a class="referred_by" href="javascript:;" id="{!! $user->referral_code !!}">{!! $user->referral_code !!}</a></td>
-                                        <td>{!! $user->transfer_amount !!}</td>
-	                                </tr>
-                                @endforeach
 	                        </tbody>
 	                    </table>
 	                </div>
@@ -142,10 +114,35 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
+<script type="text/javascript">    
     $(document).ready(function(){
-        $('.referred_by').on('click', function(){
+        var pTable = $('.users_datatable').dataTable({
+            "bDestroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{{ route('usersByAjax') }}",
+            "columns": [
+                {data: 'sr_no', name: 'sr_no'},
+                {data: 'action', name: 'action'},
+                {data: 'name', name: 'name'},
+                {data: 'phone', name: 'phone'},
+                {data: 'father_name', name: 'father_name'},
+                {data: 'aadhar_no', name: 'aadhar_no'},
+                {data: 'pancard_no', name: 'pancard_no'},
+                {data: 'power', name: 'power'},
+                {data: 'bank_name', name: 'bank_name'},
+                {data: 'bank_branch', name: 'bank_branch'},
+                {data: 'bank_acc_no', name: 'bank_acc_no'},
+                {data: 'bank_ifsc_code', name: 'bank_ifsc_code'},
+                {data: 'address', name: 'address'},
+                {data: 'village', name: 'village'},
+                {data: 'district', name: 'district'},
+                {data: 'referral_by', name: 'referral_by'},
+                {data: 'transfer_amount', name: 'transfer_amount'},
+            ],
+        });
+
+        pTable.on('click', '.referred_by', function(){
             var referral_id = $(this).attr('id');
             $.ajax({
                 method : 'post',

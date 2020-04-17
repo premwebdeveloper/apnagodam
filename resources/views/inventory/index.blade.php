@@ -14,7 +14,7 @@
         </ol>
     </div>
 	<div class="col-lg-4 text-right" style="padding-top: 30px;">
-        <a href="javascript:;" class="btn btn-info btn-sm import_csv">Import Inventories</a>
+        <!-- <a href="javascript:;" class="btn btn-info btn-sm import_csv">Import Inventories</a> -->
         <a href="{{ route('create_inventory') }}" class="btn btn-info btn-sm">Add Inventory</a>
     </div>
 </div>
@@ -46,44 +46,19 @@
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
-                                    <th>Case ID</th>
+                                    <!-- <th>Action</th> -->
+                                    <th>Case IDs</th>
+                                    <!-- <th>In / Out</th> -->
                                     <th>Seller</th>
                                     <th>Terminal</th>
-                                    <th>Gate Pass / WR No.</th>
+                                    <!-- <th>Gatepass No.</th> -->
                                     <th>Commodity</th>
                                     <th>Net Weight (Qtl.)</th>
-                                    <!-- <th>Quantity (Bags)</th> -->
                                     <th>Created Date</th>
-                                    <th>Action</th>
+                                    <th>Status</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody>
-                                @foreach($inventories as $key => $inventory)
-	                                <tr class="gradeX">
-                                        <td>{!! ++$key !!}</td>
-                                        <td>{!! $inventory->case_id !!}</td>
-                                        <td>{!! $inventory->fname !!} {!! $inventory->lname !!} ({!! $inventory->phone !!})</td>
-                                        <td>{!! $inventory->warehouse !!} ({!! $inventory->warehouse_code !!})</td>
-                                        <td>{!! $inventory->gate_pass_wr !!}</td>
-                                        <td>{!! $inventory->category !!}</td>
-                                        <td>{!! $inventory->quantity !!}</td>
-                                        <!-- <td>{!! $inventory->net_weight !!}</td> -->
-                                        <td>{!! $inventory->created_at !!}</td>
-                                        <td>
-                                            <a href="{!! route('inventory_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="View">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
-                                            @if(Auth::user()->id == 1 || Auth::user()->id == 2)
-                                            <a href="{!! route('inventory_edit_view', ['user_id' => $inventory->user_id, 'id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="Edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="{!! route('inventory_delete', ['id' => $inventory->id]) !!}" class="btn btn-info btn-sm" title="Delete">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                            @endif
-                                        </td>
-	                                </tr>
-                                @endforeach
 	                        </tbody>
 	                    </table>
 	                </div>
@@ -126,10 +101,43 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#inventory_table").dataTable({
-            "order": [[ 6, "desc" ]]
-        });
+        var pTable = $('#inventory_table').dataTable({
+            "bDestroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{{ route('getAllInventoresByAjax') }}",
+            "columns": [
+                {data: 'id', name: 'id'},
+                /*{data: 'action', name: 'action'},*/
+                {data: 'case_ids', name: 'case_ids'},
+                /*{data: 'in_out', name: 'in_out'},*/
+                {data: 'user_name', name: 'user_name'},
+                {data: 'warehouse_name', name: 'warehouse_name'},
+                /*{data: 'gate_pass_wr', name: 'gate_pass_wr'},*/
+                {data: 'category', name: 'category'},
+                {data: 'quantity', name: 'quantity'},
+                {data: 'date', name: 'date'},
+                {data: 'in__out_status', name: 'in__out_status'},
+            ],
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                {extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'ExampleFile'},
+                {extend: 'pdf', title: 'ExampleFile'},
 
+                {extend: 'print',
+                 customize: function (win){
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                }
+                }
+            ]
+        });
 
         //Inventory Import Modal
         $('.import_csv').on('click', function(){

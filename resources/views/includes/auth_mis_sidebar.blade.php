@@ -415,6 +415,12 @@ $emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first()
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('case_inventory') }}">
+                                <i class="fa fa-file" title=""></i>
+                                <span class="nav-label">Inventory</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('accounts') }}">
                                 <i class="fa fa-pencil" title=""></i>
                                 <span class="nav-label">Accounts</span>

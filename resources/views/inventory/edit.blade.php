@@ -60,8 +60,21 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('gate_pass_wr', 'Gate Pass / WR No.') !!}
-                                    {!! Form::text('gate_pass_wr', $inventory->gate_pass_wr, ['class' => 'form-control', 'id' => 'gate_pass_wr', 'placeholder' => 'Gate Pass / WR No.']) !!}
+                                    {!! Form::label('case_id', 'Case ID') !!}<span class="red">*</span>
+                                    {!! Form::text('case_id', $inventory->case_id, ['class' => 'form-control', 'id' => 'case_id', 'style' => 'text-transform: uppercase;', 'placeholder' => 'Enter Case ID']) !!}
+
+                                    @if($errors->has('case_id'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('case_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('gate_pass_wr', 'Gatepass No.') !!}
+                                    {!! Form::text('gate_pass_wr', $inventory->gate_pass_wr, ['class' => 'form-control', 'id' => 'gate_pass_wr', 'placeholder' => 'Enter Gatepass No.']) !!}
 
                                     @if($errors->has('gate_pass_wr'))
                                         <span class="help-block red">
@@ -105,19 +118,6 @@
                                     @if($errors->has('stack_no'))
                                         <span class="help-block red">
                                             <strong>{{ $errors->first('stack_no') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('lot_no', 'Lot No.') !!}
-                                    {!! Form::text('lot_no', $inventory->lot_no, ['class' => 'form-control', 'id' => 'lot_no', 'placeholder' => 'Lot No.']) !!}
-
-                                    @if($errors->has('lot_no'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('lot_no') }}</strong>
                                         </span>
                                     @endif
                                 </div>

@@ -45,7 +45,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('user', 'Seller') !!}
+                                    {!! Form::label('user', 'User') !!}<span class="red">*</span>
                                     {!! Form::select('user', $users, '', ['class' => 'form-control', 'id' => 'user']) !!}
 
                                     @if($errors->has('user'))
@@ -56,10 +56,23 @@
                                 </div>
                             </div>
 
-                             <div class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('gate_pass_wr', 'Gate Pass / WR No.') !!}
-                                    {!! Form::text('gate_pass_wr', '', ['class' => 'form-control', 'id' => 'gate_pass_wr', 'placeholder' => 'Gate Pass / WR No.']) !!}
+                                    {!! Form::label('case_id', 'Case ID') !!}<span class="red">*</span>
+                                    {!! Form::select('case_id[]', array(), '', ['class' => 'form-control select-picker', 'id' => 'case_id']) !!}
+
+                                    @if($errors->has('case_id'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('case_id') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {!! Form::label('gate_pass_wr', 'Gatepass No.') !!}<span class="red">*</span>
+                                    {!! Form::text('gate_pass_wr', '', ['class' => 'form-control', 'id' => 'gate_pass_wr', 'placeholder' => 'Enter Gatepass No.']) !!}
 
                                     @if($errors->has('gate_pass_wr'))
                                         <span class="help-block red">
@@ -71,8 +84,8 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('weight_bridge_no', 'Weight Bridge Sr. No.') !!}
-                                    {!! Form::text('weight_bridge_no', '', ['class' => 'form-control', 'id' => 'weight_bridge_no', 'placeholder' => 'Weight Bridge Sr. No.']) !!}
+                                    {!! Form::label('weight_bridge_no', 'Weight Bridge No. / kanta Parchi') !!}
+                                    {!! Form::text('weight_bridge_no', '', ['class' => 'form-control', 'id' => 'weight_bridge_no', 'placeholder' => 'Weight Bridge Sr. No. / kanta Parchi']) !!}
 
                                     @if($errors->has('weight_bridge_no'))
                                         <span class="help-block red">
@@ -97,7 +110,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('stack_no', 'Stack No.') !!}
+                                    {!! Form::label('stack_no', 'Stack No.') !!}<span class="red">*</span>
                                     {!! Form::text('stack_no', '', ['class' => 'form-control', 'id' => 'stack_no', 'placeholder' => 'Stack No.']) !!}
 
                                     @if($errors->has('stack_no'))
@@ -110,33 +123,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('lot_no', 'Lot No.') !!}
-                                    {!! Form::text('lot_no', '', ['class' => 'form-control', 'id' => 'lot_no', 'placeholder' => 'Lot No.']) !!}
-
-                                    @if($errors->has('lot_no'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('lot_no') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <!-- <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('net_weight', 'Net Weight (Qtl.)') !!}
-                                    {!! Form::text('net_weight', '', ['class' => 'form-control', 'id' => 'net_weight', 'placeholder' => 'Net Weight']) !!}
-
-                                    @if($errors->has('net_weight'))
-                                        <span class="help-block red">
-                                            <strong>{{ $errors->first('net_weight') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div> -->
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    {!! Form::label('warehouse', 'Terminal') !!}
+                                    {!! Form::label('warehouse', 'Terminal') !!}<span class="red">*</span>
                                     {!! Form::select('warehouse', $warehouses, '', ['class' => 'form-control', 'id' => 'warehouse']) !!}
 
                                     @if($errors->has('warehouse'))
@@ -149,7 +136,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('commodity', 'Commodity') !!}
+                                    {!! Form::label('commodity', 'Commodity') !!}<span class="red">*</span>
                                     {!! Form::select('commodity', $categories, '', ['class' => 'form-control', 'id' => 'commodity']) !!}
 
                                     @if($errors->has('commodity'))
@@ -162,7 +149,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('net_weight', 'Net Weight (Qtl.)') !!}
+                                    {!! Form::label('net_weight', 'Net Weight (Qtl.)') !!}<span class="red">*</span>
                                     {!! Form::text('quantity', '', ['class' => 'form-control', 'id' => 'quantity', 'placeholder' => 'Net Weight (Qtl.)']) !!}
 
                                     @if($errors->has('quantity'))
@@ -175,7 +162,7 @@
 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {!! Form::label('price', 'Price') !!}
+                                    {!! Form::label('price', 'Price') !!}<span class="red">*</span>
                                     {!! Form::text('price', '', ['class' => 'form-control', 'id' => 'price', 'placeholder' => 'Price']) !!}
 
                                     @if($errors->has('price'))
@@ -195,7 +182,7 @@
                                             'C' => 'C',
                                         );
                                     @endphp
-                                    {!! Form::label('quality_category', 'Quality Category') !!}
+                                    {!! Form::label('quality_category', 'Quality Category') !!}<span class="red">*</span>
                                     {!! Form::select('quality_category', $quality, '', ['class' => 'form-control', 'id' => 'quality_category']) !!}
 
                                     @if($errors->has('quality_category'))
@@ -222,7 +209,7 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    {!! Form::submit('Add Commodity', ['class' => 'btn btn-info btn btn-block']) !!}
+                                    {!! Form::submit('Add Inventory', ['class' => 'btn btn-info btn btn-block']) !!}
                                 </div>
                             </div>
 
@@ -234,5 +221,35 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#user').on('change', function(){
+            //Get All Cases
+            var id = $(this).val();
+            $.ajax({
+                method : 'post',
+                url: "{{ route('getCasesIdForUsers') }}",
+                async : true,
+                data : {"_token": "{{ csrf_token() }}", 'id' : id},
+                success:function(response)
+                {
+                    $('#case_id').html(response);
+                    $('#case_id').attr("multiple", true);
+                    $('#script_show').html("");
+                    $('#script_show').html("<script>$('.select-picker').multiselect({includeSelectAllOption: true, numberDisplayed: 0});<\/script>");
+                    $('.select-picker').multiselect('rebuild');
+                    console.log(response);
+                },
+                error: function(data)
+                {
+                    console.log(data);
+                },
+            });
+        });
+    });
+</script>
 
+<div id="script_show"></div>
+<link href="{{ asset('resources/assets/css/select.css') }}" rel="stylesheet">
+<script src="{{ asset('resources/assets/js/select.js') }}"></script>
 @endsection

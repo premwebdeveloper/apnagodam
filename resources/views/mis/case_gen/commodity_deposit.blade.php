@@ -48,15 +48,16 @@ $role_id = $role->role_id;
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <table class="table table-striped table-bordered table-hover dataTables-example1">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Commodity Deposit</th>
-                                    <th>Case ID</th>
+                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     <th>Customer Name</th>
                                     <th>UserName</th>
-                                    <th>Details in Tally</th>
+                                    <th>&nbsp;&nbsp;&nbsp;Details_in_Tally&nbsp;&nbsp;&nbsp;</th>
+                                    <th>Stack No.</th>
                                     <th>Commodity Deposit File</th>
                                     <th>Notes</th>
                                 </tr>
@@ -76,7 +77,7 @@ $role_id = $role->role_id;
                                                 @else
                                                     @if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3))
                                                         @if($check_status)
-                                                            <a data-id="{!! $pricing->case_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Commodity Deposit</a>
+                                                            <a data-id="{!! $pricing->case_id !!}||{!! $pricing->no_of_stacks !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Commodity Deposit</a>
                                                         @else
                                                             <span class="text-warning">Processing...</span>
                                                         @endif
@@ -89,6 +90,7 @@ $role_id = $role->role_id;
                                             <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
                                             <td><b>User : </b>{!! ($pricing->fpo_user_id)?$pricing->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($pricing->gate_pass_cdf_user_name)?$pricing->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($pricing->coldwin_name)?$pricing->coldwin_name:'N/A' !!}</td>
                                             <td><b>Purchase Details: </b>{!! ($pricing->purchase_name)?$pricing->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($pricing->loan_name)?$pricing->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($pricing->sale_name)?$pricing->sale_name:'N/A' !!}</td>
+                                            <td>{!! $pricing->stack_no !!}</td>
                                             <td>
                                                 @if($pricing->file)
                                                     <a class="view_report" data-id="{{ $pricing->file }}"><i class="fa fa-eye"></i></a>
@@ -132,29 +134,37 @@ $role_id = $role->role_id;
                                 </span>
                             @endif
                         </div>
-                        <div class="col-md-12">
-                            <div class="col-md-4">
-                                <div class="col-md-12 p-0">
-                                    {!! Form::label('report_file', 'File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::file('report_file', ['class' => 'form-control', 'onchange' => "loadFile(event)", 'autocomplete' => 'off']) !!}
+                        <div class="col-md-4">
+                            <div class="col-md-12 p-0">
+                                {!! Form::label('stack_no', 'Stack No.', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::select('stack_no', array(), '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required']) !!}
 
-                                    @if($errors->has('report_file'))
-                                        <span class="text-red" role="alert">
-                                            <strong class="red">{{ $errors->first('report_file') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
-                                {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
-
-                                @if($errors->has('notes'))
+                                @if($errors->has('stack_no'))
                                     <span class="text-red" role="alert">
-                                        <strong class="red">{{ $errors->first('notes') }}</strong>
+                                        <strong class="red">{{ $errors->first('stack_no') }}</strong>
                                     </span>
                                 @endif
                             </div>
+                            <div class="col-md-12 p-0">
+                                {!! Form::label('report_file', 'File', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
+                                {!! Form::file('report_file', ['class' => 'form-control', 'onchange' => "loadFile(event)", 'autocomplete' => 'off']) !!}
+
+                                @if($errors->has('report_file'))
+                                    <span class="text-red" role="alert">
+                                        <strong class="red">{{ $errors->first('report_file') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            {!! Form::label('notes', 'Notes', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            {!! Form::textarea('notes', '', ['class' => 'form-control', 'autocomplete' => 'off', 'required' => 'required', 'rows' => '5', 'placeholder' => 'Enter Notes']) !!}
+
+                            @if($errors->has('notes'))
+                                <span class="text-red" role="alert">
+                                    <strong class="red">{{ $errors->first('notes') }}</strong>
+                                </span>
+                            @endif
                         </div>
                     </div>
                     <div class="row">
@@ -208,10 +218,22 @@ $role_id = $role->role_id;
 <script type="text/javascript">
     $(document).ready(function(){
         $('.setPrice').on('click', function(){
-            var case_id = $(this).attr('data-id');
+            var temp = $(this).attr('data-id');
             var name = $(this).attr('id');
-            $('#case_id_val').html(case_id);
-            $('#hidden_case_id').val(case_id);
+            var data = temp.split('||');
+
+            //Make Select Box
+            var stack_no = data[1];
+            var option = '<option value="">Select Stack No</option>';
+            for(i = 1; i <= stack_no; i++)
+            {
+                option = option+'<option value="'+i+'">'+i+'</option>'; 
+            }
+
+            $('#stack_no').html(option);
+
+            $('#case_id_val').html(data[0]);
+            $('#hidden_case_id').val(data[0]);
             $('#cust_name').html(name);
             $('#setCasePrice').modal('show');
         });
@@ -222,6 +244,12 @@ $role_id = $role->role_id;
             $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
+    });
+    $(document).ready( function () {
+        var table = $('.dataTables-example1').DataTable( {
+        pageLength : 3,
+        lengthMenu: [[3, 5, 10, 20, -1], [3, 5, 10, 20, 'All']]
+      });
     });
 </script>
 @endsection

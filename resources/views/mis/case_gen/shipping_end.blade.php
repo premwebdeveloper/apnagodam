@@ -47,15 +47,15 @@ $role_id = $role->role_id;
                     @endif
 
                     <div class="table-responsive">
-	                    <table class="table table-striped table-bordered table-hover dataTables-example">
+	                    <table class="table table-striped table-bordered table-hover dataTables-example1">
 	                        <thead>
 	                            <tr>
                                     <th>#</th>
                                     <th>Shipping</th>
-                                    <th>Case ID</th>
+                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     <th>Customer Name</th>
                                     <th>UserName</th>
-                                    <th>Details in Tally</th>
+                                    <th>&nbsp;&nbsp;&nbsp;Details_in_Tally&nbsp;&nbsp;&nbsp;</th>
                                     <th>Location</th>
                                     <th>Date Time</th>
                                     <th>Notes</th>
@@ -67,7 +67,7 @@ $role_id = $role->role_id;
                                 @foreach($case_gen as $key => $shipping_start)
                                     @if($shipping_start->in_out == 'PASS')
                                         <?php
-                                            $check_status = DB::table('apna_case_shipping_start')->where('case_id', $shipping_start->case_id)->first();
+                                            $check_status = DB::table('apna_case_accounts')->where('case_id', $shipping_start->case_id)->first();
                                         ?>
     	                                <tr class="gradeX">
                                             <td>{{ ++$key }}</td>
@@ -97,7 +97,7 @@ $role_id = $role->role_id;
     	                                </tr>
                                     @elseif($shipping_start->in_out == 'OUT')
                                         <?php
-                                            $check_status = DB::table('apna_case_shipping_start')->where('case_id', $shipping_start->case_id)->first();
+                                            $check_status = DB::table('apna_case_accounts')->where('case_id', $shipping_start->case_id)->first();
                                         ?>
                                         <tr class="gradeX">
                                             <td>{{ ++$key }}</td>
@@ -228,6 +228,12 @@ $role_id = $role->role_id;
             showMeridian: true,
             autoclose: true,
         });
+    });
+    $(document).ready( function () {
+        var table = $('.dataTables-example1').DataTable( {
+        pageLength : 3,
+        lengthMenu: [[3, 5, 10, 20, -1], [3, 5, 10, 20, 'All']]
+      });
     });
 </script>
 <link rel="stylesheet" href="{{ asset('resources/assets/datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />

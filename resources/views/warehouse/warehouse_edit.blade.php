@@ -191,7 +191,71 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('no_of_stacks', 'No of Stack') !!}
+                                    {!! Form::number('no_of_stacks', $warehouse->no_of_stacks, ['class' => 'form-control', 'id' => 'no_of_stacks', 'placeholder' => 'Enter No of Stack']) !!}
 
+                                    @if($errors->has('no_of_stacks'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('no_of_stacks') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('dharam_kanta', 'Dharam Kanta') !!}
+                                    {!! Form::select('dharam_kanta', $dharm_kanta, $warehouse->dharam_kanta,['class' => 'form-control', 'id' => 'dharam_kanta']) !!}
+
+                                    @if($errors->has('dharam_kanta'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('dharam_kanta') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('labour_contractor', 'Labour Contractor') !!}
+                                    {!! Form::text('labour_contractor', $warehouse->labour_contractor, ['class' => 'form-control', 'id' => 'labour_contractor', 'placeholder' => 'Enter Labour Contractor Name']) !!}
+
+                                    @if($errors->has('labour_contractor'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('labour_contractor') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('contractor_phone', 'Contractor Phone') !!}
+                                    {!! Form::text('contractor_phone', $warehouse->contractor_phone, ['class' => 'form-control', 'id' => 'contractor_phone', 'placeholder' => 'Enter Contractor Phone']) !!}
+
+                                    @if($errors->has('contractor_phone'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('contractor_phone') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {!! Form::label('labour_rate', 'Labour Rate') !!}
+                                    {!! Form::number('labour_rate', $warehouse->labour_rate, ['class' => 'form-control', 'id' => 'labour_rate', 'placeholder' => 'Labour Rate']) !!}
+
+                                    @if($errors->has('labour_rate'))
+                                        <span class="help-block red">
+                                            <strong>{{ $errors->first('labour_rate') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {!! Form::label('transporter_info', 'NearBy Transporter Info ( Separate By || )') !!}

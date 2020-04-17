@@ -38,8 +38,9 @@ $role_id = $role->role_id;
                             <div class="ibox">
                                 <h3 class="f-s-20">Case ID - {{ $case_id }}</h3><br />
                                 <ul class="list-unstyled file-list">
-                                    <li class="col-md-6 f-s-14">Customer Name :  <b>{{ ($case_gen->cust_fname)?$case_gen->cust_fname:'N/A' }}</b></li>
-                                    <li class="col-md-6 f-s-14">Terminal  :  <b>{{ ($case_gen->terminal_name)?$case_gen->terminal_name:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">Customer Name :  <b>{{ ($case_gen->cust_fname)?$case_gen->cust_fname:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">Terminal  :  <b>{{ ($case_gen->terminal_name)?$case_gen->terminal_name:'N/A' }}</b></li>
+                                    <li class="col-md-4 f-s-14">Weight (Qtl.)  :  <b>{{ ($case_gen->total_weight)?$case_gen->total_weight:'N/A' }}</b></li>
                                     <li class="col-md-4 f-s-14">Commodity  :  <b>{{ ($case_gen->cate_name)?$case_gen->cate_name:'N/A' }}</b></li>
                                     <li class="col-md-4 f-s-14">Lead Generator  :  <b>{{ ($case_gen->lead_gen_fname)?$case_gen->lead_gen_fname:'N/A' }}</b></li>
                                     <li class="col-md-4 f-s-14">Lead Convertor  :  <b>{{ ($case_gen->lead_conv_fname)?$case_gen->lead_conv_fname:'N/A' }}</b></li>
@@ -185,6 +186,7 @@ $role_id = $role->role_id;
                                 <h3 class="f-s-20">First Kanta Parchi</h3>
                                 <ul class="list-unstyled file-list">
                                     <li class="col-md-2 f-s-14">File : <b>{!! ($case_gen->k_p_file)?'<a style="color:#1ab394;" href="'.url('/').'/resources/assets/upload/kanta_parchi/'.$case_gen->k_p_file.'" target="_blank">View</a>':'N/A' !!}</b></li>
+                                    <li class="col-md-2 f-s-14">File : <b>{!! ($case_gen->k_p_file_2)?'<a style="color:#1ab394;" href="'.url('/').'/resources/assets/upload/kanta_parchi/'.$case_gen->k_p_file_2.'" target="_blank">View</a>':'N/A' !!}</b></li>
                                     <li class="col-md-10 f-s-14">Notes : <b>{{ ($case_gen->k_p_notes)?$case_gen->k_p_notes:'N/A' }}</b></li>
                                 </ul>
                             </div>
@@ -216,6 +218,7 @@ $role_id = $role->role_id;
                                 <h3 class="f-s-20">Second Kanta Parchi</h3>
                                 <ul class="list-unstyled file-list">
                                     <li class="col-md-2 f-s-14">File : <b>{!! ($case_gen->s_k_p_file)?'<a style="color:#1ab394;" href="'.url('/').'/resources/assets/upload/second_kanta_parchi/'.$case_gen->s_k_p_file.'" target="_blank">View</a>':'N/A' !!}</b></li>
+                                    <li class="col-md-2 f-s-14">File : <b>{!! ($case_gen->s_k_p_file_2)?'<a style="color:#1ab394;" href="'.url('/').'/resources/assets/upload/second_kanta_parchi/'.$case_gen->s_k_p_file_2.'" target="_blank">View</a>':'N/A' !!}</b></li>
                                     <li class="col-md-10 f-s-14">Notes : <b>{{ ($case_gen->s_k_p_notes)?$case_gen->s_k_p_notes:'N/A' }}</b></li>
                                 </ul>
                             </div>
