@@ -108,3 +108,28 @@ ALTER TABLE `apna_case_accounts` ADD `inventory` VARCHAR(10) NULL AFTER `whs_iss
 
 -- ------------------- ALTER TABLE `apna_employees` at 13-03-2020 ------------------
 ALTER TABLE `apna_employees` ADD `personal_phone` VARCHAR(20) NULL AFTER `email`, ADD `address` TEXT NULL AFTER `personal_phone`;
+
+-- ------------------- ALTER TABLE `categories` at 26-03-2020 ------------------
+ALTER TABLE `categories` ADD `gst_on_rent` VARCHAR(20) NULL AFTER `gst`;
+
+-- ------------------- ALTER TABLE `warehouses` at 26-03-2020 ------------------
+ALTER TABLE `warehouses` ADD `no_of_stacks` INT NULL AFTER `gatepass_end`;
+
+-- ------------------- ALTER TABLE `warehouses` at 28-03-2020 ------------------
+ALTER TABLE `warehouses` ADD `dharam_kanta` INT NULL AFTER `no_of_stacks`;
+ALTER TABLE `warehouses` ADD `labour_contractor` VARCHAR(100) NULL AFTER `dharam_kanta`, ADD `contractor_phone` VARCHAR(20) NULL AFTER `labour_contractor`, ADD `labour_rate` VARCHAR(10) NULL AFTER `contractor_phone`;
+
+-- ------------------- ALTER TABLE `apna_case_cdf` at 29-03-2020 ------------------
+ALTER TABLE `apna_case_cdf` ADD `stack_no` INT NULL AFTER `user_id`;
+
+-- ------------------- ALTER TABLE `inventories` at 31-03-2020 ------------------
+ALTER TABLE `inventories` CHANGE `case_id` `case_id` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
+
+-- ------------------- ALTER TABLE `apna_case` at 2-04-2020 ------------------
+ALTER TABLE `apna_case` ADD `no_of_bags` INT NULL AFTER `sale_name`, ADD `cancel_notes` TEXT NULL AFTER `no_of_bags`;
+
+-- ------------------- ALTER TABLE `inventory_cases_id` at 5-04-2020 ------------------
+ALTER TABLE `inventory_cases_id` ADD `weight` VARCHAR(100) NULL AFTER `case_id`;
+
+-- ------------------- ALTER TABLE `apna_case_pricing` at 10-04-2020 ------------------
+ALTER TABLE `apna_case_pricing` CHANGE `user_id` `user_id` INT(11) NULL, CHANGE `processing_fees` `processing_fees` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `interest_rate` `interest_rate` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `price` `price` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `rent` `rent` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `labour_rate` `labour_rate` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
