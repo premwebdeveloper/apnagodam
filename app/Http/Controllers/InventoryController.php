@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use DB;
+use DataTables;
+use App\CaseGen;
+use App\inventory;
 
 class InventoryController extends Controller
 {
@@ -18,19 +21,53 @@ class InventoryController extends Controller
 	}
 
 	// Show all inventory
-	public function index(){
-
-		$inventories = 	DB::table('inventories')
-                        ->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
-                        ->join('categories', 'categories.id', '=', 'inventories.commodity')
-         		       	->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-         		       	->select('user_details.fname', 'user_details.lname', 'user_details.phone', 'inventories.*', 'categories.category', 'warehouses.warehouse_code', 'warehouses.name as warehouse')
-						->where('inventories.status', 1)
-                        ->orderBy('inventories.updated_at', 'DESC')
-						->get();
-
-    	return view('inventory.index', array('inventories' => $inventories));
+	public function index()
+    {
+		return view('inventory.index');
 	}
+
+    // Show all inventory
+    public function getAllInventoresByAjax(){
+
+        $inventories = inventory::getInventories();
+
+        //  Get All Page titles
+        return Datatables::of($inventories)->addColumn('action', function ($row) {
+            $action = '<a href="'.route('inventory_view', ['user_id' => $row->user_id, 'id' => $row->id]).'" class="btn btn-info btn-xs" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+            $action .= '&nbsp;&nbsp;<a href="'.route('inventory_delete', ['id' => $row->id]).'" onclick="return confirm(\'Are you sure ! you want to Delete this Inventory?\');" class="btn btn-danger btn-xs" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+            return $action;
+        })->addColumn('case_ids', function ($row) {
+            $all_cases = inventory::getInventoryCases($row->id);
+            $cases = '';
+            foreach($all_cases as $key => $case){
+                $cases .= '<a class="btn btn-xs btn-default" href="'.url('/')."/viewCase/".$case->case_id.'">'.$case->case_id."</a>";
+            }
+            return $cases;
+        })->addColumn('user_name', function ($row) {
+            return $row->fname." ".$row->lname." (".$row->phone.")";
+        })->addColumn('in_out', function ($row) {
+            $in_out = '';
+            if($row->status == 1){
+                $in_out = 'IN';
+            }else{
+                $in_out = 'OUT';
+            }
+            return $in_out;
+        })->addColumn('in__out_status', function ($row) {
+            $status = '';
+            if($row->status == 1){
+                $status = '<span class="text-info"><b>In Storage</b></span>';
+            }else if($row->status == 0){
+                $status = '<span class="red"><b>Out</b></span>';
+            }
+            return $status;
+        })->addColumn('warehouse_name', function ($row) {
+            return $row->warehouse." (".$row->warehouse_code.")";
+        })->addColumn('date', function ($row) {
+            return date('d M Y H:i:s', strtotime($row->created_at));
+        })->escapeColumns(null)
+        ->make(true);
+    }
 
 	// Create inventory page view
 	public function create(){
@@ -41,7 +78,7 @@ class InventoryController extends Controller
                 ->select('user_details.*')
                 ->where(array('user_details.status' => 1, 'user_roles.role_id' => 2))->get();
 
-        $all_users[''] = 'Select Seller';
+        $all_users[''] = 'Select User';
         foreach ($users as $key => $user) {
             $all_users[$user->user_id] = $user->fname;
         }
@@ -63,6 +100,19 @@ class InventoryController extends Controller
     	return view('inventory.create', array('users' => $all_users, 'categories' => $all_categories, 'warehouses' => $all_warehouses));
 	}
 
+    //get Cases Id For Users
+    public function getCasesIdForUsers(Request $request)
+    {
+        $id = $request->id;
+        $cases = CaseGen::getCasesByUser($id);
+        $option = '';
+
+        foreach($cases as $key => $case){
+            $option .= '<option value="'.$case->case_id.'">'.$case->case_id.'</option>'; 
+        }
+        echo $option;
+    }
+
 	// Add inventory
 	public function add_inventory(Request $request){
 
@@ -70,17 +120,15 @@ class InventoryController extends Controller
         $this->validate($request, [
             'user'             => 'required',
             'commodity'        => 'required',
-            'gate_pass_wr'     => 'required | unique:inventories',
+            'gate_pass_wr'     => 'required',
             'warehouse'        => 'required',
+            'case_id'          => 'required',
             'weight_bridge_no' => 'required',
             'truck_no'         => 'required',
             'stack_no'         => 'required',
-            'lot_no'           => 'required',
-            //'net_weight'       => 'required',
             'quantity'         => 'required',
             'price'            => 'required',
             'quality_category' => 'required',
-            'file'             => 'required | mimes:pdf| max:2000',
         ]);
 
         //Get Commodity Type
@@ -93,20 +141,20 @@ class InventoryController extends Controller
             $sales_status = 1;
         }
 
-        $user_id          = $request->user;
-        $commodity        = $request->commodity;
-        $warehouse        = $request->warehouse;
-        $weight_bridge_no = $request->weight_bridge_no;
-        $truck_no         = $request->truck_no;
-        $stack_no         = $request->stack_no;
-        $lot_no           = $request->lot_no;
-        $net_weight       = null;
-        $quantity         = $request->quantity;
-        $price            = $request->price;
-        $quality_category = $request->quality_category;
-        $gate_pass_wr     = $request->gate_pass_wr;
-        $sales_status     = $request->sales_status;
-        $date             = date('Y-m-d H:i:s');
+        $data['user_id']          = $request->user;
+        $data['commodity']        = $request->commodity;
+        $data['warehouse']        = $request->warehouse;
+        $data['weight_bridge_no'] = $request->weight_bridge_no;
+        $data['truck_no']         = $request->truck_no;
+        $data['stack_no']         = $request->stack_no;
+        $data['net_weight']       = null;
+        $data['quantity']         = $request->quantity;
+        $data['price']            = $request->price;
+        $data['quality_category'] = $request->quality_category;
+        $data['gate_pass_wr']     = $request->gate_pass_wr;
+        $data['sales_status']     = $request->sales_status;
+        
+        $case_ids     = $request->case_id;
 
         # If user profile image uploaded then
         if($request->hasFile('file')) {
@@ -141,28 +189,35 @@ class InventoryController extends Controller
             $destinationPath = base_path() . '/resources/assets/upload/inventory/';
             $file->move($destinationPath,$filename);
             $filepath = $destinationPath.$filename;
+        }else{
+            $filename = null;
         }
 
-        // Add Inventory
-        $inventory = DB::table('inventories')->insert([
-            'user_id'          => $user_id,
-            'warehouse_id'     => $warehouse,
-            'commodity'        => $commodity,
-            'weight_bridge_no' => $weight_bridge_no,
-            'truck_no'         => $truck_no,
-            'stack_no'         => $stack_no,
-            'lot_no'           => $lot_no,
-            'net_weight'       => $net_weight,
-            'type'             => null,
-            'quantity'         => $quantity,
-            'price'            => $price,
-            'gate_pass_wr'     => $gate_pass_wr,
-            'quality_category' => $quality_category,
-            'image'            => $filename,
-            'status'           => 1,
-            'created_at'       => $date,
-            'updated_at'       => $date
-        ]);
+        $data['file'] = $filename;
+
+        //Check already inserted or not
+        $check_data = DB::table('inventories')
+                        ->where(['status' =>  1, 'warehouse_id' => $request->warehouse, 'user_id' => $request->user, 'commodity' => $request->commodity])
+                        ->first();
+
+        if($check_data){
+            $total_weight = $check_data->quantity + $request->quantity;
+            //Update In Inventory
+            $inventory = inventory::updateInventoryWeight($check_data->id, $total_weight);
+
+            foreach ($case_ids as $key => $case_id) {
+                //Insert Inventory id with Case ID
+                $inset = inventory::addCaseIdInInventory($check_data->id, $case_id, $request->quantity);
+            }
+        }else{
+            //Insert In Inventory
+            $inventory = inventory::addInventory($data);
+            
+            foreach ($case_ids as $key => $case_id) {
+                //Insert Inventory id with Case ID
+                $inset = inventory::addCaseIdInInventory($inventory, $case_id, $request->quantity);
+            }
+        }
 
         if($inventory)
         {
@@ -219,7 +274,6 @@ class InventoryController extends Controller
                                         $weight_bridge_sr_no =  $value->weight_bridge_sr_no;
                                         $truck_no            =  $value->truck_no;
                                         $stack_no            =  $value->stack_no;
-                                        $lot_no              =  $value->lot_no;
                                         $net_weight          =  $value->net_weight;
                                         $terminal_id         =  $value->terminal_id;
                                         $commodity           =  $value->commodity;
@@ -236,7 +290,6 @@ class InventoryController extends Controller
                                             'weight_bridge_no' => $weight_bridge_sr_no,
                                             'truck_no'         => $truck_no,
                                             'stack_no'         => $stack_no,
-                                            'lot_no'           => $lot_no,
                                             //'net_weight'       => $net_weight,
                                             'type'             => null,
                                             'quantity'         => $net_weight,
@@ -296,7 +349,7 @@ class InventoryController extends Controller
 
         // User update in users table
         $delete = DB::table('inventories')->where('id', $id)->update([
-            'status' => 0,
+            'status' => 2,
             'updated_at' => $date
         ]);
 
@@ -381,8 +434,7 @@ class InventoryController extends Controller
             'weight_bridge_no' => 'required',
             'truck_no'         => 'required',
             'stack_no'         => 'required',
-            'lot_no'           => 'required',
-            //'net_weight'       => 'required',
+            'case_id'          => 'required',
             'quantity'         => 'required',
             'price'            => 'required',
             'gate_pass_wr'     => 'required',
@@ -393,11 +445,11 @@ class InventoryController extends Controller
         $id               = $request->inventory_id;
         $user_id          = $request->user;
         $warehouse        = $request->warehouse;
+        $case_id        = $request->case_id;
         $commodity        = $request->commodity;
         $weight_bridge_no = $request->weight_bridge_no;
         $truck_no         = $request->truck_no;
         $stack_no         = $request->stack_no;
-        $lot_no           = $request->lot_no;
         $net_weight       = null;
         $quantity         = $request->quantity;
         $price            = $request->price;
@@ -452,11 +504,11 @@ class InventoryController extends Controller
         $edit = DB::table('inventories')->where('id', $id)->update([
             'user_id'          => $user_id,
             'warehouse_id'     => $warehouse,
+            'case_id'          => $case_id,
             'commodity'        => $commodity,
             'weight_bridge_no' => $weight_bridge_no,
             'truck_no'         => $truck_no,
             'stack_no'         => $stack_no,
-            'lot_no'           => $lot_no,
             'net_weight'       => $net_weight,
             'quantity'         => $quantity,
             'quality_category' => $quality_category,

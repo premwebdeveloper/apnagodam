@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Mis;
 use App\user_details;
+use DataTables;
 use DB;
 use PDF;
 use Mail;
@@ -60,6 +62,12 @@ class AdminController extends Controller
     // Show all users
     public function users()
     {
+    	return view('admin.index');
+    }
+
+    // Show all users by Ajax
+    public function usersByAjax()
+    {
         $users = DB::table('user_details')
                 ->join('user_roles', 'user_roles.user_id', '=', 'user_details.user_id')
                 ->select('user_details.*', 'user_roles.role_id')
@@ -67,8 +75,174 @@ class AdminController extends Controller
                 ->where('user_details.user_id', '!=', 1)
                 ->get();
 
-    	return view('admin.index', array('users' => $users));
+        return Datatables::of($users)->addColumn('action', function ($row) {
+            $res = '<a href="'.route('user_view', ['user_id' => $row->user_id]).'" class="btn btn-info btn-xs" title="View">Update/View</a>';
+            return $res;
+        })->addColumn('sr_no', function ($row) {
+            $res = '<input type="checkbox" class="" id="user_group" value="'.$row->user_id.'" name="user_ids[]">';
+            return $res;
+        })->addColumn('name', function ($row) {
+            return $row->fname." ".$row->lname;
+        })->addColumn('referral_by', function ($row) {
+            return '<a class="referred_by" href="javascript:;" id="'.$row->referral_code.'">'.$row->referral_code.'</a>';
+        })->escapeColumns(null)
+        ->make(true); 
     }
+
+    // Show all corporate users
+    public function corporate_users()
+    {
+        //Get All Users
+        $users = DB::table('apna_corporate_users')
+                ->join('users', 'users.id', '=', 'apna_corporate_users.user_id')
+                ->join('warehouses', 'warehouses.id', '=', 'apna_corporate_users.terminal_id')
+                ->where('apna_corporate_users.status', 1)
+                ->select('apna_corporate_users.*', 'users.fname as user_name', 'warehouses.name as terminal_name', 'warehouses.warehouse_code')
+                ->get();
+
+        //Get All Terminals 
+        $res = DB::table('warehouses')->where('status', 1)->get();
+        $terminals = array('' => 'Select Terminal');
+        foreach($res as $terminal)
+        {
+            $terminals[$terminal->id] = $terminal->name. " (".$terminal->warehouse_code.")";
+        }
+
+        $res = DB::table('user_details')->where('status', 1)->orderBy('fname', 'ASC')->get();
+        $customers = array('' => 'Select Customer / Search Phone No.');
+        foreach($res as $cust)
+        {
+            $customers[$cust->phone] = $cust->fname." ".$cust->lname;
+        }
+
+        return view('admin.corporate_users', array('case_gen' => $users, 'terminals' => $terminals, 'customers' => $customers));
+    }
+
+    // Edit Corporate Users
+    public function edit_corporate_user(Request $request)
+    {
+        //Get All Users
+        $user_data = DB::table('apna_corporate_users')
+                ->join('users', 'users.id', '=', 'apna_corporate_users.user_id')
+                ->join('warehouses', 'warehouses.id', '=', 'apna_corporate_users.terminal_id')
+                ->where('apna_corporate_users.id', $request->id)
+                ->select('apna_corporate_users.*', 'users.fname as user_name', 'users.phone', 'warehouses.name as terminal_name', 'warehouses.warehouse_code')
+                ->first();
+
+        //Get All Terminals 
+        $res = DB::table('warehouses')->where('status', 1)->get();
+        $terminals = array('' => 'Select Terminal');
+        foreach($res as $terminal)
+        {
+            $terminals[$terminal->id] = $terminal->name. " (".$terminal->warehouse_code.")";
+        }
+
+        $res = DB::table('user_details')->where('status', 1)->orderBy('fname', 'ASC')->get();
+        $customers = array('' => 'Select Customer / Search Phone No.');
+        foreach($res as $cust)
+        {
+            $customers[$cust->phone] = $cust->fname." ".$cust->lname;
+        }
+
+        return view('admin.update_corporate_users', array('user_data' => $user_data, 'terminals' => $terminals, 'customers' => $customers));
+    }
+
+    //Add Corporate User
+    public function addCorporateUser(Request $request)
+    {
+        # Set validation for
+        $this->validate($request, [
+            'user_id'        => 'required',
+            'location' => 'required',
+            'pincode' => 'required',
+            'price' => 'required',
+            'terminal_id' => 'required',
+        ]);
+        $customer_phone        = $request->user_id;
+
+        //Get User Id by Number
+        $customer =DB::table('users')->where('phone', $customer_phone)->first();
+
+        $user_id = $customer->id;
+                
+        $location = $request->location;
+        $pincode = $request->pincode;
+        $price = $request->price;
+        $terminal_id = $request->terminal_id;
+        $date        = date('Y-m-d H:i:s');
+
+        // Create User Details
+        $inserted = DB::table('apna_corporate_users')->insert([
+            'user_id'        => $user_id,
+            'location' => $location,
+            'pincode' => $pincode,
+            'price' => $price,
+            'terminal_id' => $terminal_id,
+            'created_at'  => $date,
+            'updated_at'  => $date,
+            'status'      => 1
+        ]);
+
+        if($inserted)
+        {
+            $status = 'Corporate Buyer Added successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('corporate_users')->with('status', $status);
+    }
+
+    // Update Corporate User
+    public function updateCorporateUser(Request $request){
+        # Set validation for
+        $this->validate($request, [
+            'user_id'        => 'required',
+            'location' => 'required',
+            'pincode' => 'required',
+            'price' => 'required',
+            'terminal_id' => 'required',
+        ]);
+        $customer_phone        = $request->user_id;
+
+        //Get User Id by Number
+        $customer =DB::table('users')->where('phone', $customer_phone)->first();
+
+        $user_id = $customer->id;
+                
+        $id = $request->id;
+        $location = $request->location;
+        $pincode = $request->pincode;
+        $price = $request->price;
+        $terminal_id = $request->terminal_id;
+        $date        = date('Y-m-d H:i:s');
+
+        // Create User Details
+        $inserted = DB::table('apna_corporate_users')
+                    ->where('id', $id)
+                    ->update([
+                        'user_id'        => $user_id,
+                        'location' => $location,
+                        'pincode' => $pincode,
+                        'price' => $price,
+                        'terminal_id' => $terminal_id,
+                        'updated_at'  => $date,
+                    ]);
+
+        if($inserted)
+        {
+            $status = 'Corporate Buyer Updated successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+
+        return redirect('corporate_users')->with('status', $status);
+    }
+
     // View Facility Master
     public function facilitiy_master(){
 
@@ -300,7 +474,7 @@ class AdminController extends Controller
 
         //Get State
         $state = DB::table('states')->get();
-        $states = array();
+        $states = array('' => 'Select State');
         foreach($state as $key => $value)
         {
             $states[$value->name] = $value->name;
@@ -637,7 +811,12 @@ class AdminController extends Controller
     {
         $user = Auth::user(); 
         $role = DB::table('user_roles')->where('user_id', $user->id)->first();
+        return view('admin.done_deals', array('role' => $role));
+    }
 
+    // Show all users by Ajax
+    public function getAllDealsDoneByAjax()
+    {
         $done_deals = DB::table('buy_sells')
                         ->leftjoin('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
                         ->leftjoin('users','users.id', '=', 'buy_sells.seller_id')
@@ -649,14 +828,42 @@ class AdminController extends Controller
                         ->orderBy('buy_sells.updated_at', 'DESC')
                         ->groupBy('buy_sells.id')
                         ->get();
-        return view('admin.done_deals', array('done_deals' => $done_deals, 'role' => $role));
+        return Datatables::of($done_deals)->addColumn('action', function ($row) {
+            $user = Auth::user(); 
+            $role = DB::table('user_roles')->where('user_id', $user->id)->first();
+            $res = '';
+            if($role->role_id == 1){
+                if($row->status == 2){
+                    $res = '<a href="javascript:;" id="'.$row->id.'_'.$row->gate_pass_wr.'" class="btn btn-warning btn-xs edit_gate_pass" data-toggle="tooltip" title="Deal Done">Approve</a>';
+                }else{
+                    $res = '<a href="'.route('download_vikray_parchi', ['id' => $row->id, 'email' => 0]).'" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">Download Vikray Parchi</a><a href="'.route('download_vikray_parchi', ['id' => $row->id, 'email' => 1]).'" class="btn btn-info btn-xs" data-toggle="tooltip" title="Send Pdf">Send Mail</a>';
+                }
+            }
+            return $res;
+        })->addColumn('done_date', function ($row) {
+            $res = date('d M Y', strtotime($row->updated_at));
+            return $res;
+        })->addColumn('payment_ref_no', function ($row) {
+            $res = '';
+            if($row->payment_ref_no){
+                $res = $row->payment_ref_no;
+            }
+            else{
+                $user = Auth::user(); 
+                $role = DB::table('user_roles')->where('user_id', $user->id)->first();
+                if($role->role_id == 1){
+                    $res = '<a href="javascript:;" id="'.$row->id.'" class="btn btn-warning btn-xs add_payment_ref" data-toggle="tooltip" title="Add Payment Ref. No."><i class="fa fa-plus"></i></a>';
+                }
+            }
+            return $res;
+        })->escapeColumns(null)
+        ->make(true); 
     }
 
     // Payment Accept By Admin
     public function payment_accept(Request $request){
         $deal_id = $request->id;
         $gate_pass = $request->gate_pass;
-
 
         $done_deals = DB::table('buy_sells')
             ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')

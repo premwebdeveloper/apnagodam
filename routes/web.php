@@ -76,7 +76,9 @@ Route::get('/deal_done/{inventory_id}', 'UsersController@deal_done')->name('deal
 Route::get('/notifications', 'UsersController@notifications')->name('notifications');
 
 //Corporate Buying
-Route::get('/corporate_buying/{id}', 'UsersController@corporate_buying')->name('corporate_buying');
+Route::post('/corporate_buying', 'UsersController@corporate_buying')->name('corporate_buying');
+
+Route::get('/download_user_vikray_parchi/{id}', 'UsersController@download_user_vikray_parchi')->name('download_user_vikray_parchi');
 
 /* ***************************************************** */
 // Ajax functions in Ajax controller
@@ -94,6 +96,12 @@ Route::post('/getWarehouseDistance', 'AjaxController@getWarehouseDistance')->nam
 /* ************************************************************************** */
 
 // Update User Profile by Admin
+Route::get('/corporate_users', 'AdminController@corporate_users')->name('corporate_users');
+Route::post('/addCorporateUser', 'AdminController@addCorporateUser')->name('addCorporateUser');
+Route::get('/edit_corporate_user/{id}', 'AdminController@edit_corporate_user')->name('edit_corporate_user');
+Route::post('/updateCorporateUser', 'AdminController@updateCorporateUser')->name('updateCorporateUser');
+Route::any('/get_corporate_users_ajax', 'UsersController@get_corporate_users_ajax')->name('get_corporate_users_ajax');
+
 Route::any('/updateUserProfile', 'AdminController@updateUserProfile')->name('updateUserProfile');
 
 // Change password view
@@ -121,6 +129,7 @@ Route::get('/bank_master_delete/{id}', 'FinanceController@bank_master_delete')->
 
 // User routes
 Route::get('/users', 'AdminController@users')->name('users');
+Route::get('/usersByAjax', 'AdminController@usersByAjax')->name('usersByAjax');
 Route::get('/add_user_view', 'AdminController@add_user_view')->name('add_user_view');
 Route::post('/add_user', 'AdminController@add_user')->name('add_user');
 Route::get('/user_view/{user_id}', 'AdminController@user_view')->name('user_view');
@@ -138,6 +147,7 @@ Route::get('/unapprove/{user_id}', 'AdminController@unapprove')->name('unapprove
 
 // Admin Dashboard Done Deals and Paymenta
 Route::get('/done_deals', 'AdminController@done_deals')->name('done_deals');
+Route::get('/getAllDealsDoneByAjax', 'AdminController@getAllDealsDoneByAjax')->name('getAllDealsDoneByAjax');
 Route::any('/add_payment_ref', 'AdminController@add_payment_ref')->name('add_payment_ref');
 Route::any('/payment_accept', 'AdminController@payment_accept')->name('payment_accept');
 Route::get('/download_vikray_parchi/{id}/{email}', 'AdminController@download_vikray_parchi')->name('download_vikray_parchi');
@@ -168,12 +178,14 @@ Route::post('/updateMaxLoanAmount', 'FinanceController@updateMaxLoanAmount')->na
 
 // Inventory routes
 Route::get('/inventory', 'InventoryController@index')->name('inventory');
+Route::get('/getAllInventoresByAjax', 'InventoryController@getAllInventoresByAjax')->name('getAllInventoresByAjax');
 Route::get('/create_inventory', 'InventoryController@create')->name('create_inventory');
 Route::post('/add_inventory', 'InventoryController@add_inventory')->name('add_inventory');
 Route::post('/upload_inventory', 'InventoryController@upload_inventory')->name('upload_inventory');
 Route::get('/inventory_view/{user_id}/{id}', 'InventoryController@view')->name('inventory_view');
 
 Route::get('/inventory_edit_view/{user_id}/{id}', 'InventoryController@inventory_edit_view')->name('inventory_edit_view');
+Route::any('/getCasesIdForUsers', 'InventoryController@getCasesIdForUsers')->name('getCasesIdForUsers');
 
 Route::post('/inventory_edit', 'InventoryController@edit')->name('inventory_edit');
 
@@ -281,6 +293,12 @@ Route::post('/create_mandi_samiti', 'AdminController@create_mandi_samiti')->name
 // Delete mandi samiti
 Route::get('/delete_mandi_samiti/{id}', 'AdminController@delete_mandi_samiti')->name('delete_mandi_samiti');
 
+//Dharm Kanta Routes
+Route::get('/dharam_kanta', 'DharmKantaController@index')->name('dharam_kanta');
+Route::post('/createDharamKanta', 'DharmKantaController@create')->name('createDharamKanta');
+Route::post('/editDharamKanta', 'DharmKantaController@edit')->name('editDharamKanta');
+Route::get('/deleteDharamKanta/{id}', 'DharmKantaController@destroy')->name('deleteDharamKanta');
+
 
 
 /*************************************************************************************/
@@ -289,6 +307,8 @@ Route::get('/delete_mandi_samiti/{id}', 'AdminController@delete_mandi_samiti')->
 /*************************************************************************************/
 /*************************************************************************************/
 
+
+//Employees Routes
 Route::get('/all-users', 'LeadController@all_users')->name('all-users');
 Route::get('/user_view_by_account/{user_id}', 'LeadController@user_view_by_account')->name('user_view_by_account');
 
@@ -298,12 +318,15 @@ Route::post('/addEmployee', 'MisController@addEmployee')->name('addEmployee');
 Route::post('/updateEmployee', 'MisController@updateEmployee')->name('updateEmployee');
 Route::get('/deleteEmployee/{id}', 'MisController@deleteEmployee')->name('deleteEmployee');
 
+//Lead Routes
 Route::get('/leads', 'LeadController@index')->name('leads');
 Route::post('/get_lead', 'LeadController@get_lead')->name('get_lead');
 Route::post('/createLead', 'LeadController@create')->name('createLead');
 Route::post('/update_lead', 'LeadController@update_lead')->name('update_lead');
 Route::any('/getLastGatePass', 'LeadController@getLastGatePass')->name('getLastGatePass');
+Route::any('/getAllLeads', 'LeadController@getAllLeads')->name('getAllLeads');
 
+//All Cases Routes
 Route::get('/caseGen', 'CaseGenController@index')->name('caseGen');
 Route::post('/getLeadGenRec', 'CaseGenController@getLeadGenRec')->name('getLeadGenRec');
 Route::post('/createCase', 'CaseGenController@createCase')->name('createCase');
@@ -317,6 +340,7 @@ Route::get('/casesStatusIn', 'CaseGenController@casesStatusIn')->name('casesStat
 Route::get('/casesStatusOut', 'CaseGenController@casesStatusOut')->name('casesStatusOut');
 
 Route::get('/completedCases', 'CaseGenController@completedCases')->name('completedCases');
+Route::get('/getCompletedCasesByAjax', 'CaseGenController@getCompletedCasesByAjax')->name('getCompletedCasesByAjax');
 Route::get('/cancelledCases', 'CaseGenController@cancelledCases')->name('cancelledCases');
 
 Route::any('/emp-profile/{id}', 'MisController@emp_profile')->name('emp-profile');
@@ -325,7 +349,7 @@ Route::any('/getDistrict', 'HomeController@getDistrict')->name('getDistrict');
 Route::any('/checkVehicleNo', 'CaseGenController@checkVehicleNo')->name('checkVehicleNo');
 Route::get('/pricing', 'CaseGenController@pricing')->name('pricing');
 Route::post('/addPrice', 'CaseGenController@addPrice')->name('addPrice');
-Route::get('/close_case/{id}', 'CaseGenController@close_case')->name('close_case');
+Route::post('/close_case', 'CaseGenController@close_case')->name('close_case');
 
 Route::get('/quality_report', 'CaseGenController@quality_report')->name('quality_report');
 Route::post('/addQualityReport', 'CaseGenController@addQualityReport')->name('addQualityReport');
@@ -396,6 +420,10 @@ Route::post('/addCommodityWithdrawal', 'CaseGenController@addCommodityWithdrawal
 Route::get('/ivr_tagging', 'CaseGenController@ivr_tagging')->name('ivr_tagging');
 Route::post('/addIvrTagging', 'CaseGenController@addIvrTagging')->name('addIvrTagging');
 
+Route::get('/case_inventory', 'CaseGenController@case_inventory')->name('case_inventory');
+Route::post('/addCaseInventory', 'CaseGenController@addCaseInventory')->name('addCaseInventory');
+Route::any('/getRelatedCasesForInventory', 'CaseGenController@getRelatedCasesForInventory')->name('getRelatedCasesForInventory');
+
 Route::post('/caseApprove', 'CaseGenController@caseApprove')->name('caseApprove');
 Route::get('/viewCase/{case_id}', 'CaseGenController@viewCase')->name('viewCase');
 
@@ -406,3 +434,11 @@ Route::get('/viewCase/{case_id}', 'CaseGenController@viewCase')->name('viewCase'
 
 Route::get('/user_permissions', 'MisController@user_permissions')->name('user_permissions');
 Route::post('/add_user_permission', 'MisController@add_user_permission')->name('add_user_permission');
+
+/*************************************************************************************/
+/*********************************  Reports Generate *********************************/
+/*************************************************************************************/
+
+Route::get('/reports', 'ReportsController@index')->name('reports');
+Route::get('/lead_reports', 'ReportsController@lead_reports')->name('lead_reports');
+Route::any('/get_lead_reports', 'ReportsController@get_lead_reports')->name('get_lead_reports');

@@ -8,14 +8,17 @@ use DB;
 class Lead extends Model
 {
     # Get all Leads
-    public function scopegetLeads()
+    public function scopegetLeads($query, $user_id = null)
     {
         $leads = DB::table('apna_leads')
         		->join('apna_employees', 'apna_employees.user_id', '=', 'apna_leads.user_id')
         		->join('categories', 'categories.id', '=', 'apna_leads.commodity_id')
         		->join('warehouses', 'warehouses.id', '=', 'apna_leads.terminal_id')
-        		->select('apna_leads.*','categories.category as cate_name','categories.commodity_type','warehouses.name as terminal_name','apna_employees.first_name','apna_employees.last_name')
-        		->where('apna_leads.status', 1)
+        		->select('apna_leads.*','categories.category as cate_name','categories.commodity_type','warehouses.name as terminal_name','warehouses.warehouse_code','apna_employees.first_name','apna_employees.last_name');
+        if($user_id != null){
+            $leads .= $leads->where('apna_leads.lead_gen_uid', $user_id);
+        }
+        $leads = $leads->where('apna_leads.status', 1)
         		->orderBy('apna_leads.created_at', 'DESC')
         		->get();        
         return $leads;

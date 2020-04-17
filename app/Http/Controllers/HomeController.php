@@ -246,7 +246,7 @@ class HomeController extends Controller
         }
         //Get State
         $state = DB::table('states')->get();
-        $states = array();
+        $states = array('' => 'Select State');
         foreach($state as $key => $value)
         {
             $states[$value->name] = $value->name;
@@ -518,7 +518,7 @@ class HomeController extends Controller
         }
         //Get State
         $state = DB::table('states')->get();
-        $states = array();
+        $states = array('' => 'Select State');
         foreach($state as $key => $value)
         {
             $states[$value->name] = $value->name;

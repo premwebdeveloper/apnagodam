@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use Mail;
+use PDF;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +34,7 @@ class UsersController extends Controller
 
         //Get State
         $state = DB::table('states')->get();
-        $states = array();
+        $states = array('' => 'Select State');
         foreach($state as $key => $value)
         {
             $states[$value->name] = $value->name;
@@ -308,6 +309,9 @@ class UsersController extends Controller
                         ->select('inventories.*', 'categories.category as cat_name', 'warehouses.name', 'warehouses.warehouse_code', 'warehouse_rent_rates.location')
                         ->where(['inventories.status' => 1, 'inventories.user_id' => $currentuserid])
                         ->get();
+        foreach ($inventories as $key => $value) {
+            $value->case_id = DB::table('inventory_cases_id')->where('inventory_id', $value->id)->get();
+        }
 
         //Get All Loan for Single User
         $alll_loan =  DB::table('finances')
@@ -623,7 +627,7 @@ class UsersController extends Controller
 
         // Get all sell products
         $sells = DB::table('buy_sells')
-            ->leftjoin('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+            ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
             ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
             ->leftjoin('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->leftjoin('categories', 'categories.id', '=', 'inventories.commodity')
@@ -634,7 +638,7 @@ class UsersController extends Controller
 
         // Get all buy products
         $buys = DB::table('buy_sells')
-                ->leftjoin('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
+                ->join('inventories', 'inventories.id', '=', 'buy_sells.seller_cat_id')
                 ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->leftjoin('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
                 ->leftjoin('user_details', 'user_details.user_id', '=', 'buy_sells.seller_id')
@@ -1007,8 +1011,11 @@ class UsersController extends Controller
     //Corporate Buying
     public function corporate_buying(Request $request)
     {
-        $id = $request->id;
-        if(is_numeric($id) && $id)
+        $inv_id = $request->inv_id;
+        $corporate_user = $request->corporate_user;
+        $weight = $request->weight;
+
+        if(is_numeric($inv_id) && $inv_id)
         {
             //Get Inventory
             $inventory = DB::table('inventories')
@@ -1016,16 +1023,22 @@ class UsersController extends Controller
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
                 ->select('user_details.fname', 'inventories.*', 'categories.category', 'warehouses.warehouse_code', 'warehouses.name as warehouse')
-                ->where(['inventories.id' => $id, 'inventories.status' => 1])
+                ->where(['inventories.id' => $inv_id, 'inventories.status' => 1])
                 ->first();
-            /*echo "<pre>";
-            print_r($inventory);
-            die;*/
+            
             $corporate_price = DB::table('corporate_price')
                         ->where('status', 1)
                         ->get();
             if($inventory){
-                return view("corporate_buying.index", array('inventory' => $inventory, 'corporate_price' => $corporate_price));
+                //Get Corporate User
+                $user_data = DB::table('apna_corporate_users')
+                    ->join('users', 'users.id', '=', 'apna_corporate_users.user_id')
+                    ->join('warehouses', 'warehouses.id', '=', 'apna_corporate_users.terminal_id')
+                    ->where('apna_corporate_users.id', $request->corporate_user)
+                    ->select('apna_corporate_users.*', 'users.fname as user_name', 'users.phone', 'warehouses.name as terminal_name', 'warehouses.warehouse_code')
+                    ->first();
+
+                return view("corporate_buying.index", array('inventory' => $inventory, 'user_data' => $user_data, 'weight' => $weight, 'inv_id' => $inv_id));
             }else{
                 return redirect('/');
             }
@@ -1043,19 +1056,12 @@ class UsersController extends Controller
         $todays_price = $request->todays_price;
         $quantity = $request->quantity;
         $mandi_fees = $request->mandi_fees;
+        $user_id = $request->user_id;
         $date = date('Y-m-d H:i:s');
-
-        if($bid_for == 'neemrana')
-        {
-            $buyer_id = 4;
-        }
-        if($bid_for == 'chomu')
-        {
-            $buyer_id = 5;
-        }
 
         // Update inventory quantity
         $inventories = DB::table('inventories')->where('id', $invetory_id)->update([
+            'sales_status' => 2,
             'sell_quantity' => $quantity,
             'updated_at' => $date
         ]);
@@ -1063,7 +1069,7 @@ class UsersController extends Controller
         $currentuserid = Auth::user()->id;
 
         $buy_sell_id = DB::table('buy_sells')->insertGetId([
-            'buyer_id' => $buyer_id,
+            'buyer_id' => $user_id,
             'seller_id' => $currentuserid,
             'seller_cat_id' => $invetory_id,
             'quantity' => $quantity,
@@ -1087,5 +1093,57 @@ class UsersController extends Controller
         $success = sendsms(Auth::user()->phone, $sms);
 
         return redirect('inventories')->with('status', 'Your deal has been done. Please wait for admin approval');
+    }
+
+    // Re Download  vikray parchi
+    public function download_user_vikray_parchi(Request $request){
+
+        $deal_id = $request->id;
+
+        $done_deals = DB::table('buy_sells')
+            ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+            ->join('users','users.id', '=', 'buy_sells.seller_id')
+            ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+            ->join('categories', 'categories.id', '=', 'inv.commodity')
+            ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+            ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
+            ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
+            ->where('buy_sells.id', $deal_id)
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
+            ->first();
+
+        $buyer_id = $done_deals->buyer_id;
+        $seller_id = $done_deals->seller_id;
+
+        $buyer_info = DB::table('user_details')->where('user_id', $buyer_id)->first();
+
+        $seller_info = DB::table('user_details')->where('user_id', $seller_id)->first();
+        $done_deals->seller_address = $seller_info->area_vilage;
+        $done_deals->buyer_address = $buyer_info->area_vilage;
+
+        $data = json_decode(json_encode($done_deals),true);
+
+        $pdf = PDF::loadView('vikray_parchi_pdf', $data);
+        return $pdf->download('vikray_parchi.pdf');
+    }
+
+    //get_corporate_users_ajax
+    public function get_corporate_users_ajax(Request $request)
+    {
+        $data = DB::table('apna_corporate_users')
+                ->join('users', 'users.id', '=', 'apna_corporate_users.user_id')
+                ->join('warehouses', 'warehouses.id', '=', 'apna_corporate_users.terminal_id')
+                ->where('apna_corporate_users.status', 1)
+                ->select('apna_corporate_users.*', 'users.fname as user_name', 'warehouses.name as terminal_name', 'warehouses.warehouse_code')
+                ->get();
+
+        $res = '<option value="">Select Buyer</option>';
+        foreach($data as $user)
+        {
+            $res .= '<option value="'.$user->id.'">'.$user->user_name.' ('.$user->terminal_name.')  ('.$user->location.') ('.$user->warehouse_code.')</option>';
+        }
+
+        echo $res;
+        die;
     }
 }

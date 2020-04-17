@@ -27,8 +27,9 @@ class WarehouseController extends Controller
             ->join('states','states.code', '=', 'warehouse_rent_rates.state')
             ->join('districts','districts.id', '=', 'warehouse_rent_rates.district')
             ->join('mandi_samitis','mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
+            ->leftjoin('dharam_kanta','dharam_kanta.id', '=', 'warehouses.dharam_kanta')
             ->where('warehouses.status', 1)
-            ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'districts.name as district', 'states.name as state', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'mandi_samitis.name as mandi_samiti_name')
+            ->select('warehouses.*', 'warehouse_rent_rates.address', 'warehouse_rent_rates.location', 'warehouse_rent_rates.area', 'districts.name as district', 'states.name as state', 'warehouse_rent_rates.area_sqr_ft', 'warehouse_rent_rates.rent_per_month', 'warehouse_rent_rates.capacity_in_mt', 'mandi_samitis.name as mandi_samiti_name', 'dharam_kanta.name as dharam_kanta_name')
             ->groupBy('warehouses.id')
             ->get();
 
@@ -90,6 +91,15 @@ class WarehouseController extends Controller
             $all_facilities[$row->id] = $row->name;
         }
 
+        // Get all Dharam Kanta
+        $kanta = DB::table('dharam_kanta')->where('status', 1)->get();
+
+        $dharm_kanta = ['' => 'Select Dharam Kanta'];
+        foreach ($kanta as $row)
+        {
+            $dharm_kanta[$row->id] = $row->name;
+        }
+
         // All Banks
         $bank_master = DB::table('bank_master')->where('status', 1)->get();
 
@@ -99,7 +109,7 @@ class WarehouseController extends Controller
             $banks[$row->id] = $row->bank_name;
         }
 
-        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti, 'states' => $states]);
+        return view('warehouse.add_warehouse', ['all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti, 'states' => $states, 'dharm_kanta' => $dharm_kanta]);
     }
 
     // Add Warehouse
@@ -129,6 +139,11 @@ class WarehouseController extends Controller
         $facilities = $request->facilities;
         $gatepass_start = $request->gatepass_start;
         $gatepass_end = $request->gatepass_end;
+        $no_of_stacks = $request->no_of_stacks;
+        $dharam_kanta = $request->dharam_kanta;
+        $labour_contractor = $request->labour_contractor;
+        $contractor_phone = $request->contractor_phone;
+        $labour_rate = $request->labour_rate;
         $banks = $request->banks;
         $date = date('Y-m-d H:i:s');
 
@@ -205,6 +220,11 @@ class WarehouseController extends Controller
             'image' => $img_name,
             'gatepass_start' => $gatepass_start,
             'gatepass_end' => $gatepass_end,
+            'no_of_stacks' => $no_of_stacks,
+            'dharam_kanta' => $dharam_kanta,
+            'labour_contractor' => $labour_contractor,
+            'contractor_phone' => $contractor_phone,
+            'labour_rate' => $labour_rate,
             'status' => 1,
             'created_at' => $date,
             'updated_at' => $date
@@ -340,6 +360,15 @@ class WarehouseController extends Controller
             $states[$value->code] = $value->name;
         }
 
+        // Get all Dharam Kanta
+        $kanta = DB::table('dharam_kanta')->where('status', 1)->get();
+
+        $dharm_kanta = ['' => 'Select Dharam Kanta'];
+        foreach ($kanta as $row)
+        {
+            $dharm_kanta[$row->id] = $row->name;
+        }
+
         
         // Get warehouse details by id
         $warehouse = DB::table('warehouses')
@@ -356,7 +385,7 @@ class WarehouseController extends Controller
             $districts[$value->district_code] = $value->name;
         }
 
-        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti, 'districts' => $districts, 'states' => $states));
+        return view('warehouse.warehouse_edit', array('warehouse' => $warehouse, 'all_facilities' => $all_facilities, 'banks' => $banks, 'mandi_samiti' => $mandi_samiti, 'districts' => $districts, 'states' => $states, 'dharm_kanta' => $dharm_kanta));
     }
 
     // Edit warehouse
@@ -382,7 +411,12 @@ class WarehouseController extends Controller
         $capacity_in_mt = $request->capacity_in_mt;
         $facilities = $request->facilities;
         $gatepass_start = $request->gatepass_start;
+        $no_of_stacks = $request->no_of_stacks;
+        $dharam_kanta = $request->dharam_kanta;
         $gatepass_end = $request->gatepass_end;
+        $labour_contractor = $request->labour_contractor;
+        $contractor_phone = $request->contractor_phone;
+        $labour_rate = $request->labour_rate;
         $banks = $request->banks;
         $date = date('Y-m-d H:i:s');
 
@@ -447,6 +481,11 @@ class WarehouseController extends Controller
             'image' => $img_name,
             'gatepass_start' => $gatepass_start,
             'gatepass_end' => $gatepass_end,
+            'no_of_stacks' => $no_of_stacks,
+            'dharam_kanta' => $dharam_kanta,
+            'labour_contractor' => $labour_contractor,
+            'contractor_phone' => $contractor_phone,
+            'labour_rate' => $labour_rate,
             'updated_at' => $date
         ]);
 

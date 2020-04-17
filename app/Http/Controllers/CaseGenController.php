@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use DB;
+use DataTables;
 use App\Mis;
 use App\CaseGen;
+use App\inventory;
 use App\user_roles;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
@@ -40,7 +42,7 @@ class CaseGenController extends Controller
         $terminals = array('' => 'Select Terminal');
         foreach($res as $terminal)
         {
-            $terminals[$terminal->id] = $terminal->name;
+            $terminals[$terminal->id] = $terminal->name. " (".$terminal->warehouse_code.")";
         }
         
         //Get All Commodity 
@@ -76,8 +78,49 @@ class CaseGenController extends Controller
     //Get Completed Cases
     public function completedCases(Request $request)
     {
+        return view('mis.case_gen.completed_cases');
+    }
+
+    //Get Completed Cases by Ajax
+    public function getCompletedCasesByAjax(Request $request)
+    {
         $case_gen = CaseGen::getCaseGen(2);
-        return view('mis.case_gen.completed_cases', array('case_gen' => $case_gen));
+         //  Get All Page titles
+        return Datatables::of($case_gen)->addColumn('caseid', function ($row) {
+            $res = '<a href="'.route("viewCase", ["case_id" => $row->case_id]).'">'.$row->case_id.'</a>';
+            return $res;
+        })->addColumn('customer_name', function ($row) {
+            return $row->cust_fname." ".$row->cust_lname;
+        })->addColumn('users', function ($row) {
+            $res = ($row->fpo_user_id)?$row->fpo_user_id:'N/A';
+            $res .= '<br><b>Gatepass/CDF Name : </b>';
+            $res .= ($row->gate_pass_cdf_user_name)?$row->gate_pass_cdf_user_name:'N/A';
+            $res .= '<br><b>Coldwin Name : </b>';
+            $res .= ($row->coldwin_name)?$row->coldwin_name:'N/A';
+            return $res;
+
+        })->addColumn('purchase_details', function ($row) {
+            $res = ($row->purchase_name)?$row->purchase_name:'N/A';
+            $res .= '<br><b>Loan Details : </b>';
+            $res .= ($row->loan_name)?$row->loan_name:'N/A';
+            $res .= '<br><b>Sale Details : </b>';
+            $res .= ($row->sale_name)?$row->sale_name:'N/A';
+            return $res;
+
+        })->addColumn('generated_by', function ($row) {
+            return $row->lead_gen_fname." ".$row->lead_gen_lname;
+        })->addColumn('converted_by', function ($row) {
+            return $row->lead_conv_fname." ".$row->lead_conv_lname;
+        })->addColumn('commodity', function ($row) {
+            return $row->cate_name ." (".$row->commodity_type.")";
+        })->addColumn('terminal_name', function ($row) {
+            return $row->terminal_name ." (".$row->warehouse_code.")";
+        })->addColumn('created_on', function ($row) {
+            return date('d M Y', strtotime($row->created_at));
+        })->addColumn('closed_on', function ($row) {
+            return date('d M Y', strtotime($row->updated_at));
+        })->escapeColumns(null)
+        ->make(true); 
     }
 
     //Get Completed Cases
@@ -168,7 +211,7 @@ class CaseGenController extends Controller
         $data['gate_pass'] = $gate_pass = strtoupper($request->gate_pass);
 
         //Check Gate Pass in Between or Not
-        $checked = DB::table('warehouses')
+        /*$checked = DB::table('warehouses')
                     ->where('gatepass_start', '>=', $gate_pass)
                     ->where('gatepass_end', '<=', $gate_pass)
                     ->first();
@@ -176,7 +219,7 @@ class CaseGenController extends Controller
         {
             $status = 'Gate pass number is not in series! please contact to admin.';
             return redirect()->back()->with('error', $status);
-        }
+        }*/
         
         $currentuserid = Auth::user()->id;
 
@@ -259,21 +302,31 @@ class CaseGenController extends Controller
     // Add Pricing
     public function addPrice(Request $request)
     {
-        //Get All Post Data
-        $request->validate([
-            'case_id'    => 'unique:apna_case_pricing',
-            'processing_fees'    => 'required',
-            'rent'      => 'required',
-            'transaction_type'      => 'required',
-            'labour_rate'      => 'required',
-            'interest_rate'      => 'required',
-        ]);
+        $not_required = $request->not_required;
+
+        if(!$not_required)
+        {
+            //Get All Post Data
+            $request->validate([
+                'case_id'    => 'unique:apna_case_pricing',
+                'processing_fees'    => 'required',
+                'rent'      => 'required',
+                'transaction_type'      => 'required',
+                'labour_rate'      => 'required',
+                'interest_rate'      => 'required',
+            ]);
+        }else{
+            $request->validate([
+                'case_id'    => 'unique:apna_case_pricing',
+                'notes'    => 'required',                
+            ]);
+        }
 
         $currentuserid = Auth::user()->id;
 
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
-        $data['price'] = $price = $request->price;
+        $data['price'] = $price = ($request->price)?$request->price:0;
         $data['processing_fees'] = $processing_fees = $request->processing_fees;
         $data['transaction_type'] = $transaction_type = $request->transaction_type;
         $data['rent'] = $rent = $request->rent;
@@ -407,11 +460,15 @@ class CaseGenController extends Controller
         $request->validate([
             'case_id'    => 'unique:apna_case_gate_pass',
             'report_file'    => 'required',
+            'weight'    => 'required',
+            'no_of_bags'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
+        $data['weight'] = $weight = $request->weight;
+        $data['no_of_bags'] = $no_of_bags = $request->no_of_bags;
         /*$data['gate_pass_no'] = $gate_pass_no = $request->gate_pass_no;
         $data['bags'] = $bags = $request->bags;
         $data['stack_no'] = $stack_no = $request->stack_no;
@@ -460,6 +517,92 @@ class CaseGenController extends Controller
 
         $data['file'] = $img_name;
 
+         //Update Actual Quantity
+        $update = DB::table('apna_case')->where('case_id', $case_id)->update(['total_weight' => $weight, 'no_of_bags' => $no_of_bags]);
+
+        $case_status = explode('-', $case_id);
+
+        //Add Inventory if Case is IN Process
+        if($case_status[0] == 'IN'){
+            //Get Case
+            $case_details = CaseGen::getSingleCaseById($case_id);
+
+            $data['user_id']          = $case_details->customer_uid;
+            $data['commodity']        = $case_details->commodity_id;
+            
+            $data['warehouse']        = $case_details->terminal_id;
+            $data['weight_bridge_no'] = null;
+            $data['truck_no']         = $case_details->vehicle_no;
+            $data['stack_no']         = $case_details->stack_no;
+            $data['lot_no']           = null;
+            $data['net_weight']       = null;
+            $data['quantity']         = $weight;
+            $data['price']            = null;
+            $data['quality_category'] = null;
+            $data['gate_pass_wr']     = $case_details->gate_pass;
+            $data['sales_status']     = 1;
+            //$data['file']             = null;
+
+            //First check inventory already exist for this customer or not
+            $check = DB::table('inventories')
+                        ->where(['status' =>  1, 'warehouse_id' => $case_details->terminal_id, 'user_id' => $case_details->customer_uid, 'commodity' => $case_details->commodity_id])
+                        ->first();
+            if($check){
+
+                $total_weight = $weight + $check->quantity;
+                //Update In Inventory
+                $inventory = inventory::updateInventoryWeight($check->id, $total_weight);
+
+                //Insert Inventory id with Case ID
+                $inset = inventory::addCaseIdInInventory($check->id, $case_id, $weight);
+
+            }else{
+                //Insert In Inventory
+                $inventory = inventory::addInventory($data);
+                
+                //Insert Inventory id with Case ID
+                $inset = inventory::addCaseIdInInventory($inventory, $case_id, $weight);
+            }
+        }
+        //Add Inventory if Case is PASS Process
+        if($case_status[0] == 'PASS'){
+            //Get Case
+            $case_details = CaseGen::getSingleCaseById($case_id);
+
+            $data['user_id']          = $case_details->customer_uid;
+            $data['commodity']        = $case_details->commodity_id;
+            
+            $data['warehouse']        = $case_details->terminal_id;
+            $data['weight_bridge_no'] = null;
+            $data['truck_no']         = $case_details->vehicle_no;
+            $data['stack_no']         = $case_details->stack_no;
+            $data['lot_no']           = null;
+            $data['net_weight']       = null;
+            $data['quantity']         = $weight;
+            $data['price']            = null;
+            $data['quality_category'] = null;
+            $data['gate_pass_wr']     = $case_details->gate_pass;
+            $data['sales_status']     = 1;
+            $data['status']           = 0;
+
+            //Insert In Inventory
+            $inventory = inventory::addInventory($data);
+            
+            //Get User Id
+            $user = DB::table('users')->where('phone', 999999999)->first();
+
+            //Insert Inventory id with Case ID
+            $inset = inventory::addCaseIdInInventory($inventory, $case_id, $weight);
+
+            $data['status']    = 1;
+            $data['user_id']   = $user->id;
+            
+            $inventory = inventory::addInventory($data);
+
+            //Insert Inventory id with Case ID
+            $inset = inventory::addCaseIdInInventory($inventory, $case_id, $weight);
+        }
+
         //Insert Data
         $insert = CaseGen::updateGatePass($data);
 
@@ -478,10 +621,11 @@ class CaseGenController extends Controller
     // Cloase Case
     public function close_case(Request $request)
     {
-        $case_id = $request->id;
+        $case_id = $request->case_id;
+        $notes = $request->notes;
 
         //Close Case ID
-        $case_gen = CaseGen::closeCase($case_id);
+        $case_gen = CaseGen::closeCase($case_id, $notes);
         $status = 'Case Closed Successfully.';
         return redirect('pricing')->with('status', $status);
     }
@@ -500,6 +644,7 @@ class CaseGenController extends Controller
         $request->validate([
             'case_id'    => 'unique:apna_case_kanta_parchi',
             'file'    => 'required',
+            'truck_file'    => 'required',
         ]);
         /*$request->validate([
             'bags'    => 'required',
@@ -566,17 +711,17 @@ class CaseGenController extends Controller
 
         $data['file'] = $img_name;
 
-        if($request->hasFile('file_2')) {
+        if($request->hasFile('truck_file')) {
 
-            $file = $request->file_2;
+            $file = $request->truck_file;
 
-            $img_name = $file->getClientOriginalName();
+            $img_name_2 = $file->getClientOriginalName();
 
-            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+            $ext = pathinfo($img_name_2, PATHINFO_EXTENSION);
 
-            $img_name = substr(md5(microtime()),rand(0,26),6);
+            $img_name_2 = substr(md5(microtime()),rand(0,26),6);
 
-            $img_name .= '.'.$ext;
+            $img_name_2 .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
             $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
@@ -596,11 +741,11 @@ class CaseGenController extends Controller
             }
 
             $destinationPath = base_path() . '/resources/assets/upload/kanta_parchi/';
-            $file->move($destinationPath,$img_name);
-            $filepath = $destinationPath.$img_name;
+            $file->move($destinationPath,$img_name_2);
+            $filepath = $destinationPath.$img_name_2;
         }
 
-        $data['file_2'] = $img_name;
+        $data['file_2'] = $img_name_2;
 
         //Insert Data
         $insert = CaseGen::updateKantaParchi($data);
@@ -898,7 +1043,7 @@ class CaseGenController extends Controller
         $request->validate([
             'case_id'    => 'unique:apna_case_second_kanta_parchi',
             'file'    => 'required',
-            'file_2'    => 'required',
+            'truck_image'    => 'required',
         ]);
         
         $currentuserid = Auth::user()->id;
@@ -944,17 +1089,17 @@ class CaseGenController extends Controller
 
         $data['file'] = $img_name;
 
-        if($request->hasFile('file_2')) {
+        if($request->hasFile('truck_image')) {
 
-            $file = $request->file_2;
+            $file = $request->truck_image;
 
-            $img_name = $file->getClientOriginalName();
+            $img_name_2 = $file->getClientOriginalName();
 
-            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+            $ext = pathinfo($img_name_2, PATHINFO_EXTENSION);
 
-            $img_name = substr(md5(microtime()),rand(0,26),6);
+            $img_name_2 = substr(md5(microtime()),rand(0,26),6);
 
-            $img_name .= '.'.$ext;
+            $img_name_2 .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
             $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
@@ -974,11 +1119,11 @@ class CaseGenController extends Controller
             }
 
             $destinationPath = base_path() . '/resources/assets/upload/second_kanta_parchi/';
-            $file->move($destinationPath,$img_name);
-            $filepath = $destinationPath.$img_name;
+            $file->move($destinationPath,$img_name_2);
+            $filepath = $destinationPath.$img_name_2;
         }
 
-        $data['file_2'] = $img_name;
+        $data['file_2'] = $img_name_2;
 
         //Insert Data
         $insert = CaseGen::updateSecondKantaParchi($data);
@@ -1711,12 +1856,14 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_cdf',
+            'stack_no'    => 'required',
             'report_file'    => 'required',
         ]);
 
         $currentuserid = Auth::user()->id;
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
+        $data['stack_no'] = $stack_no = $request->stack_no;
         $data['notes'] = $notes = $request->notes;
 
         $img_name = null;
@@ -1754,7 +1901,6 @@ class CaseGenController extends Controller
             $file->move($destinationPath,$img_name);
             $filepath = $destinationPath.$img_name;
         }else{
-
             $status = 'Please Upload file.';
             return redirect('commodity_deposit')->with('error', $status);  
         }
@@ -2150,7 +2296,7 @@ class CaseGenController extends Controller
 
     // TVR Tagging Form
     public function ivr_tagging()
-    {        
+    {
         //Get All Case
         $case_gen = CaseGen::getIvrTagging();
         return view('mis.case_gen.ivr_tagging', array('case_gen' => $case_gen));
@@ -2161,7 +2307,6 @@ class CaseGenController extends Controller
     {
         $request->validate([
             'case_id'    => 'unique:apna_case_ivr_tagging',
-            'file'    => 'required|mimes:mp3',
         ]);
 
         $currentuserid = Auth::user()->id;
@@ -2184,7 +2329,7 @@ class CaseGenController extends Controller
             $img_name .= '.'.$ext;
 
             // First check file extension if file is not image then hit error
-            $extensions = ['mp3'];
+            $extensions = ['mp3', 'm4a', 'wma', 'mp4'];
 
             if(! in_array($ext, $extensions))
             {
@@ -2224,6 +2369,150 @@ class CaseGenController extends Controller
         }
         
          return redirect('ivr_tagging')->with('status', $status);  
+    }
+
+    // Add TVR Tagging Form
+    public function getRelatedCasesForInventory(Request $request)
+    {
+        $customer_uid = $request->customer_uid;
+        $commodity_id = $request->commodity_id;
+        $terminal_id = $request->terminal_id;
+        //Get Data
+        $getData = DB::table('inventories')->where(['user_id' => $customer_uid, 'commodity' => $commodity_id, 'warehouse_id' => $terminal_id])->first();
+
+        if($getData)
+        {
+            //Get Inventory Cases
+            $cases = inventory::getInventoryCases($getData->id);
+            $html = '<table class="table table-striped table-bordered table-hover"><tr><th>Case ID</th><th>Actual Weight (Qtl.)</th><th>Out Weight (Qtl.)</th></tr>';
+            foreach ($cases as $key => $row){
+                $html .= '<tr><td>'.$row->case_id.'</td><td>'.$row->weight.'</td><td><input type="number"  min="1" max="'.$row->weight.'" step="any" class="form-control" placeholder="Enter Out Quantity" name="quantity['.$row->case_id.'][]"></td></tr>';
+            }
+            $html .= '</table>';
+            echo $html;
+        }else{
+            echo $html = '<span class="red">No Inventory Found! or Not Connected with any Cases!</span>';
+        }
+    }
+
+    // Inventory Form
+    public function case_inventory()
+    {
+        //Get All Case
+        $case_gen = CaseGen::getCaseInventory();
+        return view('mis.case_gen.inventory', array('case_gen' => $case_gen));
+    }
+
+    // Add Inventory Form
+    public function addCaseInventory(Request $request)
+    {
+        $request->validate([
+            'case_id'    => 'unique:apna_case_inventory',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $terminal_id = $request->terminal_id;
+        $commodity_id = $request->commodity_id;
+        $user = $request->user;
+        $quantity = $request->quantity;
+        $data['notes'] = $notes = $request->notes;
+        $data['case_ids'] = json_encode($quantity);
+
+        //Check Case Transaction Type
+        $check = DB::table('apna_case_pricing')->where('case_id', $case_id)->first();
+
+        if($check->transaction_type != 'E-Mandi')
+        {
+            if($quantity)
+            {
+                $qtl = 0;
+                $case_ids[] = '';
+                $i = 0;
+                foreach($quantity as $caseid => $qty)
+                {
+                    $case_ids[$i] = $caseid;
+                    $qtl = $qtl + $qty[0];
+                    $i++;
+                }
+
+                //Get Inventory
+                $inv = DB::table('inventory_cases_id')->where('case_id', $case_ids[0])->first();
+                $get_inv = DB::table('inventories')->where('id', $inv->inventory_id)->first();
+
+                if($get_inv->quantity == $qtl){
+                    
+                    //Update Inventroy
+                    $update = DB::table('inventories')->where('id', $inv->inventory_id)->update(['status' => 0]);
+                    //Inset Case Id in Inventory Cases
+                    $insert = inventory::addCaseIdInInventory($inv->inventory_id, $case_id, $qtl);
+
+                }else{
+                    $new_qty = $get_inv->quantity - $qtl;
+
+                    //Out Quantity from inventory
+                    $update = DB::table('inventories')->where('id', $inv->inventory_id)->update(['quantity' => $qtl, 'status' => 0]);
+
+                    //Create New inventory
+                    $data['user_id']          = $get_inv->user_id;
+                    $data['commodity']        = $get_inv->commodity;
+                    $data['warehouse']        = $get_inv->warehouse_id;
+                    $data['weight_bridge_no'] = $get_inv->weight_bridge_no;
+                    $data['truck_no']         = $get_inv->truck_no;
+                    $data['stack_no']         = $get_inv->stack_no;
+                    $data['net_weight']       = null;
+                    $data['quantity']         = $new_qty;
+                    $data['price']            = $get_inv->price;
+                    $data['quality_category'] = $get_inv->quality_category;
+                    $data['gate_pass_wr']     = $get_inv->gate_pass_wr;
+                    $data['sales_status']     = $get_inv->sales_status;
+                    $data['file']             = null;
+
+                    $inventory_id = inventory::addInventory($data);
+
+                    //Inset Case Id in Inventory Cases
+                    $insert = inventory::addCaseIdInInventory($inventory_id, $case_id, $qtl);
+
+                    //Change Inventory ID to chases
+                    foreach($quantity as $caseid => $qty)
+                    {
+                        $case_inv = DB::table('inventory_cases_id')->where(['case_id' => $caseid, 'weight' => $qty[0]] )->first();
+                        if(!$case_inv){
+
+                            //Insert Inv Id in Cases
+                            $insert = inventory::addCaseIdInInventory($inventory_id, $caseid, $qtl[0]);
+                        }
+                    }
+                }
+            }
+        }else{
+            //Get Inventory
+            $inv = DB::table('inventories')->where(['user_id'=> $user, 'warehouse_id'=> $terminal_id, 'commodity'=> $commodity_id])->first();
+
+            if($inv)
+            {
+                $qtl = 0;
+                foreach($quantity as $caseid => $qty)
+                {
+                    $qtl = $qtl + $qty[0];
+                }
+                //Inset Case Id in Inventory Cases
+                $insert = inventory::addCaseIdInInventory($inv->id, $case_id, $qtl);
+            }
+        }
+
+        //Insert Data
+        $insert = CaseGen::updateCaseInventory($data);
+
+        if($insert)
+        {
+            $status = 'Inventory Updated Successfully.';
+        }else{
+            $status = 'Something went wrong!';
+        }
+        
+         return redirect('case_inventory')->with('status', $status);  
     }
 
     // Case Approve
@@ -2288,9 +2577,20 @@ class CaseGenController extends Controller
         //Get Case Id Details for Pass / In / Out
         $case = CaseGen::getSingleCaseByIdStatus($case_id);
 
+        //Get Date
+        $datetime = $case->created_at;
+        $date = date('Y-m-d',strtotime($datetime));
+        $date = date('Y-m-d H:i:s',strtotime($date));
+
         //Get Same Vehicle No 
-        $cases = CaseGen::getSingleCaseByVehicleStatus($case->vehicle_no);
-        if(count((array)$cases) > 1){
+        $current_date = date('Y-m-d H:i:s');
+        $cases = DB::table('apna_case')
+                ->where(['vehicle_no' => $case->vehicle_no, 'status' => 1])
+                ->where('case_id', '!=', $case_id)
+                ->whereBetween('created_at', [$date, $current_date])
+                ->first();
+
+        if($cases){
             echo 1;
         }else{            
             echo 0;

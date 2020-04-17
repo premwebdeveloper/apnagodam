@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Auth;
-use App\User;
 use DB;
-use App\Lead;
+use Auth;
+use DataTables;
 use App\Mis;
+use App\User;
+use App\Lead;
 use App\user_roles;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
@@ -69,7 +70,7 @@ class LeadController extends Controller
         $terminals = array('' => 'Select Terminal');
         foreach($res as $terminal)
         {
-            $terminals[$terminal->id] = $terminal->name;
+            $terminals[$terminal->id] = $terminal->name. " (".$terminal->warehouse_code.")";
         }
         
         //Get All Commodity 
@@ -94,6 +95,45 @@ class LeadController extends Controller
         //Get All Employees vie Model
         $leads = Lead::getLeads();
         return view('mis.leads.index', array('leads' => $leads, 'terminals' => $terminals, 'commodity' => $commodity, 'employees' => $employees));
+    }
+
+    //Get All Leads by Ajax
+    public function getAllLeads()
+    {
+        $currentuserid = Auth::user()->id;
+
+        //Get User Roles
+        $role = DB::table('user_roles')->where('user_id', $currentuserid)->first();
+
+        if($role->role_id == 1 || $role->role_id == 8)
+        {
+            //Get All Employees vie Model
+            $leads = Lead::getLeads();            
+        }else{
+            //Get All Employees vie Model
+            $leads = Lead::getLeads($currentuserid);            
+        }
+
+        //  Get All Page titles
+        return Datatables::of($leads)->addColumn('action', function ($row) {
+            $end_date = date('Y-m-d H:i:s', strtotime($row->created_at .'+60 minutes'));
+            $current_time = date('Y-m-d H:i:s');
+            if($end_date >= $current_time){
+                $action = '<a class="edit_lead" data-id="'.$row->id.'"><i class="fa fa-pencil"></i></a>';
+            }
+            else{
+                $action = '<span class="btn-gray">Not Editable</span>';
+            }
+            
+            return $action;
+        })->addColumn('commodity_date', function ($row) {
+            return date('d M Y', strtotime($row->commodity_date));
+        })->addColumn('commodity', function ($row) {
+            return $row->cate_name ." (".$row->commodity_type.")";
+        })->addColumn('generated_by', function ($row) {
+            return $row->first_name." ".$row->last_name;
+        })->escapeColumns(null)
+        ->make(true); 
     }
 
     /**

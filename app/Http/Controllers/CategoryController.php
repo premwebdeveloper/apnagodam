@@ -49,6 +49,7 @@ class CategoryController extends Controller
 
         $category       = $request->category;
         $gst            = $request->gst;
+        $gst_on_rent            = $request->gst_on_rent;
         $commossion     = $request->commossion;
         $mandi_fees     = $request->mandi_fees;
         $loading        = $request->loading;
@@ -97,6 +98,7 @@ class CategoryController extends Controller
         $category = DB::table('categories')->insert([
             'category'       => $category,
             'gst'            => $gst,
+            'gst_on_rent'    => $gst_on_rent,
             'commossion'     => $commossion,
             'mandi_fees'     => $mandi_fees,
             'loading'        => $loading,
@@ -139,6 +141,7 @@ class CategoryController extends Controller
 
         $category       = $request->category;
         $gst            = $request->gst;
+        $gst_on_rent    = $request->gst_on_rent;
         $commossion     = $request->commossion;
         $mandi_fees     = $request->mandi_fees;
         $loading        = $request->loading;
@@ -191,6 +194,7 @@ class CategoryController extends Controller
         $category = DB::table('categories')->where('id', $id)->update([
             'category'       => $category,
             'gst'            => $gst,
+            'gst_on_rent'    => $gst_on_rent,
             'commossion'     => $commossion,
             'mandi_fees'     => $mandi_fees,
             'loading'        => $loading,
