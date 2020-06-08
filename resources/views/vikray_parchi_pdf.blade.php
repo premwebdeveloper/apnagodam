@@ -18,15 +18,21 @@ b{font-size: 13px;}
 </style>
   <body>
         <?php
-        $total_price = $quantity * $price;
+        $total_price = (float)$quantity * (float)$price;
         $commission = ($total_price * 0.75) / 100;
         $mandi_fee = '';
         $hammali = '';
+        $c_date = $created_at;
+        $current_date = date('Y-m-d H:i:s', strtotime('2020-05-10 00:00:01'));
         if($bid_type == 1)
         {
             if($sales_status == 1)
             {
-                $mandi_fee = (($total_price * 1.6) / 100);
+                if($c_date > $current_date){
+                    $mandi_fee = (($total_price * 3.6) / 100);
+                }else{
+                    $mandi_fee = (($total_price * 1.6) / 100);                    
+                }
             }else{
                 $mandi_fee = "N/A";
             }
@@ -34,7 +40,7 @@ b{font-size: 13px;}
             $mandi_fee = $mandi_fees;
         }
 
-        $res = 'Vikray Parchi = '.$id.', ApnaGodam.com, CIN = U63030RJ2016PTC055509, Buyer Name = '.$buyer_name.', Seller Name = '.$seller_name.', Date = '.date('d-m-Y').', Bid Date = '.date('d-m-Y', strtotime($updated_at)).', Commodity = '.$category.', Warehouse = '.$warehouse.', Net Weight = '.$quantity.', Price = '.$price.', Quality = '.$quality_category.', E-mandi Commission = '.round($commission, 2).', Bags = '.$quantity.', Hammali = '.$hammali.', Mandi Fees = '.$mandi_fee.", Total = ".$total_price;
+        $res = 'Vikray Parchi = '.$id.', ApnaGodam.com, CIN = U63030RJ2016PTC055509, Buyer Name = '.$buyer_name.', Seller Name = '.$seller_name.', Date = '.date('d-m-Y').', Bid Date = '.date('d-m-Y', strtotime($updated_at)).', Commodity = '.$category.', Terminal = '.$warehouse.', Net Weight = '.$quantity.', Price = '.$price.', Quality = '.$quality_category.', E-mandi Commission = '.round($commission, 2).', Bags = '.$quantity.', Hammali = '.$hammali.', Mandi Fees = '.$mandi_fee.", Total = ".$total_price;
         ?>
         <div class="">
             <div class="row">
@@ -59,10 +65,8 @@ b{font-size: 13px;}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <p>Vikray Parchi No. - <b>{{ $id }}</b></p>
-                        </div>
-                        <div class="col-md-6 text-right">
+                        <div class="col-md-12 text-center">
+                            <h4>Vikray Parchi No. - {{ $id }}</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -75,7 +79,7 @@ b{font-size: 13px;}
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <p><b>Buyer Name : </b> {{ ucfirst($buyer_name) }}, {{ ucfirst($buyer_address) }} (Test)</p> 
+                            <p><b>Buyer Name : </b> {{ ucfirst($buyer_name) }} ({{ $buyer_phone }}), {{ ucfirst($buyer_address) }}</p> 
                         </div>
                         <div class="col-md-6 text-right">
                             <p><b>Print Date : </b> {{ date('d-m-Y') }}</p> 
@@ -83,7 +87,7 @@ b{font-size: 13px;}
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <p><b>Seller Name : </b> {{ ucfirst($seller_name) }}, {{ ucfirst($seller_address) }}</p>
+                            <p><b>Seller Name : </b> {{ ucfirst($seller_name) }} ({{ $seller_phone }}), {{ ucfirst($seller_address) }}</p>
                         </div>
                         <div class="col-md-6 text-right">
                             <p><b>Bid Date : </b> {{ date('d-m-Y', strtotime($updated_at)) }}</p>
@@ -99,10 +103,10 @@ b{font-size: 13px;}
                             <table class="table table-bordered">
                                 <tr>
                                     <td>
-                                        <b>Commodity : </b>{{$category }}
+                                        <b>Commodity : </b>{{$category }} ({{ $commodity_type }})
                                     </td>
                                     <td>
-                                        <b>Warehouse : </b>{{$warehouse }}
+                                        <b>Terminal : </b>{{$warehouse }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -110,27 +114,21 @@ b{font-size: 13px;}
                                         <b>Net Weight : </b> {{$quantity }} Qtl.
                                     </td>
                                     <td>
-                                        <b>Price : </b>{{$price }} / Qtl.
+                                        <b>Bags : </b> {{ $no_of_bags }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <b>Quality Grade: </b> {{ $quality_category }}
+                                        <b>Labour Cost : </b>{{ ($labour_rate > 0)?$labour_rate:"N/A" }} / Qtl.
                                     </td>
                                     <td>
-                                        
+                                        <b>Quality Grade: </b> {{ ($quality_category)?$quality_category:'Average' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
                                         <b>E-mandi Commission (0.75%): </b> {{ round($commission, 2) }} <span class='f-w-600 f-s-12'>(INR)</span>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Bags : </b> {{ $quantity * 2 }}
-                                    </td>
-                                    <td>
-                                        <b>Hammali (3.50 per Bag): </b> @if($sales_status == 1)  {{ ($quantity * 3.5) }} <span class='f-w-600 f-s-12'>(INR)</span>  @else N/A @endif
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>
                                         @if($bid_type == 1) 
                                             @if($sales_status == 1) 
@@ -141,12 +139,32 @@ b{font-size: 13px;}
                                                 N/A
                                             @endif
                                         @else
-                                            <b>Mandi Fees (1.6%) : </b> {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
+                                            <?php
+                                            if($c_date > $current_date){
+                                                ?>
+                                                <b>Mandi Fees and Kisan Kalyan Cess (1.6% + 2%) : </b> {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
+                                                <?php
+                                            }else{
+                                                ?>
+                                                <b>Mandi Fees (1.6%) : </b> {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
+                                                <?php
+                                            }
+                                            ?>
                                         @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Selling Price : </b>{{$price }} / Qtl.
                                     </td>
                                     <td>
                                     </td>
                                 </tr>
+                                <!-- <tr>
+                                    <td>
+                                        <b>Case Id :</b> {{ $case_id }}
+                                    </td>
+                                </tr> -->
                             </table>
                             <b>Total Amount  : </b>{{ number_format((float)$total_price, 2, '.', '') }} <span class='f-w-600 f-s-12'>(INR)</span> ({{convertCurrencyToWords($total_price) }})
                         </div>
@@ -301,6 +319,11 @@ b{font-size: 13px;}
             <div class="row">
                 <div class="col-md-12 text-right">
                     <span>For & on behalf of license</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <span>Apnagodam.com</span>
                 </div>
             </div>
             <div class="row">

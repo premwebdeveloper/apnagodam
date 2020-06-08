@@ -43,6 +43,17 @@ class InventoryController extends Controller
                 $cases .= '<a class="btn btn-xs btn-default" href="'.url('/')."/viewCase/".$case->case_id.'">'.$case->case_id."</a>";
             }
             return $cases;
+        })->addColumn('no_of_bags', function ($row) {
+            $all_case = inventory::getInventoryCases($row->id);
+            $no_of_bags = 0;
+            foreach($all_case as $key => $case){
+                $case = DB::table('apna_case')->where('case_id', $case->case_id)->first();
+                if($case)
+                {
+                    $no_of_bags = $case->no_of_bags;
+                }
+            }
+            return $no_of_bags;
         })->addColumn('user_name', function ($row) {
             return $row->fname." ".$row->lname." (".$row->phone.")";
         })->addColumn('in_out', function ($row) {

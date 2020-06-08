@@ -227,6 +227,7 @@ Route::get('/terms-conditions', 'HomeController@terms_conditions')->name('terms-
 Route::get('/about-us', 'HomeController@about_us')->name('about-us');
 Route::get('/terminal_view/{id}', 'HomeController@terminal_view')->name('terminal_view');
 Route::get('/our-team', 'HomeController@our_team')->name('our-team');
+Route::get('/membership', 'HomeController@membership')->name('membership');
 Route::get('/qualiity-variance-calculator', 'HomeController@qualiity_variance_calculator')->name('qualiity-variance-calculator');
 Route::get('/terminals', 'HomeController@our_warehoue')->name('terminals');
 Route::get('/contact-us', 'HomeController@contact_us')->name('contact-us');
@@ -428,6 +429,11 @@ Route::post('/caseApprove', 'CaseGenController@caseApprove')->name('caseApprove'
 Route::get('/viewCase/{case_id}', 'CaseGenController@viewCase')->name('viewCase');
 
 
+//Show Deals To Accounts
+Route::any('/done_deals_for_user', 'CaseGenController@done_deals_for_user')->name('done_deals_for_user');
+Route::any('/getAllDealsDoneForUserByAjax', 'CaseGenController@getAllDealsDoneForUserByAjax')->name('getAllDealsDoneForUserByAjax');
+
+
 /*************************************************************************************/
 /*********************************  User Permissions *********************************/
 /*************************************************************************************/
@@ -440,5 +446,21 @@ Route::post('/add_user_permission', 'MisController@add_user_permission')->name('
 /*************************************************************************************/
 
 Route::get('/reports', 'ReportsController@index')->name('reports');
+
+
+/********************************* Lead Reports Generate *********************************/
 Route::get('/lead_reports', 'ReportsController@lead_reports')->name('lead_reports');
 Route::any('/get_lead_reports', 'ReportsController@get_lead_reports')->name('get_lead_reports');
+
+/********************************* Inventory Reports Generate *********************************/
+Route::get('/inventory_reports', 'ReportsController@inventory_reports')->name('inventory_reports');
+Route::any('/get_inventory_reports', 'ReportsController@get_inventory_reports')->name('get_inventory_reports');
+
+
+/***********************************************************************************************/
+/***********************************************************************************************/
+/*********************************** On Spot Deals Routes **************************************/
+/***********************************************************************************************/
+/***********************************************************************************************/
+
+Route::get('/on_spot_inventories', 'OnSpotController@on_spot_inventories')->name('on_spot_inventories');

@@ -7,7 +7,7 @@
 
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
-        <ul class="nav metismenu" id="side-menu">
+        <ul class="nav metismenu" id="side-menu" style="padding-bottom: 20px;">
             <li class="nav-header">
                 <div class="logo-element p-t-0" style="padding-bottom: 0px!important;">
                     <img style="width: 100%;" src="{{ asset('resources/frontend_assets/img/apna-godam-logo-1.png') }}">
@@ -58,36 +58,47 @@
             </li>
 
             @if($role->role_id == 2)
-            <li>
-                <a href="{{ route('inventories') }}" title="My Commodity" data-toggle="tooltip" data-placement="top">
-                    <i class="fa fa-shopping-bag"></i>
-                    <span class="nav-label">My Commodity</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('deals', ['status' => 'sell']) }}"  title="My Sell" data-toggle="tooltip" data-placement="top">
-                    <i class="fa fa-cloud-upload"></i>
-                    <span class="nav-label">My Sell</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('deals', ['status' => 'purchase']) }}"  title="My Purchase" data-toggle="tooltip" data-placement="top">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="nav-label">My Purchase</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('buy_sell') }}" title="Market" data-toggle="tooltip" data-placement="top">
-                    <i class="fa fa-bar-chart"></i>
-                    <span class="nav-label">Market</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('user_finance_view') }}" title="Finance / Loan" data-toggle="tooltip" data-placement="top">
-                    <i class="fa fa-money"></i>
-                    <span class="nav-label">Finance / Loan</span>
-                </a>
-            </li>
+                <li>
+                    <a href="{{ route('inventories') }}" title="My Commodity" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-shopping-bag"></i>
+                        <span class="nav-label">My Commodity</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('deals', ['status' => 'sell']) }}"  title="My Sell" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-cloud-upload"></i>
+                        <span class="nav-label">My Sell</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('deals', ['status' => 'purchase']) }}"  title="My Purchase" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="nav-label">My Purchase</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('buy_sell') }}" title="Market" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-bar-chart"></i>
+                        <span class="nav-label">Market</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('user_finance_view') }}" title="Finance / Loan" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-money"></i>
+                        <span class="nav-label">Finance / Loan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label">On Spot Sale</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('on_spot_inventories') }}">
+                                <i class="fa fa-houzz" title=""></i>
+                                <span class="nav-label">Commodity</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endif
             @if($role->role_id == 1)
                 <li>

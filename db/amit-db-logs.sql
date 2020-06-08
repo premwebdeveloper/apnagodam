@@ -133,3 +133,6 @@ ALTER TABLE `inventory_cases_id` ADD `weight` VARCHAR(100) NULL AFTER `case_id`;
 
 -- ------------------- ALTER TABLE `apna_case_pricing` at 10-04-2020 ------------------
 ALTER TABLE `apna_case_pricing` CHANGE `user_id` `user_id` INT(11) NULL, CHANGE `processing_fees` `processing_fees` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `interest_rate` `interest_rate` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `price` `price` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `rent` `rent` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `labour_rate` `labour_rate` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
+
+-- ------------------- ALTER TABLE `buy_sells` at 27-04-2020 ------------------
+ALTER TABLE `buy_sells` ADD `labour_rate` VARCHAR(50) NULL AFTER `price`;

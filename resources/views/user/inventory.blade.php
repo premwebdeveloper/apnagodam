@@ -41,6 +41,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Gate Pass</th>
+                                    <th>Truck No.</th>
                                     <th>Terminal</th>
                                     <th>Location</th>
                                     <th>Commodity</th>
@@ -67,6 +68,7 @@
                                                     ?>
                                                 @endforeach
                                             </td>
+                                            <td>{{ $inventory->truck_no }}</td>
                                             <td>{{ $inventory->name }}</td>
                                             <td>{{ $inventory->location }}</td>
                                             <td>{{ $inventory->cat_name }}</td>
@@ -127,7 +129,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".e_mandi").on('click', function(){
+        $(document).on('click', ".e_mandi", function(){
             $('#update_price').val('');
             var data = $(this).attr('data-id');
             var temp = data.split('_');
@@ -138,7 +140,7 @@
             $("#edit_price").modal('show');
         });
 
-        $(".want_to_sell").on('click', function(){
+        $(document).on('click', ".want_to_sell", function(){
 
             $('#update_price').val('');
 
@@ -293,7 +295,11 @@
                         </div>
                         <div class="col-md-12">
                             {!! Form::label('user_id', 'Sell Quantity (Qtl.)', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                            <input type="number" placeholder="Enter Sell Quantity" class="form-control" name="weight" required="required">
+                            <input type="number" step="any" placeholder="Enter Sell Quantity" class="form-control" name="weight" required="required">
+                        </div>
+                        <div class="col-md-12">
+                            {!! Form::label('user_id', 'Labour Charge', ['class' => 'm-t-20  col-form-label text-md-right']) !!}
+                            <input type="checkbox" name="labour_charge">
                         </div>
                     </div>
                 </div>

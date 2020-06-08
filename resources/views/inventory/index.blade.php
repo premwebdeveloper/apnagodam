@@ -53,6 +53,7 @@
                                     <th>Terminal</th>
                                     <!-- <th>Gatepass No.</th> -->
                                     <th>Commodity</th>
+                                    <th>Bags</th>
                                     <th>Net Weight (Qtl.)</th>
                                     <th>Created Date</th>
                                     <th>Status</th>
@@ -106,6 +107,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": "{{ route('getAllInventoresByAjax') }}",
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "columns": [
                 {data: 'id', name: 'id'},
                 /*{data: 'action', name: 'action'},*/
@@ -115,6 +117,7 @@
                 {data: 'warehouse_name', name: 'warehouse_name'},
                 /*{data: 'gate_pass_wr', name: 'gate_pass_wr'},*/
                 {data: 'category', name: 'category'},
+                {data: 'no_of_bags', name: 'no_of_bags'},
                 {data: 'quantity', name: 'quantity'},
                 {data: 'date', name: 'date'},
                 {data: 'in__out_status', name: 'in__out_status'},

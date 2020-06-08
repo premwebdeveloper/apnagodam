@@ -217,6 +217,7 @@ class CaseGen extends Model
             ->leftjoin('apna_case_cctv', 'apna_case_cctv.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_commodity_withdrawal', 'apna_case_commodity_withdrawal.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_accounts', 'apna_case_accounts.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_inventory', 'apna_case_inventory.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_ivr_tagging', 'apna_case_ivr_tagging.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_start', 'apna_case_shipping_start.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_end', 'apna_case_shipping_end.case_id', '=', 'apna_case.case_id')
@@ -246,6 +247,7 @@ class CaseGen extends Model
                 'apna_case_cctv.case_id as cctv_case_id',
                 'apna_case_commodity_withdrawal.case_id as commodity_withdrawal_case_id',
                 'apna_case_accounts.case_id as accounts_case_id',
+                'apna_case_inventory.case_id as case_inventory_case_id',
                 'apna_case_shipping_start.case_id as shipping_start_case_id',
                 'apna_case_ivr_tagging.case_id as ivr_tagging_case_id',
                 'apna_case_shipping_end.case_id as shipping_end_case_id',
@@ -266,6 +268,7 @@ class CaseGen extends Model
                 'apna_case_e_mandi.created_at as e_mandi_update_time',
                 'apna_case_cctv.created_at as cctv_update_time',
                 'apna_case_commodity_withdrawal.created_at as commodity_withdrawal_update_time',
+                'apna_case_inventory.created_at as case_inventory_update_time',
                 'apna_case_accounts.created_at as accounts_update_time',
                 'apna_case_ivr_tagging.created_at as ivr_tagging_update_time',
                 'apna_case_shipping_start.created_at as shipping_start_update_time',
@@ -478,9 +481,10 @@ class CaseGen extends Model
     {
         $case = DB::table('apna_case')
             ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('user_details as customer_details', 'customer_details.user_id', '=', 'apna_case.customer_uid')
             ->leftjoin('apna_case_pricing', 'apna_case_pricing.case_id', '=', 'apna_case.case_id')
             ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_pricing.user_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_pricing.case_id as p_case_id', 'apna_case_pricing.processing_fees', 'apna_case_pricing.interest_rate', 'apna_case_pricing.price', 'apna_case_pricing.rent', 'apna_case_pricing.labour_rate', 'apna_case_pricing.notes', 'apna_case_pricing.transaction_type', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->select('apna_case.*', 'customer.phone', 'customer_details.firm_name', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_pricing.case_id as p_case_id', 'apna_case_pricing.processing_fees', 'apna_case_pricing.interest_rate', 'apna_case_pricing.price', 'apna_case_pricing.rent', 'apna_case_pricing.labour_rate', 'apna_case_pricing.notes', 'apna_case_pricing.transaction_type', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
             ->where('apna_case.status', 1)
             ->orderBy('apna_case.updated_at', 'DESC')
             ->groupBy('apna_case.case_id')

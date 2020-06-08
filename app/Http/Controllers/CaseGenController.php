@@ -419,7 +419,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('quality_report')->with('status', $status);
             }
@@ -501,7 +501,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('gate_pass')->with('error', $status);
             }
@@ -526,6 +526,16 @@ class CaseGenController extends Controller
         if($case_status[0] == 'IN'){
             //Get Case
             $case_details = CaseGen::getSingleCaseById($case_id);
+            $commodity_id = $case_details->commodity_id;
+
+            //Get Commodity Details
+            $commodity_details = DB::table('categories')->where('id', $commodity_id)->first();
+            if($commodity_details->commodity_type == 'Secondary')
+            {
+                $data['sales_status']     = 2;
+            }else{
+                $data['sales_status']     = 1;                
+            }
 
             $data['user_id']          = $case_details->customer_uid;
             $data['commodity']        = $case_details->commodity_id;
@@ -540,14 +550,13 @@ class CaseGenController extends Controller
             $data['price']            = null;
             $data['quality_category'] = null;
             $data['gate_pass_wr']     = $case_details->gate_pass;
-            $data['sales_status']     = 1;
             //$data['file']             = null;
 
             //First check inventory already exist for this customer or not
-            $check = DB::table('inventories')
+            /*$check = DB::table('inventories')
                         ->where(['status' =>  1, 'warehouse_id' => $case_details->terminal_id, 'user_id' => $case_details->customer_uid, 'commodity' => $case_details->commodity_id])
-                        ->first();
-            if($check){
+                        ->first();*/
+            /*if($check){
 
                 $total_weight = $weight + $check->quantity;
                 //Update In Inventory
@@ -556,14 +565,15 @@ class CaseGenController extends Controller
                 //Insert Inventory id with Case ID
                 $inset = inventory::addCaseIdInInventory($check->id, $case_id, $weight);
 
-            }else{
+            }else{*/
                 //Insert In Inventory
                 $inventory = inventory::addInventory($data);
                 
                 //Insert Inventory id with Case ID
                 $inset = inventory::addCaseIdInInventory($inventory, $case_id, $weight);
-            }
+            /*}*/
         }
+
         //Add Inventory if Case is PASS Process
         if($case_status[0] == 'PASS'){
             //Get Case
@@ -589,8 +599,8 @@ class CaseGenController extends Controller
             $inventory = inventory::addInventory($data);
             
             //Get User Id
-            $user = DB::table('users')->where('phone', 999999999)->first();
-
+            $user = DB::table('users')->where('phone', '9999999999')->first();
+            
             //Insert Inventory id with Case ID
             $inset = inventory::addCaseIdInInventory($inventory, $case_id, $weight);
 
@@ -699,7 +709,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('kanta_parchi')->with('status', $status);
             }
@@ -735,7 +745,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('kanta_parchi')->with('status', $status);
             }
@@ -1002,7 +1012,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('second_quality_report')->with('status', $status);
             }
@@ -1077,7 +1087,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('second_kanta_parchi')->with('status', $status);
             }
@@ -1113,7 +1123,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('second_kanta_parchi')->with('status', $status);
             }
@@ -1187,7 +1197,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('e_mandi')->with('error', $status);
             }
@@ -1264,7 +1274,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('accounts')->with('status', $status);
             }
@@ -1446,7 +1456,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('quality_claim')->with('status', $status);
             }
@@ -1482,7 +1492,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('quality_claim')->with('status', $status);
             }
@@ -1555,7 +1565,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('truck_payment')->with('error', $status);
             }
@@ -1629,7 +1639,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('labour_payment')->with('error', $status);
             }
@@ -1703,7 +1713,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('payment_received')->with('error', $status);
             }
@@ -1752,6 +1762,7 @@ class CaseGenController extends Controller
         $data['notes'] = $notes = $request->notes;
 
         $img_name = null;
+        $img_name_2 = null;
 
         if($request->hasFile('report_file')) {
 
@@ -1777,7 +1788,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('cctv')->with('error', $status);
             }
@@ -1815,7 +1826,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('cctv')->with('error', $status);
             }
@@ -1892,7 +1903,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('commodity_deposit')->with('error', $status);
             }
@@ -1969,7 +1980,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('warehouse_receipt')->with('error', $status);
             }
@@ -2043,7 +2054,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('storage_receipt')->with('error', $status);
             }
@@ -2116,7 +2127,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('release_order')->with('error', $status);
             }
@@ -2189,7 +2200,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('delivery_order')->with('error', $status);
             }
@@ -2263,7 +2274,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4052030){
+            if($filesize > 6052030){
                 $status = 'File size is too large. Please upload file less than 3MB !';
                 return redirect('commodity_withdrawal')->with('error', $status);
             }
@@ -2340,7 +2351,7 @@ class CaseGenController extends Controller
             $filesize = $file->getClientSize();
 
             // first check file size if greater than 1mb than hit error
-            if($filesize > 4502030){
+            if($filesize > 8502030){
                 $status = 'File size is too large. Please upload file less than 4MB !';
                 return redirect('ivr_tagging')->with('error', $status);
             }
@@ -2378,7 +2389,7 @@ class CaseGenController extends Controller
         $commodity_id = $request->commodity_id;
         $terminal_id = $request->terminal_id;
         //Get Data
-        $getData = DB::table('inventories')->where(['user_id' => $customer_uid, 'commodity' => $commodity_id, 'warehouse_id' => $terminal_id])->first();
+        $getData = DB::table('inventories')->where(['user_id' => $customer_uid, 'commodity' => $commodity_id, 'warehouse_id' => $terminal_id, 'status' => 1])->first();
 
         if($getData)
         {
@@ -2386,7 +2397,7 @@ class CaseGenController extends Controller
             $cases = inventory::getInventoryCases($getData->id);
             $html = '<table class="table table-striped table-bordered table-hover"><tr><th>Case ID</th><th>Actual Weight (Qtl.)</th><th>Out Weight (Qtl.)</th></tr>';
             foreach ($cases as $key => $row){
-                $html .= '<tr><td>'.$row->case_id.'</td><td>'.$row->weight.'</td><td><input type="number"  min="1" max="'.$row->weight.'" step="any" class="form-control" placeholder="Enter Out Quantity" name="quantity['.$row->case_id.'][]"></td></tr>';
+                $html .= '<tr><td>'.$row->case_id.'</td><td>'.$row->weight.'<input name="actual_weight['.$row->case_id.'][]" type="hidden" value="'.$row->weight.'"></td><td><input type="number"  min="1" max="'.$row->weight.'" step="any" class="form-control" placeholder="Enter Out Quantity" name="quantity['.$row->case_id.'][]"></td></tr>';
             }
             $html .= '</table>';
             echo $html;
@@ -2417,6 +2428,7 @@ class CaseGenController extends Controller
         $commodity_id = $request->commodity_id;
         $user = $request->user;
         $quantity = $request->quantity;
+        $actual_weight = $request->actual_weight;
         $data['notes'] = $notes = $request->notes;
         $data['case_ids'] = json_encode($quantity);
 
@@ -2438,21 +2450,20 @@ class CaseGenController extends Controller
                 }
 
                 //Get Inventory
-                $inv = DB::table('inventory_cases_id')->where('case_id', $case_ids[0])->first();
-                $get_inv = DB::table('inventories')->where('id', $inv->inventory_id)->first();
+                $get_inv = DB::table('inventories')->where(['warehouse_id' => $terminal_id, 'commodity' => $commodity_id, 'user_id' => $user, 'status' => 1])->first();
 
                 if($get_inv->quantity == $qtl){
                     
                     //Update Inventroy
-                    $update = DB::table('inventories')->where('id', $inv->inventory_id)->update(['status' => 0]);
+                    $update = DB::table('inventories')->where('id', $get_inv->id)->update(['status' => 0]);
                     //Inset Case Id in Inventory Cases
-                    $insert = inventory::addCaseIdInInventory($inv->inventory_id, $case_id, $qtl);
+                    $insert = inventory::addCaseIdInInventory($get_inv->id, $case_id, $qtl);
 
                 }else{
                     $new_qty = $get_inv->quantity - $qtl;
 
                     //Out Quantity from inventory
-                    $update = DB::table('inventories')->where('id', $inv->inventory_id)->update(['quantity' => $qtl, 'status' => 0]);
+                    $update = DB::table('inventories')->where('id', $get_inv->id)->update(['quantity' => $qtl, 'status' => 0]);
 
                     //Create New inventory
                     $data['user_id']          = $get_inv->user_id;
@@ -2462,7 +2473,7 @@ class CaseGenController extends Controller
                     $data['truck_no']         = $get_inv->truck_no;
                     $data['stack_no']         = $get_inv->stack_no;
                     $data['net_weight']       = null;
-                    $data['quantity']         = $new_qty;
+                    $data['quantity']         = round($new_qty, 2);
                     $data['price']            = $get_inv->price;
                     $data['quality_category'] = $get_inv->quality_category;
                     $data['gate_pass_wr']     = $get_inv->gate_pass_wr;
@@ -2472,16 +2483,30 @@ class CaseGenController extends Controller
                     $inventory_id = inventory::addInventory($data);
 
                     //Inset Case Id in Inventory Cases
-                    $insert = inventory::addCaseIdInInventory($inventory_id, $case_id, $qtl);
+                    $insert = inventory::addCaseIdInInventory($get_inv->id, $case_id, $qtl);
 
                     //Change Inventory ID to chases
                     foreach($quantity as $caseid => $qty)
                     {
-                        $case_inv = DB::table('inventory_cases_id')->where(['case_id' => $caseid, 'weight' => $qty[0]] )->first();
-                        if(!$case_inv){
+                        $case_inv = DB::table('inventory_cases_id')->where(['case_id' => $caseid, 'weight' => round($qty[0], 2)] )->first();
 
+                        if(!$case_inv){
+                            foreach($actual_weight as $case_key => $a_w)
+                            {
+                                if($case_key == $caseid){
+                                    $weight = (float)$a_w[0] - (float)$qty[0];
+                                    $weight = round($weight, 2);
+
+                                    //Insert Inv Id in Cases
+                                    $insert = inventory::addCaseIdInInventory($inventory_id, $caseid, $weight);
+
+                                }
+                            }
+
+                        }else{
+                            $w = round($qty[0], 2);
                             //Insert Inv Id in Cases
-                            $insert = inventory::addCaseIdInInventory($inventory_id, $caseid, $qtl[0]);
+                            $insert = inventory::addCaseIdInInventory($inventory_id, $caseid, $qty[0]);
                         }
                     }
                 }
@@ -2595,5 +2620,62 @@ class CaseGenController extends Controller
         }else{            
             echo 0;
         }
+    }
+
+        // Done Deals
+    public function done_deals_for_user()
+    {
+        $user = Auth::user(); 
+        $role = DB::table('user_roles')->where('user_id', $user->id)->first();
+        return view('user.done_deals', array('role' => $role));
+    }
+
+    // Show all users by Ajax
+    public function getAllDealsDoneForUserByAjax()
+    {
+        $done_deals = DB::table('buy_sells')
+                        ->leftjoin('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
+                        ->leftjoin('users','users.id', '=', 'buy_sells.seller_id')
+                        ->leftjoin('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+                        ->leftjoin('categories', 'categories.id', '=', 'inv.commodity')
+                        ->leftjoin('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
+                        ->leftjoin('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
+                        ->where('buy_sells.status', 2)
+                        ->orwhere('buy_sells.status', 3)
+                        ->select('buy_sells.*', 'inv.gate_pass_wr', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse', 'mandi_samitis.name as mandi_samiti_name')
+                        ->orderBy('buy_sells.updated_at', 'DESC')
+                        ->groupBy('buy_sells.id')
+                        ->get();
+
+        return Datatables::of($done_deals)->addColumn('action', function ($row) {
+            $user = Auth::user(); 
+            $role = DB::table('user_roles')->where('user_id', $user->id)->first();
+            $res = '';
+            if($role->role_id == 3){
+                if($row->status == 2){
+                    $res = '<a href="javascript:;" class="btn btn-warning btn-xs">Not Approve</a>';
+                }else{
+                    $res = '<a href="'.route('download_vikray_parchi', ['id' => $row->id, 'email' => 0]).'" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">Download Vikray Parchi</a><a href="'.route('download_vikray_parchi', ['id' => $row->id, 'email' => 1]).'" class="btn btn-info btn-xs" data-toggle="tooltip" title="Send Pdf">Send Mail</a>';
+                }
+            }
+            return $res;
+        })->addColumn('done_date', function ($row) {
+            $res = date('d M Y', strtotime($row->updated_at));
+            return $res;
+        })->addColumn('payment_ref_no', function ($row) {
+            $res = '';
+            if($row->payment_ref_no){
+                $res = $row->payment_ref_no;
+            }
+            else{
+                $user = Auth::user(); 
+                $role = DB::table('user_roles')->where('user_id', $user->id)->first();
+                if($role->role_id == 1){
+                    $res = '<a href="javascript:;" id="'.$row->id.'" class="btn btn-warning btn-xs add_payment_ref" data-toggle="tooltip" title="Add Payment Ref. No."><i class="fa fa-plus"></i></a>';
+                }
+            }
+            return $res;
+        })->escapeColumns(null)
+        ->make(true); 
     }
 }

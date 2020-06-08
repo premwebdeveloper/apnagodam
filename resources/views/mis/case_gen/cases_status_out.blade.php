@@ -51,6 +51,7 @@
                                     <th>E-Mandi</th>
                                     <th>CCTV</th>
                                     <th>Commodity Withdrawal</th>
+                                    <th>Inventory</th>
                                     <th>Accounts</th>
                                     <th>IVR Tagging</th>
                                     <th>Shipment Start</th>
@@ -134,6 +135,11 @@
                                         <br/>
                                             {!! ($lead->commodity_withdrawal_file)?"<a class='view_file' data-id='commodity_withdrawal/".$lead->commodity_withdrawal_file."'><i class='fa fa-eye'></i></a>":'' !!}
                                     </td>
+                                    <td>
+                                        {!! ($lead->transaction_type != 'E-Mandi')?(($lead->case_inventory_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>'):'<span class="text-info">For E-Mandi</span>' !!}<br>{{ ($lead->transaction_type == 'E-Mandi')?(($lead->case_inventory_update_time)?date('g:i A', strtotime($lead->case_inventory_update_time)):''):'' }}
+                                        
+                                    </td>
+
                                         <td>{!! ($lead->accounts_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
                                         <br>{{ ($lead->accounts_update_time)?date('g:i A', strtotime($lead->accounts_update_time)):'' }}
                                         <br/>
@@ -208,7 +214,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.view_file').on('click', function(){
+        $(document).on('click', '.view_file', function(){
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/"+file;
             $('#object_data').attr('data', '');

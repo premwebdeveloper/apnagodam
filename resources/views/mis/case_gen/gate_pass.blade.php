@@ -245,7 +245,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'submitForm(this);']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'onclick' => 'this.disabled = true']) !!}
                         </div>
                         <div class="col-md-12 m-t-20">
                             <h3 id="file_preview_title" class="hide">File Preview</h3>

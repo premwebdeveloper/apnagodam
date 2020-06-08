@@ -282,7 +282,7 @@ class LeadController extends Controller
         //Get Last Gatepass Number
         $termianl_gate_pass = DB::table('apna_case')
                             ->where('terminal_id', $terminal_id)
-                            ->orderBy('gate_pass', 'DESC')
+                            ->orderBy('created_at', 'DESC')
                             ->first();
         if($termianl_gate_pass){
             echo $gate_pass = ++$termianl_gate_pass->gate_pass;

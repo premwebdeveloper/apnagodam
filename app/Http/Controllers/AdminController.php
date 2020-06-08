@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\inventory;
 use App\Mis;
 use App\user_details;
 use DataTables;
@@ -824,17 +825,20 @@ class AdminController extends Controller
                         ->leftjoin('categories', 'categories.id', '=', 'inv.commodity')
                         ->leftjoin('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
                         ->leftjoin('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
-                        ->select('buy_sells.*', 'inv.gate_pass_wr','user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse', 'mandi_samitis.name as mandi_samiti_name')
+                        ->where('buy_sells.status', 2)
+                        ->orwhere('buy_sells.status', 3)
+                        ->select('buy_sells.*', 'inv.gate_pass_wr', 'user_details.fname as buyer_name', 'users.fname as seller_name', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse', 'mandi_samitis.name as mandi_samiti_name')
                         ->orderBy('buy_sells.updated_at', 'DESC')
                         ->groupBy('buy_sells.id')
                         ->get();
+
         return Datatables::of($done_deals)->addColumn('action', function ($row) {
             $user = Auth::user(); 
             $role = DB::table('user_roles')->where('user_id', $user->id)->first();
             $res = '';
             if($role->role_id == 1){
                 if($row->status == 2){
-                    $res = '<a href="javascript:;" id="'.$row->id.'_'.$row->gate_pass_wr.'" class="btn btn-warning btn-xs edit_gate_pass" data-toggle="tooltip" title="Deal Done">Approve</a>';
+                    $res = '<a href="javascript:;" id="'.$row->id.'_'.$row->gate_pass_wr.'" class="btn btn-warning btn-xs edit_gate_pass" data-toggle="tooltip" title="Deal Done">Approve</a>&nbsp;<a href="'.route('download_vikray_parchi', ['id' => $row->id, 'email' => 0]).'" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">View Vikray Parchi</a>';
                 }else{
                     $res = '<a href="'.route('download_vikray_parchi', ['id' => $row->id, 'email' => 0]).'" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">Download Vikray Parchi</a><a href="'.route('download_vikray_parchi', ['id' => $row->id, 'email' => 1]).'" class="btn btn-info btn-xs" data-toggle="tooltip" title="Send Pdf">Send Mail</a>';
                 }
@@ -870,11 +874,12 @@ class AdminController extends Controller
             ->join('users','users.id', '=', 'buy_sells.seller_id')
             ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
             ->join('categories', 'categories.id', '=', 'inv.commodity')
+            ->join('inventory_cases_id as cases', 'cases.inventory_id', '=', 'inv.id')
             ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
             ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
             ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.phone as buyer_phone', 'user_details.mandi_license', 'users.fname as seller_name', 'users.phone as seller_phone', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'cases.case_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
             ->first();
             
         $inventory_id = $done_deals->seller_cat_id;
@@ -899,30 +904,48 @@ class AdminController extends Controller
 
         $cate = DB::table('categories')->where('id', $inventory_info->commodity)->first();
         $new_cate = DB::table('categories')->where(['category' => $cate->category, 'commodity_type' => 'Secondary'])->first();
-       
-        // If trader do not have this commodity already then insert this commodity with this teader
-        $insert_id = DB::table('inventories')->insertGetId([
 
-            'user_id'          => $buyer_id,
-            'warehouse_id'     => $inventory_info->warehouse_id,
-            'commodity'        => $new_cate->id,
-            'quantity'         => $quantity,
-            'gate_pass_wr'     => $gate_pass,
-            'price'            => $price,
-            'quality_category' => $quality_category,
-            'sales_status'     => 2,
-            'status'           => 1,
-            'created_at'       => $date,
-            'updated_at'       => $date,
-        ]);
+        //Get Case for this inventory 
+        $case_id = DB::table('inventory_cases_id')->where('inventory_id', $inventory_id)->first();
+
+        //Get Inventory
+        $get_inv = DB::table('inventories')->where(['warehouse_id' => $inventory_info->warehouse_id, 'commodity' => $new_cate->id, 'user_id' => $buyer_id, 'status' => 1])->first();
+
+        /*if($get_inv){
+            $new_qty = $get_inv->quantity + $quantity;
+            $new_qty = round($new_qty, 2);
+
+            //Update Inventroy
+            $update = DB::table('inventories')->where('id', $get_inv->id)->update(['quantity' => $new_qty]);
+
+            //Inset Case Id in Inventory Cases
+            $insert = inventory::addCaseIdInInventory($get_inv->id, $case_id->case_id, $quantity);
+        }else{*/
+            // If trader do not have this commodity already then insert this commodity with this teader
+            $insert_id = DB::table('inventories')->insertGetId([
+                'user_id'          => $buyer_id,
+                'warehouse_id'     => $inventory_info->warehouse_id,
+                'commodity'        => $new_cate->id,
+                'quantity'         => $quantity,
+                'gate_pass_wr'     => $gate_pass,
+                'price'            => $price,
+                'quality_category' => $quality_category,
+                'sales_status'     => 2,
+                'status'           => 1,
+                'created_at'       => $date,
+                'updated_at'       => $date,
+            ]);
+
+            //Inset Case Id in Inventory Cases
+            $insert = inventory::addCaseIdInInventory($insert_id, $case_id->case_id, $quantity);
+        /*}*/
 
         //Get Remainning Inverntry From Farmer
         $inventory_info_seller = DB::table('inventories')->where('id', $inventory_id)->first();
 
-        if($inventory_info_seller->quantity == 0)
+        if($inventory_info_seller->quantity == $quantity)
         {
             $data = array(
-                'quantity' => $remaining_quantity,
                 'sell_quantity' => null,
                 'updated_at'    => $date,
                 'status'        => 0,
@@ -938,6 +961,23 @@ class AdminController extends Controller
         // update inventory / qauantity of farmaer
         $update_sell_quantity = DB::table('inventories')->where('id', $inventory_info_seller->id)->update($data);
 
+                //Get Last Case IDs for No. Of Bags
+        $cases = DB::table('inventory_cases_id')
+                ->where('inventory_id', $inventory_id)
+                ->Where(function ($query) {
+                    $query->orwhere('case_id', 'like', '%IN-%')
+                        ->orwhere('case_id', 'like', '%PASS-%');
+                })->orderBy('created_at', 'DESC')->first();
+        $no_of_bags = 0;
+
+        if($cases)
+        {
+            $case = DB::table('apna_case')->where('case_id', $cases->case_id)->first();
+            $no_of_bags = $case->no_of_bags;
+        }
+
+        $done_deals->no_of_bags = $no_of_bags;
+
         //If Send pdf to email
         $data = json_decode(json_encode($done_deals),true);
 
@@ -948,7 +988,7 @@ class AdminController extends Controller
         //Get User Old Power
         $user = DB::table('user_details')->where('user_id', $buyer_id)->first();
 
-        $new_power = $user->power - ($quantity * $price);
+        $new_power = (float)$user->power - ((float)$quantity * (float)$price);
         $date = date('Y-m-d H:i:s');
 
         //Update sell status
@@ -984,12 +1024,13 @@ class AdminController extends Controller
             ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
             ->join('users','users.id', '=', 'buy_sells.seller_id')
             ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+            ->join('inventory_cases_id as cases', 'cases.inventory_id', '=', 'inv.id')
             ->join('categories', 'categories.id', '=', 'inv.commodity')
             ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
             ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
             ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.phone as buyer_phone', 'user_details.mandi_license', 'users.fname as seller_name', 'users.phone as seller_phone', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'cases.case_id', 'mandi_samitis.name as mandi_samiti_name')
             ->first();
 
         $buyer_id = $done_deals->buyer_id;
@@ -1001,6 +1042,24 @@ class AdminController extends Controller
         $done_deals->seller_address = $seller_info->area_vilage;
         $done_deals->buyer_address = $buyer_info->area_vilage;
 
+        $inventory_id = $done_deals->seller_cat_id;
+
+        //Get Last Case IDs for No. Of Bags
+        $cases = DB::table('inventory_cases_id')
+                ->where('inventory_id', $inventory_id)
+                ->Where(function ($query) {
+                    $query->orwhere('case_id', 'like', '%IN-%')
+                        ->orwhere('case_id', 'like', '%PASS-%');
+                })->orderBy('created_at', 'DESC')->first();
+        $no_of_bags = 0;
+        if($cases)
+        {
+            $case = DB::table('apna_case')->where('case_id', $cases->case_id)->first();
+            $no_of_bags = $case->no_of_bags;
+        }
+
+        $done_deals->no_of_bags = $no_of_bags;
+        
         $data = json_decode(json_encode($done_deals),true);
 
         $pdf = PDF::loadView('vikray_parchi_pdf', $data);

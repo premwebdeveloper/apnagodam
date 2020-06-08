@@ -121,6 +121,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": "{{ route('usersByAjax') }}",
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "columns": [
                 {data: 'sr_no', name: 'sr_no'},
                 {data: 'action', name: 'action'},

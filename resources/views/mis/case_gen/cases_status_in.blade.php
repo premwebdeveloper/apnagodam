@@ -204,7 +204,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.view_file').on('click', function(){
+        $(document).on('click', '.view_file', function(){
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/"+file;
             $('#object_data').attr('data', '');

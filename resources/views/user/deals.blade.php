@@ -74,7 +74,7 @@
                                             <td>{{ $buy->created_at }}</td>
                                             <td>{!! ($buy->sales_status == 1)?'<span class="label label-primary">Primary</span>': '<span class="label label-danger">Secondary</span>' !!}</td>
                                             <td><span class="label label-primary">Success</span></td>
-                                            <td><a href="{{ route('download_vikray_parchi', ['id' => $buy->id, 'email' => 0]) }}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">Download</a></td>
+                                            <td><a href="{{ route('download_user_vikray_parchi', ['id' => $buy->id, 'email' => 0]) }}" class="btn btn-info btn-xs" data-toggle="tooltip" title="Deal Done">Download</a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

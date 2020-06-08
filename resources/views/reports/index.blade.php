@@ -26,6 +26,9 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-md-4 m-b-20">
+                            <a class="btn btn-lg w-100 btn-primary" href="{!! route('inventory_reports') !!}">Inventory Reports</a>
+                        </div>
+                        <div class="col-md-4 m-b-20">
                             <a class="btn btn-lg w-100 btn-primary" href="{!! route('lead_reports') !!}">Lead Reports</a>
                         </div>
                         <div class="col-md-4 m-b-20">
@@ -33,9 +36,6 @@
                         </div>
                         <div class="col-md-4 m-b-20">
                             <a class="btn btn-lg w-100 btn-primary" href="{!! route('lead_reports') !!}">Users Reports</a>
-                        </div>
-                        <div class="col-md-4 m-b-20">
-                            <a class="btn btn-lg w-100 btn-primary" href="{!! route('lead_reports') !!}">Inventory Reports</a>
                         </div>
                         <div class="col-md-4 m-b-20">
                             <a class="btn btn-lg w-100 btn-primary" href="{!! route('lead_reports') !!}">Deals Reports</a>

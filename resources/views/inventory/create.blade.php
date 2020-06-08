@@ -46,7 +46,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     {!! Form::label('user', 'User') !!}<span class="red">*</span>
-                                    {!! Form::select('user', $users, '', ['class' => 'form-control', 'id' => 'user']) !!}
+                                    {!! Form::select('user', $users, '', ['class' => 'form-control selectpicker', 'id' => 'user']) !!}
 
                                     @if($errors->has('user'))
                                         <span class="help-block red">
@@ -236,7 +236,7 @@
                     $('#case_id').html(response);
                     $('#case_id').attr("multiple", true);
                     $('#script_show').html("");
-                    $('#script_show').html("<script>$('.select-picker').multiselect({includeSelectAllOption: true, numberDisplayed: 0});<\/script>");
+                    $('#script_show').html("<script>$('.select-picker').multiselect({includeSelectAllOption: true,maxHeight: 200, filterBehavior: 'text',enableCaseInsensitiveFiltering: true, numberDisplayed: 0});<\/script>");
                     $('.select-picker').multiselect('rebuild');
                     console.log(response);
                 },
@@ -246,6 +246,11 @@
                 },
             });
         });
+    $('.selectpicker').multiselect({
+                            maxHeight: 250,
+                            filterBehavior: 'text',
+                            enableCaseInsensitiveFiltering: true,
+                        });
     });
 </script>
 

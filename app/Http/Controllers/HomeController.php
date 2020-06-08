@@ -197,11 +197,16 @@ class HomeController extends Controller
         return view('website_pages.qualiity_variance_calculator');
     }
 
-
     // Our Team
     public function our_team()
     {
         return view('website_pages.ourteam');
+    }
+
+    // Our Team
+    public function membership()
+    {
+        return view('website_pages.membership');
     }
 
     // Our Team
@@ -300,7 +305,7 @@ class HomeController extends Controller
         $data['district'] = $district = $request->district;
         $data['state'] = $state = $request->state;
         $data['pincode'] = $pincode = $request->pincode;
-        $data['user_type'] = $user_type = $request->user_type;
+        $data['user_type'] = $user_type = 1;
         $data['bank_name'] = $bank_name = $request->bank_name;
         $data['bank_branch'] = $bank_branch = $request->bank_branch;
         $data['bank_acc_no'] = $bank_acc_no = $request->bank_acc_no;
@@ -625,7 +630,7 @@ class HomeController extends Controller
             $data['full_name'] = $full_name = $request->fname;
             $data['email'] = $email = $request->email;
             $data['phone'] = $phone = $request->phone;
-            $data['user_type'] = $user_type = $request->user_type;
+            $data['user_type'] = $user_type = 2;
             $data['firm_name'] = $firm_name = $request->firm_name;
             $data['address'] = $address = $request->address;
             $data['area_vilage'] = $area_vilage = $request->area_vilage;

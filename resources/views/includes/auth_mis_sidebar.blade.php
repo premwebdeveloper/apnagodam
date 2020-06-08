@@ -69,11 +69,23 @@ $emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first()
                     </a>
                 </li>                
             @endif
-            @if($role->role_id == 3 && $emp_levels->level_id == 1)
+            @if($role->role_id == 3)
                 <li>
                     <a href="{{ route('all-users') }}">
                         <i class="fa fa-users" title=""></i>
                         <span class="nav-label">Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('mandi_samiti') }}">
+                        <i class="fa fa-users" title=""></i>
+                        <span class="nav-label">Mandi Samiti</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('done_deals_for_user') }}">
+                        <i class="fa fa-handshake-o" title=""></i>
+                        <span class="nav-label">Deals</span>
                     </a>
                 </li>
                 <li>
@@ -82,8 +94,17 @@ $emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first()
                         <span class="nav-label">Finance / Loan</span>
                     </a>
                 </li>
+
             @endif
-            @if($role->role_id == 5)
+            @if($role->role_id == 5 || $role->role_id == 3 || $role->role_id == 9)
+                <li>
+                    <a href="{{ route('reports') }}" title="Reports" data-toggle="tooltip" data-placement="top">
+                        <i class="fa fa-file"></i>
+                        <span class="nav-label">Reports</span>
+                    </a>
+                </li>
+            @endif
+            @if($role->role_id == 5 || $role->role_id == 3)
                 <li>
                     <a href="{{ route('inventory') }}">
                         <i class="fa fa-houzz" title=""></i>

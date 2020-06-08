@@ -27,7 +27,8 @@
                 <div class="ibox-title">
                     <h5>Corporate Buying</h5>
                     <div class="ibox-tools">
-                        <b class="f-s-20">Quantity : <span>{!! $weight !!}</span> Qtl.</b>
+                        <b class="f-s-20 red">( {{ $inventory->commodity_type }} ) </b>
+                        <b class="f-s-20"> Quantity : <span>{!! $weight !!}</span> Qtl.</b>
                     </div>
                 </div>
 
@@ -99,7 +100,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     {!! Form::label('miscellaneous_cost', 'Labour Rate @ 10/Qtl', ['class' => 'm-t-20  col-form-label text-md-right']) !!}<span class="red">*</span>
-                                    {!! Form::text('miscellaneous_cost', ($weight*10), ['id' => 'nr_miscellaneous_cost', 'class' => 'form-control', 'readonly' => 'readonly', 'autocomplete' => 'off', 'placeholder' => 'Labour Rate @ 10 Rs. / Qtl']) !!}
+                                    {!! Form::text('miscellaneous_cost', $labour_charge, ['id' => 'nr_miscellaneous_cost', 'class' => 'form-control', 'readonly' => 'readonly', 'autocomplete' => 'off', 'placeholder' => 'Labour Rate @ 10 Rs. / Qtl']) !!}
 
                                     @if($errors->has('miscellaneous_cost'))
                                         <span class="text-red" role="alert">
@@ -223,7 +224,7 @@
                 <a type="button" class="btn btn-primary submitFormNeemrana">
                     Yes
                 </a>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn btn-danger" onclick="this.disabled = true" data-dismiss="modal" aria-label="Close">
                     No
                 </button>
             </div>
@@ -358,16 +359,28 @@
                     {
                         var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
 
-                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*bid_price)/100;
-                        var e_mandi = (0.75*bid_price)/100;
+                        var x = (n_main_price - parseInt('<?= $labour_charge; ?>'));
+                        if('<?= ($inventory->sales_status == 1) ?>'){
+                            var m = (2.2960429897*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+
+                        }else{
+                            var m = (0.75*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+                        }
+                        
+                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*final_price)/100;
+                        var e_mandi = (0.75*final_price)/100;
                         
                         $('#nr_finance_cost').val(e_mandi.toFixed(2));
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
                         $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
-                        $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
-                        $('#nr_final_bid_price').val(actual_bid.toFixed(2));
+                        $('#n_bid_price').html(final_price.toFixed(2)+" / Qtl");
+                        $('#nr_final_bid_price').val(final_price.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
                         $('.neemrana_sell').addClass('show');
                     }
@@ -426,16 +439,28 @@
                     if($('#nr_pick_up_location').val())
                     {                    
                         var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
-                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*bid_price)/100;
-                        var e_mandi = (0.75*bid_price)/100;
+                        var x = (n_main_price - parseInt('<?= $labour_charge; ?>'));
+                        if('<?= ($inventory->sales_status == 1) ?>'){
+                            var m = (2.2960429897*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+
+                        }else{
+                            var m = (0.75*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+                        }
+
+                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*final_price)/100;
+                        var e_mandi = (0.75*final_price)/100;
                         
                         $('#nr_finance_cost').val(e_mandi.toFixed(2));
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
                         $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
-                        $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
-                        $('#nr_final_bid_price').val(actual_bid.toFixed(2));
+                        $('#n_bid_price').html(final_price.toFixed(2)+" / Qtl");
+                        $('#nr_final_bid_price').val(final_price.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
                         $('.neemrana_sell').addClass('show');
                     }
@@ -495,16 +520,28 @@
                     if($('#nr_pick_up_location').val())
                     {                    
                         var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
-                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*bid_price)/100;
-                        var e_mandi = (0.75*bid_price)/100;
+                        var x = (n_main_price - parseInt('<?= $labour_charge; ?>'));
+                        if('<?= ($inventory->sales_status == 1) ?>'){
+                            var m = (2.2960429897*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+
+                        }else{
+                            var m = (0.75*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+                        }
+
+                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*final_price)/100;
+                        var e_mandi = (0.75*final_price)/100;
                         
                         $('#nr_finance_cost').val(e_mandi.toFixed(2));
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
                         $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
-                        $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
-                        $('#nr_final_bid_price').val(actual_bid.toFixed(2));
+                        $('#n_bid_price').html(final_price.toFixed(2)+" / Qtl");
+                        $('#nr_final_bid_price').val(final_price.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
                         $('.neemrana_sell').addClass('show');
                     }
@@ -564,16 +601,28 @@
                     {                    
                         var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
 
-                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*bid_price)/100;
-                        var e_mandi = (0.75*bid_price)/100;
+                        var x = (n_main_price - parseInt('<?= $labour_charge; ?>'));
+                        if('<?= ($inventory->sales_status == 1) ?>'){
+                            var m = (2.2960429897*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+
+                        }else{
+                            var m = (0.75*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+                        }
+
+                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*final_price)/100;
+                        var e_mandi = (0.75*final_price)/100;
                         
                         $('#nr_finance_cost').val(e_mandi.toFixed(2));
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
                         $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
-                        $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
-                        $('#nr_final_bid_price').val(actual_bid.toFixed(2));
+                        $('#n_bid_price').html(final_price.toFixed(2)+" / Qtl");
+                        $('#nr_final_bid_price').val(final_price.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
                         $('.neemrana_sell').addClass('show');
                     }
@@ -629,16 +678,28 @@
                     if($('#nr_pick_up_location').val())
                     {                    
                         var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
-                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*bid_price)/100;
-                        var e_mandi = (0.75*bid_price)/100;
+                        var x = (n_main_price - parseInt('<?= $labour_charge; ?>'));
+                        if('<?= ($inventory->sales_status == 1) ?>'){
+                            var m = (2.2960429897*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+
+                        }else{
+                            var m = (0.75*x)/100;
+                            var final_price = x - m;
+                            final_price = parseInt(final_price);
+                        }
+
+                        var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*final_price)/100;
+                        var e_mandi = (0.75*final_price)/100;
                         
                         $('#nr_finance_cost').val(e_mandi.toFixed(2));
                         $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
                         $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                         var actual_bid = bid_price/parseInt($('#total_qtl').val());
-                        $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
-                        $('#nr_final_bid_price').val(actual_bid.toFixed(2));
+                        $('#n_bid_price').html(final_price.toFixed(2)+" / Qtl");
+                        $('#nr_final_bid_price').val(final_price.toFixed(2));
                         $('.neemrana_sell').removeClass('hide');
                         $('.neemrana_sell').addClass('show');
                     }
@@ -659,6 +720,7 @@
         $('#nr_pick_up_location').on('input', function(){
             var pincode_lngth = $(this).val().length;
             var pincode = $(this).val();
+            var n_main_price = $('#n_main_price').val(); 
             var drop_pincode = $('#nr_drop_location').val();
             if(pincode_lngth > 5)
             {
@@ -677,7 +739,11 @@
                 $('#nr_total_km').val(kmtr);
                 /*if(kmtr > 100)
                 {*/
-                    var t_cost = (0.40 * kmtr)*parseInt($('#total_qtl').val());/*
+                    var t_cost = (0.40 * kmtr)*parseInt($('#total_qtl').val());
+                    if(t_cost < 7000 && t_cost > 1){
+                       t_cost = 7000; 
+                    }
+                /*
                 }else{
                     var t_cost = 0.35 * kmtr*parseInt($('#total_qtl').val());
                 }*/
@@ -691,15 +757,28 @@
                 if($('#mos_actual').val() && $('#thin_actual').val() && $('#bro_actual').val() && $('#fm_actual').val())
                 {
                     var bid_price = total_cost - (parseInt($('#nr_transport_cost').val()) + parseInt($('#nr_miscellaneous_cost').val()) + (parseInt($('#total_price').html() * parseInt($('#total_qtl').val()))));
-                    var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*bid_price)/100;
-                    var e_mandi = (0.75*bid_price)/100;
-                    
+
+                    var x = (n_main_price - parseInt('<?= $labour_charge; ?>'));
+                    if('<?= ($inventory->sales_status == 1) ?>'){
+                        var m = (2.2960429897*x)/100;
+                        var final_price = x - m;
+                        final_price = parseInt(final_price);
+
+                    }else{
+                        var m = (0.75*x)/100;
+                        var final_price = x - m;
+                        final_price = parseInt(final_price);
+                    }
+
+                    var mandi_fee = ('<?= ($inventory->sales_status == 1)?1.6:0; ?>'*final_price)/100;
+                    var e_mandi = (0.75*final_price)/100;
+
                     $('#nr_mandi_fee').val(mandi_fee.toFixed(2));
                     $('#nr_mandi_fees').val(mandi_fee.toFixed(2));
 
                     var actual_bid = (bid_price/parseInt($('#total_qtl').val()));
-                    $('#n_bid_price').html(actual_bid.toFixed(2)+" / Qtl");
-                    $('#nr_final_bid_price').val(actual_bid.toFixed(2));
+                    $('#n_bid_price').html(final_price.toFixed(2)+" / Qtl");
+                    $('#nr_final_bid_price').val(final_price.toFixed(2));
                     $('.neemrana_sell').removeClass('hide');
                     $('.neemrana_sell').addClass('show');
                 }

@@ -41,6 +41,7 @@
                         <table class="table table-striped table-bordered table-hover deals_datatable">
                             <thead>
                                 <tr>
+                                    <th>Id</th>
                                     <th>Buyer Name</th>
                                     <th>Seller Name</th>
                                     <th>Gate Pass</th>
@@ -49,8 +50,8 @@
                                     <th>Terminal</th>
                                     <th>Commodity</th>
                                     <th>Net Weight (Qtl.)</th>
-                                    <th>Today's Price</th>
-                                    <th>Bid Price</th>
+                                    <th>Buyer Price</th>
+                                    <th>Sell Price</th>
                                     <th>Done Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -154,8 +155,10 @@
             "bDestroy": true,
             "processing": true,
             "serverSide": true,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "ajax": "{{ route('getAllDealsDoneByAjax') }}",
             "columns": [
+                {data: 'id', name: 'id'},
                 {data: 'buyer_name', name: 'buyer_name'},
                 {data: 'seller_name', name: 'seller_name'},
                 {data: 'gate_pass_wr', name: 'gate_pass_wr'},

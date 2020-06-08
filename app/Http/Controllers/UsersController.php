@@ -872,7 +872,7 @@ class UsersController extends Controller
                 $done = DB::table('buy_sells')->where('id', $deal->deal_id)->update([
                     'buyer_id' => $deal->user_id,
                     'price' => $max_bid,
-                    'status' => 3,
+                    'status' => 2,
                     'updated_at' => $date
                 ]);
 
@@ -890,21 +890,7 @@ class UsersController extends Controller
 
         if($done)
         {
-            /*$done_deals = DB::table('buy_sells')
-                ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
-                ->join('users','users.id', '=', 'buy_sells.seller_id')
-                ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
-                ->join('categories', 'categories.id', '=', 'inv.commodity')
-                ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
-                ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
-                ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
-                ->where('buy_sells.id', $deal_info->id)
-                ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
-                ->first();
-
-            $buyer_info = DB::table('user_details')->where('user_id', $deal->user_id)->first();
-            $seller_info = DB::table('user_details')->where('user_id', $deal->buy_sell_id)->first();*/
-
+            
             //Send Message to Other trader who do not take this bid
             foreach ($user_ids as $key => $value) {
                 $user = DB::table('users')->where('id', $value)->first();
@@ -922,46 +908,6 @@ class UsersController extends Controller
                 $sms = 'Congratulations. Your Bid accepted by seller amount by '.$max_bid." RS.";
                 $done = sendsms($user->phone, $sms);
             }
-
-            /*$done_deals->seller_address = $seller_info->area_vilage;
-            $done_deals->buyer_address = $buyer_info->area_vilage;
-
-            $data = json_decode(json_encode($done_deals),true);
-
-            $pdf = PDF::loadView('vikray_parchi_pdf', $data);
-
-            $data = [];
-            
-            if($buyer_info->email)
-            {
-                $data['to_name'] = $buyer_info->fname;
-                $data['email'] = $buyer_info->email;
-
-                //Send Vikray Parchi To Trader or Farmer
-                $send = Mail::send('email.send_vikray_parchi', $data, function($message) use ($data,$pdf){
-                    $message->from('info@apnagodam.com');
-                    $message->to($data['email']);
-                    $message->subject('Vikray Parchi by Apna Godam');
-                    //Attach PDF doc
-                    $message->attachData($pdf->output(),'vikray_parchi.pdf');
-                });
-            }
-
-            if($seller_info->email)
-            {
-                $data['to_name'] = $seller_info->fname;            
-                $data['email'] = $seller_info->email; 
-
-                //Send Vikray Parchi To Trader or Farmer
-                $send = Mail::send('email.send_vikray_parchi', $data, function($message) use ($data,$pdf){
-                    $message->from('info@apnagodam.com');
-                    $message->to($data['email']);
-                    $message->subject('Vikray Parchi for by Apna Godam');
-
-                    //Attach PDF doc
-                    $message->attachData($pdf->output(),'vikray_parchi.pdf');
-                });
-            }*/
 
             $status = 'Deal Done.';
         }else{
@@ -1014,6 +960,13 @@ class UsersController extends Controller
         $inv_id = $request->inv_id;
         $corporate_user = $request->corporate_user;
         $weight = $request->weight;
+        $labour_charge = $request->labour_charge;
+
+        if($labour_charge){
+            $labour_charge = 10;
+        }else{
+            $labour_charge = 0;            
+        }
 
         if(is_numeric($inv_id) && $inv_id)
         {
@@ -1022,7 +975,7 @@ class UsersController extends Controller
                 ->join('user_details', 'user_details.user_id', '=', 'inventories.user_id')
                 ->join('categories', 'categories.id', '=', 'inventories.commodity')
                 ->join('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
-                ->select('user_details.fname', 'inventories.*', 'categories.category', 'warehouses.warehouse_code', 'warehouses.name as warehouse')
+                ->select('user_details.fname', 'inventories.*', 'categories.category', 'categories.commodity_type', 'warehouses.warehouse_code', 'warehouses.name as warehouse')
                 ->where(['inventories.id' => $inv_id, 'inventories.status' => 1])
                 ->first();
             
@@ -1038,7 +991,7 @@ class UsersController extends Controller
                     ->select('apna_corporate_users.*', 'users.fname as user_name', 'users.phone', 'warehouses.name as terminal_name', 'warehouses.warehouse_code')
                     ->first();
 
-                return view("corporate_buying.index", array('inventory' => $inventory, 'user_data' => $user_data, 'weight' => $weight, 'inv_id' => $inv_id));
+                return view("corporate_buying.index", array('inventory' => $inventory, 'user_data' => $user_data, 'weight' => $weight, 'inv_id' => $inv_id, 'labour_charge' => $labour_charge));
             }else{
                 return redirect('/');
             }
@@ -1055,13 +1008,16 @@ class UsersController extends Controller
         $bid_for = $request->bid_for;
         $todays_price = $request->todays_price;
         $quantity = $request->quantity;
+        $labour_rate = $request->miscellaneous_cost;
         $mandi_fees = $request->mandi_fees;
         $user_id = $request->user_id;
         $date = date('Y-m-d H:i:s');
 
+        //Get Buyer Price
+        $corporate_user_price = DB::table('apna_corporate_users')->where('user_id', $user_id)->first();
+
         // Update inventory quantity
         $inventories = DB::table('inventories')->where('id', $invetory_id)->update([
-            'sales_status' => 2,
             'sell_quantity' => $quantity,
             'updated_at' => $date
         ]);
@@ -1075,6 +1031,7 @@ class UsersController extends Controller
             'quantity' => $quantity,
             'price' => $price,
             'todays_price' => $todays_price,
+            'labour_rate' => $labour_rate,
             'mandi_fees' => $mandi_fees,
             'bid_type' => 2,
             'status' => 2,
@@ -1104,12 +1061,13 @@ class UsersController extends Controller
             ->join('user_details','user_details.user_id', '=', 'buy_sells.buyer_id')
             ->join('users','users.id', '=', 'buy_sells.seller_id')
             ->join('inventories as inv', 'inv.id', '=', 'buy_sells.seller_cat_id')
+            ->join('inventory_cases_id as cases', 'cases.inventory_id', '=', 'inv.id')
             ->join('categories', 'categories.id', '=', 'inv.commodity')
             ->join('warehouses', 'warehouses.id', '=', 'inv.warehouse_id')
             ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
             ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.phone as buyer_phone', 'users.phone as seller_phone',  'user_details.mandi_license', 'users.fname as seller_name', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'cases.case_id', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
             ->first();
 
         $buyer_id = $done_deals->buyer_id;
@@ -1120,6 +1078,23 @@ class UsersController extends Controller
         $seller_info = DB::table('user_details')->where('user_id', $seller_id)->first();
         $done_deals->seller_address = $seller_info->area_vilage;
         $done_deals->buyer_address = $buyer_info->area_vilage;
+
+        $inventory_id = $done_deals->seller_cat_id;
+
+        //Get Last Case IDs for No. Of Bags
+        $cases = DB::table('inventory_cases_id')
+                ->where('inventory_id', $inventory_id)
+                ->Where(function ($query) {
+                    $query->orwhere('case_id', 'like', '%IN-%')
+                        ->orwhere('case_id', 'like', '%PASS-%');
+                })->orderBy('created_at', 'DESC')->first();
+        $no_of_bags = 0;
+        if($cases)
+        {
+            $case = DB::table('apna_case')->where('case_id', $cases->case_id)->first();
+            $no_of_bags = $case->no_of_bags;
+        }
+        $done_deals->no_of_bags = $no_of_bags;
 
         $data = json_decode(json_encode($done_deals),true);
 

@@ -35,8 +35,8 @@
                                 </h3>
                                 <h2 class="f-s-20">Price - <b>{{ $inventory_info->price }} Rs. per Qtl. ( {{ $inventory_info->sell_quantity }} Qtl.)</b></h2>
                                 @php
-                                    $begin = date('H:i:s', strtotime('00:30'));
-                                    $end = date('H:i:s', strtotime('20:00'));
+                                    $begin = date('H:i:s', strtotime('00:00'));
+                                    $end = date('H:i:s', strtotime('23:59'));
                                     $now = date('H:i:s');
                                 @endphp
                                 @if($now < $begin)
@@ -86,7 +86,7 @@
                             @else
                                 @php
                                     $begin = date('H:i:s', strtotime('      00:00'));
-                                    $end = date('H:i:s', strtotime('20:30'));
+                                    $end = date('H:i:s', strtotime('23:59'));
                                     $now = date('H:i:s');
                                     $bid_open = 0;
                                 @endphp

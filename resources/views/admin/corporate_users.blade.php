@@ -132,7 +132,6 @@
                                     <th>Price</th>
                                     <th>Pincode</th>
                                     <th>Location</th>
-                                    <th>Transport Cost / KM</th>
                                     <th>Action</th>
 	                            </tr>
 	                        </thead>
@@ -145,7 +144,6 @@
                                         <td>{!! $lead->price !!}</td>
                                         <td>{!! $lead->pincode !!}</td>
                                         <td>{!! $lead->location !!}</td>
-                                        <td>{!! $lead->transport_cost !!}</td>
                                         <td><a href="{{ route('edit_corporate_user', ['id' => $lead->id]) }}" class="btn btn-info btn-xs" title="View">Update</a></td>
 	                                </tr>
                                 @endforeach

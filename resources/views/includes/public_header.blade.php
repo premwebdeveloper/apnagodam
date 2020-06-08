@@ -73,6 +73,9 @@
                             <a href="{{ route('our-team') }}">Our Team</a>
                         </li>
                         <li >
+                            <a href="{{ route('membership') }}">Membership</a>
+                        </li>
+                        <li >
                             <a href="{{ route('contact-us') }}">CONTACT US</a>
                         </li>
                         <li >

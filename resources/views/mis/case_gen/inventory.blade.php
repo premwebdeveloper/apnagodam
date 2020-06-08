@@ -74,7 +74,7 @@ $role_id = $role->role_id;
                                                 @if($pricing->i_case_id)
                                                     <span class="text-navy">Done</span>
                                                 @else
-                                                    @if($role_id == 1 || $role_id == 8 || ($role_id == 7 && $emp_levels->location == $pricing->terminal_id) || ($role_id == 7 && $emp_levels->level_id < 3))
+                                                    @if($role_id == 1 || $role_id == 5)
                                                         @if(!$check_status)
                                                             <a data-id="{!! $pricing->case_id !!}||{!! $pricing->customer_uid !!}||{!! $pricing->commodity_id !!}||{!! $pricing->terminal_id !!}" id='{!! $pricing->cust_fname." ".$pricing->cust_lname !!}' class="setPrice btn-warning btn btn-xs">Update Inventory</a>
                                                         @else
@@ -211,16 +211,15 @@ $role_id = $role->role_id;
                 success:function(response)
                 {
                     $('#cases-data').html(response);
+                    $('#case_id_val').html(data[0]);
+                    $('#hidden_case_id').val(data[0]);
+                    $('#customer_id').val(customer_uid);
+                    $('#commodity_id').val(commodity_id);
+                    $('#terminal_id').val(terminal_id);
+                    $('#cust_name').html(name);
+                    $('#setCasePrice').modal('show');
                 }
             });
-
-            $('#case_id_val').html(data[0]);
-            $('#hidden_case_id').val(data[0]);
-            $('#customer_id').val(customer_uid);
-            $('#commodity_id').val(commodity_id);
-            $('#terminal_id').val(terminal_id);
-            $('#cust_name').html(name);
-            $('#setCasePrice').modal('show');
         });
         $('.view_report').on('click', function(){
             var file = $(this).attr('data-id');

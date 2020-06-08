@@ -183,16 +183,18 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.view_file').on('click', function(){
+        
+        $(document).on('click', '.view_file', function(){
+            $('#object_data').attr('data', '');
+            $('#download_file').attr('href', '');
             var file = $(this).attr('data-id');
             var full_url = "<?= url('/'); ?>/resources/assets/upload/"+file;
-            $('#object_data').attr('data', '');
             $('#object_data').attr('data', full_url);
-            $('#download_file').attr('href', '');
             $('#download_file').attr('href', full_url);
             $('#viewQualityReport').modal('show');
         });
     });
+
     $(document).ready( function () {
         var table = $('.dataTables-example1').DataTable( {
         pageLength : 3,

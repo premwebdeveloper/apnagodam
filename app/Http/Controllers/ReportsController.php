@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use DB;
 use App\Mis;
+use App\inventory;
 use Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -28,15 +29,13 @@ class ReportsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Leads Reorts Page
      */
     public function lead_reports()
     {
         //Get All Terminals 
         $res = DB::table('warehouses')->where('status', 1)->get();
-        $terminals = array('' => 'Select Terminal');
+
         foreach($res as $terminal)
         {
             $terminals[$terminal->id] = $terminal->name. "(".$terminal->warehouse_code.")";
@@ -44,7 +43,7 @@ class ReportsController extends Controller
         
         //Get All Commodity 
         $res = DB::table('categories')->where('status', 1)->get();
-        $commodity = array('' => 'Select Commodity');
+
         foreach($res as $cmdty)
         {
             $commodity[$cmdty->id] = $cmdty->category." (".$cmdty->commodity_type.")";
@@ -52,7 +51,7 @@ class ReportsController extends Controller
         
         //Get All Employees 
         $res = Mis::getEmployess();
-        $employees = array('' => 'Select Employee');
+
         foreach($res as $emp)
         {
             if($emp->role_id == 6 || $emp->role_id == 7 || $emp->role_id == 8 || $emp->role_id == 9)
@@ -66,10 +65,7 @@ class ReportsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Ajax Call For Get Lead Reprots
      */
     public function get_lead_reports(Request $request)
     {
@@ -136,53 +132,358 @@ class ReportsController extends Controller
             </tr>';
         }
             
-        $html .= '</tbody></table></div><script>$(document).ready(function(){ $("#emp_datatable").DataTable({ "ordering": false,dom: "Bfrtip",
-        buttons: ["copy", "csv", "excel", "pdf", "print"] }); });</script>';
+        $html .= '</tbody></table></div><script>$(document).ready(function(){ $("#emp_datatable").DataTable({ "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]], dom: "Bfrtip", buttons: ["pageLength", "copy", "csv", "excel", "pdf", "print"] }); });</script>';
         echo $html;
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Inventory Reorts Page
      */
-    public function show($id)
+    public function inventory_reports()
     {
-        //
+        //Get All Terminals 
+        $res = DB::table('warehouses')->where('status', 1)->get();
+        
+        foreach($res as $terminal)
+        {
+            $terminals[$terminal->id] = $terminal->name. "(".$terminal->warehouse_code.")";
+        }
+        
+        //Get All Commodity 
+        $res = DB::table('categories')->where('status', 1)->get();
+        foreach($res as $cmdty)
+        {
+            $commodity[$cmdty->id] = $cmdty->category." (".$cmdty->commodity_type.")";
+        }
+        
+        //Get All Employees 
+        $res = DB::table('user_details')
+                ->join('user_roles', 'user_roles.user_id', '=', 'user_details.user_id')
+                ->select('user_details.*', 'user_roles.role_id')
+                ->where('status', 1)
+                ->where('user_details.user_id', '!=', 1)
+                ->get();
+
+        foreach($res as $emp)
+        {
+            $users[$emp->user_id] = $emp->fname." (".$emp->phone.")";
+        }
+
+        //Lead Reports
+        return view('reports.inventory_reports', array('terminals' => $terminals, 'commodity' => $commodity, 'users' => $users));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Ajax Call For Get Inventory Reprots
      */
-    public function edit($id)
+    public function get_inventory_reports(Request $request)
     {
-        //
-    }
+        $commodity_ids = $request->commodity_id;
+        $terminal_ids = $request->terminal_id;
+        $users = $request->users;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $report_type = $request->report_type;
+        $report = '';
+        if($report_type == 1){
+            $report = 'All Cases Inventory Report';
+        }
+        if($report_type == 2){
+            $report = 'All IN Cases Inventory Report';
+        }
+        if($report_type == 3){
+            $report = 'All OUT Cases Inventory Report';
+        }
+        if($report_type == 4){
+            $report = 'All Stock Inventory Report';
+        }
+        if($report_type == 5){
+            $report = 'All In Stock Inventory Report';
+        }
+        if($report_type == 6){
+            $report = 'All Out Stock Inventory Report';
+        }
+        if($report_type == 7){
+            $report = 'All Non-Zero Stock Inventory Report';
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        if($report_type == 4 || $report_type == 5 || $report_type == 6 || $report_type == 7){
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            $inventory = DB::table('user_details')
+                        ->leftjoin('inventories', 'inventories.user_id', '=', 'user_details.user_id')
+                        ->leftjoin('categories', 'categories.id', '=', 'inventories.commodity')
+                        ->leftjoin('warehouses', 'warehouses.id', '=', 'inventories.warehouse_id')
+                        ->select('user_details.fname', 'user_details.lname', 'user_details.phone', 'inventories.*', 'categories.category', 'categories.commodity_type', 'warehouses.warehouse_code', 'warehouses.name as terminal_name');
+
+            if($users){
+                $users = array_filter($users);
+                $inventory = $inventory->where(function ($query)  use ($users) {
+                    foreach($users as $key => $user_id)
+                    {
+                        $query->orWhere('inventories.user_id', $user_id);
+                    }
+                });
+            }
+
+            if($commodity_ids){
+                $commodity_ids = array_filter($commodity_ids);
+                $inventory = $inventory->where(function ($query)  use ($commodity_ids ) {
+                    foreach($commodity_ids as $key => $commodity_id)
+                    {
+                        $query->orWhere('inventories.commodity', $commodity_id);
+                    }
+                });
+            }
+
+            if($terminal_ids){
+                $terminal_ids = array_filter($terminal_ids);
+                $inventory = $inventory->where(function ($query)  use ($terminal_ids ) {
+                    foreach($terminal_ids as $key => $terminal_id)
+                    {
+                        $query->orWhere('inventories.warehouse_id', $terminal_id);
+                    }
+                });
+            }
+
+            if($from_date != null){
+                $inventory = $inventory->where('inventories.updated_at', '>=', $from_date);
+            }
+            if($to_date != null){
+                $inventory = $inventory->where('inventories.updated_at', '<=', $to_date);
+            }
+            if($report_type == 5){
+                $inventory = $inventory->where('inventories.status', 1);
+
+            }
+            if($report_type == 6){
+                $inventory = $inventory->where('inventories.status', 0);
+            }
+
+            $inventory = $inventory->orderBy('inventories.created_at', 'DESC')->get();
+
+            $html = '<h2 class="text-center">'.$report.'</h3><div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="emp_datatable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>&nbsp;&nbsp;User&nbsp;Name&nbsp;&nbsp;</th>
+                                <th>&nbsp;Coldwin&nbsp;Name&nbsp;</th>
+                                <th>&nbsp;Case&nbsp;Ids&nbsp;(Weight)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th>Case Weight</th>
+                                <th>Commodity</th>
+                                <th>Terminal</th>
+                                <th>Total&nbsp;Weight (Qtl.)</th>
+                                <th>&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+            foreach($inventory as $key => $inv){
+
+                if($report_type == 7){
+
+                    if(!$inv->category){
+                        $html .= '<tr class="gradeX">';
+                            $all_cases = inventory::getInventoryCases($inv->id);
+                            $cases = '';
+                            $case_detail = '';
+                            $case_weight = '';
+                            foreach($all_cases as $case){
+                                //Get Case Details
+                                $caes_detials = DB::table('apna_case')
+                                    ->leftjoin('apna_case_cdf', 'apna_case_cdf.case_id', '=', 'apna_case.case_id')
+                                    ->where('apna_case.case_id', $case->case_id)
+                                    ->select('apna_case.*', 'apna_case_cdf.stack_no')
+                                    ->first();
+
+                                $cases .= '<a class="btn btn-xs btn-default" href="'.url('/')."/viewCase/".$case->case_id.'">'.$case->case_id."</a> <br>";
+
+                                $case_weight .= $case->weight."&nbspQtl.<br>";
+
+                                if($caes_detials)
+                                {
+                                    $case_detail .= $caes_detials->coldwin_name."<br>";
+                                }else{
+                                    $case_detail .= "-";                            
+                                }
+                            }
+                        $inv_care = '';
+                        if($inv->category){
+                            $inv_care = $inv->category.' ('.$inv->commodity_type.')';
+                        }else{
+                            $inv_care = '-';
+                        }
+                        $inv_terminal = '';
+                        if($inv->terminal_name){
+                            $inv_terminal = $inv->terminal_name.' ('.$inv->warehouse_code.')';
+                        }else{
+                            $inv_terminal = '-';
+                        }
+                        $inv_quantity = '<b class="text-danger">0 Qtl.</b>';
+                        if($inv->quantity){
+                            $inv_quantity = '<b class="text-info">'.$inv->quantity.' Qtl.</b>';
+                        }
+
+                        $html .= '<td>'.++$key.'</td>
+                            <td>'.$inv->fname.' '.$inv->lname.' ('.$inv->phone.')</td>
+                            <td>'.$case_detail.'</td>
+                            <td>'.$case_weight.'</td>
+                            <td>-</td>
+                            <td>'.$inv_care.'</td>
+                            <td>'.$inv_terminal.'</td>
+                            <td>'.$inv_quantity.'</td>
+                            <td>-</td>
+                        </tr>';
+                    }
+                }else{
+                    $html .= '<tr class="gradeX">';
+                        $all_cases = inventory::getInventoryCases($inv->id);
+                        $cases = '';
+                        $case_detail = '';
+                        $case_weight = '';
+                        foreach($all_cases as $case){
+                            //Get Case Details
+                            $caes_detials = DB::table('apna_case')
+                                ->leftjoin('apna_case_cdf', 'apna_case_cdf.case_id', '=', 'apna_case.case_id')
+                                ->where('apna_case.case_id', $case->case_id)
+                                ->select('apna_case.*', 'apna_case_cdf.stack_no')
+                                ->first();
+
+                            $cases .= '<a class="btn btn-xs btn-default" href="'.url('/')."/viewCase/".$case->case_id.'">'.$case->case_id."</a> <br>";
+
+                            $case_weight .= $case->weight."&nbspQtl.<br>";
+
+                            if($caes_detials)
+                            {
+                                $case_detail .= $caes_detials->coldwin_name."<br>";
+                            }else{
+                                $case_detail .= "-";                            
+                            }
+                        }
+                    $inv_care = '';
+                    if($inv->category){
+                        $inv_care = $inv->category.' ('.$inv->commodity_type.')';
+                    }else{
+                        $inv_care = '-';
+                    }
+                    $inv_terminal = '';
+                    if($inv->terminal_name){
+                        $inv_terminal = $inv->terminal_name.' ('.$inv->warehouse_code.')';
+                    }else{
+                        $inv_terminal = '-';
+                    }
+                    $inv_quantity = '<b class="text-danger">0 Qtl.</b>';
+                    if($inv->quantity){
+                        $inv_quantity = '<b class="text-info">'.$inv->quantity.' Qtl.</b>';
+                    }
+
+                    $html .= '<td>'.++$key.'</td>
+                            <td>'.$inv->fname.' '.$inv->lname.' ('.$inv->phone.')</td>
+                            <td>'.$case_detail.'</td>
+                            <td>'.$case_weight.'</td>
+                            <td>'.$cases.'</td>
+                            <td>'.$inv_care.'</td>
+                            <td>'.$inv_terminal.'</td>
+                            <td>'.$inv_quantity.'</td>
+                            <td>'.date('d M Y', strtotime($inv->created_at)).'</td>
+                        </tr>';
+                }
+            }
+                
+            $html .= '</tbody></table></div><script>$(document).ready(function(){ $("#emp_datatable").DataTable({"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  dom: "Bfrtip", buttons: ["pageLength", "copy", "csv", "excel", "pdf", "print"] }); });</script>';
+        }
+
+        if($report_type == 1 || $report_type == 2 || $report_type == 3){
+            $inventory = DB::table('apna_case')
+                        ->join('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+                        ->join('users as lead_generator', 'lead_generator.id', '=', 'apna_case.lead_gen_uid')
+                        ->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
+                        ->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
+                        ->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
+                        ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.warehouse_code', 'warehouses.name as terminal_name');
+
+            if($users){
+                $users = array_filter($users);
+                $inventory = $inventory->where(function ($query)  use ($users) {
+                    foreach($users as $key => $user_id)
+                    {
+                        $query->orWhere('apna_case.customer_uid', $user_id);
+                    }
+                });
+            }
+
+            if($commodity_ids){
+                $commodity_ids = array_filter($commodity_ids);
+                $inventory = $inventory->where(function ($query)  use ($commodity_ids ) {
+                    foreach($commodity_ids as $key => $commodity_id)
+                    {
+                        $query->orWhere('apna_case.commodity_id', $commodity_id);
+                    }
+                });
+            }
+
+            if($terminal_ids){
+                $terminal_ids = array_filter($terminal_ids);
+                $inventory = $inventory->where(function ($query)  use ($terminal_ids ) {
+                    foreach($terminal_ids as $key => $terminal_id)
+                    {
+                        $query->orWhere('apna_case.terminal_id', $terminal_id);
+                    }
+                });
+            }
+
+            if($from_date != null){
+                $inventory = $inventory->where('apna_case.updated_at', '>=', $from_date);
+            }
+            if($to_date != null){
+                $inventory = $inventory->where('apna_case.updated_at', '<=', $to_date);
+            }
+            if($report_type == 2){
+                $inventory = $inventory->where('apna_case.in_out', 'IN');
+
+            }
+            if($report_type == 3){
+                $inventory = $inventory->where('apna_case.in_out', 'OUT');
+            }
+            
+            $inventory = $inventory->where('apna_case.in_out', '!=', 'PASS');
+
+            $inventory = $inventory->orderBy('apna_case.created_at', 'DESC')->get();
+
+            $html = '<h2 class="text-center">'.$report.'</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="emp_datatable">
+                        <thead>
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>User Name</th>
+                                <th>Coldwin Name</th>
+                                <th>Case Status</th>
+                                <th>Case Id</th>
+                                <th>Commodity</th>
+                                <th>Terminal</th>
+                                <th>Weight (Qtl.)</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+            foreach($inventory as $key => $inv){
+                $html .= '<tr class="gradeX">
+                        <td>'.++$key.'</td>
+                        <td>'.$inv->cust_fname.' '.$inv->cust_lname.' ('.$inv->phone.')</td>
+                        <td>'.$inv->coldwin_name.'</td>
+                        <td>'.$inv->in_out.'</td>
+                        <td><a class="btn btn-xs btn-default" href="'.url('/').'/viewCase/'.$inv->case_id.'">'.$inv->case_id.'</a></td>
+                        <td>'.$inv->cate_name.' ('.$inv->commodity_type.')'.'</td>
+                        <td>'.$inv->terminal_name.' ('.$inv->warehouse_code.')</td>
+                        <td>'.$inv->total_weight.'</td>
+                        <td>'.date('d M Y', strtotime($inv->created_at)).'</td>
+                    </tr>';
+            }
+
+            $html .= '</tbody></table></div><script>$(document).ready(function(){ $("#emp_datatable").DataTable({"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],  dom: "Bfrtip", buttons: ["pageLength", "copy", "csv", "excel", "pdf", "print"] }); });</script>';
+        }
+        echo $html;
     }
 }

@@ -95,7 +95,7 @@ $role_id = $role->role_id;
                                             @endif
                                         </td>
                                         <td>{!! $pricing->case_id !!}</td>
-                                        <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!}</td>
+                                        <td>{!! $pricing->cust_fname." ".$pricing->cust_lname !!} ({!! $pricing->firm_name !!})</td>
                                         <td><b>User : </b>{!! ($pricing->fpo_user_id)?$pricing->fpo_user_id:'N/A' !!}<br><b>Gatepass/CDF Name : </b>{!! ($pricing->gate_pass_cdf_user_name)?$pricing->gate_pass_cdf_user_name:'N/A' !!}<br><b>Coldwin Name : </b>{!! ($pricing->coldwin_name)?$pricing->coldwin_name:'N/A' !!}</td>
                                         <td><b>Purchase Details: </b>{!! ($pricing->purchase_name)?$pricing->purchase_name:'N/A' !!}<br><b>Loan Details : </b>{!! ($pricing->loan_name)?$pricing->loan_name:'N/A' !!}<br><b>Sale Details : </b>{!! ($pricing->sale_name)?$pricing->sale_name:'N/A' !!}</td>
                                         <td>{!! $pricing->phone !!}</td>
