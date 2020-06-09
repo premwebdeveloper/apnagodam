@@ -157,7 +157,7 @@ $role_id = $role->role_id;
             <div class="modal-body">
                 <h4 class="text-primary col-md-6 p-0">Case ID : <b style="color:green;" id="case_id_val"></b></h4>
                 <h4 class="text-primary col-md-6 p-0 text-right">Customer Name : <b style="color:green;" id="cust_name"></b></h4>
-                {!! Form::open(array('url' => 'addPrice', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm')) !!}
+                {!! Form::open(array('url' => 'addPrice', 'files' => true, 'class' => "contact_us_form", 'id' => 'empForm', "onsubmit" => "if(!confirm('Are you sure that you want to submit the form?')){return false;}")) !!}
                     @csrf
                     
                     <div class="row">
@@ -309,7 +309,7 @@ $role_id = $role->role_id;
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'id' => 'submit_pricing', 'onclick' => 'submitForm(this);']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn btn-info m-t-20 form-control b-info', 'id' => 'submit_pricing']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}
@@ -417,12 +417,24 @@ $role_id = $role->role_id;
             }
         });
 
-        $("#submit_pricing").click(function(event) {
-            if(confirm('Are you sure that you want to submit the form') ){
+        /*$("#submit_pricing").click(function(event) {
+            if(!confirm('Are you sure that you want to submit the form') ){
+                return false;
+            }else{
                 event.preventDefault();
-            } 
-
-        });
+            }
+        });*/
     });
+
+    function validate(form)
+    {
+        if(!valid) {
+            alert('Please correct the errors in the form!');
+            return false;
+        }
+        else {
+            return confirm('Do you really want to submit the form?');
+        }
+    }
 </script>
 @endsection

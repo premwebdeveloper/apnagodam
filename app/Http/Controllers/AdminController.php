@@ -879,7 +879,7 @@ class AdminController extends Controller
             ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
             ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.phone as buyer_phone', 'user_details.mandi_license', 'users.fname as seller_name', 'users.phone as seller_phone', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'cases.case_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.phone as buyer_phone', 'user_details.pancard_no', 'user_details.mandi_license', 'users.fname as seller_name', 'users.phone as seller_phone', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'cases.case_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'mandi_samitis.name as mandi_samiti_name')
             ->first();
             
         $inventory_id = $done_deals->seller_cat_id;
@@ -980,10 +980,16 @@ class AdminController extends Controller
 
         //If Send pdf to email
         $data = json_decode(json_encode($done_deals),true);
+        $contract_start_date = date('Y-m-d H:i:s', strtotime('2020-06-05 00:00:01'));
+        if($done_deals->created_at > $contract_start_date){
+            $pdf = PDF::loadView('contract_note', $data);
+            $pdf->download('contract_note.pdf');
 
-        $pdf = PDF::loadView('vikray_parchi_pdf', $data);
+        }else{
+            $pdf = PDF::loadView('vikray_parchi_pdf', $data);
+            $pdf->download('vikray_parchi.pdf');
+        }
 
-        $pdf->download('vikray_parchi.pdf');
 
         //Get User Old Power
         $user = DB::table('user_details')->where('user_id', $buyer_id)->first();
@@ -1030,7 +1036,7 @@ class AdminController extends Controller
             ->join('mandi_samitis', 'mandi_samitis.id', '=', 'warehouses.mandi_samiti_id')
             ->join('warehouse_rent_rates', 'warehouse_rent_rates.warehouse_id', '=', 'warehouses.id')
             ->where('buy_sells.id', $deal_id)
-            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.phone as buyer_phone', 'user_details.mandi_license', 'users.fname as seller_name', 'users.phone as seller_phone', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'cases.case_id', 'mandi_samitis.name as mandi_samiti_name')
+            ->select('buy_sells.*', 'user_details.fname as buyer_name', 'user_details.phone as buyer_phone', 'user_details.pancard_no', 'user_details.mandi_license', 'users.fname as seller_name', 'users.phone as seller_phone', 'categories.category', 'categories.commodity_type', 'warehouses.name as warehouse',  'warehouses.id as warehouse_id', 'warehouses.warehouse_code', 'warehouse_rent_rates.location', 'inv.quality_category', 'inv.sales_status', 'inv.truck_no', 'cases.case_id', 'mandi_samitis.name as mandi_samiti_name')
             ->first();
 
         $buyer_id = $done_deals->buyer_id;
@@ -1061,12 +1067,16 @@ class AdminController extends Controller
         $done_deals->no_of_bags = $no_of_bags;
         
         $data = json_decode(json_encode($done_deals),true);
+        $contract_start_date = date('Y-m-d H:i:s', strtotime('2020-06-05 00:00:01'));
+        if($done_deals->created_at > $contract_start_date){
+            $pdf = PDF::loadView('contract_note', $data);
 
-        $pdf = PDF::loadView('vikray_parchi_pdf', $data);
+        }else{
+            $pdf = PDF::loadView('vikray_parchi_pdf', $data);
+        }
 
         if($email_status == 1)
         {
-
             //Get User Details 
             $data = [];
 
@@ -1106,7 +1116,11 @@ class AdminController extends Controller
         }
         else
         {
-            return $pdf->download('vikray_parchi.pdf');
+            if($done_deals->created_at > $contract_start_date){
+                return $pdf->download('contract_note.pdf');
+            }else{
+                return $pdf->download('vikray_parchi.pdf');
+            }
         }
 
     }

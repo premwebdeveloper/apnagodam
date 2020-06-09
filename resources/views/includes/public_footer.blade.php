@@ -77,7 +77,7 @@
         <div class="container">
             <h4>Copyright © 
                 <script>document.write(new Date().getFullYear());</script>.
-                 All Rights Reserved. Designed by <a href="https://www.hastagsoft.com/" target="_blank" style="color:#00c0f5!important;"><b class="text-white">Hastag Soft</b>
+                 All Rights Reserved. Developed in House
             </h4>
         </div>
     </div>

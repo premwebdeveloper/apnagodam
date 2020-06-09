@@ -4,7 +4,7 @@
 <!-- Navigation -->
 <header class="main_header_area">
     <marquee class="b-clr" scrollamount="3">
-        <img class="blink-image" src="{{ asset('resources/frontend_assets/img/apna-godam-top-img.png') }}">
+        <b class="blink-image f-s-18">केंद्र सरकार द्वारा जारी अध्यादेश नंबर 10 /2020  दिनांक 05 .06 .2020  के अध्याधीन</b>
     </marquee>
     <div class="header_top">
         <div class="container">
@@ -86,6 +86,7 @@
             </div>
         </nav>
     </div>
+    <marquee width = "100%" height="50"> <i class="text-white f-s-18">कोरोना वायरस से न घबराये! घर पर रहे सुरक्षित रहे!</i></marquee>        
 </header>
 <style type="text/css">
     /* Firefox old*/
@@ -137,10 +138,10 @@
         }
     } 
     .blink-image {
-        -moz-animation: blink normal 0.2s infinite ease-in-out; /* Firefox */
-        -webkit-animation: blink normal 0.2s infinite ease-in-out; /* Webkit */
-        -ms-animation: blink normal 0.2s infinite ease-in-out; /* IE */
-        animation: blink normal 0.2s infinite ease-in-out; /* Opera and prob css3 final iteration */
+        -moz-animation: blink normal 0.4s infinite ease-in-out; /* Firefox */
+        -webkit-animation: blink normal 0.4s infinite ease-in-out; /* Webkit */
+        -ms-animation: blink normal 0.4s infinite ease-in-out; /* IE */
+        animation: blink normal 0.4s infinite ease-in-out; /* Opera and prob css3 final iteration */
         height: 35px;
     }
     .b-clr{

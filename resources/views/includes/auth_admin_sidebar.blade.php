@@ -88,8 +88,8 @@
                         <span class="nav-label">Finance / Loan</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label">On Spot Sale</span><span class="fa arrow"></span></a>
+                <!-- <li>
+                    <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label">On Spot Sele</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse" aria-expanded="false">
                         <li>
                             <a href="{{ route('on_spot_inventories') }}">
@@ -97,8 +97,14 @@
                                 <span class="nav-label">Commodity</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('on_spot_deals') }}">
+                                <i class="fa fa-cart-plus" title=""></i>
+                                <span class="nav-label">Sell / Purchase</span>
+                            </a>
+                        </li>
                     </ul>
-                </li>
+                </li> -->
             @endif
             @if($role->role_id == 1)
                 <li>

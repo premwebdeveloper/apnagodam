@@ -282,6 +282,20 @@ $role_id = $role->role_id;
                     <div class="row">
                         <div class="col-lg-12 m-t-20">
                             <div class="ibox">
+                                <h3 class="f-s-20">GRN (Goods Receipt Notes)</h3>
+                                <ul class="list-unstyled file-list">
+                                    <li class="col-md-4 f-s-14">Weight :  <b>{{ ($case_gen->grn_weight)?$case_gen->grn_weight:'N/A' }}</b></li>
+
+                                    <li class="col-md-4 f-s-14">IN Case Id :  <b>{{ ($case_gen->in_case_id)?$case_gen->in_case_id:'N/A' }}</b></li>
+
+                                    <li class="col-md-4 f-s-14">File : <b>{!! ($case_gen->grn_file)?'<a style="color:#1ab394;" href="'.url('/').'/resources/assets/upload/grn/'.$case_gen->grn_file.'" target="_blank">View</a>':'N/A' !!}</b></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 m-t-20">
+                            <div class="ibox">
                                 <h3 class="f-s-20">Quality Claim</h3>
                                 <ul class="list-unstyled file-list">
                                     <li class="col-md-2 f-s-14">Moisture Level(%) :  <b>{{ ($case_gen->q_c_moisture_level)?$case_gen->q_c_moisture_level:'N/A' }}</b></li>

@@ -120,6 +120,7 @@ class CaseGen extends Model
             ->leftjoin('apna_case_ivr_tagging', 'apna_case_ivr_tagging.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_start', 'apna_case_shipping_start.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_end', 'apna_case_shipping_end.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_grn', 'apna_case_grn.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_quality_claim', 'apna_case_quality_claim.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_truck_payment', 'apna_case_truck_payment.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_labour_payment', 'apna_case_labour_payment.case_id', '=', 'apna_case.case_id')
@@ -143,6 +144,7 @@ class CaseGen extends Model
                 'apna_case_accounts.case_id as accounts_case_id',
                 'apna_case_pricing.transaction_type',
                 'apna_case_ivr_tagging.case_id as ivr_tagging_case_id',
+                'apna_case_grn.case_id as grn_case_id',
                 'apna_case_shipping_start.case_id as shipping_start_case_id',
                 'apna_case_shipping_end.case_id as shipping_end_case_id',
                 'apna_case_quality_claim.case_id as quality_claim_case_id',
@@ -162,6 +164,7 @@ class CaseGen extends Model
                 'apna_case_ivr_tagging.created_at as ivr_tagging_update_time',
                 'apna_case_shipping_start.created_at as shipping_start_update_time',
                 'apna_case_shipping_end.created_at as shipping_end_update_time',
+                'apna_case_grn.created_at as grn_update_time',
                 'apna_case_quality_claim.created_at as quality_claim_update_time',
                 'apna_case_truck_payment.created_at as truck_payment_update_time',
                 'apna_case_labour_payment.created_at as labour_payment_update_time',
@@ -1424,6 +1427,42 @@ class CaseGen extends Model
         return $price;
     }
 
+        public function scopegetCaseGrn()
+    {
+        $case = DB::table('apna_case')
+            ->leftjoin('users as customer', 'customer.id', '=', 'apna_case.customer_uid')
+            ->leftjoin('apna_case_grn', 'apna_case_grn.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('users as user_price', 'user_price.id', '=', 'apna_case_grn.user_id')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_grn.case_id as g_p_case_id', 'apna_case_grn.gate_pass_no', 'apna_case_grn.bags', 'apna_case_grn.stack_no', 'apna_case_grn.lot_no', 'apna_case_grn.file', 'apna_case_grn.grn_weight', 'apna_case_grn.notes', 'apna_case_grn.in_case_id', 'apna_case_grn.other', 'user_price.fname as user_price_fname', 'user_price.lname as user_price_lname')
+            ->where('apna_case.status', 1)
+            ->orderBy('apna_case.updated_at', 'DESC')
+            ->groupBy('apna_case.case_id')
+            ->get();
+        return $case;
+    }
+
+    // Update Gate Pass
+    public function scopeupdateGrn($query, $data)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        //Inset Data
+        $price = DB::table('apna_case_grn')->insert([
+            'user_id' => $data['user_id'],
+            'case_id' => $data['case_id'],
+            'file' => $data['file'],
+            'notes' => $data['notes'],
+            'grn_weight' => $data['weight'],
+            'bags' => $data['no_of_bags'],
+            'in_case_id' => $data['in_case_id'],
+            'other' => $data['other_remark'],
+            'created_at' => $date,
+            'updated_at' => $date,
+            'status' => 1
+        ]);
+        return $price;
+    }
+
     // Get Completed Cases
     public function scopecompleteCase($query, $case_id, $notes)
     {
@@ -1455,6 +1494,7 @@ class CaseGen extends Model
             ->leftjoin('apna_case_accounts', 'apna_case_accounts.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_start', 'apna_case_shipping_start.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_shipping_end', 'apna_case_shipping_end.case_id', '=', 'apna_case.case_id')
+            ->leftjoin('apna_case_grn', 'apna_case_grn.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_quality_claim', 'apna_case_quality_claim.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_truck_payment', 'apna_case_truck_payment.case_id', '=', 'apna_case.case_id')
             ->leftjoin('apna_case_labour_payment', 'apna_case_labour_payment.case_id', '=', 'apna_case.case_id')
@@ -1463,7 +1503,7 @@ class CaseGen extends Model
             ->join('users as lead_conv', 'lead_conv.id', '=', 'apna_case.lead_conv_uid')
             ->join('warehouses', 'warehouses.id', '=', 'apna_case.terminal_id')
             ->join('categories', 'categories.id', '=', 'apna_case.commodity_id')
-            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_report.moisture_level as q_r_moisture_level', 'apna_case_quality_report.thousand_crown_w as q_r_thousand_crown_w', 'apna_case_quality_report.broken as q_r_broken', 'apna_case_quality_report.foreign_matter as q_r_foreign_matter', 'apna_case_quality_report.thin as q_r_thin', 'apna_case_quality_report.damage as q_r_damage', 'apna_case_quality_report.black_smith as q_r_black_smith', 'apna_case_quality_report.infested as q_r_infested', 'apna_case_quality_report.live_insects as q_r_live_insects', 'apna_case_quality_report.imge as q_r_imge', 'apna_case_quality_report.notes as q_r_notes','apna_case_pricing.processing_fees as p_processing_fees', 'apna_case_pricing.interest_rate as p_interest_rate', 'apna_case_pricing.price as p_price', 'apna_case_pricing.rent as p_rent', 'apna_case_pricing.labour_rate as p_labour_rate', 'apna_case_pricing.transaction_type as p_transaction_type', 'apna_case_pricing.notes as p_notes', 'apna_truck_book.transporter as t_b_transporter', 'apna_truck_book.vehicle as t_b_vehicle', 'apna_truck_book.driver_name as t_b_driver_name', 'apna_truck_book.driver_phone as t_b_driver_phone', 'apna_truck_book.rate_per_km as t_b_rate_per_km', 'apna_truck_book.min_weight as t_b_min_weight', 'apna_truck_book.max_weight as t_b_max_weight', 'apna_truck_book.turnaround_time as t_b_turnaround_time', 'apna_truck_book.total_weight as t_b_total_weight', 'apna_truck_book.no_of_bags as t_b_no_of_bags', 'apna_truck_book.kanta_parchi_no as t_b_kanta_parchi_no', 'apna_truck_book.gate_pass_no as t_b_gate_pass_no', 'apna_truck_book.total_transport_cost as t_b_total_transport_cost', 'apna_truck_book.advance_payment as t_b_advance_payment', 'apna_truck_book.start_date_time as t_b_start_date_time', 'apna_truck_book.final_settlement_amount as t_b_final_settlement_amount', 'apna_truck_book.notes as t_b_notes', 'apna_truck_book.end_date_time as t_b_end_date_time', 'apna_truck_book.file as t_b_file','apna_labour_book.labour_contractor as l_b_labour_contractor', 'apna_labour_book.contractor_no as l_b_contractor_no', 'apna_labour_book.labour_rate_per_bags as l_b_labour_rate_per_bags', 'apna_labour_book.total_labour as l_b_total_labour', 'apna_labour_book.location as l_b_location', 'apna_labour_book.booking_date as l_b_booking_date', 'apna_labour_book.total_bags as l_b_total_bags', 'apna_labour_book.notes as l_b_notes', 'apna_case_kanta_parchi.notes as k_p_notes', 'apna_case_kanta_parchi.file as k_p_file', 'apna_case_kanta_parchi.file_2 as k_p_file_2', 'apna_case_second_quality_report.moisture_level as s_q_r_moisture_level', 'apna_case_second_quality_report.thousand_crown_w as s_q_r_thousand_crown_w', 'apna_case_second_quality_report.broken as s_q_r_broken', 'apna_case_second_quality_report.foreign_matter as s_q_r_foreign_matter', 'apna_case_second_quality_report.thin as s_q_r_thin', 'apna_case_second_quality_report.damage as s_q_r_damage', 'apna_case_second_quality_report.black_smith as s_q_r_black_smith', 'apna_case_second_quality_report.infested as s_q_r_infested', 'apna_case_second_quality_report.live_insects as s_q_r_live_insects', 'apna_case_second_quality_report.imge as s_q_r_imge', 'apna_case_second_quality_report.notes as s_q_r_notes', 'apna_case_second_kanta_parchi.notes as s_k_p_notes', 'apna_case_second_kanta_parchi.file as s_k_p_file', 'apna_case_second_kanta_parchi.file_2 as s_k_p_file_2', 'apna_case_gate_pass.notes as g_p_notes', 'apna_case_gate_pass.file as g_p_file', 'apna_case_e_mandi.notes as e_m_notes', 'apna_case_e_mandi.file as e_m_file', 'apna_case_accounts.vikray_parchi as a_vikray_parchi', 'apna_case_accounts.tally_updation as a_tally_updation', 'apna_case_accounts.cold_win_entry as a_cold_win_entry', 'apna_case_accounts.inventory as a_inventory', 'apna_case_accounts.loan as a_loan', 'apna_case_accounts.sale as a_sale', 'apna_case_accounts.mandi_tax as a_mandi_tax', 'apna_case_accounts.purchase as a_purchase', 'apna_case_accounts.invoice as a_invoice', 'apna_case_accounts.notes as a_notes', 'apna_case_shipping_start.location as s_s_location', 'apna_case_shipping_start.date_time as s_s_date_time', 'apna_case_shipping_start.notes as s_s_notes', 'apna_case_shipping_end.location as s_e_location', 'apna_case_shipping_end.date_time as s_e_date_time', 'apna_case_shipping_end.notes as s_e_notes', 'apna_case_quality_claim.moisture_level as q_c_moisture_level', 'apna_case_quality_claim.thousand_crown_w as q_c_thousand_crown_w', 'apna_case_quality_claim.broken as q_c_broken', 'apna_case_quality_claim.foreign_matter as q_c_foreign_matter', 'apna_case_quality_claim.thin as q_c_thin', 'apna_case_quality_claim.damage as q_c_damage', 'apna_case_quality_claim.black_smith as q_c_black_smith', 'apna_case_quality_claim.infested as q_c_infested', 'apna_case_quality_claim.live_insects as q_c_live_insects', 'apna_case_quality_claim.imge as q_c_imge', 'apna_case_quality_claim.notes as q_c_notes', 'apna_case_quality_claim.quality_discount_value as q_c_quality_discount_value', 'apna_case_quality_claim.second_report as q_c_second_report', 'apna_case_truck_payment.notes as t_p_notes', 'apna_case_truck_payment.file as t_p_file', 'apna_case_labour_payment.notes as l_p_notes', 'apna_case_labour_payment.file as l_p_file', 'apna_case_payment_received.notes as p_r_notes', 'apna_case_payment_received.file as p_r_file', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.warehouse_code', 'warehouses.name as terminal_name')
+            ->select('apna_case.*', 'customer.phone', 'customer.fname as cust_fname', 'customer.lname as cust_lname', 'apna_case_quality_report.moisture_level as q_r_moisture_level', 'apna_case_quality_report.thousand_crown_w as q_r_thousand_crown_w', 'apna_case_quality_report.broken as q_r_broken', 'apna_case_quality_report.foreign_matter as q_r_foreign_matter', 'apna_case_quality_report.thin as q_r_thin', 'apna_case_quality_report.damage as q_r_damage', 'apna_case_quality_report.black_smith as q_r_black_smith', 'apna_case_quality_report.infested as q_r_infested', 'apna_case_quality_report.live_insects as q_r_live_insects', 'apna_case_quality_report.imge as q_r_imge', 'apna_case_quality_report.notes as q_r_notes','apna_case_pricing.processing_fees as p_processing_fees', 'apna_case_pricing.interest_rate as p_interest_rate', 'apna_case_pricing.price as p_price', 'apna_case_pricing.rent as p_rent', 'apna_case_pricing.labour_rate as p_labour_rate', 'apna_case_pricing.transaction_type as p_transaction_type', 'apna_case_pricing.notes as p_notes', 'apna_truck_book.transporter as t_b_transporter', 'apna_truck_book.vehicle as t_b_vehicle', 'apna_truck_book.driver_name as t_b_driver_name', 'apna_truck_book.driver_phone as t_b_driver_phone', 'apna_truck_book.rate_per_km as t_b_rate_per_km', 'apna_truck_book.min_weight as t_b_min_weight', 'apna_truck_book.max_weight as t_b_max_weight', 'apna_truck_book.turnaround_time as t_b_turnaround_time', 'apna_truck_book.total_weight as t_b_total_weight', 'apna_truck_book.no_of_bags as t_b_no_of_bags', 'apna_truck_book.kanta_parchi_no as t_b_kanta_parchi_no', 'apna_truck_book.gate_pass_no as t_b_gate_pass_no', 'apna_truck_book.total_transport_cost as t_b_total_transport_cost', 'apna_truck_book.advance_payment as t_b_advance_payment', 'apna_truck_book.start_date_time as t_b_start_date_time', 'apna_truck_book.final_settlement_amount as t_b_final_settlement_amount', 'apna_truck_book.notes as t_b_notes', 'apna_truck_book.end_date_time as t_b_end_date_time', 'apna_truck_book.file as t_b_file','apna_labour_book.labour_contractor as l_b_labour_contractor', 'apna_labour_book.contractor_no as l_b_contractor_no', 'apna_labour_book.labour_rate_per_bags as l_b_labour_rate_per_bags', 'apna_labour_book.total_labour as l_b_total_labour', 'apna_labour_book.location as l_b_location', 'apna_labour_book.booking_date as l_b_booking_date', 'apna_labour_book.total_bags as l_b_total_bags', 'apna_labour_book.notes as l_b_notes', 'apna_case_kanta_parchi.notes as k_p_notes', 'apna_case_kanta_parchi.file as k_p_file', 'apna_case_kanta_parchi.file_2 as k_p_file_2', 'apna_case_second_quality_report.moisture_level as s_q_r_moisture_level', 'apna_case_second_quality_report.thousand_crown_w as s_q_r_thousand_crown_w', 'apna_case_second_quality_report.broken as s_q_r_broken', 'apna_case_second_quality_report.foreign_matter as s_q_r_foreign_matter', 'apna_case_second_quality_report.thin as s_q_r_thin', 'apna_case_second_quality_report.damage as s_q_r_damage', 'apna_case_second_quality_report.black_smith as s_q_r_black_smith', 'apna_case_second_quality_report.infested as s_q_r_infested', 'apna_case_second_quality_report.live_insects as s_q_r_live_insects', 'apna_case_second_quality_report.imge as s_q_r_imge', 'apna_case_second_quality_report.notes as s_q_r_notes', 'apna_case_second_kanta_parchi.notes as s_k_p_notes', 'apna_case_second_kanta_parchi.file as s_k_p_file', 'apna_case_second_kanta_parchi.file_2 as s_k_p_file_2', 'apna_case_gate_pass.notes as g_p_notes', 'apna_case_gate_pass.file as g_p_file', 'apna_case_e_mandi.notes as e_m_notes', 'apna_case_e_mandi.file as e_m_file', 'apna_case_accounts.vikray_parchi as a_vikray_parchi', 'apna_case_accounts.tally_updation as a_tally_updation', 'apna_case_accounts.cold_win_entry as a_cold_win_entry', 'apna_case_accounts.inventory as a_inventory', 'apna_case_accounts.loan as a_loan', 'apna_case_accounts.sale as a_sale', 'apna_case_accounts.mandi_tax as a_mandi_tax', 'apna_case_accounts.purchase as a_purchase', 'apna_case_accounts.invoice as a_invoice', 'apna_case_accounts.notes as a_notes', 'apna_case_shipping_start.location as s_s_location', 'apna_case_shipping_start.date_time as s_s_date_time', 'apna_case_shipping_start.notes as s_s_notes', 'apna_case_shipping_end.location as s_e_location', 'apna_case_shipping_end.date_time as s_e_date_time', 'apna_case_shipping_end.notes as s_e_notes', 'apna_case_grn.grn_weight', 'apna_case_grn.in_case_id', 'apna_case_grn.other', 'apna_case_grn.file as grn_file', 'apna_case_quality_claim.moisture_level as q_c_moisture_level', 'apna_case_quality_claim.thousand_crown_w as q_c_thousand_crown_w', 'apna_case_quality_claim.broken as q_c_broken', 'apna_case_quality_claim.foreign_matter as q_c_foreign_matter', 'apna_case_quality_claim.thin as q_c_thin', 'apna_case_quality_claim.damage as q_c_damage', 'apna_case_quality_claim.black_smith as q_c_black_smith', 'apna_case_quality_claim.infested as q_c_infested', 'apna_case_quality_claim.live_insects as q_c_live_insects', 'apna_case_quality_claim.imge as q_c_imge', 'apna_case_quality_claim.notes as q_c_notes', 'apna_case_quality_claim.quality_discount_value as q_c_quality_discount_value', 'apna_case_quality_claim.second_report as q_c_second_report', 'apna_case_truck_payment.notes as t_p_notes', 'apna_case_truck_payment.file as t_p_file', 'apna_case_labour_payment.notes as l_p_notes', 'apna_case_labour_payment.file as l_p_file', 'apna_case_payment_received.notes as p_r_notes', 'apna_case_payment_received.file as p_r_file', 'lead_generator.fname as lead_gen_fname', 'lead_generator.lname as lead_gen_lname', 'lead_conv.fname as lead_conv_fname', 'lead_conv.lname as lead_conv_lname', 'categories.category as cate_name', 'categories.commodity_type', 'warehouses.warehouse_code', 'warehouses.name as terminal_name')
             ->where('apna_case.case_id', $case_id)
             ->groupBy('apna_case.case_id')
             ->first();

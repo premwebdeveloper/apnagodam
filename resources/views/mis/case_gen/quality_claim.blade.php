@@ -84,7 +84,7 @@ $role_id = $role->role_id;
                                                 @if($quality_claim->in_out == 'PASS')
                                                     @if($role_id == 1 || $role_id == 8 || $role_id == 9)
                                                         <?php
-                                                            $check_status = DB::table('apna_case_shipping_end')->where('case_id', $quality_claim->case_id)->first();
+                                                            $check_status = DB::table('apna_case_grn')->where('case_id', $quality_claim->case_id)->first();
                                                         ?>
                                                         @if($check_status)
                                                             <a data-id="{!! $quality_claim->case_id !!}" id='{!! $quality_claim->cust_fname." ".$quality_claim->cust_lname !!}' class="setPrice btn-primary btn btn-xs">Update Quality</a>

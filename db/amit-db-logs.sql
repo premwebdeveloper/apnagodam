@@ -136,3 +136,29 @@ ALTER TABLE `apna_case_pricing` CHANGE `user_id` `user_id` INT(11) NULL, CHANGE 
 
 -- ------------------- ALTER TABLE `buy_sells` at 27-04-2020 ------------------
 ALTER TABLE `buy_sells` ADD `labour_rate` VARCHAR(50) NULL AFTER `price`;
+
+-- ------------------- CREATE TABLE `apna_case_grn` at 09-06-2020 ------------------
+
+CREATE TABLE `apna_case_grn` (
+  `id` int(11) NOT NULL,
+  `case_id` varchar(200) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `gate_pass_no` int(11) DEFAULT NULL,
+  `bags` int(11) DEFAULT NULL,
+  `grn_weight` varchar(100) DEFAULT NULL,
+  `in_case_id` varchar(100) DEFAULT NULL,
+  `other` text DEFAULT NULL,
+  `stack_no` varchar(30) DEFAULT NULL,
+  `lot_no` varchar(30) DEFAULT NULL,
+  `file` text DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `status` tinyint(4) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `apna_case_grn`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `apna_case_grn`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

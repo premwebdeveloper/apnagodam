@@ -728,6 +728,11 @@ class UsersController extends Controller
                     ->select('buy_sell_conversations.*', 'buy_sells.quantity')
                     ->get();
 
+        // Check User Pan No.
+        if(!$buyer_info->pancard_no || $buyer_info->pancard_no == null){
+            return redirect('bidding/'.$inventory_id)->with('status', 'Please update your PAN Number first!');
+        }
+
         //Check Bid Power
         if($buysell)
         {

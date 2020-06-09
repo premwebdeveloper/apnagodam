@@ -23,15 +23,22 @@ b{font-size: 13px;}
         $mandi_fee = '';
         $hammali = '';
         $c_date = $created_at;
-        $current_date = date('Y-m-d H:i:s', strtotime('2020-05-10 00:00:01'));
+        $tax_1_start_date = date('Y-m-d H:i:s', strtotime('2020-05-10 00:00:01'));
+        $tax_1_end_date = date('Y-m-d H:i:s', strtotime('2020-05-30 00:00:01'));
+        $tax_2_start_date = date('Y-m-d H:i:s', strtotime('2020-05-30 00:00:01'));
+        $tax_2_end_date = date('Y-m-d H:i:s', strtotime('2020-06-05 00:00:01'));
         if($bid_type == 1)
         {
             if($sales_status == 1)
             {
-                if($c_date > $current_date){
+                if($c_date < $tax_1_start_date){
+                    $mandi_fee = (($total_price * 1.6) / 100);
+                }elseif($c_date > $tax_1_start_date && $c_date < $tax_1_end_date){
                     $mandi_fee = (($total_price * 3.6) / 100);
+                }else if($c_date > $tax_2_start_date && $c_date < $tax_2_end_date){
+                    $mandi_fee = (($total_price * 2.6) / 100);
                 }else{
-                    $mandi_fee = (($total_price * 1.6) / 100);                    
+                    $mandi_fee = 0;
                 }
             }else{
                 $mandi_fee = "N/A";
@@ -140,13 +147,21 @@ b{font-size: 13px;}
                                             @endif
                                         @else
                                             <?php
-                                            if($c_date > $current_date){
+                                            if($c_date < $tax_1_start_date){
+                                                ?>
+                                                <b>Mandi Fees (1.6%) : </b> {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
+                                                <?php
+                                            }elseif($c_date > $tax_1_start_date && $c_date < $tax_1_end_date){
                                                 ?>
                                                 <b>Mandi Fees and Kisan Kalyan Cess (1.6% + 2%) : </b> {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
                                                 <?php
+                                            }else if($c_date > $tax_2_start_date && $c_date < $tax_2_end_date){
+                                                ?>
+                                                <b>Mandi Fees and Kisan Kalyan Cess (1.6% + 1%) : </b> {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
+                                                <?php
                                             }else{
                                                 ?>
-                                                <b>Mandi Fees (1.6%) : </b> {{ $mandi_fee }} <span class='f-w-600 f-s-12'>(INR)</span>
+                                                <b>Mandi Fees : </b> N/A
                                                 <?php
                                             }
                                             ?>

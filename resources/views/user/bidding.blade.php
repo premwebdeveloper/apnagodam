@@ -153,7 +153,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             {!! Form::label('my_bid', 'My Bid') !!}
-                                            {!! Form::number('my_bid', '', ['class' => 'form-control', 'id' => 'my_bid', 'placeholder' => 'Price', 'required' => 'required']) !!}
+                                            {!! Form::number('my_bid', '', ['class' => 'form-control', 'id' => 'my_bid', 'step' => 'any', 'placeholder' => 'Price', 'required' => 'required']) !!}
 
                                             @if($errors->has('my_bid'))
                                                 <span class="help-block red">

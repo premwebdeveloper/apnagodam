@@ -121,6 +121,8 @@
                                         <td>{!! ($lead->cctv_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->cctv_update_time)?date('g:i A', strtotime($lead->cctv_update_time)):'' }}
                                             <br/>
                                             {!! ($lead->cctv_file)?"<a class='view_file' data-id='cctv/".$lead->cctv_file."'><i class='fa fa-eye'></i></a>":'' !!}
+                                            &nbsp;&nbsp;&nbsp;
+                                            {!! ($lead->cctv_file_2)?"<a class='view_file' data-id='cctv/".$lead->cctv_file_2."'><i class='fa fa-eye'></i></a>":'' !!}
                                         </td>
 
                                         <td>{!! ($lead->cdf_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}<br>{{ ($lead->cdf_update_time)?date('g:i A', strtotime($lead->cdf_update_time)):'' }}

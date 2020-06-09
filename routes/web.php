@@ -423,6 +423,12 @@ Route::post('/addIvrTagging', 'CaseGenController@addIvrTagging')->name('addIvrTa
 
 Route::get('/case_inventory', 'CaseGenController@case_inventory')->name('case_inventory');
 Route::post('/addCaseInventory', 'CaseGenController@addCaseInventory')->name('addCaseInventory');
+
+Route::get('/grn', 'CaseGenController@grn')->name('grn');
+Route::post('/addGrn', 'CaseGenController@addGrn')->name('addGrn');
+Route::any('/check_grn_weight', 'CaseGenController@check_grn_weight')->name('check_grn_weight');
+
+
 Route::any('/getRelatedCasesForInventory', 'CaseGenController@getRelatedCasesForInventory')->name('getRelatedCasesForInventory');
 
 Route::post('/caseApprove', 'CaseGenController@caseApprove')->name('caseApprove');
@@ -463,4 +469,9 @@ Route::any('/get_inventory_reports', 'ReportsController@get_inventory_reports')-
 /***********************************************************************************************/
 /***********************************************************************************************/
 
+
+/********************************* On spot Inventories *********************************/
 Route::get('/on_spot_inventories', 'OnSpotController@on_spot_inventories')->name('on_spot_inventories');
+
+/********************************* On Spot Sell and Purchase *********************************/
+Route::get('/on_spot_deals', 'OnSpotController@on_spot_deals')->name('on_spot_deals');

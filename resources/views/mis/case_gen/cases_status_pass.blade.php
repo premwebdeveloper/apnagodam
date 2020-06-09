@@ -51,6 +51,7 @@
                                     <th>IVR Tagging</th>
                                     <th>Shipment Start</th>
                                     <th>Shipment End</th>
+                                    <th>GRN</th>
                                     <th>Quality Claim</th>
                                     <th>Truck Payment</th>
                                     <th>Labour Payment</th>
@@ -124,6 +125,9 @@
                                     </td>
                                         <td>{!! ($lead->shipping_end_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
                                         <br>{{ ($lead->shipping_end_update_time)?date('g:i A', strtotime($lead->shipping_end_update_time)):'' }}
+                                    </td>
+                                    <td>{!! ($lead->grn_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
+                                        <br>{{ ($lead->grn_update_time)?date('g:i A', strtotime($lead->grn_update_time)):'' }}
                                     </td>
                                         <td>{!! ($lead->quality_claim_case_id)?'<span class="text-info">Completed</span>':'<span class="text-danger">Processing...</span>' !!}
                                         <br>{{ ($lead->quality_claim_update_time)?date('g:i A', strtotime($lead->quality_claim_update_time)):'' }}

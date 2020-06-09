@@ -210,6 +210,12 @@ $emp_levels = DB::table('emp_levels')->where('user_id', $currentuserid)->first()
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('grn') }}">
+                                <i class="fa fa-ticket" title=""></i>
+                                <span class="nav-label">GRN</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('quality_claim') }}">
                                 <i class="fa fa-check-circle" title=""></i>
                                 <span class="nav-label">Quality Claim</span>

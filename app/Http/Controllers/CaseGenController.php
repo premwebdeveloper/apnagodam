@@ -523,7 +523,7 @@ class CaseGenController extends Controller
         $case_status = explode('-', $case_id);
 
         //Add Inventory if Case is IN Process
-        if($case_status[0] == 'IN'){
+        if($case_status[0] == 'IN' || $case_status[0] == 'PASS'){
             //Get Case
             $case_details = CaseGen::getSingleCaseById($case_id);
             $commodity_id = $case_details->commodity_id;
@@ -575,7 +575,7 @@ class CaseGenController extends Controller
         }
 
         //Add Inventory if Case is PASS Process
-        if($case_status[0] == 'PASS'){
+        /*if($case_status[0] == 'PASS'){
             //Get Case
             $case_details = CaseGen::getSingleCaseById($case_id);
 
@@ -611,7 +611,7 @@ class CaseGenController extends Controller
 
             //Insert Inventory id with Case ID
             $inset = inventory::addCaseIdInInventory($inventory, $case_id, $weight);
-        }
+        }*/
 
         //Insert Data
         $insert = CaseGen::updateGatePass($data);
@@ -656,31 +656,11 @@ class CaseGenController extends Controller
             'file'    => 'required',
             'truck_file'    => 'required',
         ]);
-        /*$request->validate([
-            'bags'    => 'required',
-            'gross_weight'    => 'required',
-            'tare_weight'    => 'required',
-            'net_weight'    => 'required',
-            'gross_date_time'    => 'required',
-            'tare_date_time'    => 'required',
-            'charges'    => 'required',
-            'kanta_name'    => 'required',
-            'kanta_place'    => 'required',
-        ]);*/
 
         $currentuserid = Auth::user()->id;
         $data['user_id'] = $user_id = $currentuserid;
         $data['case_id'] = $case_id = $request->case_id;
-/*        $data['rst_no'] = $rst_no = $request->rst_no;
-        $data['bags'] = $bags = $request->bags;
-        $data['gross_weight'] = $gross_weight = $request->gross_weight;
-        $data['tare_weight'] = $tare_weight = $request->tare_weight;
-        $data['net_weight'] = $net_weight = $request->net_weight;
-        $data['gross_date_time'] = $gross_date_time = $request->gross_date_time;
-        $data['tare_date_time'] = $tare_date_time = $request->tare_date_time;
-        $data['charges'] = $charges = $request->charges;
-        $data['kanta_name'] = $kanta_name = $request->kanta_name;
-        $data['kanta_place'] = $kanta_place = $request->kanta_place;*/
+
         $data['notes'] = $notes = $request->notes;
 
         $img_name = null;
@@ -2539,6 +2519,127 @@ class CaseGenController extends Controller
         
          return redirect('case_inventory')->with('status', $status);  
     }
+
+    //GRN (Goods Receipt Notes)
+    public function grn()
+    {        
+        //Get All Case
+        $case_gen = CaseGen::getCaseGrn();
+        return view('mis.case_gen.grn', array('case_gen' => $case_gen));
+    }
+
+    // Add GRN (Goods Receipt Notes) 
+    public function addGrn(Request $request)
+    {
+        $request->validate([
+            'case_id'    => 'unique:apna_case_grn',
+            'report_file'    => 'required',
+            'weight'    => 'required',
+            'no_of_bags'    => 'required',
+        ]);
+
+        $currentuserid = Auth::user()->id;
+        $data['user_id'] = $user_id = $currentuserid;
+        $data['case_id'] = $case_id = $request->case_id;
+        $data['weight'] = $weight = $request->weight;
+        $data['in_case_id'] = $in_case_id = $request->in_case_id;
+        $data['other_remark'] = $other_remark = $request->other_remark;
+        $data['no_of_bags'] = $no_of_bags = $request->no_of_bags;
+        $data['notes'] = $notes = $request->notes;
+        $inv_id = $request->inv_id;
+
+        $img_name = null;
+
+        if($request->hasFile('report_file')) {
+
+            $file = $request->report_file;
+
+            $img_name = $file->getClientOriginalName();
+
+            $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+
+            $img_name = substr(md5(microtime()),rand(0,26),6);
+
+            $img_name .= '.'.$ext;
+
+            // First check file extension if file is not image then hit error
+            $extensions = ['jpg', 'jpeg', 'pdf', 'png','bmp'];
+
+            if(! in_array($ext, $extensions))
+            {
+                $status = 'File type is not allowed you have uploaded. Please upload any image !';
+                return redirect('grn')->with('error', $status);
+            }
+
+            $filesize = $file->getClientSize();
+
+            // first check file size if greater than 1mb than hit error
+            if($filesize > 6052030){
+                $status = 'File size is too large. Please upload file less than 3MB !';
+                return redirect('grn')->with('error', $status);
+            }
+
+            $destinationPath = base_path() . '/resources/assets/upload/grn/';
+            $file->move($destinationPath,$img_name);
+            $filepath = $destinationPath.$img_name;
+        }else{
+
+            $status = 'Please Upload file.';
+            return redirect('grn')->with('error', $status);  
+        }
+
+        $data['file'] = $img_name;
+
+        $case_status = explode('-', $case_id);
+        $date = date('Y-m-d H:i:s');
+        $update_inv = DB::table('inventories')->where('id', $inv_id)->update([
+            'status' => 0,
+            'updated_at' => $date
+        ]);
+        
+        //Insert Data
+        $insert = CaseGen::updateGrn($data);
+
+        if($insert)
+        {
+            $status = 'GRN Updated Successfully.';
+        }
+        else
+        {
+            $status = 'Something went wrong !';
+        }
+        
+         return redirect('grn')->with('status', $status);  
+    }
+    
+    //Check Grn Weight actual weight
+    public function check_grn_weight(Request $request){
+        $case_id = $request->case_id;
+        $weight = $request->weight;
+        $user_id = $request->user_id;
+
+        //Get Inventory by Case ID
+        $case_inv = DB::table('inventory_cases_id')->where(['case_id' => $case_id])->get();
+        $data = array();
+        //Check User
+        foreach ($case_inv as $key => $value) {
+            //Get Inventory Id
+            $inv = DB::table('inventories')->where('id', $value->inventory_id)->where('user_id', '!=', $user_id)->first();
+            if($inv)
+            {
+                $check = (99.8*$inv->quantity)/100;
+                if($check > $weight){
+                    $data['status'] = 1;
+                    $data['inventory_id'] = $inv->id;
+                }else{
+                    $data['status'] = 0;
+                    $data['inventory_id'] = $inv->id;
+                }
+            }
+        }
+        echo json_encode($data);
+    }
+
 
     // Case Approve
     public function caseApprove(Request $request)
